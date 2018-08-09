@@ -50,7 +50,7 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
             return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
         setSearchOrderDetailResult(searchOrderDetailParam.getOrderNo(), apiResult.getResult());
-        //apiResult.setResult(buildTgqMsg(apiResult.getResult()));
+        apiResult.setResult(buildTgqMsg(apiResult.getResult()));
         syncOrderStatusToDb(apiResult.getResult());
         return apiResult;
     }
