@@ -1,6 +1,7 @@
 package com.apin.qunar.basic.service;
 
 
+import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
 import com.apin.qunar.basic.dao.model.User;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface UserService {
     boolean isExistAccount(String account);
 
     boolean changePassword(String account, String password);
+
+    boolean createVerifyCode(String account,SmsSendTypeEnum smsSendTypeEnum);
+
+    boolean validateVerifyCode(String account,String verifyCode);
+
+    User queryByAccount(String account);
 }

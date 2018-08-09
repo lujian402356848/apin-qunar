@@ -11,4 +11,6 @@ public class UserRequest extends BaseRequest {
     private String account;
     private String password;
     private String mobileNo;
+    private String verifyCode;
+    private int hasLogin;//1:登录，2:修改密码
 }

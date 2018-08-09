@@ -14,4 +14,7 @@ public class SmsConstants {
     public static final String REFUND = "【爱拼机】%s%s-%s机票订单已原路退款，预计1-7个工作日到账。";
     public static final String QUNAR_PAY_FAIL_ALI = "【爱拼机】订单【%s】支付宝支付成功，但去哪儿支付失败,原因:%s";
     public static final String QUNAR_PAY_FAIL_WECHAT = "【爱拼机】订单【%s】微信支付成功，但去哪儿支付失败,原因:%s";
+    public static final String MERCHANT_VERIFY_CODE = "【爱拼机】验证码:【%s】，1分钟内输入有效，请立即注册";
+    public static final String USER_LOGIN_VERIFY_CODE = "【爱拼机】验证码:【%s】，1分钟内输入有效，请立即登录";
+    public static final String USER_CHANGE_PASSWORD_VERIFY_CODE = "【爱拼机】验证码:【%s】，1分钟内输入有效，请立即修改密码";
 }
