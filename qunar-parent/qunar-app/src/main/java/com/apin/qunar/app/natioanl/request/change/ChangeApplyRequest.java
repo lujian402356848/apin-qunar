@@ -23,4 +23,5 @@ public class ChangeApplyRequest extends BaseRequest {
     private String startDate;
     private String startTime;
     private String endTime;
+    private String account;
 }

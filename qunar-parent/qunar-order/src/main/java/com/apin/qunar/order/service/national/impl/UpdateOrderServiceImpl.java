@@ -5,10 +5,7 @@ import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
-import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
-import com.apin.qunar.order.dao.impl.NationalPassengerDaoImpl;
-import com.apin.qunar.order.dao.impl.NationalReturnOrderDaoImpl;
-import com.apin.qunar.order.dao.impl.NationalReturnPassengerDaoImpl;
+import com.apin.qunar.order.dao.impl.*;
 import com.apin.qunar.order.dao.model.NationalOrder;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailParam;
@@ -46,6 +43,8 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
     private NationalReturnOrderDaoImpl nationalReturnOrderDao;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private NationalChangeOrderDaoImpl nationalChangeOrderDao;
 
     @Override
     public boolean updatePayInfo(final String orderNo, final String payId, final int orderStatus, final String payTime) {
@@ -75,6 +74,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             } else {
                 result = nationalOrderDao.updateStatus(orderNo, payStatus);
             }
+            //退票
             if (payStatus == OrderStatusEnum.APPLY_REFUNDMENT.getCode() || payStatus == OrderStatusEnum.WAIT_REFUNDMENT.getCode() || payStatus == OrderStatusEnum.REFUND_OK.getCode()) {//退票订单更改状态
                 result = nationalReturnOrderDao.updateStatus(orderNo, payStatus);
                 if (!result) {
@@ -86,6 +86,16 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                     result = nationalReturnOrderDao.updateStatusAndTicketNo(parentOrderNo, orderNo, payStatus, getTicketNo(passengers));
                     nationalReturnPassengerDao.updateByOrderNo(parentOrderNo, orderNo);
                 }
+            }
+            //改签
+            if (payStatus == OrderStatusEnum.CHANGE_OK.getCode()) {
+                List<SearchOrderDetailResultVO.Passenger> passengers = getPassengers(orderNo);
+                String ticketNo = getTicketNo(passengers);
+                if (StringUtils.isNotBlank(ticketNo)) {
+                    result = nationalChangeOrderDao.updateStatusAndTicketNo(orderNo, payStatus, ticketNo);
+                }
+            } else{
+                nationalChangeOrderDao.updateStatus(orderNo, payStatus);
             }
         } catch (Exception e) {
             log.error("更新订单状态失败,orderNo:{},payStatus:{}", orderNo, payStatus, e);
