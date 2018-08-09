@@ -16,6 +16,8 @@ public interface MerchantService {
 
     Merchant queryByMerchantNo(String merchantNo);
 
+    Merchant queryByContactMobile(String contactMobile);
+
     boolean isExistContactMobile(String contactMobile);
 
     boolean audit(String contactMobile, String auditUser, AuditStatusEnum auditStatusEnum);

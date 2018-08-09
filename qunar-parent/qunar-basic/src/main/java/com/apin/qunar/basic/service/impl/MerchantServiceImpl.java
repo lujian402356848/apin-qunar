@@ -105,6 +105,11 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
+    public Merchant queryByContactMobile(String contactMobile) {
+        return merchantCache.getIfPresent(contactMobile);
+    }
+
+    @Override
     public boolean isExistContactMobile(String contactMobile) {
         return merchantDao.isExistContactMobile(contactMobile);
     }
