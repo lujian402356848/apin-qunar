@@ -40,6 +40,9 @@ public class AirlineController extends BaseController {
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
             log.error("航空公司信息异常,name:{}", airlineRequest.getCode(), e);
+
+
+            
         }
         return generalResultMap;
     }
