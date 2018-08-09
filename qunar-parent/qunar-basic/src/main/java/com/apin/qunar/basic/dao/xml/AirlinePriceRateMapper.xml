@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.basic.dao.mapper.AirlinePriceRateMapper" >
+    <resultMap id="AirlinePriceRateResult" type="com.apin.qunar.basic.dao.model.AirlinePriceRate" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="code" property="code" jdbcType="CHAR" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="position" property="position" jdbcType="CHAR" />
+      <result column="price_rate" property="priceRate" jdbcType="INTEGER" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="AirlinePriceRateColumns" >
+      id, code, name, position, price_rate, insert_time, update_time
+    </sql>
+    <select id="selectByExample" resultMap="AirlinePriceRateResult" parameterType="com.apin.qunar.basic.dao.model.AirlinePriceRateExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="AirlinePriceRateColumns" />
+      from airline_price_rate
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="AirlinePriceRateResult" parameterType="java.lang.Long" >
+      select 
+      <include refid="AirlinePriceRateColumns" />
+      from airline_price_rate
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      delete from airline_price_rate
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.basic.dao.model.AirlinePriceRateExample" >
+      delete from airline_price_rate
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.basic.dao.model.AirlinePriceRate" >
+      insert into airline_price_rate (id, code, name, position, 
+        price_rate, insert_time, update_time
+        )
+      values (#{id,jdbcType=BIGINT}, #{code,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{position,jdbcType=CHAR}, 
+        #{priceRate,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.basic.dao.model.AirlinePriceRate" >
+      insert into airline_price_rate
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="code != null" >
+          code,
+        </if>
+        <if test="name != null" >
+          name,
+        </if>
+        <if test="position != null" >
+          position,
+        </if>
+        <if test="priceRate != null" >
+          price_rate,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="code != null" >
+          #{code,jdbcType=CHAR},
+        </if>
+        <if test="name != null" >
+          #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="position != null" >
+          #{position,jdbcType=CHAR},
+        </if>
+        <if test="priceRate != null" >
+          #{priceRate,jdbcType=INTEGER},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.basic.dao.model.AirlinePriceRateExample" resultType="java.lang.Integer" >
+      select count(*) from airline_price_rate
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update airline_price_rate
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.code != null" >
+          code = #{record.code,jdbcType=CHAR},
+        </if>
+        <if test="record.name != null" >
+          name = #{record.name,jdbcType=VARCHAR},
+        </if>
+        <if test="record.position != null" >
+          position = #{record.position,jdbcType=CHAR},
+        </if>
+        <if test="record.priceRate != null" >
+          price_rate = #{record.priceRate,jdbcType=INTEGER},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="record.updateTime != null" >
+          update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update airline_price_rate
+      set id = #{record.id,jdbcType=BIGINT},
+        code = #{record.code,jdbcType=CHAR},
+        name = #{record.name,jdbcType=VARCHAR},
+        position = #{record.position,jdbcType=CHAR},
+        price_rate = #{record.priceRate,jdbcType=INTEGER},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.basic.dao.model.AirlinePriceRate" >
+      update airline_price_rate
+      <set >
+        <if test="code != null" >
+          code = #{code,jdbcType=CHAR},
+        </if>
+        <if test="name != null" >
+          name = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="position != null" >
+          position = #{position,jdbcType=CHAR},
+        </if>
+        <if test="priceRate != null" >
+          price_rate = #{priceRate,jdbcType=INTEGER},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.basic.dao.model.AirlinePriceRate" >
+      update airline_price_rate
+      set code = #{code,jdbcType=CHAR},
+        name = #{name,jdbcType=VARCHAR},
+        position = #{position,jdbcType=CHAR},
+        price_rate = #{priceRate,jdbcType=INTEGER},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>
