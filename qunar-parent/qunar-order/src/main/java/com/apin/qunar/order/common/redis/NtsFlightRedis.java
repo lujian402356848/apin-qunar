@@ -1,6 +1,6 @@
 package com.apin.qunar.order.common.redis;
 
-import com.apin.qunar.basic.common.config.ProtostuffUtil;
+import com.apin.qunar.common.utils.ProtobufUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +29,13 @@ public class NtsFlightRedis {
         if (StringUtils.isBlank(key) || obj == null) {
             return;
         }
-        byte[] values = ProtostuffUtil.serialize(obj);
+        byte[] values = ProtobufUtil.serialize(obj);
         operations.add(key, values);
         redisTemplate.expire(key, FLIGHT_INFO_EXPIRES_TIME, TimeUnit.MINUTES);
     }
 
     public Object getFlightInfo(String key, Class clazz) {
         byte[] bytes = (byte[]) redisTemplate.boundValueOps(key).get();
-        return ProtostuffUtil.deserialize(bytes, clazz);
+        return ProtobufUtil.deserialize(bytes, clazz);
     }
 }

@@ -130,14 +130,15 @@ public class NtsUpdateOrderServiceImpl implements NtsUpdateOrderService {
         String arrTime = getArriTime(order.getGoDeptDate(), order.getGoDeptTime(), order.getGoArriTime());
         String orderInfo = String.format("%s %s%s-%s%s %s-%s", order.getGoFlightNum(), order.getGoDeptAirportName(), order.getGoDeptTerminal(), order.getGoArriAirportName(), order.getGoArriTerminal(), deptTime, arrTime);
 
+        StringBuilder passengerInfo = new StringBuilder(passengers.size() * 10);
         for (NtsSearchOrderDetailResultVO.Passenger passenger : passengers) {
-            String passengerInfo = passenger.getName() + ":" + passenger.getETicketNum();
-            String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo);
-            Optional<InternationalPassenger> dbPassenger = passengerList.stream().filter(p -> p.getName().equals(passenger.getName())).findFirst();
-            if (dbPassenger.isPresent() && dbPassenger.get() != null) {
-                smsService.sendSms(dbPassenger.get().getMobileNo(), content, SmsSendTypeEnum.TICKET);
-            }
+            passengerInfo.append("，");
+            passengerInfo.append(passenger.getName());
+            passengerInfo.append(":");
+            passengerInfo.append(passenger.getETicketNum());
         }
+        String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo.substring(1));
+        smsService.sendSms(order.getContactMobile(), content, SmsSendTypeEnum.TICKET);
     }
 
     private void sendGoBackSms(InternationalOrder order, List<NtsSearchOrderDetailResultVO.Passenger> passengers) {

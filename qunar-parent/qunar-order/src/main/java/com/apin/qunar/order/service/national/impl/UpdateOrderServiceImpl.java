@@ -94,7 +94,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                 if (StringUtils.isNotBlank(ticketNo)) {
                     result = nationalChangeOrderDao.updateStatusAndTicketNo(orderNo, payStatus, ticketNo);
                 }
-            } else{
+            } else {
                 nationalChangeOrderDao.updateStatus(orderNo, payStatus);
             }
         } catch (Exception e) {
@@ -168,12 +168,15 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         Date arrDate = DateUtil.getDate(order.getDeptDate(), order.getArriTime());
         String deptTime = DateUtil.formatDate(deptDate.getTime()) + order.getDeptTime();
         String arrTime = deptDate.getTime() < arrDate.getTime() ? DateUtil.formatDate(arrDate.getTime()) + order.getArriTime() : DateUtil.formatDate(arrDate.getTime() + 1000 * 60 * 60 * 24) + order.getArriTime();
-
+        StringBuilder passengerInfo = new StringBuilder(passengers.size() * 10);
         String orderInfo = String.format("%s%s%s-%s%s %s-%s", order.getFlightNum(), order.getDeptAirportName(), order.getDeptTerminal(), order.getArriAirportName(), order.getArriTerminal(), deptTime, arrTime);
         for (SearchOrderDetailResultVO.Passenger passenger : passengers) {
-            String passengerInfo = passenger.getName() + ":" + passenger.getTicketNo();
-            String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo);
-            smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.TICKET);
+            passengerInfo.append("，");
+            passengerInfo.append(passenger.getName());
+            passengerInfo.append(":");
+            passengerInfo.append(passenger.getTicketNo());
         }
+        String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo.substring(1));
+        smsService.sendSms(order.getContactMobile(), content, SmsSendTypeEnum.TICKET);
     }
 }
