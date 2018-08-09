@@ -187,6 +187,76 @@ public class UserExample {
             return (Criteria) this;
         }
 
+        public Criteria andMerchantNoIsNull() {
+            addCriterion("merchant_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoIsNotNull() {
+            addCriterion("merchant_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoEqualTo(String value) {
+            addCriterion("merchant_no =", value, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoNotEqualTo(String value) {
+            addCriterion("merchant_no <>", value, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoGreaterThan(String value) {
+            addCriterion("merchant_no >", value, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoGreaterThanOrEqualTo(String value) {
+            addCriterion("merchant_no >=", value, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoLessThan(String value) {
+            addCriterion("merchant_no <", value, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoLessThanOrEqualTo(String value) {
+            addCriterion("merchant_no <=", value, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoLike(String value) {
+            addCriterion("merchant_no like", value, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoNotLike(String value) {
+            addCriterion("merchant_no not like", value, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoIn(List<String> values) {
+            addCriterion("merchant_no in", values, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoNotIn(List<String> values) {
+            addCriterion("merchant_no not in", values, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoBetween(String value1, String value2) {
+            addCriterion("merchant_no between", value1, value2, "merchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantNoNotBetween(String value1, String value2) {
+            addCriterion("merchant_no not between", value1, value2, "merchantNo");
+            return (Criteria) this;
+        }
+
         public Criteria andAccountIsNull() {
             addCriterion("account is null");
             return (Criteria) this;
@@ -772,6 +842,11 @@ public class UserExample {
 
         protected Criteria() {
             super();
+        }
+
+        public Criteria andMerchantNoLikeInsensitive(String value) {
+            addCriterion("upper(merchant_no) like", value.toUpperCase(), "merchantNo");
+            return this;
         }
 
         public Criteria andAccountLikeInsensitive(String value) {

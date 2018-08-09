@@ -6,7 +6,15 @@ import java.util.Date;
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 唯一标识
+     */
     private Long id;
+
+    /**
+     * 商户号
+     */
+    private String merchantNo;
 
     /**
      * 账户
@@ -53,12 +61,32 @@ public class User implements Serializable {
      */
     private Date updateTime;
 
+    /**
+     * @return 唯一标识
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * @param id 唯一标识
+     */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return 商户号
+     */
+    public String getMerchantNo() {
+        return merchantNo;
+    }
+
+    /**
+     * @param merchantNo 商户号
+     */
+    public void setMerchantNo(String merchantNo) {
+        this.merchantNo = merchantNo == null ? null : merchantNo.trim();
     }
 
     /**

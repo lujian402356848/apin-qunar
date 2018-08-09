@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MerchantServiceImpl implements MerchantService {
     private Cache<String, Merchant> merchantCache = CacheBuilder.newBuilder().maximumSize(1000).build();
-    private Cache<String, String> verifyCodeCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(1,TimeUnit.MINUTES).build();
+    private Cache<String, String> verifyCodeCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(1, TimeUnit.MINUTES).build();
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
     private Date maxAuditTime = null;
     @Autowired
@@ -193,13 +193,13 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public boolean createVerifyCode(String contactMobile) {
         boolean result = false;
-        try{
+        try {
             Merchant merchant = new Merchant();
             merchant.setContactMobile(contactMobile);
-            sendSms(merchant,SmsSendTypeEnum.MERCHANT_VERIFY_CODE);
+            sendSms(merchant, SmsSendTypeEnum.MERCHANT_VERIFY_CODE);
             result = true;
-        }catch (Exception e){
-            log.error("短信验证码信息异常,merchantNo:{}",contactMobile,e);
+        } catch (Exception e) {
+            log.error("短信验证码信息异常,merchantNo:{}", contactMobile, e);
         }
         return result;
     }
@@ -241,6 +241,7 @@ public class MerchantServiceImpl implements MerchantService {
     private User buildUser(Merchant merchant) {
         User user = new User();
         user.setId(IDGenerator.getUniqueId());
+        user.setMerchantNo(merchant.getMerchantNo());
         user.setAccount(merchant.getContactMobile());
         user.setPassword(buildPassword());
         user.setRealName(merchant.getContactName());

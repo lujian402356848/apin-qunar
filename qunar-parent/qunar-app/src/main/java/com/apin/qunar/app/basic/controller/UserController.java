@@ -6,12 +6,9 @@ import com.apin.qunar.app.common.constant.AppConstants;
 import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
-import com.apin.qunar.basic.dao.model.Merchant;
 import com.apin.qunar.basic.dao.model.User;
-import com.apin.qunar.basic.service.MerchantService;
 import com.apin.qunar.basic.service.UserService;
 import com.apin.qunar.common.enums.SysReturnCode;
-import com.apin.qunar.order.domain.common.login.LoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private MerchantService merchantService;
+
     @PostMapping(value = "/user/register")
     public GeneralResultMap register(@RequestBody UserRequest request) {
         String account = request.getAccount();
@@ -61,55 +57,18 @@ public class UserController extends BaseController {
     @PostMapping(value = "/user/login")
     public GeneralResultMap login(@RequestBody UserRequest userRequest) {
         GeneralResultMap generalResultMap = new GeneralResultMap();
-        User user = null;
-        String account = userRequest.getAccount();
-        String password = "";
         try {
-            if (StringUtils.isNotBlank(userRequest.getPassword())) {
-                password = userRequest.getPassword();
-            }
-            if (!StringUtils.isNotBlank(userRequest.getVerifyCode())) {
-                user = userService.queryByAccountAndPwd(account, password);
-            }
-            if (StringUtils.isNotBlank(userRequest.getVerifyCode())) {
-                if (userService.validateVerifyCode(account, userRequest.getVerifyCode())) {
-                    user = userService.queryByAccount(account);
-                }
-            }
+            User user = userService.queryByAccountAndPwd(userRequest.getAccount(), userRequest.getPassword());
             if (user == null) {
-                if (StringUtils.isNotBlank(userRequest.getVerifyCode())) {
-                    generalResultMap.setResult(SysReturnCode.FAIL,"验证码过期或有误");
-                }else {
-                    generalResultMap.setResult(SysReturnCode.FAIL,"密码错误");
-                }
+                generalResultMap.setResult(SysReturnCode.FAIL, "用户名或密码不存在");
             } else {
-                //获取商户信息
-                Merchant merchant = merchantService.queryByContactMobile(account);
-                String merchantNo="";
-                if(merchant == null){
-                    merchantNo="20180726460336";
-                }else{
-                    merchantNo = merchant.getMerchantNo();
-                }
-                LoginVO loginVO = buildLoginVo(user,merchantNo);
-                generalResultMap.setResult(SysReturnCode.SUCC, loginVO);
+                generalResultMap.setResult(SysReturnCode.SUCC, user);
             }
         } catch (Exception e) {
             log.error("用户登录异常,request:{}", JSON.toJSON(userRequest), e);
             generalResultMap.setResult(SysReturnCode.FAIL);
         }
         return generalResultMap;
-    }
-
-    private LoginVO buildLoginVo(User user, String merchantNo){
-        LoginVO loginVO =new LoginVO();
-        loginVO.setRealName(user.getRealName());
-        loginVO.setAccount(user.getAccount());
-        loginVO.setAccountType(user.getAccountType());
-        loginVO.setDepartment(user.getDepartment());
-        loginVO.setHasAdmin(user.getHasAdmin());
-        loginVO.setMerchantNo(merchantNo);
-        return loginVO;
     }
 
     @PostMapping(value = "/user/createVerifyCode")
@@ -150,7 +109,7 @@ public class UserController extends BaseController {
                 result = userService.changePassword(userRequest.getAccount(), password);
             }
             if (!result) {
-                generalResultMap.setResult(SysReturnCode.FAIL,"修改密码失败");
+                generalResultMap.setResult(SysReturnCode.FAIL, "修改密码失败");
             } else {
                 generalResultMap.setResult(SysReturnCode.SUCC);
             }
