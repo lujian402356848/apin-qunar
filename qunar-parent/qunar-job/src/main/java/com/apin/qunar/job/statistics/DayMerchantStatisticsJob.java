@@ -4,12 +4,14 @@ import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.statistics.dao.impl.DayMerchantStatisticsDaoImpl;
 import com.apin.qunar.statistics.dao.impl.SearchFlightRecordDaoImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -28,15 +30,23 @@ public class DayMerchantStatisticsJob {
         if (!isExecute()) {
             return;
         }
-        Date startTime = getStartTime();
-        Date endTime = getEndTime();
+
         try {
         } catch (Exception e) {
             log.error("商户按天统计job执行失败");
         }
     }
-    private void statstics(){
-//        searchFlightRecordDao.queryFlightCnt()
+
+    private void statstics() {
+        Date startTime = getStartTime();
+        Date endTime = getEndTime();
+        List<String> merchantNos = searchFlightRecordDao.queryMerchantNoByInsertTime(startTime, endTime);
+        if (CollectionUtils.isEmpty(merchantNos)) {
+            return;
+        }
+        for (String merchantNo : merchantNos) {
+//            searchFlightRecordDao.queryFlightCnt()
+        }
     }
 
     private boolean isExecute() {

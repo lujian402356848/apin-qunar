@@ -35,7 +35,7 @@ public class StatisticsDBConfig implements EnvironmentAware {
     }
 
     @Bean
-    public MapperScannerConfigurer orderMapperScannerConfigurer() {
+    public MapperScannerConfigurer statisticsMapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setBasePackage("com.apin.qunar.statistics.dao.mapper");
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("statisticsSqlSessionFactory");
