@@ -63,20 +63,15 @@ public class MerchantController extends BaseController {
     public GeneralResultMap register(@RequestBody CreateMerchantRequest request) {
         GeneralResultMap generalResultMap = new GeneralResultMap();
         try {
-            if(merchantService.isExistContactMobile(request.getContactMobile()))
-            {
+            if (merchantService.isExistContactMobile(request.getContactMobile())) {
                 generalResultMap.setResult(SysReturnCode.FAIL, "手机号已注册");
                 return generalResultMap;
             }
-            if(merchantService.checkVerifyCode(request.getContactMobile(),request.getVerifyCode())) {
-                boolean result = merchantService.register(buildMerchant(request));
-                if (result) {
-                    generalResultMap.setResult(SysReturnCode.SUCC);
-                } else {
-                    generalResultMap.setResult(SysReturnCode.FAIL);
-                }
+            boolean result = merchantService.register(buildMerchant(request));
+            if (result) {
+                generalResultMap.setResult(SysReturnCode.SUCC);
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL,"验证码有误或已失效");
+                generalResultMap.setResult(SysReturnCode.FAIL);
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
@@ -86,19 +81,18 @@ public class MerchantController extends BaseController {
     }
 
     @PostMapping(value = "/merchant/createRegisterVerifyCode")
-    public GeneralResultMap creatVerifyCode(@RequestBody CreateMerchantRequest request)
-    {
+    public GeneralResultMap creatVerifyCode(@RequestBody CreateMerchantRequest request) {
         GeneralResultMap generalResultMap = new GeneralResultMap();
-        try{
-            boolean result =  merchantService.createVerifyCode(request.getContactMobile());
-            if(result){
+        try {
+            boolean result = merchantService.createVerifyCode(request.getContactMobile());
+            if (result) {
                 generalResultMap.setResult(SysReturnCode.SUCC);
             } else {
                 generalResultMap.setResult(SysReturnCode.FAIL);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
-            log.error("商户注册获取验证码异常,request:{}",request.getContactMobile(),e);
+            log.error("商户注册获取验证码异常,request:{}", request.getContactMobile(), e);
         }
         return generalResultMap;
     }
