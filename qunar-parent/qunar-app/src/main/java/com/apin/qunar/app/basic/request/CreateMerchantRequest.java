@@ -13,4 +13,5 @@ public class CreateMerchantRequest{
     private String companyName;
     private String companyAddress;
     private String managerName;
+    private String verifyCode;
 }

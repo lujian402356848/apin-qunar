@@ -33,6 +33,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @outhor lujian
@@ -42,7 +43,7 @@ import java.util.Random;
 @Service
 public class MerchantServiceImpl implements MerchantService {
     private Cache<String, Merchant> merchantCache = CacheBuilder.newBuilder().maximumSize(1000).build();
-    private Cache<String, String> verifyCodeCache = CacheBuilder.newBuilder().maximumSize(100).build();
+    private Cache<String, String> verifyCodeCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(1,TimeUnit.MINUTES).build();
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
     private Date maxAuditTime = null;
     @Autowired
@@ -185,16 +186,30 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public boolean checkVerifyCode(String merchantNo, String verifyCode) {
-        if (StringUtils.isBlank(merchantNo) || StringUtils.isBlank(verifyCode)) {
+    public boolean createVerifyCode(String contactMobile) {
+        boolean result = false;
+        try{
+            Merchant merchant = new Merchant();
+            merchant.setContactMobile(contactMobile);
+            sendSms(merchant,SmsSendTypeEnum.MERCHANT_VERIFY_CODE);
+            result = true;
+        }catch (Exception e){
+            log.error("短信验证码信息异常,merchantNo:{}",contactMobile,e);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean checkVerifyCode(String contactMobile, String verifyCode) {
+        if (StringUtils.isBlank(contactMobile) || StringUtils.isBlank(verifyCode)) {
             return false;
         }
-        return verifyCode.equals(verifyCodeCache.getIfPresent(merchantNo));
+        return verifyCode.equals(verifyCodeCache.getIfPresent(contactMobile));
     }
 
     private String getVerifyCode(Merchant merchant) {
         String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);//生成短信验证码
-        verifyCodeCache.put(merchant.getMerchantNo(), verifyCode);
+        verifyCodeCache.put(merchant.getContactMobile(), verifyCode);
         return verifyCode;
     }
 
@@ -202,8 +217,8 @@ public class MerchantServiceImpl implements MerchantService {
         switch (smsSendTypeEnum) {
             case MERCHANT_VERIFY_CODE:
                 String verifyCode = getVerifyCode(merchant);
-                String verifyCodeContent = String.format(SmsConstants.MERCHANT_REGISTER, verifyCode);
-                smsService.sendSms(merchant.getContactMobile(), verifyCodeContent, SmsSendTypeEnum.MERCHANT_REGISTER);
+                String verifyCodeContent = String.format(SmsConstants.MERCHANT_VERIFY_CODE, verifyCode);
+                smsService.sendSms(merchant.getContactMobile(), verifyCodeContent, SmsSendTypeEnum.MERCHANT_VERIFY_CODE);
                 break;
             case MERCHANT_REGISTER:
                 String registerContent = String.format(SmsConstants.MERCHANT_REGISTER, merchant.getContactName());

@@ -24,5 +24,7 @@ public interface MerchantService {
 
     boolean register(Merchant merchant);
 
-    boolean checkVerifyCode(String merchantNo, String verifyCode);
+    boolean createVerifyCode(String contactMobile);
+
+    boolean checkVerifyCode(String contactMobile, String verifyCode);
 }
