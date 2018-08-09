@@ -15,11 +15,20 @@ public class SearchFlightRecordServiceImpl implements SearchFlightRecordService 
     private SearchFlightRecordDaoImpl searchFlightRecordDao;
 
     @Override
-    public void create(SearchFlightRecord searchFlightRecord) {
+    public void create(String merchantNo, boolean hasInternal, String deptCity, String arriCity) {
         try {
-            searchFlightRecordDao.insert(searchFlightRecord);
+            searchFlightRecordDao.insert(buildSearchFlightRecord(merchantNo, hasInternal, deptCity, arriCity));
         } catch (Exception e) {
             log.error("添加查询航班记录异常");
         }
+    }
+
+    private SearchFlightRecord buildSearchFlightRecord(final String merchantNo, final boolean hasInternal, final String deptCity, final String arriCity) {
+        SearchFlightRecord searchFlightRecord = new SearchFlightRecord();
+        searchFlightRecord.setMerchantNo(merchantNo);
+        searchFlightRecord.setHasInternal(hasInternal ? 1 : 0);
+        searchFlightRecord.setDeptCity(deptCity);
+        searchFlightRecord.setArriCity(arriCity);
+        return searchFlightRecord;
     }
 }

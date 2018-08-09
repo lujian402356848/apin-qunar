@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.statistics.dao.mapper.DayStatisticsMapper" >
+    <resultMap id="DayStatisticsResult" type="com.apin.qunar.statistics.dao.model.DayStatistics" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="total_pv" property="totalPv" jdbcType="INTEGER" />
+      <result column="total_uv" property="totalUv" jdbcType="INTEGER" />
+      <result column="search_national_flight_cnt" property="searchNationalFlightCnt" jdbcType="INTEGER" />
+      <result column="search_international_flight_cnt" property="searchInternationalFlightCnt" jdbcType="VARCHAR" />
+      <result column="deal_order_cnt" property="dealOrderCnt" jdbcType="INTEGER" />
+      <result column="deal_total_amount" property="dealTotalAmount" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="DayStatisticsColumns" >
+      id, total_pv, total_uv, search_national_flight_cnt, search_international_flight_cnt, 
+      deal_order_cnt, deal_total_amount
+    </sql>
+    <select id="selectByExample" resultMap="DayStatisticsResult" parameterType="com.apin.qunar.statistics.dao.model.DayStatisticsExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="DayStatisticsColumns" />
+      from day_statistics
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="DayStatisticsResult" parameterType="java.lang.Long" >
+      select 
+      <include refid="DayStatisticsColumns" />
+      from day_statistics
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      delete from day_statistics
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.statistics.dao.model.DayStatisticsExample" >
+      delete from day_statistics
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.DayStatistics" >
+      insert into day_statistics (id, total_pv, total_uv, 
+        search_national_flight_cnt, search_international_flight_cnt, 
+        deal_order_cnt, deal_total_amount)
+      values (#{id,jdbcType=BIGINT}, #{totalPv,jdbcType=INTEGER}, #{totalUv,jdbcType=INTEGER}, 
+        #{searchNationalFlightCnt,jdbcType=INTEGER}, #{searchInternationalFlightCnt,jdbcType=VARCHAR}, 
+        #{dealOrderCnt,jdbcType=INTEGER}, #{dealTotalAmount,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.DayStatistics" >
+      insert into day_statistics
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="totalPv != null" >
+          total_pv,
+        </if>
+        <if test="totalUv != null" >
+          total_uv,
+        </if>
+        <if test="searchNationalFlightCnt != null" >
+          search_national_flight_cnt,
+        </if>
+        <if test="searchInternationalFlightCnt != null" >
+          search_international_flight_cnt,
+        </if>
+        <if test="dealOrderCnt != null" >
+          deal_order_cnt,
+        </if>
+        <if test="dealTotalAmount != null" >
+          deal_total_amount,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="totalPv != null" >
+          #{totalPv,jdbcType=INTEGER},
+        </if>
+        <if test="totalUv != null" >
+          #{totalUv,jdbcType=INTEGER},
+        </if>
+        <if test="searchNationalFlightCnt != null" >
+          #{searchNationalFlightCnt,jdbcType=INTEGER},
+        </if>
+        <if test="searchInternationalFlightCnt != null" >
+          #{searchInternationalFlightCnt,jdbcType=VARCHAR},
+        </if>
+        <if test="dealOrderCnt != null" >
+          #{dealOrderCnt,jdbcType=INTEGER},
+        </if>
+        <if test="dealTotalAmount != null" >
+          #{dealTotalAmount,jdbcType=INTEGER},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.statistics.dao.model.DayStatisticsExample" resultType="java.lang.Integer" >
+      select count(*) from day_statistics
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update day_statistics
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.totalPv != null" >
+          total_pv = #{record.totalPv,jdbcType=INTEGER},
+        </if>
+        <if test="record.totalUv != null" >
+          total_uv = #{record.totalUv,jdbcType=INTEGER},
+        </if>
+        <if test="record.searchNationalFlightCnt != null" >
+          search_national_flight_cnt = #{record.searchNationalFlightCnt,jdbcType=INTEGER},
+        </if>
+        <if test="record.searchInternationalFlightCnt != null" >
+          search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=VARCHAR},
+        </if>
+        <if test="record.dealOrderCnt != null" >
+          deal_order_cnt = #{record.dealOrderCnt,jdbcType=INTEGER},
+        </if>
+        <if test="record.dealTotalAmount != null" >
+          deal_total_amount = #{record.dealTotalAmount,jdbcType=INTEGER},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update day_statistics
+      set id = #{record.id,jdbcType=BIGINT},
+        total_pv = #{record.totalPv,jdbcType=INTEGER},
+        total_uv = #{record.totalUv,jdbcType=INTEGER},
+        search_national_flight_cnt = #{record.searchNationalFlightCnt,jdbcType=INTEGER},
+        search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=VARCHAR},
+        deal_order_cnt = #{record.dealOrderCnt,jdbcType=INTEGER},
+        deal_total_amount = #{record.dealTotalAmount,jdbcType=INTEGER}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.statistics.dao.model.DayStatistics" >
+      update day_statistics
+      <set >
+        <if test="totalPv != null" >
+          total_pv = #{totalPv,jdbcType=INTEGER},
+        </if>
+        <if test="totalUv != null" >
+          total_uv = #{totalUv,jdbcType=INTEGER},
+        </if>
+        <if test="searchNationalFlightCnt != null" >
+          search_national_flight_cnt = #{searchNationalFlightCnt,jdbcType=INTEGER},
+        </if>
+        <if test="searchInternationalFlightCnt != null" >
+          search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=VARCHAR},
+        </if>
+        <if test="dealOrderCnt != null" >
+          deal_order_cnt = #{dealOrderCnt,jdbcType=INTEGER},
+        </if>
+        <if test="dealTotalAmount != null" >
+          deal_total_amount = #{dealTotalAmount,jdbcType=INTEGER},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.DayStatistics" >
+      update day_statistics
+      set total_pv = #{totalPv,jdbcType=INTEGER},
+        total_uv = #{totalUv,jdbcType=INTEGER},
+        search_national_flight_cnt = #{searchNationalFlightCnt,jdbcType=INTEGER},
+        search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=VARCHAR},
+        deal_order_cnt = #{dealOrderCnt,jdbcType=INTEGER},
+        deal_total_amount = #{dealTotalAmount,jdbcType=INTEGER}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>

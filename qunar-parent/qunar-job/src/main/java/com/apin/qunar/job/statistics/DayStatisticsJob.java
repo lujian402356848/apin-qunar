@@ -4,6 +4,7 @@ import com.apin.qunar.basic.dao.impl.MerchantDaoImpl;
 import com.apin.qunar.common.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -11,22 +12,22 @@ import java.util.Date;
 
 @Slf4j
 @Component
-public class MerchantStatisticsJob {
+public class DayStatisticsJob {
     @Autowired
     private MerchantDaoImpl merchantDao;
 
     /**
      * 商户统计job启动
      */
-//    @Scheduled(fixedDelay = 60 * 1000)
+    @Scheduled(fixedDelay = 60 * 1000)
     private void start() {
-        log.error("商户统计job开始执行,时间:" + DateUtil.getCurrDate());
+        log.error("统计job开始执行,时间:" + DateUtil.getCurrDate());
         Date startTime = getStartTime();
         Date endTime = getEndTime();
         try {
 
         } catch (Exception e) {
-            log.error("商户统计job执行失败");
+            log.error("统计job执行失败");
         }
     }
 
