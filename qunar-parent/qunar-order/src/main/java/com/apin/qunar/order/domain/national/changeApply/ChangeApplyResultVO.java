@@ -8,11 +8,8 @@ import java.util.List;
  * @outhor lujian
  * @create 2018-07-17 17:13
  */
+@Data
 public class ChangeApplyResultVO {
-    private List<NationalPassenger> result;
-
-    @Data
-    public static class NationalPassenger {
         private long id;
         private String name;
         private String cardType;
@@ -21,7 +18,7 @@ public class ChangeApplyResultVO {
         private String birthday;
         private int gender;
         private ChangeApplyResult changeApplyResult;
-    }
+
 
     @Data
     public static class ChangeApplyResult {

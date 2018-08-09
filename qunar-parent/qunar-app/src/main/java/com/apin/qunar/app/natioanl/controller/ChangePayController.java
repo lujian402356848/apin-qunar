@@ -6,6 +6,7 @@ import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
 import com.apin.qunar.app.natioanl.request.change.ChangePayRequest;
 import com.apin.qunar.common.enums.SysReturnCode;
+import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.changePay.ChangePayParam;
 import com.apin.qunar.order.domain.national.changePay.ChangePayResultVO;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChangePayController extends BaseController {
     @Autowired
     private ChangePayService changePayService;
+    @Autowired
+    private OrderConfig orderConfig;
 
     @PostMapping(value = "/order/changePay")
     public GeneralResultMap changePay(@RequestBody ChangePayRequest request) {
@@ -56,6 +59,10 @@ public class ChangePayController extends BaseController {
         changePayParam.setGqId(changePayRequest.getGqId());
         changePayParam.setPassengerIds(changePayRequest.getPassengerIds());
         changePayParam.setTotalAmount(changePayRequest.getTotalAmount());
+        changePayParam.setPmCode(orderConfig.getPayType());
+        changePayParam.setBankCode(orderConfig.getBankCode());
+        changePayParam.setPaymentMerchantCode(orderConfig.getPayAccount());
+        changePayParam.setCallbackUrl(orderConfig.getPayCallbackUrl());
         changePayParam.setCurId("CNY");
         changePayParam.setValidTime(changePayRequest.getValidTime());
         changePayParam.setApplyRemarks(changePayRequest.getApplyRemarks());
