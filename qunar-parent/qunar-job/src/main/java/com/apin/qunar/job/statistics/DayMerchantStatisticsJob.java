@@ -2,7 +2,7 @@ package com.apin.qunar.job.statistics;
 
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.statistics.dao.impl.DayMerchantStatisticsDaoImpl;
-import com.apin.qunar.statistics.dao.impl.SearchFlightRecordDaoImpl;
+import com.apin.qunar.statistics.dao.impl.InternationalSearchFlightRecordDaoImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class DayMerchantStatisticsJob {
     @Autowired
     private DayMerchantStatisticsDaoImpl dayMerchantStatisticsDao;
     @Autowired
-    private SearchFlightRecordDaoImpl searchFlightRecordDao;
+    private InternationalSearchFlightRecordDaoImpl searchFlightRecordDao;
 
     /**
      * 商户统计job启动
@@ -45,7 +45,7 @@ public class DayMerchantStatisticsJob {
             return;
         }
         for (String merchantNo : merchantNos) {
-//            searchFlightRecordDao.queryFlightCnt()
+//            searchFlightRecordDao.queryFlightCnt(merchantNo,)
         }
     }
 

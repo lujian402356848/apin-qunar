@@ -11,31 +11,31 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
-@Component
+//@Slf4j
+//@Component
 public class NtsFlightRedis {
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-    //   @Resource(name="redisTemplate")
-    private SetOperations<String, Object> operations;
-    private long FLIGHT_INFO_EXPIRES_TIME = 15;//分钟为单位
-
-    @PostConstruct
-    public void init() {
-        operations = redisTemplate.opsForSet();
-    }
-
-    public void setFlightInfo(String key, Object obj) {
-        if (StringUtils.isBlank(key) || obj == null) {
-            return;
-        }
-        byte[] values = ProtobufUtil.serialize(obj);
-        operations.add(key, values);
-        redisTemplate.expire(key, FLIGHT_INFO_EXPIRES_TIME, TimeUnit.MINUTES);
-    }
-
-    public Object getFlightInfo(String key, Class clazz) {
-        byte[] bytes = (byte[]) redisTemplate.boundValueOps(key).get();
-        return ProtobufUtil.deserialize(bytes, clazz);
-    }
+//    @Autowired
+//    private RedisTemplate<String, Object> redisTemplate;
+//    //   @Resource(name="redisTemplate")
+//    private SetOperations<String, Object> operations;
+//    private long FLIGHT_INFO_EXPIRES_TIME = 15;//分钟为单位
+//
+//    @PostConstruct
+//    public void init() {
+//        operations = redisTemplate.opsForSet();
+//    }
+//
+//    public void setFlightInfo(String key, Object obj) {
+//        if (StringUtils.isBlank(key) || obj == null) {
+//            return;
+//        }
+//        byte[] values = ProtobufUtil.serialize(obj);
+//        operations.add(key, values);
+//        redisTemplate.expire(key, FLIGHT_INFO_EXPIRES_TIME, TimeUnit.MINUTES);
+//    }
+//
+//    public Object getFlightInfo(String key, Class clazz) {
+//        byte[] bytes = (byte[]) redisTemplate.boundValueOps(key).get();
+//        return ProtobufUtil.deserialize(bytes, clazz);
+//    }
 }

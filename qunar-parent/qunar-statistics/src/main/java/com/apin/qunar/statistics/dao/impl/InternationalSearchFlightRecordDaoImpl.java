@@ -1,9 +1,9 @@
 package com.apin.qunar.statistics.dao.impl;
 
-import com.apin.qunar.statistics.dao.mapper.SearchFlightRecordExtMapper;
-import com.apin.qunar.statistics.dao.mapper.SearchFlightRecordMapper;
-import com.apin.qunar.statistics.dao.model.SearchFlightRecord;
-import com.apin.qunar.statistics.dao.model.SearchFlightRecordExample;
+import com.apin.qunar.statistics.dao.mapper.InternationalSearchFlightRecordExtMapper;
+import com.apin.qunar.statistics.dao.mapper.InternationalSearchFlightRecordMapper;
+import com.apin.qunar.statistics.dao.model.InternationalSearchFlightRecord;
+import com.apin.qunar.statistics.dao.model.InternationalSearchFlightRecordExample;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,13 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class SearchFlightRecordDaoImpl {
+public class InternationalSearchFlightRecordDaoImpl {
     @Autowired
-    private SearchFlightRecordMapper searchFlightRecordMapper;
+    private InternationalSearchFlightRecordMapper searchFlightRecordMapper;
     @Autowired
-    private SearchFlightRecordExtMapper searchFlightRecordExtMapper;
+    private InternationalSearchFlightRecordExtMapper searchFlightRecordExtMapper;
 
-    public boolean insert(SearchFlightRecord searchFlightRecord) {
+    public boolean insert(InternationalSearchFlightRecord searchFlightRecord) {
         return searchFlightRecordMapper.insert(searchFlightRecord) > 0;
     }
 
@@ -30,13 +30,12 @@ public class SearchFlightRecordDaoImpl {
         return searchFlightRecordExtMapper.queryAllMerchantNo(startTime, endTime);
     }
 
-    public int queryFlightCnt(String merchantNo, Integer hasNational, Date startTime, Date endTime) {
-        SearchFlightRecordExample example = new SearchFlightRecordExample();
-        SearchFlightRecordExample.Criteria criteria = example.createCriteria();
+    public int queryFlightCnt(String merchantNo, Date startTime, Date endTime) {
+        InternationalSearchFlightRecordExample example = new InternationalSearchFlightRecordExample();
+        InternationalSearchFlightRecordExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
             criteria.andMerchantNoEqualTo(merchantNo);
         }
-        criteria.andHasInternalEqualTo(hasNational);
         if (startTime != null) {
             criteria.andInsertTimeGreaterThanOrEqualTo(startTime);
         }

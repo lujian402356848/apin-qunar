@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public interface SearchFlightRecordExtMapper {
+public interface InternationalSearchFlightRecordExtMapper {
     @Select("select distinct merchant_no from search_flight_record where insert_time>=#{startTime} and insert_time<={endTime}")
     List<String> queryAllMerchantNo(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
