@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.basic.dao.mapper.MerchantPriceConfigMapper" >
+    <resultMap id="MerchantPriceConfigResult" type="com.apin.qunar.basic.dao.model.MerchantPriceConfig" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="national_price_ratio" property="nationalPriceRatio" jdbcType="DOUBLE" />
+      <result column="international_price_ratio" property="internationalPriceRatio" jdbcType="DOUBLE" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="MerchantPriceConfigColumns" >
+      id, merchant_no, national_price_ratio, international_price_ratio, insert_time, update_time
+    </sql>
+    <select id="selectByExample" resultMap="MerchantPriceConfigResult" parameterType="com.apin.qunar.basic.dao.model.MerchantPriceConfigExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="MerchantPriceConfigColumns" />
+      from merchant_price_config
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="MerchantPriceConfigResult" parameterType="java.lang.Long" >
+      select 
+      <include refid="MerchantPriceConfigColumns" />
+      from merchant_price_config
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      delete from merchant_price_config
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.basic.dao.model.MerchantPriceConfigExample" >
+      delete from merchant_price_config
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.basic.dao.model.MerchantPriceConfig" >
+      insert into merchant_price_config (id, merchant_no, national_price_ratio, 
+        international_price_ratio, insert_time, update_time
+        )
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{nationalPriceRatio,jdbcType=DOUBLE}, 
+        #{internationalPriceRatio,jdbcType=DOUBLE}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.basic.dao.model.MerchantPriceConfig" >
+      insert into merchant_price_config
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="merchantNo != null" >
+          merchant_no,
+        </if>
+        <if test="nationalPriceRatio != null" >
+          national_price_ratio,
+        </if>
+        <if test="internationalPriceRatio != null" >
+          international_price_ratio,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="merchantNo != null" >
+          #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="nationalPriceRatio != null" >
+          #{nationalPriceRatio,jdbcType=DOUBLE},
+        </if>
+        <if test="internationalPriceRatio != null" >
+          #{internationalPriceRatio,jdbcType=DOUBLE},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.basic.dao.model.MerchantPriceConfigExample" resultType="java.lang.Integer" >
+      select count(*) from merchant_price_config
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update merchant_price_config
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.merchantNo != null" >
+          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="record.nationalPriceRatio != null" >
+          national_price_ratio = #{record.nationalPriceRatio,jdbcType=DOUBLE},
+        </if>
+        <if test="record.internationalPriceRatio != null" >
+          international_price_ratio = #{record.internationalPriceRatio,jdbcType=DOUBLE},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="record.updateTime != null" >
+          update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update merchant_price_config
+      set id = #{record.id,jdbcType=BIGINT},
+        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        national_price_ratio = #{record.nationalPriceRatio,jdbcType=DOUBLE},
+        international_price_ratio = #{record.internationalPriceRatio,jdbcType=DOUBLE},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.basic.dao.model.MerchantPriceConfig" >
+      update merchant_price_config
+      <set >
+        <if test="merchantNo != null" >
+          merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="nationalPriceRatio != null" >
+          national_price_ratio = #{nationalPriceRatio,jdbcType=DOUBLE},
+        </if>
+        <if test="internationalPriceRatio != null" >
+          international_price_ratio = #{internationalPriceRatio,jdbcType=DOUBLE},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.basic.dao.model.MerchantPriceConfig" >
+      update merchant_price_config
+      set merchant_no = #{merchantNo,jdbcType=CHAR},
+        national_price_ratio = #{nationalPriceRatio,jdbcType=DOUBLE},
+        international_price_ratio = #{internationalPriceRatio,jdbcType=DOUBLE},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>

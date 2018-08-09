@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.order.dao.mapper.NationalReturnOrderMapper" >
+    <resultMap id="NationalReturnOrderResult" type="com.apin.qunar.order.dao.model.NationalReturnOrder" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+      <result column="ticket_no" property="ticketNo" jdbcType="VARCHAR" />
+      <result column="flight_num" property="flightNum" jdbcType="VARCHAR" />
+      <result column="act_flight_num" property="actFlightNum" jdbcType="VARCHAR" />
+      <result column="carrier_code" property="carrierCode" jdbcType="VARCHAR" />
+      <result column="carrier_name" property="carrierName" jdbcType="VARCHAR" />
+      <result column="dept_city" property="deptCity" jdbcType="VARCHAR" />
+      <result column="arri_city" property="arriCity" jdbcType="VARCHAR" />
+      <result column="dept_airport_name" property="deptAirportName" jdbcType="VARCHAR" />
+      <result column="arri_airport_name" property="arriAirportName" jdbcType="VARCHAR" />
+      <result column="dept_date" property="deptDate" jdbcType="VARCHAR" />
+      <result column="dept_time" property="deptTime" jdbcType="VARCHAR" />
+      <result column="arri_time" property="arriTime" jdbcType="VARCHAR" />
+      <result column="reteun_code" property="reteunCode" jdbcType="INTEGER" />
+      <result column="has_disabled" property="hasDisabled" jdbcType="INTEGER" />
+      <result column="disable_reason" property="disableReason" jdbcType="VARCHAR" />
+      <result column="return_status" property="returnStatus" jdbcType="INTEGER" />
+      <result column="return_time" property="returnTime" jdbcType="VARCHAR" />
+      <result column="return_fee" property="returnFee" jdbcType="INTEGER" />
+      <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+      <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
+      <result column="contact_email" property="contactEmail" jdbcType="VARCHAR" />
+      <result column="operator" property="operator" jdbcType="VARCHAR" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="NationalReturnOrderColumns" >
+      id, merchant_no, order_no, ticket_no, flight_num, act_flight_num, carrier_code, carrier_name, 
+      dept_city, arri_city, dept_airport_name, arri_airport_name, dept_date, dept_time, 
+      arri_time, reteun_code, has_disabled, disable_reason, return_status, return_time, 
+      return_fee, contact_name, contact_mobile, contact_email, operator, insert_time, update_time
+    </sql>
+    <select id="selectByExample" resultMap="NationalReturnOrderResult" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrderExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="NationalReturnOrderColumns" />
+      from national_return_order
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="NationalReturnOrderResult" parameterType="java.lang.Long" >
+      select 
+      <include refid="NationalReturnOrderColumns" />
+      from national_return_order
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      delete from national_return_order
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrderExample" >
+      delete from national_return_order
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrder" >
+      insert into national_return_order (id, merchant_no, order_no, 
+        ticket_no, flight_num, act_flight_num, 
+        carrier_code, carrier_name, dept_city, 
+        arri_city, dept_airport_name, arri_airport_name, 
+        dept_date, dept_time, arri_time, 
+        reteun_code, has_disabled, disable_reason, 
+        return_status, return_time, return_fee, 
+        contact_name, contact_mobile, contact_email, 
+        operator, insert_time, update_time
+        )
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
+        #{ticketNo,jdbcType=VARCHAR}, #{flightNum,jdbcType=VARCHAR}, #{actFlightNum,jdbcType=VARCHAR}, 
+        #{carrierCode,jdbcType=VARCHAR}, #{carrierName,jdbcType=VARCHAR}, #{deptCity,jdbcType=VARCHAR}, 
+        #{arriCity,jdbcType=VARCHAR}, #{deptAirportName,jdbcType=VARCHAR}, #{arriAirportName,jdbcType=VARCHAR}, 
+        #{deptDate,jdbcType=VARCHAR}, #{deptTime,jdbcType=VARCHAR}, #{arriTime,jdbcType=VARCHAR}, 
+        #{reteunCode,jdbcType=INTEGER}, #{hasDisabled,jdbcType=INTEGER}, #{disableReason,jdbcType=VARCHAR}, 
+        #{returnStatus,jdbcType=INTEGER}, #{returnTime,jdbcType=VARCHAR}, #{returnFee,jdbcType=INTEGER}, 
+        #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, 
+        #{operator,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrder" >
+      insert into national_return_order
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="merchantNo != null" >
+          merchant_no,
+        </if>
+        <if test="orderNo != null" >
+          order_no,
+        </if>
+        <if test="ticketNo != null" >
+          ticket_no,
+        </if>
+        <if test="flightNum != null" >
+          flight_num,
+        </if>
+        <if test="actFlightNum != null" >
+          act_flight_num,
+        </if>
+        <if test="carrierCode != null" >
+          carrier_code,
+        </if>
+        <if test="carrierName != null" >
+          carrier_name,
+        </if>
+        <if test="deptCity != null" >
+          dept_city,
+        </if>
+        <if test="arriCity != null" >
+          arri_city,
+        </if>
+        <if test="deptAirportName != null" >
+          dept_airport_name,
+        </if>
+        <if test="arriAirportName != null" >
+          arri_airport_name,
+        </if>
+        <if test="deptDate != null" >
+          dept_date,
+        </if>
+        <if test="deptTime != null" >
+          dept_time,
+        </if>
+        <if test="arriTime != null" >
+          arri_time,
+        </if>
+        <if test="reteunCode != null" >
+          reteun_code,
+        </if>
+        <if test="hasDisabled != null" >
+          has_disabled,
+        </if>
+        <if test="disableReason != null" >
+          disable_reason,
+        </if>
+        <if test="returnStatus != null" >
+          return_status,
+        </if>
+        <if test="returnTime != null" >
+          return_time,
+        </if>
+        <if test="returnFee != null" >
+          return_fee,
+        </if>
+        <if test="contactName != null" >
+          contact_name,
+        </if>
+        <if test="contactMobile != null" >
+          contact_mobile,
+        </if>
+        <if test="contactEmail != null" >
+          contact_email,
+        </if>
+        <if test="operator != null" >
+          operator,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="merchantNo != null" >
+          #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="orderNo != null" >
+          #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="ticketNo != null" >
+          #{ticketNo,jdbcType=VARCHAR},
+        </if>
+        <if test="flightNum != null" >
+          #{flightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="actFlightNum != null" >
+          #{actFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="carrierCode != null" >
+          #{carrierCode,jdbcType=VARCHAR},
+        </if>
+        <if test="carrierName != null" >
+          #{carrierName,jdbcType=VARCHAR},
+        </if>
+        <if test="deptCity != null" >
+          #{deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="arriCity != null" >
+          #{arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="deptAirportName != null" >
+          #{deptAirportName,jdbcType=VARCHAR},
+        </if>
+        <if test="arriAirportName != null" >
+          #{arriAirportName,jdbcType=VARCHAR},
+        </if>
+        <if test="deptDate != null" >
+          #{deptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="deptTime != null" >
+          #{deptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="arriTime != null" >
+          #{arriTime,jdbcType=VARCHAR},
+        </if>
+        <if test="reteunCode != null" >
+          #{reteunCode,jdbcType=INTEGER},
+        </if>
+        <if test="hasDisabled != null" >
+          #{hasDisabled,jdbcType=INTEGER},
+        </if>
+        <if test="disableReason != null" >
+          #{disableReason,jdbcType=VARCHAR},
+        </if>
+        <if test="returnStatus != null" >
+          #{returnStatus,jdbcType=INTEGER},
+        </if>
+        <if test="returnTime != null" >
+          #{returnTime,jdbcType=VARCHAR},
+        </if>
+        <if test="returnFee != null" >
+          #{returnFee,jdbcType=INTEGER},
+        </if>
+        <if test="contactName != null" >
+          #{contactName,jdbcType=VARCHAR},
+        </if>
+        <if test="contactMobile != null" >
+          #{contactMobile,jdbcType=VARCHAR},
+        </if>
+        <if test="contactEmail != null" >
+          #{contactEmail,jdbcType=VARCHAR},
+        </if>
+        <if test="operator != null" >
+          #{operator,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrderExample" resultType="java.lang.Integer" >
+      select count(*) from national_return_order
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update national_return_order
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.merchantNo != null" >
+          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="record.orderNo != null" >
+          order_no = #{record.orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.ticketNo != null" >
+          ticket_no = #{record.ticketNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.flightNum != null" >
+          flight_num = #{record.flightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="record.actFlightNum != null" >
+          act_flight_num = #{record.actFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="record.carrierCode != null" >
+          carrier_code = #{record.carrierCode,jdbcType=VARCHAR},
+        </if>
+        <if test="record.carrierName != null" >
+          carrier_name = #{record.carrierName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.deptCity != null" >
+          dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arriCity != null" >
+          arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.deptAirportName != null" >
+          dept_airport_name = #{record.deptAirportName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arriAirportName != null" >
+          arri_airport_name = #{record.arriAirportName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.deptDate != null" >
+          dept_date = #{record.deptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="record.deptTime != null" >
+          dept_time = #{record.deptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arriTime != null" >
+          arri_time = #{record.arriTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.reteunCode != null" >
+          reteun_code = #{record.reteunCode,jdbcType=INTEGER},
+        </if>
+        <if test="record.hasDisabled != null" >
+          has_disabled = #{record.hasDisabled,jdbcType=INTEGER},
+        </if>
+        <if test="record.disableReason != null" >
+          disable_reason = #{record.disableReason,jdbcType=VARCHAR},
+        </if>
+        <if test="record.returnStatus != null" >
+          return_status = #{record.returnStatus,jdbcType=INTEGER},
+        </if>
+        <if test="record.returnTime != null" >
+          return_time = #{record.returnTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.returnFee != null" >
+          return_fee = #{record.returnFee,jdbcType=INTEGER},
+        </if>
+        <if test="record.contactName != null" >
+          contact_name = #{record.contactName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.contactMobile != null" >
+          contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
+        </if>
+        <if test="record.contactEmail != null" >
+          contact_email = #{record.contactEmail,jdbcType=VARCHAR},
+        </if>
+        <if test="record.operator != null" >
+          operator = #{record.operator,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="record.updateTime != null" >
+          update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update national_return_order
+      set id = #{record.id,jdbcType=BIGINT},
+        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+        ticket_no = #{record.ticketNo,jdbcType=VARCHAR},
+        flight_num = #{record.flightNum,jdbcType=VARCHAR},
+        act_flight_num = #{record.actFlightNum,jdbcType=VARCHAR},
+        carrier_code = #{record.carrierCode,jdbcType=VARCHAR},
+        carrier_name = #{record.carrierName,jdbcType=VARCHAR},
+        dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        dept_airport_name = #{record.deptAirportName,jdbcType=VARCHAR},
+        arri_airport_name = #{record.arriAirportName,jdbcType=VARCHAR},
+        dept_date = #{record.deptDate,jdbcType=VARCHAR},
+        dept_time = #{record.deptTime,jdbcType=VARCHAR},
+        arri_time = #{record.arriTime,jdbcType=VARCHAR},
+        reteun_code = #{record.reteunCode,jdbcType=INTEGER},
+        has_disabled = #{record.hasDisabled,jdbcType=INTEGER},
+        disable_reason = #{record.disableReason,jdbcType=VARCHAR},
+        return_status = #{record.returnStatus,jdbcType=INTEGER},
+        return_time = #{record.returnTime,jdbcType=VARCHAR},
+        return_fee = #{record.returnFee,jdbcType=INTEGER},
+        contact_name = #{record.contactName,jdbcType=VARCHAR},
+        contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
+        contact_email = #{record.contactEmail,jdbcType=VARCHAR},
+        operator = #{record.operator,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrder" >
+      update national_return_order
+      <set >
+        <if test="merchantNo != null" >
+          merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="orderNo != null" >
+          order_no = #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="ticketNo != null" >
+          ticket_no = #{ticketNo,jdbcType=VARCHAR},
+        </if>
+        <if test="flightNum != null" >
+          flight_num = #{flightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="actFlightNum != null" >
+          act_flight_num = #{actFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="carrierCode != null" >
+          carrier_code = #{carrierCode,jdbcType=VARCHAR},
+        </if>
+        <if test="carrierName != null" >
+          carrier_name = #{carrierName,jdbcType=VARCHAR},
+        </if>
+        <if test="deptCity != null" >
+          dept_city = #{deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="arriCity != null" >
+          arri_city = #{arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="deptAirportName != null" >
+          dept_airport_name = #{deptAirportName,jdbcType=VARCHAR},
+        </if>
+        <if test="arriAirportName != null" >
+          arri_airport_name = #{arriAirportName,jdbcType=VARCHAR},
+        </if>
+        <if test="deptDate != null" >
+          dept_date = #{deptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="deptTime != null" >
+          dept_time = #{deptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="arriTime != null" >
+          arri_time = #{arriTime,jdbcType=VARCHAR},
+        </if>
+        <if test="reteunCode != null" >
+          reteun_code = #{reteunCode,jdbcType=INTEGER},
+        </if>
+        <if test="hasDisabled != null" >
+          has_disabled = #{hasDisabled,jdbcType=INTEGER},
+        </if>
+        <if test="disableReason != null" >
+          disable_reason = #{disableReason,jdbcType=VARCHAR},
+        </if>
+        <if test="returnStatus != null" >
+          return_status = #{returnStatus,jdbcType=INTEGER},
+        </if>
+        <if test="returnTime != null" >
+          return_time = #{returnTime,jdbcType=VARCHAR},
+        </if>
+        <if test="returnFee != null" >
+          return_fee = #{returnFee,jdbcType=INTEGER},
+        </if>
+        <if test="contactName != null" >
+          contact_name = #{contactName,jdbcType=VARCHAR},
+        </if>
+        <if test="contactMobile != null" >
+          contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+        </if>
+        <if test="contactEmail != null" >
+          contact_email = #{contactEmail,jdbcType=VARCHAR},
+        </if>
+        <if test="operator != null" >
+          operator = #{operator,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrder" >
+      update national_return_order
+      set merchant_no = #{merchantNo,jdbcType=CHAR},
+        order_no = #{orderNo,jdbcType=VARCHAR},
+        ticket_no = #{ticketNo,jdbcType=VARCHAR},
+        flight_num = #{flightNum,jdbcType=VARCHAR},
+        act_flight_num = #{actFlightNum,jdbcType=VARCHAR},
+        carrier_code = #{carrierCode,jdbcType=VARCHAR},
+        carrier_name = #{carrierName,jdbcType=VARCHAR},
+        dept_city = #{deptCity,jdbcType=VARCHAR},
+        arri_city = #{arriCity,jdbcType=VARCHAR},
+        dept_airport_name = #{deptAirportName,jdbcType=VARCHAR},
+        arri_airport_name = #{arriAirportName,jdbcType=VARCHAR},
+        dept_date = #{deptDate,jdbcType=VARCHAR},
+        dept_time = #{deptTime,jdbcType=VARCHAR},
+        arri_time = #{arriTime,jdbcType=VARCHAR},
+        reteun_code = #{reteunCode,jdbcType=INTEGER},
+        has_disabled = #{hasDisabled,jdbcType=INTEGER},
+        disable_reason = #{disableReason,jdbcType=VARCHAR},
+        return_status = #{returnStatus,jdbcType=INTEGER},
+        return_time = #{returnTime,jdbcType=VARCHAR},
+        return_fee = #{returnFee,jdbcType=INTEGER},
+        contact_name = #{contactName,jdbcType=VARCHAR},
+        contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+        contact_email = #{contactEmail,jdbcType=VARCHAR},
+        operator = #{operator,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>

@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apin.qunar.statistics.dao.mapper.SearchFlightRecordMapper">
+    <resultMap id="SearchFlightRecordResult" type="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="merchant_no" jdbcType="CHAR" property="merchantNo" />
+      <result column="has_internal" jdbcType="INTEGER" property="hasInternal" />
+      <result column="dept_city" jdbcType="VARCHAR" property="deptCity" />
+      <result column="arri_city" jdbcType="VARCHAR" property="arriCity" />
+      <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+      <where>
+        <foreach collection="oredCriteria" item="criteria" separator="or">
+          <if test="criteria.valid">
+            <trim prefix="(" prefixOverrides="and" suffix=")">
+              <foreach collection="criteria.criteria" item="criterion">
+                <choose>
+                  <when test="criterion.noValue">
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue">
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue">
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue">
+                    and ${criterion.condition}
+                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+      <where>
+        <foreach collection="example.oredCriteria" item="criteria" separator="or">
+          <if test="criteria.valid">
+            <trim prefix="(" prefixOverrides="and" suffix=")">
+              <foreach collection="criteria.criteria" item="criterion">
+                <choose>
+                  <when test="criterion.noValue">
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue">
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue">
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue">
+                    and ${criterion.condition}
+                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="SearchFlightRecordColumns">
+      id, merchant_no, has_internal, dept_city, arri_city, insert_time
+    </sql>
+    <select id="selectByExample" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample" resultMap="SearchFlightRecordResult">
+      select
+      <if test="distinct">
+        distinct
+      </if>
+      <include refid="SearchFlightRecordColumns" />
+      from search_flight_record
+      <if test="_parameter != null">
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null">
+        <if test="mysqlLength != null">
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="SearchFlightRecordResult">
+      select 
+      <include refid="SearchFlightRecordColumns" />
+      from search_flight_record
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+      delete from search_flight_record
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample">
+      delete from search_flight_record
+      <if test="_parameter != null">
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      insert into search_flight_record (id, merchant_no, has_internal, 
+        dept_city, arri_city, insert_time
+        )
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{hasInternal,jdbcType=INTEGER}, 
+        #{deptCity,jdbcType=VARCHAR}, #{arriCity,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      insert into search_flight_record
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          id,
+        </if>
+        <if test="merchantNo != null">
+          merchant_no,
+        </if>
+        <if test="hasInternal != null">
+          has_internal,
+        </if>
+        <if test="deptCity != null">
+          dept_city,
+        </if>
+        <if test="arriCity != null">
+          arri_city,
+        </if>
+        <if test="insertTime != null">
+          insert_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="merchantNo != null">
+          #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="hasInternal != null">
+          #{hasInternal,jdbcType=INTEGER},
+        </if>
+        <if test="deptCity != null">
+          #{deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="arriCity != null">
+          #{arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null">
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample" resultType="java.lang.Integer">
+      select count(*) from search_flight_record
+      <if test="_parameter != null">
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+      update search_flight_record
+      <set>
+        <if test="record.id != null">
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.merchantNo != null">
+          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="record.hasInternal != null">
+          has_internal = #{record.hasInternal,jdbcType=INTEGER},
+        </if>
+        <if test="record.deptCity != null">
+          dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arriCity != null">
+          arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null">
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null">
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+      update search_flight_record
+      set id = #{record.id,jdbcType=BIGINT},
+        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        has_internal = #{record.hasInternal,jdbcType=INTEGER},
+        dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null">
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      update search_flight_record
+      <set>
+        <if test="merchantNo != null">
+          merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="hasInternal != null">
+          has_internal = #{hasInternal,jdbcType=INTEGER},
+        </if>
+        <if test="deptCity != null">
+          dept_city = #{deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="arriCity != null">
+          arri_city = #{arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null">
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      update search_flight_record
+      set merchant_no = #{merchantNo,jdbcType=CHAR},
+        has_internal = #{hasInternal,jdbcType=INTEGER},
+        dept_city = #{deptCity,jdbcType=VARCHAR},
+        arri_city = #{arriCity,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <resultMap id="SearchFlightRecordResult" type="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="merchant_no" jdbcType="CHAR" property="merchantNo" />
+      <result column="has_internal" jdbcType="INTEGER" property="hasInternal" />
+      <result column="dept_city" jdbcType="VARCHAR" property="deptCity" />
+      <result column="arri_city" jdbcType="VARCHAR" property="arriCity" />
+      <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+      <where>
+        <foreach collection="oredCriteria" item="criteria" separator="or">
+          <if test="criteria.valid">
+            <trim prefix="(" prefixOverrides="and" suffix=")">
+              <foreach collection="criteria.criteria" item="criterion">
+                <choose>
+                  <when test="criterion.noValue">
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue">
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue">
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue">
+                    and ${criterion.condition}
+                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+      <where>
+        <foreach collection="example.oredCriteria" item="criteria" separator="or">
+          <if test="criteria.valid">
+            <trim prefix="(" prefixOverrides="and" suffix=")">
+              <foreach collection="criteria.criteria" item="criterion">
+                <choose>
+                  <when test="criterion.noValue">
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue">
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue">
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue">
+                    and ${criterion.condition}
+                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="SearchFlightRecordColumns">
+      id, merchant_no, has_internal, dept_city, arri_city, insert_time
+    </sql>
+    <select id="selectByExample" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample" resultMap="SearchFlightRecordResult">
+      select
+      <if test="distinct">
+        distinct
+      </if>
+      <include refid="SearchFlightRecordColumns" />
+      from search_flight_record
+      <if test="_parameter != null">
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null">
+        <if test="mysqlLength != null">
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="SearchFlightRecordResult">
+      select 
+      <include refid="SearchFlightRecordColumns" />
+      from search_flight_record
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+      delete from search_flight_record
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample">
+      delete from search_flight_record
+      <if test="_parameter != null">
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      insert into search_flight_record (id, merchant_no, has_internal, 
+        dept_city, arri_city, insert_time
+        )
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{hasInternal,jdbcType=INTEGER}, 
+        #{deptCity,jdbcType=VARCHAR}, #{arriCity,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      insert into search_flight_record
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          id,
+        </if>
+        <if test="merchantNo != null">
+          merchant_no,
+        </if>
+        <if test="hasInternal != null">
+          has_internal,
+        </if>
+        <if test="deptCity != null">
+          dept_city,
+        </if>
+        <if test="arriCity != null">
+          arri_city,
+        </if>
+        <if test="insertTime != null">
+          insert_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="merchantNo != null">
+          #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="hasInternal != null">
+          #{hasInternal,jdbcType=INTEGER},
+        </if>
+        <if test="deptCity != null">
+          #{deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="arriCity != null">
+          #{arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null">
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample" resultType="java.lang.Integer">
+      select count(*) from search_flight_record
+      <if test="_parameter != null">
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+      update search_flight_record
+      <set>
+        <if test="record.id != null">
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.merchantNo != null">
+          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="record.hasInternal != null">
+          has_internal = #{record.hasInternal,jdbcType=INTEGER},
+        </if>
+        <if test="record.deptCity != null">
+          dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arriCity != null">
+          arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null">
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null">
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+      update search_flight_record
+      set id = #{record.id,jdbcType=BIGINT},
+        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        has_internal = #{record.hasInternal,jdbcType=INTEGER},
+        dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null">
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      update search_flight_record
+      <set>
+        <if test="merchantNo != null">
+          merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="hasInternal != null">
+          has_internal = #{hasInternal,jdbcType=INTEGER},
+        </if>
+        <if test="deptCity != null">
+          dept_city = #{deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="arriCity != null">
+          arri_city = #{arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null">
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord">
+      update search_flight_record
+      set merchant_no = #{merchantNo,jdbcType=CHAR},
+        has_internal = #{hasInternal,jdbcType=INTEGER},
+        dept_city = #{deptCity,jdbcType=VARCHAR},
+        arri_city = #{arriCity,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>

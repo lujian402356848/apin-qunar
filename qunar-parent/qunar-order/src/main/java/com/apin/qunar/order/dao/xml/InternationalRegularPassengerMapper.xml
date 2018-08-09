@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.order.dao.mapper.InternationalRegularPassengerMapper" >
+    <resultMap id="InternationalRegularPassengerResult" type="com.apin.qunar.order.dao.model.InternationalRegularPassenger" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="age_type" property="ageType" jdbcType="INTEGER" />
+      <result column="card_type" property="cardType" jdbcType="CHAR" />
+      <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+      <result column="card_IssuePlace" property="cardIssueplace" jdbcType="CHAR" />
+      <result column="card_expired" property="cardExpired" jdbcType="VARCHAR" />
+      <result column="nationality" property="nationality" jdbcType="VARCHAR" />
+      <result column="gender" property="gender" jdbcType="INTEGER" />
+      <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+      <result column="mobile_no" property="mobileNo" jdbcType="VARCHAR" />
+      <result column="operator" property="operator" jdbcType="VARCHAR" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="InternationalRegularPassengerColumns" >
+      id, name, age_type, card_type, card_no, card_IssuePlace, card_expired, nationality, 
+      gender, birthday, mobile_no, operator, insert_time, update_time
+    </sql>
+    <select id="selectByExample" resultMap="InternationalRegularPassengerResult" parameterType="com.apin.qunar.order.dao.model.InternationalRegularPassengerExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="InternationalRegularPassengerColumns" />
+      from international_regular_passenger
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="InternationalRegularPassengerResult" parameterType="java.lang.Long" >
+      select 
+      <include refid="InternationalRegularPassengerColumns" />
+      from international_regular_passenger
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      delete from international_regular_passenger
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.order.dao.model.InternationalRegularPassengerExample" >
+      delete from international_regular_passenger
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.order.dao.model.InternationalRegularPassenger" >
+      insert into international_regular_passenger (id, name, age_type, 
+        card_type, card_no, card_IssuePlace, 
+        card_expired, nationality, gender, 
+        birthday, mobile_no, operator, 
+        insert_time, update_time)
+      values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{ageType,jdbcType=INTEGER}, 
+        #{cardType,jdbcType=CHAR}, #{cardNo,jdbcType=VARCHAR}, #{cardIssueplace,jdbcType=CHAR}, 
+        #{cardExpired,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
+        #{birthday,jdbcType=VARCHAR}, #{mobileNo,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+        #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.InternationalRegularPassenger" >
+      insert into international_regular_passenger
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="name != null" >
+          name,
+        </if>
+        <if test="ageType != null" >
+          age_type,
+        </if>
+        <if test="cardType != null" >
+          card_type,
+        </if>
+        <if test="cardNo != null" >
+          card_no,
+        </if>
+        <if test="cardIssueplace != null" >
+          card_IssuePlace,
+        </if>
+        <if test="cardExpired != null" >
+          card_expired,
+        </if>
+        <if test="nationality != null" >
+          nationality,
+        </if>
+        <if test="gender != null" >
+          gender,
+        </if>
+        <if test="birthday != null" >
+          birthday,
+        </if>
+        <if test="mobileNo != null" >
+          mobile_no,
+        </if>
+        <if test="operator != null" >
+          operator,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="name != null" >
+          #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="ageType != null" >
+          #{ageType,jdbcType=INTEGER},
+        </if>
+        <if test="cardType != null" >
+          #{cardType,jdbcType=CHAR},
+        </if>
+        <if test="cardNo != null" >
+          #{cardNo,jdbcType=VARCHAR},
+        </if>
+        <if test="cardIssueplace != null" >
+          #{cardIssueplace,jdbcType=CHAR},
+        </if>
+        <if test="cardExpired != null" >
+          #{cardExpired,jdbcType=VARCHAR},
+        </if>
+        <if test="nationality != null" >
+          #{nationality,jdbcType=VARCHAR},
+        </if>
+        <if test="gender != null" >
+          #{gender,jdbcType=INTEGER},
+        </if>
+        <if test="birthday != null" >
+          #{birthday,jdbcType=VARCHAR},
+        </if>
+        <if test="mobileNo != null" >
+          #{mobileNo,jdbcType=VARCHAR},
+        </if>
+        <if test="operator != null" >
+          #{operator,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.order.dao.model.InternationalRegularPassengerExample" resultType="java.lang.Integer" >
+      select count(*) from international_regular_passenger
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update international_regular_passenger
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.name != null" >
+          name = #{record.name,jdbcType=VARCHAR},
+        </if>
+        <if test="record.ageType != null" >
+          age_type = #{record.ageType,jdbcType=INTEGER},
+        </if>
+        <if test="record.cardType != null" >
+          card_type = #{record.cardType,jdbcType=CHAR},
+        </if>
+        <if test="record.cardNo != null" >
+          card_no = #{record.cardNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.cardIssueplace != null" >
+          card_IssuePlace = #{record.cardIssueplace,jdbcType=CHAR},
+        </if>
+        <if test="record.cardExpired != null" >
+          card_expired = #{record.cardExpired,jdbcType=VARCHAR},
+        </if>
+        <if test="record.nationality != null" >
+          nationality = #{record.nationality,jdbcType=VARCHAR},
+        </if>
+        <if test="record.gender != null" >
+          gender = #{record.gender,jdbcType=INTEGER},
+        </if>
+        <if test="record.birthday != null" >
+          birthday = #{record.birthday,jdbcType=VARCHAR},
+        </if>
+        <if test="record.mobileNo != null" >
+          mobile_no = #{record.mobileNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.operator != null" >
+          operator = #{record.operator,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="record.updateTime != null" >
+          update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update international_regular_passenger
+      set id = #{record.id,jdbcType=BIGINT},
+        name = #{record.name,jdbcType=VARCHAR},
+        age_type = #{record.ageType,jdbcType=INTEGER},
+        card_type = #{record.cardType,jdbcType=CHAR},
+        card_no = #{record.cardNo,jdbcType=VARCHAR},
+        card_IssuePlace = #{record.cardIssueplace,jdbcType=CHAR},
+        card_expired = #{record.cardExpired,jdbcType=VARCHAR},
+        nationality = #{record.nationality,jdbcType=VARCHAR},
+        gender = #{record.gender,jdbcType=INTEGER},
+        birthday = #{record.birthday,jdbcType=VARCHAR},
+        mobile_no = #{record.mobileNo,jdbcType=VARCHAR},
+        operator = #{record.operator,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.order.dao.model.InternationalRegularPassenger" >
+      update international_regular_passenger
+      <set >
+        <if test="name != null" >
+          name = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="ageType != null" >
+          age_type = #{ageType,jdbcType=INTEGER},
+        </if>
+        <if test="cardType != null" >
+          card_type = #{cardType,jdbcType=CHAR},
+        </if>
+        <if test="cardNo != null" >
+          card_no = #{cardNo,jdbcType=VARCHAR},
+        </if>
+        <if test="cardIssueplace != null" >
+          card_IssuePlace = #{cardIssueplace,jdbcType=CHAR},
+        </if>
+        <if test="cardExpired != null" >
+          card_expired = #{cardExpired,jdbcType=VARCHAR},
+        </if>
+        <if test="nationality != null" >
+          nationality = #{nationality,jdbcType=VARCHAR},
+        </if>
+        <if test="gender != null" >
+          gender = #{gender,jdbcType=INTEGER},
+        </if>
+        <if test="birthday != null" >
+          birthday = #{birthday,jdbcType=VARCHAR},
+        </if>
+        <if test="mobileNo != null" >
+          mobile_no = #{mobileNo,jdbcType=VARCHAR},
+        </if>
+        <if test="operator != null" >
+          operator = #{operator,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.order.dao.model.InternationalRegularPassenger" >
+      update international_regular_passenger
+      set name = #{name,jdbcType=VARCHAR},
+        age_type = #{ageType,jdbcType=INTEGER},
+        card_type = #{cardType,jdbcType=CHAR},
+        card_no = #{cardNo,jdbcType=VARCHAR},
+        card_IssuePlace = #{cardIssueplace,jdbcType=CHAR},
+        card_expired = #{cardExpired,jdbcType=VARCHAR},
+        nationality = #{nationality,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=INTEGER},
+        birthday = #{birthday,jdbcType=VARCHAR},
+        mobile_no = #{mobileNo,jdbcType=VARCHAR},
+        operator = #{operator,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>

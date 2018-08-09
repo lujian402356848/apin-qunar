@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.order.dao.mapper.NationalFlightChangeMapper" >
+    <resultMap id="NationalFlightChangeResult" type="com.apin.qunar.order.dao.model.NationalFlightChange" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+      <result column="flight_no" property="flightNo" jdbcType="VARCHAR" />
+      <result column="dpt_date" property="dptDate" jdbcType="VARCHAR" />
+      <result column="dpt_time" property="dptTime" jdbcType="VARCHAR" />
+      <result column="arr_time" property="arrTime" jdbcType="VARCHAR" />
+      <result column="dpt_airport" property="dptAirport" jdbcType="CHAR" />
+      <result column="arr_airport" property="arrAirport" jdbcType="CHAR" />
+      <result column="fol_flight_no" property="folFlightNo" jdbcType="VARCHAR" />
+      <result column="fol_dpt_date" property="folDptDate" jdbcType="VARCHAR" />
+      <result column="fol_dpt_time" property="folDptTime" jdbcType="VARCHAR" />
+      <result column="fol_arr_time" property="folArrTime" jdbcType="VARCHAR" />
+      <result column="fol_dpt_airport" property="folDptAirport" jdbcType="CHAR" />
+      <result column="fol_arr_airport" property="folArrAirport" jdbcType="CHAR" />
+      <result column="change_status" property="changeStatus" jdbcType="VARCHAR" />
+      <result column="has_send_sms" property="hasSendSms" jdbcType="INTEGER" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="NationalFlightChangeColumns" >
+      id, merchant_no, order_no, flight_no, dpt_date, dpt_time, arr_time, dpt_airport, 
+      arr_airport, fol_flight_no, fol_dpt_date, fol_dpt_time, fol_arr_time, fol_dpt_airport, 
+      fol_arr_airport, change_status, has_send_sms, insert_time
+    </sql>
+    <select id="selectByExample" resultMap="NationalFlightChangeResult" parameterType="com.apin.qunar.order.dao.model.NationalFlightChangeExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="NationalFlightChangeColumns" />
+      from national_flight_change
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="NationalFlightChangeResult" parameterType="java.lang.Long" >
+      select 
+      <include refid="NationalFlightChangeColumns" />
+      from national_flight_change
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      delete from national_flight_change
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.order.dao.model.NationalFlightChangeExample" >
+      delete from national_flight_change
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.order.dao.model.NationalFlightChange" >
+      insert into national_flight_change (id, merchant_no, order_no, 
+        flight_no, dpt_date, dpt_time, 
+        arr_time, dpt_airport, arr_airport, 
+        fol_flight_no, fol_dpt_date, fol_dpt_time, 
+        fol_arr_time, fol_dpt_airport, fol_arr_airport, 
+        change_status, has_send_sms, insert_time
+        )
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
+        #{flightNo,jdbcType=VARCHAR}, #{dptDate,jdbcType=VARCHAR}, #{dptTime,jdbcType=VARCHAR}, 
+        #{arrTime,jdbcType=VARCHAR}, #{dptAirport,jdbcType=CHAR}, #{arrAirport,jdbcType=CHAR}, 
+        #{folFlightNo,jdbcType=VARCHAR}, #{folDptDate,jdbcType=VARCHAR}, #{folDptTime,jdbcType=VARCHAR}, 
+        #{folArrTime,jdbcType=VARCHAR}, #{folDptAirport,jdbcType=CHAR}, #{folArrAirport,jdbcType=CHAR}, 
+        #{changeStatus,jdbcType=VARCHAR}, #{hasSendSms,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.NationalFlightChange" >
+      insert into national_flight_change
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="merchantNo != null" >
+          merchant_no,
+        </if>
+        <if test="orderNo != null" >
+          order_no,
+        </if>
+        <if test="flightNo != null" >
+          flight_no,
+        </if>
+        <if test="dptDate != null" >
+          dpt_date,
+        </if>
+        <if test="dptTime != null" >
+          dpt_time,
+        </if>
+        <if test="arrTime != null" >
+          arr_time,
+        </if>
+        <if test="dptAirport != null" >
+          dpt_airport,
+        </if>
+        <if test="arrAirport != null" >
+          arr_airport,
+        </if>
+        <if test="folFlightNo != null" >
+          fol_flight_no,
+        </if>
+        <if test="folDptDate != null" >
+          fol_dpt_date,
+        </if>
+        <if test="folDptTime != null" >
+          fol_dpt_time,
+        </if>
+        <if test="folArrTime != null" >
+          fol_arr_time,
+        </if>
+        <if test="folDptAirport != null" >
+          fol_dpt_airport,
+        </if>
+        <if test="folArrAirport != null" >
+          fol_arr_airport,
+        </if>
+        <if test="changeStatus != null" >
+          change_status,
+        </if>
+        <if test="hasSendSms != null" >
+          has_send_sms,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="merchantNo != null" >
+          #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="orderNo != null" >
+          #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="flightNo != null" >
+          #{flightNo,jdbcType=VARCHAR},
+        </if>
+        <if test="dptDate != null" >
+          #{dptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="dptTime != null" >
+          #{dptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="arrTime != null" >
+          #{arrTime,jdbcType=VARCHAR},
+        </if>
+        <if test="dptAirport != null" >
+          #{dptAirport,jdbcType=CHAR},
+        </if>
+        <if test="arrAirport != null" >
+          #{arrAirport,jdbcType=CHAR},
+        </if>
+        <if test="folFlightNo != null" >
+          #{folFlightNo,jdbcType=VARCHAR},
+        </if>
+        <if test="folDptDate != null" >
+          #{folDptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="folDptTime != null" >
+          #{folDptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="folArrTime != null" >
+          #{folArrTime,jdbcType=VARCHAR},
+        </if>
+        <if test="folDptAirport != null" >
+          #{folDptAirport,jdbcType=CHAR},
+        </if>
+        <if test="folArrAirport != null" >
+          #{folArrAirport,jdbcType=CHAR},
+        </if>
+        <if test="changeStatus != null" >
+          #{changeStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="hasSendSms != null" >
+          #{hasSendSms,jdbcType=INTEGER},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.order.dao.model.NationalFlightChangeExample" resultType="java.lang.Integer" >
+      select count(*) from national_flight_change
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update national_flight_change
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.merchantNo != null" >
+          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="record.orderNo != null" >
+          order_no = #{record.orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.flightNo != null" >
+          flight_no = #{record.flightNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.dptDate != null" >
+          dpt_date = #{record.dptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="record.dptTime != null" >
+          dpt_time = #{record.dptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arrTime != null" >
+          arr_time = #{record.arrTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.dptAirport != null" >
+          dpt_airport = #{record.dptAirport,jdbcType=CHAR},
+        </if>
+        <if test="record.arrAirport != null" >
+          arr_airport = #{record.arrAirport,jdbcType=CHAR},
+        </if>
+        <if test="record.folFlightNo != null" >
+          fol_flight_no = #{record.folFlightNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.folDptDate != null" >
+          fol_dpt_date = #{record.folDptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="record.folDptTime != null" >
+          fol_dpt_time = #{record.folDptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.folArrTime != null" >
+          fol_arr_time = #{record.folArrTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.folDptAirport != null" >
+          fol_dpt_airport = #{record.folDptAirport,jdbcType=CHAR},
+        </if>
+        <if test="record.folArrAirport != null" >
+          fol_arr_airport = #{record.folArrAirport,jdbcType=CHAR},
+        </if>
+        <if test="record.changeStatus != null" >
+          change_status = #{record.changeStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="record.hasSendSms != null" >
+          has_send_sms = #{record.hasSendSms,jdbcType=INTEGER},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update national_flight_change
+      set id = #{record.id,jdbcType=BIGINT},
+        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+        flight_no = #{record.flightNo,jdbcType=VARCHAR},
+        dpt_date = #{record.dptDate,jdbcType=VARCHAR},
+        dpt_time = #{record.dptTime,jdbcType=VARCHAR},
+        arr_time = #{record.arrTime,jdbcType=VARCHAR},
+        dpt_airport = #{record.dptAirport,jdbcType=CHAR},
+        arr_airport = #{record.arrAirport,jdbcType=CHAR},
+        fol_flight_no = #{record.folFlightNo,jdbcType=VARCHAR},
+        fol_dpt_date = #{record.folDptDate,jdbcType=VARCHAR},
+        fol_dpt_time = #{record.folDptTime,jdbcType=VARCHAR},
+        fol_arr_time = #{record.folArrTime,jdbcType=VARCHAR},
+        fol_dpt_airport = #{record.folDptAirport,jdbcType=CHAR},
+        fol_arr_airport = #{record.folArrAirport,jdbcType=CHAR},
+        change_status = #{record.changeStatus,jdbcType=VARCHAR},
+        has_send_sms = #{record.hasSendSms,jdbcType=INTEGER},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.order.dao.model.NationalFlightChange" >
+      update national_flight_change
+      <set >
+        <if test="merchantNo != null" >
+          merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="orderNo != null" >
+          order_no = #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="flightNo != null" >
+          flight_no = #{flightNo,jdbcType=VARCHAR},
+        </if>
+        <if test="dptDate != null" >
+          dpt_date = #{dptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="dptTime != null" >
+          dpt_time = #{dptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="arrTime != null" >
+          arr_time = #{arrTime,jdbcType=VARCHAR},
+        </if>
+        <if test="dptAirport != null" >
+          dpt_airport = #{dptAirport,jdbcType=CHAR},
+        </if>
+        <if test="arrAirport != null" >
+          arr_airport = #{arrAirport,jdbcType=CHAR},
+        </if>
+        <if test="folFlightNo != null" >
+          fol_flight_no = #{folFlightNo,jdbcType=VARCHAR},
+        </if>
+        <if test="folDptDate != null" >
+          fol_dpt_date = #{folDptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="folDptTime != null" >
+          fol_dpt_time = #{folDptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="folArrTime != null" >
+          fol_arr_time = #{folArrTime,jdbcType=VARCHAR},
+        </if>
+        <if test="folDptAirport != null" >
+          fol_dpt_airport = #{folDptAirport,jdbcType=CHAR},
+        </if>
+        <if test="folArrAirport != null" >
+          fol_arr_airport = #{folArrAirport,jdbcType=CHAR},
+        </if>
+        <if test="changeStatus != null" >
+          change_status = #{changeStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="hasSendSms != null" >
+          has_send_sms = #{hasSendSms,jdbcType=INTEGER},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.order.dao.model.NationalFlightChange" >
+      update national_flight_change
+      set merchant_no = #{merchantNo,jdbcType=CHAR},
+        order_no = #{orderNo,jdbcType=VARCHAR},
+        flight_no = #{flightNo,jdbcType=VARCHAR},
+        dpt_date = #{dptDate,jdbcType=VARCHAR},
+        dpt_time = #{dptTime,jdbcType=VARCHAR},
+        arr_time = #{arrTime,jdbcType=VARCHAR},
+        dpt_airport = #{dptAirport,jdbcType=CHAR},
+        arr_airport = #{arrAirport,jdbcType=CHAR},
+        fol_flight_no = #{folFlightNo,jdbcType=VARCHAR},
+        fol_dpt_date = #{folDptDate,jdbcType=VARCHAR},
+        fol_dpt_time = #{folDptTime,jdbcType=VARCHAR},
+        fol_arr_time = #{folArrTime,jdbcType=VARCHAR},
+        fol_dpt_airport = #{folDptAirport,jdbcType=CHAR},
+        fol_arr_airport = #{folArrAirport,jdbcType=CHAR},
+        change_status = #{changeStatus,jdbcType=VARCHAR},
+        has_send_sms = #{hasSendSms,jdbcType=INTEGER},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>

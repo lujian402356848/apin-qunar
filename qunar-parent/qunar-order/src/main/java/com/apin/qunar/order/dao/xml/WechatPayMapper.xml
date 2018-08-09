@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.order.dao.mapper.WechatPayMapper" >
+    <resultMap id="WechatPayResult" type="com.apin.qunar.order.dao.model.WechatPay" >
+      <id column="id" property="id" jdbcType="CHAR" />
+      <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+      <result column="has_inland_order" property="hasInlandOrder" jdbcType="INTEGER" />
+      <result column="pay_amount" property="payAmount" jdbcType="INTEGER" />
+      <result column="wechat_trade_no" property="wechatTradeNo" jdbcType="VARCHAR" />
+      <result column="wechat_pay_status" property="wechatPayStatus" jdbcType="INTEGER" />
+      <result column="wechat_pay_time" property="wechatPayTime" jdbcType="VARCHAR" />
+      <result column="qunar_pay_status" property="qunarPayStatus" jdbcType="INTEGER" />
+      <result column="qunar_pay_time" property="qunarPayTime" jdbcType="VARCHAR" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="WechatPayColumns" >
+      id, merchant_no, order_no, has_inland_order, pay_amount, wechat_trade_no, wechat_pay_status, 
+      wechat_pay_time, qunar_pay_status, qunar_pay_time, insert_time, update_time
+    </sql>
+    <select id="selectByExample" resultMap="WechatPayResult" parameterType="com.apin.qunar.order.dao.model.WechatPayExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="WechatPayColumns" />
+      from wechat_pay
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="WechatPayResult" parameterType="java.lang.String" >
+      select 
+      <include refid="WechatPayColumns" />
+      from wechat_pay
+      where id = #{id,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+      delete from wechat_pay
+      where id = #{id,jdbcType=CHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.order.dao.model.WechatPayExample" >
+      delete from wechat_pay
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.order.dao.model.WechatPay" >
+      insert into wechat_pay (id, merchant_no, order_no, 
+        has_inland_order, pay_amount, wechat_trade_no, 
+        wechat_pay_status, wechat_pay_time, qunar_pay_status, 
+        qunar_pay_time, insert_time, update_time
+        )
+      values (#{id,jdbcType=CHAR}, #{merchantNo,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
+        #{hasInlandOrder,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{wechatTradeNo,jdbcType=VARCHAR}, 
+        #{wechatPayStatus,jdbcType=INTEGER}, #{wechatPayTime,jdbcType=VARCHAR}, #{qunarPayStatus,jdbcType=INTEGER}, 
+        #{qunarPayTime,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.WechatPay" >
+      insert into wechat_pay
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="merchantNo != null" >
+          merchant_no,
+        </if>
+        <if test="orderNo != null" >
+          order_no,
+        </if>
+        <if test="hasInlandOrder != null" >
+          has_inland_order,
+        </if>
+        <if test="payAmount != null" >
+          pay_amount,
+        </if>
+        <if test="wechatTradeNo != null" >
+          wechat_trade_no,
+        </if>
+        <if test="wechatPayStatus != null" >
+          wechat_pay_status,
+        </if>
+        <if test="wechatPayTime != null" >
+          wechat_pay_time,
+        </if>
+        <if test="qunarPayStatus != null" >
+          qunar_pay_status,
+        </if>
+        <if test="qunarPayTime != null" >
+          qunar_pay_time,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=CHAR},
+        </if>
+        <if test="merchantNo != null" >
+          #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="orderNo != null" >
+          #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="hasInlandOrder != null" >
+          #{hasInlandOrder,jdbcType=INTEGER},
+        </if>
+        <if test="payAmount != null" >
+          #{payAmount,jdbcType=INTEGER},
+        </if>
+        <if test="wechatTradeNo != null" >
+          #{wechatTradeNo,jdbcType=VARCHAR},
+        </if>
+        <if test="wechatPayStatus != null" >
+          #{wechatPayStatus,jdbcType=INTEGER},
+        </if>
+        <if test="wechatPayTime != null" >
+          #{wechatPayTime,jdbcType=VARCHAR},
+        </if>
+        <if test="qunarPayStatus != null" >
+          #{qunarPayStatus,jdbcType=INTEGER},
+        </if>
+        <if test="qunarPayTime != null" >
+          #{qunarPayTime,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.order.dao.model.WechatPayExample" resultType="java.lang.Integer" >
+      select count(*) from wechat_pay
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update wechat_pay
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=CHAR},
+        </if>
+        <if test="record.merchantNo != null" >
+          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="record.orderNo != null" >
+          order_no = #{record.orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.hasInlandOrder != null" >
+          has_inland_order = #{record.hasInlandOrder,jdbcType=INTEGER},
+        </if>
+        <if test="record.payAmount != null" >
+          pay_amount = #{record.payAmount,jdbcType=INTEGER},
+        </if>
+        <if test="record.wechatTradeNo != null" >
+          wechat_trade_no = #{record.wechatTradeNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.wechatPayStatus != null" >
+          wechat_pay_status = #{record.wechatPayStatus,jdbcType=INTEGER},
+        </if>
+        <if test="record.wechatPayTime != null" >
+          wechat_pay_time = #{record.wechatPayTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.qunarPayStatus != null" >
+          qunar_pay_status = #{record.qunarPayStatus,jdbcType=INTEGER},
+        </if>
+        <if test="record.qunarPayTime != null" >
+          qunar_pay_time = #{record.qunarPayTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="record.updateTime != null" >
+          update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update wechat_pay
+      set id = #{record.id,jdbcType=CHAR},
+        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+        has_inland_order = #{record.hasInlandOrder,jdbcType=INTEGER},
+        pay_amount = #{record.payAmount,jdbcType=INTEGER},
+        wechat_trade_no = #{record.wechatTradeNo,jdbcType=VARCHAR},
+        wechat_pay_status = #{record.wechatPayStatus,jdbcType=INTEGER},
+        wechat_pay_time = #{record.wechatPayTime,jdbcType=VARCHAR},
+        qunar_pay_status = #{record.qunarPayStatus,jdbcType=INTEGER},
+        qunar_pay_time = #{record.qunarPayTime,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.order.dao.model.WechatPay" >
+      update wechat_pay
+      <set >
+        <if test="merchantNo != null" >
+          merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="orderNo != null" >
+          order_no = #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="hasInlandOrder != null" >
+          has_inland_order = #{hasInlandOrder,jdbcType=INTEGER},
+        </if>
+        <if test="payAmount != null" >
+          pay_amount = #{payAmount,jdbcType=INTEGER},
+        </if>
+        <if test="wechatTradeNo != null" >
+          wechat_trade_no = #{wechatTradeNo,jdbcType=VARCHAR},
+        </if>
+        <if test="wechatPayStatus != null" >
+          wechat_pay_status = #{wechatPayStatus,jdbcType=INTEGER},
+        </if>
+        <if test="wechatPayTime != null" >
+          wechat_pay_time = #{wechatPayTime,jdbcType=VARCHAR},
+        </if>
+        <if test="qunarPayStatus != null" >
+          qunar_pay_status = #{qunarPayStatus,jdbcType=INTEGER},
+        </if>
+        <if test="qunarPayTime != null" >
+          qunar_pay_time = #{qunarPayTime,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.order.dao.model.WechatPay" >
+      update wechat_pay
+      set merchant_no = #{merchantNo,jdbcType=CHAR},
+        order_no = #{orderNo,jdbcType=VARCHAR},
+        has_inland_order = #{hasInlandOrder,jdbcType=INTEGER},
+        pay_amount = #{payAmount,jdbcType=INTEGER},
+        wechat_trade_no = #{wechatTradeNo,jdbcType=VARCHAR},
+        wechat_pay_status = #{wechatPayStatus,jdbcType=INTEGER},
+        wechat_pay_time = #{wechatPayTime,jdbcType=VARCHAR},
+        qunar_pay_status = #{qunarPayStatus,jdbcType=INTEGER},
+        qunar_pay_time = #{qunarPayTime,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=CHAR}
+    </update>
+  </mapper>

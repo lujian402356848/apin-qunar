@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.order.dao.mapper.InternationalPayFailOrderMapper" >
+    <resultMap id="InternationalPayFailOrderResult" type="com.apin.qunar.order.dao.model.InternationalPayFailOrder" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+      <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP" />
+      <result column="go_flight_num" property="goFlightNum" jdbcType="VARCHAR" />
+      <result column="go_dept_city" property="goDeptCity" jdbcType="VARCHAR" />
+      <result column="go_arri_city" property="goArriCity" jdbcType="VARCHAR" />
+      <result column="go_dept_date" property="goDeptDate" jdbcType="VARCHAR" />
+      <result column="go_dept_time" property="goDeptTime" jdbcType="VARCHAR" />
+      <result column="back_flight_num" property="backFlightNum" jdbcType="VARCHAR" />
+      <result column="back_dept_city" property="backDeptCity" jdbcType="VARCHAR" />
+      <result column="back_arri_city" property="backArriCity" jdbcType="VARCHAR" />
+      <result column="back_dept_date" property="backDeptDate" jdbcType="VARCHAR" />
+      <result column="back_dept_time" property="backDeptTime" jdbcType="VARCHAR" />
+      <result column="pay_channel" property="payChannel" jdbcType="INTEGER" />
+      <result column="pay_amount" property="payAmount" jdbcType="INTEGER" />
+      <result column="pay_time" property="payTime" jdbcType="VARCHAR" />
+      <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+      <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
+      <result column="process_department" property="processDepartment" jdbcType="VARCHAR" />
+      <result column="process_pay_amount" property="processPayAmount" jdbcType="INTEGER" />
+      <result column="process_person" property="processPerson" jdbcType="VARCHAR" />
+      <result column="process_status" property="processStatus" jdbcType="INTEGER" />
+      <result column="process_desc" property="processDesc" jdbcType="VARCHAR" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="InternationalPayFailOrderColumns" >
+      id, merchant_no, order_no, order_create_time, go_flight_num, go_dept_city, go_arri_city, 
+      go_dept_date, go_dept_time, back_flight_num, back_dept_city, back_arri_city, back_dept_date, 
+      back_dept_time, pay_channel, pay_amount, pay_time, contact_name, contact_mobile, 
+      process_department, process_pay_amount, process_person, process_status, process_desc, 
+      insert_time, update_time
+    </sql>
+    <select id="selectByExample" resultMap="InternationalPayFailOrderResult" parameterType="com.apin.qunar.order.dao.model.InternationalPayFailOrderExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="InternationalPayFailOrderColumns" />
+      from international_pay_fail_order
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="InternationalPayFailOrderResult" parameterType="java.lang.Long" >
+      select 
+      <include refid="InternationalPayFailOrderColumns" />
+      from international_pay_fail_order
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      delete from international_pay_fail_order
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.order.dao.model.InternationalPayFailOrderExample" >
+      delete from international_pay_fail_order
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.order.dao.model.InternationalPayFailOrder" >
+      insert into international_pay_fail_order (id, merchant_no, order_no, 
+        order_create_time, go_flight_num, go_dept_city, 
+        go_arri_city, go_dept_date, go_dept_time, 
+        back_flight_num, back_dept_city, back_arri_city, 
+        back_dept_date, back_dept_time, pay_channel, 
+        pay_amount, pay_time, contact_name, 
+        contact_mobile, process_department, process_pay_amount, 
+        process_person, process_status, process_desc, 
+        insert_time, update_time)
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
+        #{orderCreateTime,jdbcType=TIMESTAMP}, #{goFlightNum,jdbcType=VARCHAR}, #{goDeptCity,jdbcType=VARCHAR}, 
+        #{goArriCity,jdbcType=VARCHAR}, #{goDeptDate,jdbcType=VARCHAR}, #{goDeptTime,jdbcType=VARCHAR}, 
+        #{backFlightNum,jdbcType=VARCHAR}, #{backDeptCity,jdbcType=VARCHAR}, #{backArriCity,jdbcType=VARCHAR}, 
+        #{backDeptDate,jdbcType=VARCHAR}, #{backDeptTime,jdbcType=VARCHAR}, #{payChannel,jdbcType=INTEGER}, 
+        #{payAmount,jdbcType=INTEGER}, #{payTime,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
+        #{contactMobile,jdbcType=VARCHAR}, #{processDepartment,jdbcType=VARCHAR}, #{processPayAmount,jdbcType=INTEGER}, 
+        #{processPerson,jdbcType=VARCHAR}, #{processStatus,jdbcType=INTEGER}, #{processDesc,jdbcType=VARCHAR}, 
+        #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.InternationalPayFailOrder" >
+      insert into international_pay_fail_order
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="merchantNo != null" >
+          merchant_no,
+        </if>
+        <if test="orderNo != null" >
+          order_no,
+        </if>
+        <if test="orderCreateTime != null" >
+          order_create_time,
+        </if>
+        <if test="goFlightNum != null" >
+          go_flight_num,
+        </if>
+        <if test="goDeptCity != null" >
+          go_dept_city,
+        </if>
+        <if test="goArriCity != null" >
+          go_arri_city,
+        </if>
+        <if test="goDeptDate != null" >
+          go_dept_date,
+        </if>
+        <if test="goDeptTime != null" >
+          go_dept_time,
+        </if>
+        <if test="backFlightNum != null" >
+          back_flight_num,
+        </if>
+        <if test="backDeptCity != null" >
+          back_dept_city,
+        </if>
+        <if test="backArriCity != null" >
+          back_arri_city,
+        </if>
+        <if test="backDeptDate != null" >
+          back_dept_date,
+        </if>
+        <if test="backDeptTime != null" >
+          back_dept_time,
+        </if>
+        <if test="payChannel != null" >
+          pay_channel,
+        </if>
+        <if test="payAmount != null" >
+          pay_amount,
+        </if>
+        <if test="payTime != null" >
+          pay_time,
+        </if>
+        <if test="contactName != null" >
+          contact_name,
+        </if>
+        <if test="contactMobile != null" >
+          contact_mobile,
+        </if>
+        <if test="processDepartment != null" >
+          process_department,
+        </if>
+        <if test="processPayAmount != null" >
+          process_pay_amount,
+        </if>
+        <if test="processPerson != null" >
+          process_person,
+        </if>
+        <if test="processStatus != null" >
+          process_status,
+        </if>
+        <if test="processDesc != null" >
+          process_desc,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="merchantNo != null" >
+          #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="orderNo != null" >
+          #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="orderCreateTime != null" >
+          #{orderCreateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="goFlightNum != null" >
+          #{goFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="goDeptCity != null" >
+          #{goDeptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="goArriCity != null" >
+          #{goArriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="goDeptDate != null" >
+          #{goDeptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="goDeptTime != null" >
+          #{goDeptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="backFlightNum != null" >
+          #{backFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="backDeptCity != null" >
+          #{backDeptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="backArriCity != null" >
+          #{backArriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="backDeptDate != null" >
+          #{backDeptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="backDeptTime != null" >
+          #{backDeptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="payChannel != null" >
+          #{payChannel,jdbcType=INTEGER},
+        </if>
+        <if test="payAmount != null" >
+          #{payAmount,jdbcType=INTEGER},
+        </if>
+        <if test="payTime != null" >
+          #{payTime,jdbcType=VARCHAR},
+        </if>
+        <if test="contactName != null" >
+          #{contactName,jdbcType=VARCHAR},
+        </if>
+        <if test="contactMobile != null" >
+          #{contactMobile,jdbcType=VARCHAR},
+        </if>
+        <if test="processDepartment != null" >
+          #{processDepartment,jdbcType=VARCHAR},
+        </if>
+        <if test="processPayAmount != null" >
+          #{processPayAmount,jdbcType=INTEGER},
+        </if>
+        <if test="processPerson != null" >
+          #{processPerson,jdbcType=VARCHAR},
+        </if>
+        <if test="processStatus != null" >
+          #{processStatus,jdbcType=INTEGER},
+        </if>
+        <if test="processDesc != null" >
+          #{processDesc,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.order.dao.model.InternationalPayFailOrderExample" resultType="java.lang.Integer" >
+      select count(*) from international_pay_fail_order
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update international_pay_fail_order
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.merchantNo != null" >
+          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="record.orderNo != null" >
+          order_no = #{record.orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.orderCreateTime != null" >
+          order_create_time = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="record.goFlightNum != null" >
+          go_flight_num = #{record.goFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="record.goDeptCity != null" >
+          go_dept_city = #{record.goDeptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.goArriCity != null" >
+          go_arri_city = #{record.goArriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.goDeptDate != null" >
+          go_dept_date = #{record.goDeptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="record.goDeptTime != null" >
+          go_dept_time = #{record.goDeptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.backFlightNum != null" >
+          back_flight_num = #{record.backFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="record.backDeptCity != null" >
+          back_dept_city = #{record.backDeptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.backArriCity != null" >
+          back_arri_city = #{record.backArriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.backDeptDate != null" >
+          back_dept_date = #{record.backDeptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="record.backDeptTime != null" >
+          back_dept_time = #{record.backDeptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.payChannel != null" >
+          pay_channel = #{record.payChannel,jdbcType=INTEGER},
+        </if>
+        <if test="record.payAmount != null" >
+          pay_amount = #{record.payAmount,jdbcType=INTEGER},
+        </if>
+        <if test="record.payTime != null" >
+          pay_time = #{record.payTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.contactName != null" >
+          contact_name = #{record.contactName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.contactMobile != null" >
+          contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
+        </if>
+        <if test="record.processDepartment != null" >
+          process_department = #{record.processDepartment,jdbcType=VARCHAR},
+        </if>
+        <if test="record.processPayAmount != null" >
+          process_pay_amount = #{record.processPayAmount,jdbcType=INTEGER},
+        </if>
+        <if test="record.processPerson != null" >
+          process_person = #{record.processPerson,jdbcType=VARCHAR},
+        </if>
+        <if test="record.processStatus != null" >
+          process_status = #{record.processStatus,jdbcType=INTEGER},
+        </if>
+        <if test="record.processDesc != null" >
+          process_desc = #{record.processDesc,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="record.updateTime != null" >
+          update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update international_pay_fail_order
+      set id = #{record.id,jdbcType=BIGINT},
+        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+        order_create_time = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+        go_flight_num = #{record.goFlightNum,jdbcType=VARCHAR},
+        go_dept_city = #{record.goDeptCity,jdbcType=VARCHAR},
+        go_arri_city = #{record.goArriCity,jdbcType=VARCHAR},
+        go_dept_date = #{record.goDeptDate,jdbcType=VARCHAR},
+        go_dept_time = #{record.goDeptTime,jdbcType=VARCHAR},
+        back_flight_num = #{record.backFlightNum,jdbcType=VARCHAR},
+        back_dept_city = #{record.backDeptCity,jdbcType=VARCHAR},
+        back_arri_city = #{record.backArriCity,jdbcType=VARCHAR},
+        back_dept_date = #{record.backDeptDate,jdbcType=VARCHAR},
+        back_dept_time = #{record.backDeptTime,jdbcType=VARCHAR},
+        pay_channel = #{record.payChannel,jdbcType=INTEGER},
+        pay_amount = #{record.payAmount,jdbcType=INTEGER},
+        pay_time = #{record.payTime,jdbcType=VARCHAR},
+        contact_name = #{record.contactName,jdbcType=VARCHAR},
+        contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
+        process_department = #{record.processDepartment,jdbcType=VARCHAR},
+        process_pay_amount = #{record.processPayAmount,jdbcType=INTEGER},
+        process_person = #{record.processPerson,jdbcType=VARCHAR},
+        process_status = #{record.processStatus,jdbcType=INTEGER},
+        process_desc = #{record.processDesc,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.order.dao.model.InternationalPayFailOrder" >
+      update international_pay_fail_order
+      <set >
+        <if test="merchantNo != null" >
+          merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="orderNo != null" >
+          order_no = #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="orderCreateTime != null" >
+          order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="goFlightNum != null" >
+          go_flight_num = #{goFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="goDeptCity != null" >
+          go_dept_city = #{goDeptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="goArriCity != null" >
+          go_arri_city = #{goArriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="goDeptDate != null" >
+          go_dept_date = #{goDeptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="goDeptTime != null" >
+          go_dept_time = #{goDeptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="backFlightNum != null" >
+          back_flight_num = #{backFlightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="backDeptCity != null" >
+          back_dept_city = #{backDeptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="backArriCity != null" >
+          back_arri_city = #{backArriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="backDeptDate != null" >
+          back_dept_date = #{backDeptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="backDeptTime != null" >
+          back_dept_time = #{backDeptTime,jdbcType=VARCHAR},
+        </if>
+        <if test="payChannel != null" >
+          pay_channel = #{payChannel,jdbcType=INTEGER},
+        </if>
+        <if test="payAmount != null" >
+          pay_amount = #{payAmount,jdbcType=INTEGER},
+        </if>
+        <if test="payTime != null" >
+          pay_time = #{payTime,jdbcType=VARCHAR},
+        </if>
+        <if test="contactName != null" >
+          contact_name = #{contactName,jdbcType=VARCHAR},
+        </if>
+        <if test="contactMobile != null" >
+          contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+        </if>
+        <if test="processDepartment != null" >
+          process_department = #{processDepartment,jdbcType=VARCHAR},
+        </if>
+        <if test="processPayAmount != null" >
+          process_pay_amount = #{processPayAmount,jdbcType=INTEGER},
+        </if>
+        <if test="processPerson != null" >
+          process_person = #{processPerson,jdbcType=VARCHAR},
+        </if>
+        <if test="processStatus != null" >
+          process_status = #{processStatus,jdbcType=INTEGER},
+        </if>
+        <if test="processDesc != null" >
+          process_desc = #{processDesc,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.order.dao.model.InternationalPayFailOrder" >
+      update international_pay_fail_order
+      set merchant_no = #{merchantNo,jdbcType=CHAR},
+        order_no = #{orderNo,jdbcType=VARCHAR},
+        order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+        go_flight_num = #{goFlightNum,jdbcType=VARCHAR},
+        go_dept_city = #{goDeptCity,jdbcType=VARCHAR},
+        go_arri_city = #{goArriCity,jdbcType=VARCHAR},
+        go_dept_date = #{goDeptDate,jdbcType=VARCHAR},
+        go_dept_time = #{goDeptTime,jdbcType=VARCHAR},
+        back_flight_num = #{backFlightNum,jdbcType=VARCHAR},
+        back_dept_city = #{backDeptCity,jdbcType=VARCHAR},
+        back_arri_city = #{backArriCity,jdbcType=VARCHAR},
+        back_dept_date = #{backDeptDate,jdbcType=VARCHAR},
+        back_dept_time = #{backDeptTime,jdbcType=VARCHAR},
+        pay_channel = #{payChannel,jdbcType=INTEGER},
+        pay_amount = #{payAmount,jdbcType=INTEGER},
+        pay_time = #{payTime,jdbcType=VARCHAR},
+        contact_name = #{contactName,jdbcType=VARCHAR},
+        contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+        process_department = #{processDepartment,jdbcType=VARCHAR},
+        process_pay_amount = #{processPayAmount,jdbcType=INTEGER},
+        process_person = #{processPerson,jdbcType=VARCHAR},
+        process_status = #{processStatus,jdbcType=INTEGER},
+        process_desc = #{processDesc,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>
