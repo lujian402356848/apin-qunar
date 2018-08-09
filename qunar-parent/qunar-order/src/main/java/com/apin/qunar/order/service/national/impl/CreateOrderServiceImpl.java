@@ -147,6 +147,7 @@ public class CreateOrderServiceImpl extends ApiService<CreateOrderParam, ApiResu
         for (CreateOrderRequestBO.Passenger passenger : passengers) {
             NationalPassenger nationalPassenger = new NationalPassenger();
             nationalPassenger.setId(UUIDUtil.getUUID());
+            nationalPassenger.setMerchantNo(createOrderRequest.getMerchantNo());
             nationalPassenger.setOrderNo(createOrderResult.getOrderNo());
             nationalPassenger.setName(passenger.getName());
             nationalPassenger.setAgeType(passenger.getAgeType());

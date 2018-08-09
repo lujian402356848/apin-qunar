@@ -1,7 +1,8 @@
 package com.apin.qunar.order.service.national.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.apin.qunar.basic.service.MerchantPriceConfigService;
+import com.apin.qunar.basic.dao.model.AirlinePriceRate;
+import com.apin.qunar.basic.service.AirlinePriceRateService;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.booking.Vendor;
 import com.apin.qunar.order.domain.national.searchPrice.SearchPriceParam;
@@ -30,7 +31,7 @@ public class SearchPriceServiceImpl extends ApiService<SearchPriceParam, ApiResu
     }
 
     @Autowired
-    private MerchantPriceConfigService merchantPriceConfigService;
+    private AirlinePriceRateService airlinePriceRateService;
 
     @Override
     protected TypeReference<ApiResult<SearchPriceResultVO>> getTypeReference() {
@@ -49,6 +50,7 @@ public class SearchPriceServiceImpl extends ApiService<SearchPriceParam, ApiResu
             return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
         sortByPrice(apiResult.getResult());
+        setPrice(apiResult.getResult());
         return apiResult;
     }
 
@@ -59,18 +61,17 @@ public class SearchPriceServiceImpl extends ApiService<SearchPriceParam, ApiResu
         }
     }
 
-    private void setPrice(SearchPriceResultVO searchPriceResultVO, String merchantNo) {
+    private void setPrice(SearchPriceResultVO searchPriceResultVO) {
         if (CollectionUtils.isEmpty(searchPriceResultVO.getVendors())) {
             return;
         }
-        double ratio = merchantPriceConfigService.queryPriceRatio(merchantNo, true);
+        AirlinePriceRate priceRate = null;
         List<Vendor> vendors = searchPriceResultVO.getVendors();
         for (Vendor vendor : vendors) {
-            int barePrice = (int) (vendor.getBarePrice() * ratio);
-            int vppr = (int) (vendor.getVppr() * ratio);
-            vendor.setBarePrice(barePrice);
-            vendor.setVppr(vppr);
+            priceRate = airlinePriceRateService.queryByCode(searchPriceResultVO.getCarrier(), vendor.getCabin());
+            if (priceRate != null && priceRate.getPosition().equalsIgnoreCase(vendor.getCabin())) {
+                vendor.setPriceRateTag(priceRate.getPriceRate() + "折");
+            }
         }
     }
-
 }

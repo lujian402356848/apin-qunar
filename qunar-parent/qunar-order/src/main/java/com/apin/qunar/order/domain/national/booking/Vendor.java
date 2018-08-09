@@ -33,4 +33,5 @@ public class Vendor {
     private String luggage;
     private String pType = "";
     private boolean fuzzy = false;
+    private String priceRateTag;//ui显示的价格标签tag
 }

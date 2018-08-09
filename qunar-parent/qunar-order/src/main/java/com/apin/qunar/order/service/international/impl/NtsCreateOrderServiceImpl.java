@@ -81,7 +81,7 @@ public class NtsCreateOrderServiceImpl extends NtsApiService<NtsCreateOrderParam
         definition.setIsolationLevel(DefaultTransactionDefinition.ISOLATION_SERIALIZABLE);
         TransactionStatus status = transactionManager.getTransaction(definition);//事务开始
         InternationalOrder internationalOrder = buildInternationalOrder(ntsCreateOrderRequest, ntsCreateOrderResult, ntsCreateOrderParam, ntsBookingResult, ntsSearchRefundChangeSignResultApiResult);
-        List<InternationalPassenger> internationalPassengers = buildInternationalPassengers(ntsCreateOrderResult.getOrderNo(), ntsCreateOrderParam);
+        List<InternationalPassenger> internationalPassengers = buildInternationalPassengers(ntsCreateOrderResult.getOrderNo(), ntsCreateOrderRequest.getMerchantNo(), ntsCreateOrderParam);
         try {
             internationalOrderDao.insert(internationalOrder);
             for (InternationalPassenger internationalPassenger : internationalPassengers) {
@@ -187,12 +187,13 @@ public class NtsCreateOrderServiceImpl extends NtsApiService<NtsCreateOrderParam
         return cabinName;
     }
 
-    private List<InternationalPassenger> buildInternationalPassengers(final String orderNo, final NtsCreateOrderParam ntsCreateOrderParam) {
+    private List<InternationalPassenger> buildInternationalPassengers(final String orderNo, final String merchantNo, final NtsCreateOrderParam ntsCreateOrderParam) {
         List<InternationalPassenger> internationalPassengers = new ArrayList<>();
         List<Passenger> passengers = ntsCreateOrderParam.getPassengerList();
         for (Passenger passenger : passengers) {
             InternationalPassenger internationalPassenger = new InternationalPassenger();
             internationalPassenger.setId(UUIDUtil.getUUID());
+            internationalPassenger.setMerchantNo(merchantNo);
             internationalPassenger.setOrderNo(orderNo);
             internationalPassenger.setName(passenger.getName());
             internationalPassenger.setAgeType(passenger.getAgeType());

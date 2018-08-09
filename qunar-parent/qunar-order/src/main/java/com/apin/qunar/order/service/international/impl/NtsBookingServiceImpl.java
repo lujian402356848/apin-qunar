@@ -44,24 +44,15 @@ public class NtsBookingServiceImpl extends NtsApiService<NtsBookingParam, ApiRes
         if (apiResult == null) {
             return ApiResult.fail();
         }
-        if (apiResult.isSuccess()) {
-            formatTime(apiResult.getResult());
+        if (!apiResult.isSuccess()) {
+            log.warn("查询国际booking异常,param:{},原因:{}", JSON.toJSON(ntsBookingParam), apiResult.getMessage());
+            return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
-//        setPrice(apiResult.getResult(), merchantNo);//预定航班接口 加价
+        formatTime(apiResult.getResult());
         return apiResult;
-//        return new ApiResult<>(apiResult, BeanUtil.copyProperties(apiResult.getResult(), NtsBookingResultVO.class));
     }
 
-    private void setPrice(NtsBookingResultVO ntsBookingResultVO, String merchantNo) {
-        double ratio = merchantPriceConfigService.queryPriceRatio(merchantNo, false);
-        NtsBookingResultVO.PriceInfo priceInfo = ntsBookingResultVO.getPriceInfo();
-        int adultPrice = (int) (priceInfo.getAdultPrice() * ratio);
-        int childPrice = (int) (priceInfo.getChildPrice() * ratio);
-        priceInfo.setAdultPrice(adultPrice);
-        priceInfo.setChildPrice(childPrice);
-    }
-
-    public void formatTime(NtsBookingResultVO apiResults) {
+    private void formatTime(NtsBookingResultVO apiResults) {
         String departDateTime = null;
         String[] departDateTimeSplit = null;
         String arriveDateTime = null;
