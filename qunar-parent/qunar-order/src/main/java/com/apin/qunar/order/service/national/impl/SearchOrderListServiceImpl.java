@@ -28,7 +28,8 @@ public class SearchOrderListServiceImpl implements SearchOrderListService {
     private NationalPassengerDaoImpl nationalPassengerDao;
 
     @Override
-    public List<NationalOrderVO> queryPageList(final String merchantNo, final String account, final String orderNo, final String pessengerName, final Integer offset, final Integer limit) {
+    public List<NationalOrderVO> queryPageList(String merchantNo, final String account, final String orderNo, final String pessengerName, final Integer offset, final Integer limit) {
+        merchantNo="20180726460336";
         List<NationalOrder> nationalOrders = null;
         List<NationalPassenger> passengers = null;
         if (StringUtils.isNotBlank(pessengerName)) {

@@ -376,62 +376,52 @@ public class DayStatisticsExample {
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntEqualTo(String value) {
+        public Criteria andSearchInternationalFlightCntEqualTo(Integer value) {
             addCriterion("search_international_flight_cnt =", value, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntNotEqualTo(String value) {
+        public Criteria andSearchInternationalFlightCntNotEqualTo(Integer value) {
             addCriterion("search_international_flight_cnt <>", value, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntGreaterThan(String value) {
+        public Criteria andSearchInternationalFlightCntGreaterThan(Integer value) {
             addCriterion("search_international_flight_cnt >", value, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntGreaterThanOrEqualTo(String value) {
+        public Criteria andSearchInternationalFlightCntGreaterThanOrEqualTo(Integer value) {
             addCriterion("search_international_flight_cnt >=", value, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntLessThan(String value) {
+        public Criteria andSearchInternationalFlightCntLessThan(Integer value) {
             addCriterion("search_international_flight_cnt <", value, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntLessThanOrEqualTo(String value) {
+        public Criteria andSearchInternationalFlightCntLessThanOrEqualTo(Integer value) {
             addCriterion("search_international_flight_cnt <=", value, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntLike(String value) {
-            addCriterion("search_international_flight_cnt like", value, "searchInternationalFlightCnt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSearchInternationalFlightCntNotLike(String value) {
-            addCriterion("search_international_flight_cnt not like", value, "searchInternationalFlightCnt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSearchInternationalFlightCntIn(List<String> values) {
+        public Criteria andSearchInternationalFlightCntIn(List<Integer> values) {
             addCriterion("search_international_flight_cnt in", values, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntNotIn(List<String> values) {
+        public Criteria andSearchInternationalFlightCntNotIn(List<Integer> values) {
             addCriterion("search_international_flight_cnt not in", values, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntBetween(String value1, String value2) {
+        public Criteria andSearchInternationalFlightCntBetween(Integer value1, Integer value2) {
             addCriterion("search_international_flight_cnt between", value1, value2, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntNotBetween(String value1, String value2) {
+        public Criteria andSearchInternationalFlightCntNotBetween(Integer value1, Integer value2) {
             addCriterion("search_international_flight_cnt not between", value1, value2, "searchInternationalFlightCnt");
             return (Criteria) this;
         }
@@ -561,11 +551,6 @@ public class DayStatisticsExample {
 
         protected Criteria() {
             super();
-        }
-
-        public Criteria andSearchInternationalFlightCntLikeInsensitive(String value) {
-            addCriterion("upper(search_international_flight_cnt) like", value.toUpperCase(), "searchInternationalFlightCnt");
-            return this;
         }
     }
 

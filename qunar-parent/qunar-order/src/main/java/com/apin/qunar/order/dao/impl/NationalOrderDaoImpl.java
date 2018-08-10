@@ -31,6 +31,24 @@ public class NationalOrderDaoImpl {
         return CollectionUtils.isEmpty(nationalOrders) ? null : nationalOrders.get(0);
     }
 
+    public int queryCntBy(String merchantNo, List<Integer> payStatusList, Date startTime, Date endTime) {
+        String payStatusStr = StringUtils.join(payStatusList, ",");
+        if (StringUtils.isBlank(merchantNo)) {
+            return nationalOrderExtMapper.queryCntBy(payStatusStr, startTime, endTime);
+        } else {
+            return nationalOrderExtMapper.queryCntBy(merchantNo, payStatusStr, startTime, endTime);
+        }
+    }
+
+    public int queryTotalAmountBy(String merchantNo, List<Integer> payStatusList, Date startTime, Date endTime) {
+        String payStatusStr = StringUtils.join(payStatusList, ",");
+        if (StringUtils.isBlank(merchantNo)) {
+            return nationalOrderExtMapper.queryTotalAmountBy(payStatusStr, startTime, endTime);
+        } else {
+            return nationalOrderExtMapper.queryTotalAmountBy(merchantNo, payStatusStr, startTime, endTime);
+        }
+    }
+
     public List<NationalOrder> queryPageListBy(String merchantNo, String account, String orderNo, Integer offset, Integer limit) {
         NationalOrderExample example = new NationalOrderExample();
         NationalOrderExample.Criteria criteria = example.createCriteria();

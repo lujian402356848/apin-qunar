@@ -25,7 +25,10 @@ public class DayStatistics implements Serializable {
      */
     private Integer searchNationalFlightCnt;
 
-    private String searchInternationalFlightCnt;
+    /**
+     * 每日国际航班查询次数
+     */
+    private Integer searchInternationalFlightCnt;
 
     /**
      * 每日成交订单数
@@ -93,12 +96,18 @@ public class DayStatistics implements Serializable {
         this.searchNationalFlightCnt = searchNationalFlightCnt;
     }
 
-    public String getSearchInternationalFlightCnt() {
+    /**
+     * @return 每日国际航班查询次数
+     */
+    public Integer getSearchInternationalFlightCnt() {
         return searchInternationalFlightCnt;
     }
 
-    public void setSearchInternationalFlightCnt(String searchInternationalFlightCnt) {
-        this.searchInternationalFlightCnt = searchInternationalFlightCnt == null ? null : searchInternationalFlightCnt.trim();
+    /**
+     * @param searchInternationalFlightCnt 每日国际航班查询次数
+     */
+    public void setSearchInternationalFlightCnt(Integer searchInternationalFlightCnt) {
+        this.searchInternationalFlightCnt = searchInternationalFlightCnt;
     }
 
     /**

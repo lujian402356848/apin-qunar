@@ -6,7 +6,7 @@
       <result column="total_pv" property="totalPv" jdbcType="INTEGER" />
       <result column="total_uv" property="totalUv" jdbcType="INTEGER" />
       <result column="search_national_flight_cnt" property="searchNationalFlightCnt" jdbcType="INTEGER" />
-      <result column="search_international_flight_cnt" property="searchInternationalFlightCnt" jdbcType="VARCHAR" />
+      <result column="search_international_flight_cnt" property="searchInternationalFlightCnt" jdbcType="INTEGER" />
       <result column="deal_order_cnt" property="dealOrderCnt" jdbcType="INTEGER" />
       <result column="deal_total_amount" property="dealTotalAmount" jdbcType="INTEGER" />
     </resultMap>
@@ -112,7 +112,7 @@
         search_national_flight_cnt, search_international_flight_cnt, 
         deal_order_cnt, deal_total_amount)
       values (#{id,jdbcType=BIGINT}, #{totalPv,jdbcType=INTEGER}, #{totalUv,jdbcType=INTEGER}, 
-        #{searchNationalFlightCnt,jdbcType=INTEGER}, #{searchInternationalFlightCnt,jdbcType=VARCHAR}, 
+        #{searchNationalFlightCnt,jdbcType=INTEGER}, #{searchInternationalFlightCnt,jdbcType=INTEGER}, 
         #{dealOrderCnt,jdbcType=INTEGER}, #{dealTotalAmount,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.DayStatistics" >
@@ -154,7 +154,7 @@
           #{searchNationalFlightCnt,jdbcType=INTEGER},
         </if>
         <if test="searchInternationalFlightCnt != null" >
-          #{searchInternationalFlightCnt,jdbcType=VARCHAR},
+          #{searchInternationalFlightCnt,jdbcType=INTEGER},
         </if>
         <if test="dealOrderCnt != null" >
           #{dealOrderCnt,jdbcType=INTEGER},
@@ -186,7 +186,7 @@
           search_national_flight_cnt = #{record.searchNationalFlightCnt,jdbcType=INTEGER},
         </if>
         <if test="record.searchInternationalFlightCnt != null" >
-          search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=VARCHAR},
+          search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=INTEGER},
         </if>
         <if test="record.dealOrderCnt != null" >
           deal_order_cnt = #{record.dealOrderCnt,jdbcType=INTEGER},
@@ -205,7 +205,7 @@
         total_pv = #{record.totalPv,jdbcType=INTEGER},
         total_uv = #{record.totalUv,jdbcType=INTEGER},
         search_national_flight_cnt = #{record.searchNationalFlightCnt,jdbcType=INTEGER},
-        search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=VARCHAR},
+        search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=INTEGER},
         deal_order_cnt = #{record.dealOrderCnt,jdbcType=INTEGER},
         deal_total_amount = #{record.dealTotalAmount,jdbcType=INTEGER}
       <if test="_parameter != null" >
@@ -225,7 +225,7 @@
           search_national_flight_cnt = #{searchNationalFlightCnt,jdbcType=INTEGER},
         </if>
         <if test="searchInternationalFlightCnt != null" >
-          search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=VARCHAR},
+          search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=INTEGER},
         </if>
         <if test="dealOrderCnt != null" >
           deal_order_cnt = #{dealOrderCnt,jdbcType=INTEGER},
@@ -241,7 +241,7 @@
       set total_pv = #{totalPv,jdbcType=INTEGER},
         total_uv = #{totalUv,jdbcType=INTEGER},
         search_national_flight_cnt = #{searchNationalFlightCnt,jdbcType=INTEGER},
-        search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=VARCHAR},
+        search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=INTEGER},
         deal_order_cnt = #{dealOrderCnt,jdbcType=INTEGER},
         deal_total_amount = #{dealTotalAmount,jdbcType=INTEGER}
       where id = #{id,jdbcType=BIGINT}
