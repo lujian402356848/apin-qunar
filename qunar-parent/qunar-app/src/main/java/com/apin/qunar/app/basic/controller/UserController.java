@@ -62,6 +62,7 @@ public class UserController extends BaseController {
             if (user == null) {
                 generalResultMap.setResult(SysReturnCode.FAIL, "用户名或密码不存在");
             } else {
+                user.setMerchantNo("20180726460336");
                 generalResultMap.setResult(SysReturnCode.SUCC, user);
             }
         } catch (Exception e) {

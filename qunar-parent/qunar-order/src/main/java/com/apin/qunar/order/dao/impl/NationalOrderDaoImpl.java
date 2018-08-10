@@ -36,7 +36,7 @@ public class NationalOrderDaoImpl {
         if (StringUtils.isBlank(merchantNo)) {
             return nationalOrderExtMapper.queryCntBy(payStatusStr, startTime, endTime);
         } else {
-            return nationalOrderExtMapper.queryCntBy(merchantNo, payStatusStr, startTime, endTime);
+            return nationalOrderExtMapper.queryCntBy2(merchantNo, payStatusStr, startTime, endTime);
         }
     }
 
@@ -45,7 +45,7 @@ public class NationalOrderDaoImpl {
         if (StringUtils.isBlank(merchantNo)) {
             return nationalOrderExtMapper.queryTotalAmountBy(payStatusStr, startTime, endTime);
         } else {
-            return nationalOrderExtMapper.queryTotalAmountBy(merchantNo, payStatusStr, startTime, endTime);
+            return nationalOrderExtMapper.queryTotalAmountBy2(merchantNo, payStatusStr, startTime, endTime);
         }
     }
 

@@ -27,7 +27,7 @@ public class NationalSearchFlightRecordDaoImpl {
         if (startTime == null || endTime == null) {
             return new ArrayList<>();
         }
-        return searchFlightRecordExtMapper.queryAllMerchantNo(startTime, endTime);
+        return searchFlightRecordExtMapper.queryMerchantNoByInsertTime(startTime, endTime);
     }
 
     public int queryFlightCnt(String merchantNo, Date startTime, Date endTime) {
