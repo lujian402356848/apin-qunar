@@ -230,14 +230,4 @@ public class CreateOrderController extends BaseController {
         createOrderRequestBO.setPassengers(passengers);
         return createOrderRequestBO;
     }
-
-    public static void main(String[] args) {
-        String num = "13003373077CA郑小龙131850351338615:20CA3808SHA120180726460336false02018-08-061533454410000SZX{\"businessExt\":\"Vma/KC3/v9FG2M3";
-
-
-
-
-
-    }
-
 }
