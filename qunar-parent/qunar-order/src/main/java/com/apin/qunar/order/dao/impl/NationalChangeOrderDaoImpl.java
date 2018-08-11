@@ -30,7 +30,7 @@ public class NationalChangeOrderDaoImpl {
         return CollectionUtils.isEmpty(nationalChangeOrders) ? null : nationalChangeOrders.get(0);
     }
 
-    public List<NationalChangeOrder> queryPageListBy(String merchantNo, String account, String orderNo, Integer offset, Integer limit) {
+    public List<NationalChangeOrder> queryPageListBy(String merchantNo, String account,Integer status, String orderNo, Integer offset, Integer limit) {
         NationalChangeOrderExample example = new NationalChangeOrderExample();
         NationalChangeOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
@@ -38,6 +38,9 @@ public class NationalChangeOrderDaoImpl {
         }
         if (StringUtils.isNotBlank(account)) {
             criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andChangeStatusEqualTo(status);
         }
         if (StringUtils.isNotBlank(orderNo)) {
             criteria.andOrderNoEqualTo(orderNo);
@@ -48,11 +51,14 @@ public class NationalChangeOrderDaoImpl {
         return nationalChangeOrderMapper.selectByExample(example);
     }
 
-    public List<NationalChangeOrder> queryPageListBy(String merchantNo, List<String> orderNos, Integer offset, Integer limit) {
+    public List<NationalChangeOrder> queryPageListBy(String merchantNo,Integer status, List<String> orderNos, Integer offset, Integer limit) {
         NationalChangeOrderExample example = new NationalChangeOrderExample();
         NationalChangeOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
             criteria.andMerchantNoEqualTo(merchantNo);
+        }
+        if (status >= 0) {
+            criteria.andChangeStatusEqualTo(status);
         }
         if (CollectionUtils.isNotEmpty(orderNos)) {
             criteria.andOrderNoIn(orderNos);

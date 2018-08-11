@@ -34,17 +34,17 @@ public class SearchChangeOrderListServiceImpl implements SearchChangeOrderListSe
     private NationalChangePassengerDaoImpl nationalChangePassengerDao;
 
     @Override
-    public List<NationalChangeOrderVO> queryPageList(String merchantNo, String account, String orderNo, String pessengerName, Integer offset, Integer limit) {
+    public List<NationalChangeOrderVO> queryPageList(String merchantNo, String account,Integer status, String orderNo, String pessengerName, Integer offset, Integer limit) {
         List<NationalChangeOrder> nationalChangeOrders = null;
         List<NationalChangePassenger> passengers = null;
         if (StringUtils.isNotBlank(pessengerName)) {
             passengers = nationalChangePassengerDao.queryBy(merchantNo, orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                nationalChangeOrders = nationalChangeOrderDao.queryPageListBy(merchantNo, orderNos, offset, limit);
+                nationalChangeOrders = nationalChangeOrderDao.queryPageListBy(merchantNo, status,orderNos, offset, limit);
             }
         } else {
-            nationalChangeOrders = nationalChangeOrderDao.queryPageListBy(merchantNo, account, orderNo, offset, limit);
+            nationalChangeOrders = nationalChangeOrderDao.queryPageListBy(merchantNo, account,status, orderNo, offset, limit);
             List<String> orderNos = nationalChangeOrders.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
             passengers = nationalChangePassengerDao.queryByOrderNos(orderNos);
         }

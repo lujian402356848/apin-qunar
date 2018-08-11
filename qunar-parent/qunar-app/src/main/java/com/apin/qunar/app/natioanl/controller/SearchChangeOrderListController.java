@@ -47,7 +47,7 @@ public class SearchChangeOrderListController extends BaseController {
             request.setLimit(20);
         }
         try {
-            List<NationalChangeOrderVO> nationChangeOrderVOList = searchChangeOrderListService.queryPageList(request.getMerchantNo(), request.getAccount(), request.getOrderNo(), request.getPessengerName(), request.getOffset(), request.getLimit());
+            List<NationalChangeOrderVO> nationChangeOrderVOList = searchChangeOrderListService.queryPageList(request.getMerchantNo(), request.getAccount(), request.getStatus(), request.getOrderNo(), request.getPessengerName(), request.getOffset(), request.getLimit());
             data.put("orderList", nationChangeOrderVOList);
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {
