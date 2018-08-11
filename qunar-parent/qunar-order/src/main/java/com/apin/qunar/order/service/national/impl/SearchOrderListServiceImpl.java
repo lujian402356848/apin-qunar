@@ -28,18 +28,18 @@ public class SearchOrderListServiceImpl implements SearchOrderListService {
     private NationalPassengerDaoImpl nationalPassengerDao;
 
     @Override
-    public List<NationalOrderVO> queryPageList(String merchantNo, final String account, final String orderNo, final String pessengerName, final Integer offset, final Integer limit) {
-        merchantNo="20180726460336";
+    public List<NationalOrderVO> queryPageList(String merchantNo, final String account, final Integer status, final String orderNo, final String pessengerName, final Integer offset, final Integer limit) {
+        merchantNo = "20180726460336";
         List<NationalOrder> nationalOrders = null;
         List<NationalPassenger> passengers = null;
         if (StringUtils.isNotBlank(pessengerName)) {
             passengers = nationalPassengerDao.queryBy(merchantNo, orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                nationalOrders = nationalOrderDao.queryPageListBy(merchantNo, orderNos, offset, limit);
+                nationalOrders = nationalOrderDao.queryPageListBy(merchantNo, status, orderNos, offset, limit);
             }
         } else {
-            nationalOrders = nationalOrderDao.queryPageListBy(merchantNo, account, orderNo, offset, limit);
+            nationalOrders = nationalOrderDao.queryPageListBy(merchantNo, account, status, orderNo, offset, limit);
             List<String> orderNos = nationalOrders.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
             passengers = nationalPassengerDao.queryByOrderNos(orderNos);
         }

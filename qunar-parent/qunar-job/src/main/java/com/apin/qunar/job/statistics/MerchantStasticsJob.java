@@ -23,7 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class DayMerchantJob {
+public class MerchantStasticsJob {
     @Autowired
     private DayStatisticsDaoImpl dayStatisticsDao;
     @Autowired
@@ -42,15 +42,14 @@ public class DayMerchantJob {
      */
     @Scheduled(fixedDelay = 60 * 60 * 1000)
     private void start() {
-        log.error("商户按天统计job开始执行,时间:" + DateUtil.getCurrDate());
+        log.error("商户统计job开始执行,时间:" + DateUtil.getCurrDate());
         if (!isExecute()) {
             return;
         }
-
         try {
             statstics();
         } catch (Exception e) {
-            log.error("商户按天统计job执行失败");
+            log.error("商户统计job执行失败", e);
         }
     }
 

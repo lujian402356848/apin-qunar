@@ -33,18 +33,18 @@ public class NtsSearchOrderListServiceImpl implements NtsSearchOrderListService 
     private MerchantPriceConfigService merchantPriceConfigService;
 
     @Override
-    public List<InternationalOrderVO> queryPageList(String merchantNo, String account, String orderNo, String pessengerName, Integer offset, Integer limit) {
-        merchantNo="20180726460336";
+    public List<InternationalOrderVO> queryPageList(String merchantNo, String account, Integer status, String orderNo, String pessengerName, Integer offset, Integer limit) {
+        merchantNo = "20180726460336";
         List<InternationalOrder> internationalOrders = null;
         List<InternationalPassenger> passengers = null;
         if (StringUtils.isNotBlank(pessengerName)) {
             passengers = internationalPassengerDao.queryBy(merchantNo, orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                internationalOrders = internationalOrderDao.queryPageListBy(merchantNo, orderNos, offset, limit);
+                internationalOrders = internationalOrderDao.queryPageListBy(merchantNo,status, orderNos, offset, limit);
             }
         } else {
-            internationalOrders = internationalOrderDao.queryPageListBy(merchantNo, account, orderNo, offset, limit);
+            internationalOrders = internationalOrderDao.queryPageListBy(merchantNo, account,status, orderNo, offset, limit);
             List<String> orderNos = internationalOrders.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
             passengers = internationalPassengerDao.queryByOrderNos(orderNos);
         }

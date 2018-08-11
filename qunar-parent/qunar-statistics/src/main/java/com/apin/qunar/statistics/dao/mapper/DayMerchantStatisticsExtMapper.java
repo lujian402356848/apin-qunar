@@ -5,6 +5,6 @@ import org.apache.ibatis.annotations.Select;
 import java.util.Date;
 
 public interface DayMerchantStatisticsExtMapper {
-    @Select("select max(insert_time) from search_flight_record")
+    @Select("select max(insert_time) from day_merchant_statistics")
     Date queryMaxInsertTime();
 }

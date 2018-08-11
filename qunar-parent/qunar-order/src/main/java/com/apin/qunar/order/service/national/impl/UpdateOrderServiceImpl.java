@@ -1,7 +1,10 @@
 package com.apin.qunar.order.service.national.impl;
 
 import com.apin.qunar.basic.common.constant.SmsConstants;
+import com.apin.qunar.basic.common.enums.AccountTypeEnum;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
+import com.apin.qunar.basic.dao.impl.UserDaoImpl;
+import com.apin.qunar.basic.dao.model.User;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
@@ -45,6 +48,8 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
     private SmsService smsService;
     @Autowired
     private NationalChangeOrderDaoImpl nationalChangeOrderDao;
+    @Autowired
+    private UserDaoImpl userDao;
 
     @Override
     public boolean updatePayInfo(final String orderNo, final String payId, final int orderStatus, final String payTime) {
@@ -195,7 +200,10 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerContent);
             smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.TICKET);
         }
-        String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo.substring(1));
-        smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
+        User user = userDao.queryByAccount(order.getOperator());
+        if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单，商户也会
+            String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo.substring(1));
+            smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
+        }
     }
 }

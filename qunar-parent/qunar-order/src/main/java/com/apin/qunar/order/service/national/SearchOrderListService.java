@@ -9,5 +9,5 @@ import java.util.List;
  * @create 2018-07-20 18:59
  */
 public interface SearchOrderListService {
-    List<NationalOrderVO> queryPageList(String merchantNo, String account, String orderNo, String pessengerName, Integer offset, Integer limit);
+    List<NationalOrderVO> queryPageList(String merchantNo, String account, Integer status, String orderNo, String pessengerName, Integer offset, Integer limit);
 }

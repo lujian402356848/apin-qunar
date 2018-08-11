@@ -51,7 +51,7 @@ public class InternationalOrderDaoImpl {
         return internationalOrderMapper.selectByExample(example);
     }
 
-    public List<InternationalOrder> queryPageListBy(String merchantNo, String account, String orderNo, Integer offset, Integer limit) {
+    public List<InternationalOrder> queryPageListBy(String merchantNo, String account, Integer status, String orderNo, Integer offset, Integer limit) {
         InternationalOrderExample example = new InternationalOrderExample();
         InternationalOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
@@ -59,6 +59,9 @@ public class InternationalOrderDaoImpl {
         }
         if (StringUtils.isNotBlank(account)) {
             criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
         }
         if (StringUtils.isNotBlank(orderNo)) {
             criteria.andOrderNoEqualTo(orderNo);
@@ -69,11 +72,14 @@ public class InternationalOrderDaoImpl {
         return internationalOrderMapper.selectByExample(example);
     }
 
-    public List<InternationalOrder> queryPageListBy(String merchantNo, List<String> orderNos, Integer offset, Integer limit) {
+    public List<InternationalOrder> queryPageListBy(String merchantNo, Integer status, List<String> orderNos, Integer offset, Integer limit) {
         InternationalOrderExample example = new InternationalOrderExample();
         InternationalOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
             criteria.andMerchantNoEqualTo(merchantNo);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
         }
         if (CollectionUtils.isNotEmpty(orderNos)) {
             criteria.andOrderNoIn(orderNos);

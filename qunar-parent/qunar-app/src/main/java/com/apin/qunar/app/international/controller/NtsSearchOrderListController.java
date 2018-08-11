@@ -47,7 +47,7 @@ public class NtsSearchOrderListController extends BaseController {
             request.setLimit(20);
         }
         try {
-            List<InternationalOrderVO> nationalOrderList = ntsSearchOrderListService.queryPageList(request.getMerchantNo(), request.getAccount(), request.getOrderNo(), request.getPessengerName(), request.getOffset(), request.getLimit());
+            List<InternationalOrderVO> nationalOrderList = ntsSearchOrderListService.queryPageList(request.getMerchantNo(), request.getAccount(), request.getStatus(), request.getOrderNo(), request.getPessengerName(), request.getOffset(), request.getLimit());
             data.put("orderList", nationalOrderList);
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {

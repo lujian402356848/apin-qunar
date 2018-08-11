@@ -36,7 +36,7 @@ public class NationalOrderDaoImpl {
         if (StringUtils.isBlank(merchantNo)) {
             return nationalOrderExtMapper.queryCntBy(payStatusStr, startTime, endTime);
         } else {
-            return nationalOrderExtMapper.queryCntBy2(merchantNo, payStatusStr, startTime, endTime);
+            return nationalOrderExtMapper.queryCntByMer(merchantNo, payStatusStr, "2018-08-12 00:00:00", "2018-08-18 00:00:00");
         }
     }
 
@@ -45,11 +45,11 @@ public class NationalOrderDaoImpl {
         if (StringUtils.isBlank(merchantNo)) {
             return nationalOrderExtMapper.queryTotalAmountBy(payStatusStr, startTime, endTime);
         } else {
-            return nationalOrderExtMapper.queryTotalAmountBy2(merchantNo, payStatusStr, startTime, endTime);
+            return nationalOrderExtMapper.queryTotalAmountByMer(merchantNo, payStatusStr, startTime, endTime);
         }
     }
 
-    public List<NationalOrder> queryPageListBy(String merchantNo, String account, String orderNo, Integer offset, Integer limit) {
+    public List<NationalOrder> queryPageListBy(String merchantNo, String account, Integer status, String orderNo, Integer offset, Integer limit) {
         NationalOrderExample example = new NationalOrderExample();
         NationalOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
@@ -57,6 +57,9 @@ public class NationalOrderDaoImpl {
         }
         if (StringUtils.isNotBlank(account)) {
             criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
         }
         if (StringUtils.isNotBlank(orderNo)) {
             criteria.andOrderNoEqualTo(orderNo);
@@ -67,11 +70,14 @@ public class NationalOrderDaoImpl {
         return nationalOrderMapper.selectByExample(example);
     }
 
-    public List<NationalOrder> queryPageListBy(String merchantNo, List<String> orderNos, Integer offset, Integer limit) {
+    public List<NationalOrder> queryPageListBy(String merchantNo, Integer status, List<String> orderNos, Integer offset, Integer limit) {
         NationalOrderExample example = new NationalOrderExample();
         NationalOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
             criteria.andMerchantNoEqualTo(merchantNo);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
         }
         if (CollectionUtils.isNotEmpty(orderNos)) {
             criteria.andOrderNoIn(orderNos);

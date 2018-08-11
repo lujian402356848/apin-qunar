@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 public class SearchOrderListRequest extends BaseRequest {
     private Integer offset;
     private Integer limit;
+    private Integer status;
     private String account;
     private String orderNo;
     private String pessengerName;

@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public interface InternationalSearchFlightRecordExtMapper {
-    @Select("select distinct merchant_no from international_search_flight_record where insert_time>=#{startTime} and insert_time<={endTime}")
+    @Select("select distinct merchant_no from international_search_flight_record where insert_time>=#{startTime} and insert_time<=#{endTime}")
     List<String> queryMerchantNoByInsertTime(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
     @Select("select count(1) from international_search_flight_record where merchant_no=#{merchantNo} and insert_time>#{startTime} and insert_time<=#{endTime}")
