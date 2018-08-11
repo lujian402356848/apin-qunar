@@ -48,6 +48,9 @@ public class SearchRefundOrderListServiceImpl implements SearchRefundOrderListSe
 
     private List<NationRefundOrderVO> buildNationalOrderDTO(final List<NationalReturnOrder> orders, final List<NationalReturnPassenger> passengers) {
         List<NationRefundOrderVO> nationRefundOrderVOS = new ArrayList<>();
+        if (CollectionUtils.isEmpty(orders)) {
+            return nationRefundOrderVOS;
+        }
         NationRefundOrderVO nationRefundOrderVO = null;
         for (NationalReturnOrder order : orders) {
             nationRefundOrderVO = BeanUtil.copyProperties(order, NationRefundOrderVO.class);
