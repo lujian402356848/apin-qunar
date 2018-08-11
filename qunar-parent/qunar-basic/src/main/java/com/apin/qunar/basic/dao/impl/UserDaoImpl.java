@@ -51,7 +51,7 @@ public class UserDaoImpl {
         return userExtMapper.queryCntByAccount(account) > 0;
     }
 
-    public boolean updatePwd(String accout, String passord) {
-        return userExtMapper.updatePwd(accout, passord) > 0;
+    public boolean updatePwd(String accout, String password) {
+        return userExtMapper.updatePwd(accout, password) > 0;
     }
 }
