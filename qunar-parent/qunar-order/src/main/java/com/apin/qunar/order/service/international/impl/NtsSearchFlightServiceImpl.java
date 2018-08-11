@@ -7,7 +7,6 @@ import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightParam;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightResultVO;
 import com.apin.qunar.order.service.international.NtsSearchFlightService;
-import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -31,8 +30,9 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     private AirlineServiceImpl airlineService;
     @Resource
     private MerchantPriceConfigService merchantPriceConfigService;
+
     @Autowired
-    private SearchFlightRecordService searchFlightRecordService;
+    //  private SearchFlightRecordService searchFlightRecordService;
 
     @Override
     protected String getTag() {
@@ -47,7 +47,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
 
     @Override
     public ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo) {
-        searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
+        //     searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
         ApiResult<List<NtsSearchFlightResultVO>> apiResult = execute(ntsSearchFlightParam);
         if (apiResult == null || CollectionUtils.isEmpty(apiResult.getResult())) {
             return ApiResult.fail();

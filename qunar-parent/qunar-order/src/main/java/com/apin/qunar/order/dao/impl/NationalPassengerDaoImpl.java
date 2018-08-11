@@ -68,6 +68,18 @@ public class NationalPassengerDaoImpl {
         return nationalPassengerMapper.selectByExample(example);
     }
 
+    public NationalPassenger queryBy( String orderNo, String pessengerName) {
+        NationalPassengerExample example = new NationalPassengerExample();
+        NationalPassengerExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(orderNo)) {
+            criteria.andOrderNoEqualTo(orderNo);
+        }
+        if (StringUtils.isNotBlank(pessengerName)) {
+            criteria.andNameEqualTo(pessengerName);
+        }
+        List<NationalPassenger> nationalPassengers = nationalPassengerMapper.selectByExample(example);
+        return CollectionUtils.isEmpty(nationalPassengers) ? null : nationalPassengers.get(0);
+    }
     public boolean insert(NationalPassenger natioanlPassenger) {
         return nationalPassengerMapper.insert(natioanlPassenger) > 0;
     }

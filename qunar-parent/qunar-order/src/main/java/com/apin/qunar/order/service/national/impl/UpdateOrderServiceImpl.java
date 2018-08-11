@@ -63,39 +63,54 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         if (StringUtils.isBlank(orderNo)) {
             return result;
         }
+        OrderStatusEnum orderStatusEnum = OrderStatusEnum.valueOf(payStatus);
+        if (orderStatusEnum == null) {
+            log.warn("回调的订单{}状态不正确,status:{}", orderNo, payStatus);
+            return result;
+        }
+        String ticketNo = "";
+        List<SearchOrderDetailResultVO.Passenger> passengers = null;
         try {
-            if (payStatus == OrderStatusEnum.TICKET_OK.getCode()) {//状态为2说明出票成功，需要获取票号更新到数据库中
-                List<SearchOrderDetailResultVO.Passenger> passengers = getPassengers(orderNo);
-                String ticketNo = getTicketNo(passengers);
-                if (StringUtils.isNotBlank(ticketNo)) {
-                    result = nationalOrderDao.updateStatusAndTicketNo(orderNo, ticketNo, payStatus);
-                    sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
-                }
-            } else {
-                result = nationalOrderDao.updateStatus(orderNo, payStatus);
-            }
-            //退票
-            if (payStatus == OrderStatusEnum.APPLY_REFUNDMENT.getCode() || payStatus == OrderStatusEnum.WAIT_REFUNDMENT.getCode() || payStatus == OrderStatusEnum.REFUND_OK.getCode()) {//退票订单更改状态
-                result = nationalReturnOrderDao.updateStatus(orderNo, payStatus);
-                if (!result) {
-                    SearchOrderDetailParam searchOrderDetailParam = new SearchOrderDetailParam();
-                    searchOrderDetailParam.setOrderNo(orderNo);
-                    ApiResult<SearchOrderDetailResultVO> apiResult = searchOrderDetailService.searchOrderDetail(searchOrderDetailParam);
-                    String parentOrderNo = apiResult.getResult().getDetail().getParentOrderNo();
-                    List<SearchOrderDetailResultVO.Passenger> passengers = getPassengers(orderNo);
-                    result = nationalReturnOrderDao.updateStatusAndTicketNo(parentOrderNo, orderNo, payStatus, getTicketNo(passengers));
-                    nationalReturnPassengerDao.updateByOrderNo(parentOrderNo, orderNo);
-                }
-            }
-            //改签
-            if (payStatus == OrderStatusEnum.CHANGE_OK.getCode()) {
-                List<SearchOrderDetailResultVO.Passenger> passengers = getPassengers(orderNo);
-                String ticketNo = getTicketNo(passengers);
-                if (StringUtils.isNotBlank(ticketNo)) {
-                    result = nationalChangeOrderDao.updateStatusAndTicketNo(orderNo, payStatus, ticketNo);
-                }
-            } else {
-                nationalChangeOrderDao.updateStatus(orderNo, payStatus);
+            switch (orderStatusEnum) {
+                case TICKET_OK://出票成功状态
+                    passengers = getPassengers(orderNo);
+                    ticketNo = getTicketNo(passengers);
+                    if (StringUtils.isNotBlank(ticketNo)) {
+                        result = nationalOrderDao.updateStatusAndTicketNo(orderNo, ticketNo, payStatus);
+                        sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
+                    }
+                    break;
+                case APPLY_REFUNDMENT://退款状态
+                case WAIT_REFUNDMENT:
+                case REFUND_OK:
+                    result = nationalReturnOrderDao.updateStatus(orderNo, payStatus);
+                    if (!result) {
+                        SearchOrderDetailParam searchOrderDetailParam = new SearchOrderDetailParam();
+                        searchOrderDetailParam.setOrderNo(orderNo);
+                        ApiResult<SearchOrderDetailResultVO> apiResult = searchOrderDetailService.searchOrderDetail(searchOrderDetailParam);
+                        String parentOrderNo = apiResult.getResult().getDetail().getParentOrderNo();
+                        passengers = getPassengers(orderNo);
+                        ticketNo = getTicketNo(passengers);
+                        nationalOrderDao.updateStatus(orderNo, payStatus);
+                        result = nationalReturnOrderDao.updateStatusAndTicketNo(parentOrderNo, orderNo, payStatus, ticketNo);
+                        nationalReturnPassengerDao.updateByOrderNo(parentOrderNo, orderNo);
+                    }
+                    break;
+                case APPLY_CHANGE://改签中状态
+                    nationalOrderDao.updateStatus(orderNo, payStatus);
+                    nationalChangeOrderDao.updateStatus(orderNo, payStatus);
+                    break;
+                case CHANGE_OK://改签成功状态
+                    passengers = getPassengers(orderNo);
+                    ticketNo = getTicketNo(passengers);
+                    if (StringUtils.isNotBlank(ticketNo)) {
+                        result = nationalChangeOrderDao.updateStatusAndTicketNo(orderNo, payStatus, ticketNo);
+                    }
+                    nationalOrderDao.updateStatus(orderNo, payStatus);
+                    break;
+                default://默认修改订单状态
+                    nationalOrderDao.updateStatus(orderNo, payStatus);
+                    break;
             }
         } catch (Exception e) {
             log.error("更新订单状态失败,orderNo:{},payStatus:{}", orderNo, payStatus, e);

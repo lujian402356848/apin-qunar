@@ -55,7 +55,7 @@ public enum OrderStatusEnum {
             case 51:
                 return ORDER_SUCCESS_WAIT_CONFIRM;
         }
-        return BOOK_OK;
+        return null;
     }
 
     public static OrderStatusEnum valueOfEnum(String desc) {

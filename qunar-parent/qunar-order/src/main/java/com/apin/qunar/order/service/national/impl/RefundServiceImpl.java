@@ -1,5 +1,6 @@
 package com.apin.qunar.order.service.national.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.apin.qunar.common.ids.IDGenerator;
 import com.apin.qunar.common.utils.UUIDUtil;
 import com.apin.qunar.order.common.config.OrderConfig;
@@ -63,8 +64,12 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
     @Override
     public ApiResult<List<RefundResultVO>> refund(final RefundRequestBO refundRequestBO) {
         ApiResult<List<RefundSearchResultVO>> refundSearchResult = refundSearchService.refundSearch(buildRefundSearchParam(refundRequestBO), refundRequestBO.getMerchantNo());
-        if (refundSearchResult == null || !refundSearchResult.isSuccess()) {
+        if (refundSearchResult == null) {
             return ApiResult.fail();
+        }
+        if (!refundSearchResult.isSuccess()) {
+            log.warn("查询国内退款异常,param:{},原因:{}", JSON.toJSON(refundRequestBO), refundSearchResult.getMessage());
+            return ApiResult.fail(refundSearchResult.getCode(), refundSearchResult.getMessage());
         }
         if (CollectionUtils.isEmpty(refundSearchResult.getResult())) {
             return ApiResult.fail();
@@ -178,6 +183,7 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
 
     private List<NationalReturnPassenger> buildNationalPassenger(final String merchantNo, final List<RefundResultVO> RefundResultVOS, final RefundParam refundParam) {
         List<NationalReturnPassenger> nationalReturnPassengers = new ArrayList<>();
+        String orderNo = refundParam.getOrderNo();
         for (RefundResultVO refundResultVO : RefundResultVOS) {
             NationalReturnPassenger passenger = new NationalReturnPassenger();
             passenger.setId(UUIDUtil.getUUID());

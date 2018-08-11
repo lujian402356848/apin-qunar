@@ -56,4 +56,14 @@ public class NationalChangePassengerDaoImpl {
         return nationalChangePassengerMapper.selectByExample(example);
     }
 
+
+    public List<NationalChangePassenger> queryByOrderNo(String orderNo) {
+        NationalChangePassengerExample example = new NationalChangePassengerExample();
+        NationalChangePassengerExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(orderNo)) {
+            criteria.andOrderNoEqualTo(orderNo);
+        }
+        return nationalChangePassengerMapper.selectByExample(example);
+    }
+
 }
