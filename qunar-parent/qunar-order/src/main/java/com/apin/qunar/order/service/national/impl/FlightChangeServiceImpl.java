@@ -87,8 +87,9 @@ public class FlightChangeServiceImpl implements FlightChangeService {
         String content = "";
         switch (flightChange.getChangeStatus()) {
             case "航班取消":
-//                content = String.format(SmsConstants.FLIGHT_CANCEL, flightChange.getFolFlightNo(), );
-//                return smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CANCEL);
+            case "航班取消保护":
+                content = String.format(SmsConstants.FLIGHT_CANCEL, nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
+                result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CANCEL);
                 break;
             case "航班变更":
                 String sourceFlight = String.format("%s%s-%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());

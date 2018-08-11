@@ -59,7 +59,7 @@ public class UserController extends BaseController {
         try {
             User user = userService.queryByAccountAndPwd(userRequest.getAccount(), userRequest.getPassword());
             if (user == null) {
-                generalResultMap.setResult(SysReturnCode.FAIL, "用户名或密码不存在");
+                generalResultMap.setResult(SysReturnCode.FAIL, "账户名或密码不正确");
             } else {
                 user.setMerchantNo("20180726460336");
                 generalResultMap.setResult(SysReturnCode.SUCC, user);
@@ -102,7 +102,7 @@ public class UserController extends BaseController {
             if (!result) {
                 generalResultMap.setResult(SysReturnCode.FAIL, "修改密码失败");
             } else {
-                generalResultMap.setResult(SysReturnCode.SUCC);
+                generalResultMap.setResult(SysReturnCode.SUCC, "修改密码成功");
             }
         } catch (Exception e) {
             log.error("用户修改密码异常,request:{}", JSON.toJSON(userRequest), e);
