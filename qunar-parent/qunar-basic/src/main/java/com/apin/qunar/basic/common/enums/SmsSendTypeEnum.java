@@ -8,7 +8,7 @@ public enum SmsSendTypeEnum {
     NO_PAY(1, "未支付"),
     TICKET(2, "出票"),
     TICKET_NO(3, "生成票号"),
-    ORDER_CANCEL(4, "订单取消"),
+    RETURN(4, "退票"),
     FLIGHT_CHANGE(5, "航变"),
     FLIGHT_CANCEL(6, "航班取消"),
     MERCHANT_REGISTER(11, "商户注册"),

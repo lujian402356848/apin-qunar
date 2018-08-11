@@ -80,7 +80,7 @@ public class NationalPassengerDaoImpl {
         List<NationalPassenger> nationalPassengers = nationalPassengerMapper.selectByExample(example);
         return CollectionUtils.isEmpty(nationalPassengers) ? null : nationalPassengers.get(0);
     }
-    public boolean insert(NationalPassenger natioanlPassenger) {
-        return nationalPassengerMapper.insert(natioanlPassenger) > 0;
+    public boolean insert(NationalPassenger nationalPassenger) {
+        return nationalPassengerMapper.insert(nationalPassenger) > 0;
     }
 }
