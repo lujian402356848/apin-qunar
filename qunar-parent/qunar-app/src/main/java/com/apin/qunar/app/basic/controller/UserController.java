@@ -10,7 +10,6 @@ import com.apin.qunar.basic.dao.model.User;
 import com.apin.qunar.basic.service.UserService;
 import com.apin.qunar.common.enums.SysReturnCode;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,17 +97,8 @@ public class UserController extends BaseController {
     @PostMapping(value = "/user/changePassword")
     public GeneralResultMap changePassword(@RequestBody UserRequest userRequest) {
         GeneralResultMap generalResultMap = new GeneralResultMap();
-        String password = "";
-        boolean result = false;
         try {
-            if (StringUtils.isNotBlank(userRequest.getVerifyCode())) {
-                if (result = userService.validateVerifyCode(userRequest.getAccount(), userRequest.getVerifyCode())) {
-                    result = userService.changePassword(userRequest.getAccount(), password);
-                }
-            }
-            if (StringUtils.isNotBlank(userRequest.getPassword()) && !StringUtils.isNotBlank(userRequest.getVerifyCode())) {
-                result = userService.changePassword(userRequest.getAccount(), password);
-            }
+            boolean result = userService.changePassword(userRequest.getAccount(), userRequest.getPassword());
             if (!result) {
                 generalResultMap.setResult(SysReturnCode.FAIL, "修改密码失败");
             } else {

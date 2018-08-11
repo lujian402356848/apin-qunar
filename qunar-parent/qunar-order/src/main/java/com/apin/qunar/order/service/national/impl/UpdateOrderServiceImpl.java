@@ -190,6 +190,10 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             passengerInfo.append(passenger.getName());
             passengerInfo.append(":");
             passengerInfo.append(passenger.getTicketNo());
+
+            String passengerContent = passenger.getName() + ":" + passenger.getTicketNo();
+            String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerContent);
+            smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.TICKET);
         }
         String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo.substring(1));
         smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);

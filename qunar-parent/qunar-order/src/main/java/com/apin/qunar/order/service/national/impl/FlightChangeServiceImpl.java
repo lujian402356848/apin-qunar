@@ -31,7 +31,7 @@ public class FlightChangeServiceImpl implements FlightChangeService {
     @Autowired
     private NationalOrderDaoImpl nationalOrderDao;
     @Autowired
-    private NationalPassengerDaoImpl nationalPassengerDao; 
+    private NationalPassengerDaoImpl nationalPassengerDao;
     @Autowired
     private SmsService smsService;
 
@@ -84,10 +84,20 @@ public class FlightChangeServiceImpl implements FlightChangeService {
         if (CollectionUtils.isEmpty(mobileNos)) {
             return result;
         }
-        String sourceFlight = String.format("%s%s-%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
-        String targetFlight = String.format("%s%s-%s的%s航班", flightChange.getFolDptDate(), flightChange.getFolFlightNo(), flightChange.getFolDptDate(), flightChange.getFolArrAirport(), flightChange.getFolFlightNo());
-        String dptArrTime = String.format("%s-%s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
-        String content = String.format(SmsConstants.FLIGHT_CHANGE, sourceFlight, targetFlight, dptArrTime);
-        return smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CHANGE);
+        String content = "";
+        switch (flightChange.getChangeStatus()) {
+            case "航班取消":
+//                content = String.format(SmsConstants.FLIGHT_CANCEL, flightChange.getFolFlightNo(), );
+//                return smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CANCEL);
+                break;
+            case "航班变更":
+                String sourceFlight = String.format("%s%s-%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
+                String targetFlight = String.format("%s%s-%s的%s航班", flightChange.getFolDptDate(), flightChange.getFolFlightNo(), flightChange.getFolDptDate(), flightChange.getFolArrAirport(), flightChange.getFolFlightNo());
+                String dptArrTime = String.format("%s-%s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
+                content = String.format(SmsConstants.FLIGHT_CHANGE, sourceFlight, targetFlight, dptArrTime);
+                result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CHANGE);
+                break;
+        }
+        return result;
     }
 }

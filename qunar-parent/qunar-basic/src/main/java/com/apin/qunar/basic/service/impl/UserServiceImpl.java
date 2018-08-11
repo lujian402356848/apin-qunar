@@ -88,6 +88,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean changePassword(String account, String password) {
+        if (StringUtils.isBlank(account) || StringUtils.isBlank(password)) {
+            return false;
+        }
         return userDao.updatePwd(account, password);
     }
 
