@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 public class NtsSearchOrderListRequest extends BaseRequest {
     private Integer offset;
     private Integer limit;
-    private Integer status;
+    private Integer status = -1;
     private String account;
     private String orderNo;
     private String pessengerName;

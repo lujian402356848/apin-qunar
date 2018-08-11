@@ -53,6 +53,9 @@ public class SearchChangeOrderListServiceImpl implements SearchChangeOrderListSe
 
     private List<NationalChangeOrderVO> buildNationalOrderDTO(final List<NationalChangeOrder> orders, final List<NationalChangePassenger> passengers) {
         List<NationalChangeOrderVO> NationalChangeOrderVOS = new ArrayList<>();
+        if (CollectionUtils.isEmpty(orders)) {
+            return NationalChangeOrderVOS;
+        }
         NationalChangeOrderVO nationalChangeOrderVO = null;
         for (NationalChangeOrder order : orders) {
             nationalChangeOrderVO = BeanUtil.copyProperties(order, NationalChangeOrderVO.class);

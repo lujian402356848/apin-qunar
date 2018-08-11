@@ -52,7 +52,7 @@ public class SearchChangeOrderListController extends BaseController {
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
-            log.error("国内查询订单列表异常,request:{}", request, e);
+            log.error("国内查询改签订单列表异常,request:{}", request, e);
         }
         return generalResultMap;
     }
