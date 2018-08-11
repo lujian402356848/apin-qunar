@@ -9,4 +9,5 @@ public class AlipayBO {
     private String orderNo;
     private Integer totalAmount;
     private boolean hasInlandOrder;
+    private Integer orderType;
 }

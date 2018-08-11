@@ -60,7 +60,6 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
 
     @Override
     public ApiResult<List<ChangeApplyResultVO>> changeApply(final ChangeApplyParam changeApplyParam, final String account, final String merchantNo) {
-        // ApiResult<ChangeApplyResultVO> apiResult =null;
         ApiResult<List<ChangeApplyResultVO>> apiResult = execute(changeApplyParam);
         if (apiResult == null) {
             return ApiResult.fail();
@@ -70,7 +69,17 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
             return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
         if (apiResult.isSuccess()) {
-            savaToDb(apiResult.getResult(), changeApplyParam, account, merchantNo);
+            List<ChangeApplyResultVO> changeApplyResultVO = apiResult.getResult();
+            if (CollectionUtils.isNotEmpty(changeApplyResultVO)) {
+                savaToDb(apiResult.getResult(), changeApplyParam, account, merchantNo);
+                ChangeApplyResultVO nationalPassenger = changeApplyResultVO.get(0);
+                boolean hasSuccess = nationalPassenger.getChangeApplyResult().isSuccess();
+                if (hasSuccess) {
+                    return apiResult;
+                } else {
+                    return ApiResult.fail(apiResult.getCode(), "改签申请失败");
+                }
+            }
         }
         return apiResult;
     }

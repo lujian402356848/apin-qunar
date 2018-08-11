@@ -40,6 +40,5 @@ public class ChangeSearchServiceImpl extends ApiService<ChangeSearchParam, ApiRe
             return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
         return apiResult;
-//        return new ApiResult<>(apiResult, BeanUtil.copyProperties(apiResult.getResult(), ChangeSearchResultVO.class));
     }
 }

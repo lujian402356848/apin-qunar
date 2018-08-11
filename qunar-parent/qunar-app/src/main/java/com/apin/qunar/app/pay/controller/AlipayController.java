@@ -4,22 +4,23 @@ package com.apin.qunar.app.pay.controller;
 import com.alibaba.fastjson.JSON;
 import com.apin.qunar.app.common.constant.AppConstants;
 import com.apin.qunar.app.common.controller.BaseController;
-import com.apin.qunar.app.pay.request.alipay.AlipayRequest;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
+import com.apin.qunar.app.pay.request.alipay.AlipayRequest;
 import com.apin.qunar.app.pay.request.alipay.QueryAlipayRequest;
 import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.common.enums.AlipayStatusEnum;
+import com.apin.qunar.order.common.enums.OrderTypeEnum;
 import com.apin.qunar.order.dao.impl.InternationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
 import com.apin.qunar.order.dao.model.InternationalOrder;
 import com.apin.qunar.order.dao.model.NationalOrder;
-import com.apin.qunar.order.domain.pay.alipay.AlipayBO;
 import com.apin.qunar.order.domain.international.pay.NtsPayParam;
 import com.apin.qunar.order.domain.national.pay.PayParam;
-import com.apin.qunar.order.service.pay.AlipayService;
+import com.apin.qunar.order.domain.pay.alipay.AlipayBO;
 import com.apin.qunar.order.service.international.NtsPayService;
 import com.apin.qunar.order.service.national.PayService;
+import com.apin.qunar.order.service.pay.AlipayService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +64,17 @@ public class AlipayController extends BaseController {
         String qrCode = "";
         String orderNo = request.getOrderNo();
         try {
-            boolean validateResult = request.isHasInlandOrder() ? validatePay(orderNo) : validateNtsPay(orderNo);
+            boolean validateResult = false;
+            String payOrderNo = "";
+            if (request.getOrderType() == OrderTypeEnum.CHANGE.getCode()) {//改签订单不需要支付验证
+                payOrderNo = orderNo + "*";
+                validateResult = true;
+            } else {
+                validateResult = request.isHasInlandOrder() ? validatePay(orderNo) : validateNtsPay(orderNo);
+                payOrderNo = orderNo;
+            }
             if (validateResult) {
-                qrCode = alipayService.generateQrCode(bulidAipayBO(request));
+                qrCode = alipayService.generateQrCode(bulidAipayBO(request, payOrderNo));
             } else {
                 generalResultMap.setResult(SysReturnCode.FAIL, "航班或价格已发生变化，无法生成二维码，请重新下单");
                 return generalResultMap;
@@ -117,12 +126,13 @@ public class AlipayController extends BaseController {
         return ntsPayService.validatePay(ntsPayParam);
     }
 
-    private AlipayBO bulidAipayBO(AlipayRequest alipayRequest) {
+    private AlipayBO bulidAipayBO(AlipayRequest alipayRequest, String payOrderNo) {
         AlipayBO alipayBO = new AlipayBO();
         alipayBO.setMerchantNo(alipayRequest.getMerchantNo());
-        alipayBO.setOrderNo(alipayRequest.getOrderNo());
         alipayBO.setTotalAmount(alipayRequest.getTotalAmount());
+        alipayBO.setOrderNo(payOrderNo);
         alipayBO.setHasInlandOrder(alipayRequest.isHasInlandOrder());
+        alipayBO.setOrderType(alipayRequest.getOrderType());
         return alipayBO;
     }
 

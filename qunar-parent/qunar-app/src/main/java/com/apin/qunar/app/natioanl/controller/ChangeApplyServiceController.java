@@ -13,7 +13,6 @@ import com.apin.qunar.order.domain.national.changeApply.ChangeApplyResultVO;
 import com.apin.qunar.order.service.national.ChangeApplyService;
 import com.apin.qunar.order.service.national.ChangeSearchService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,17 +47,7 @@ public class ChangeApplyServiceController extends BaseController {
         try {
             ApiResult<List<ChangeApplyResultVO>> apiResult = changeService.changeApply(buildChangeParam(request), request.getAccount(), request.getMerchantNo());
             if (apiResult.isSuccess()) {
-                List<ChangeApplyResultVO> changeApplyResultVO = apiResult.getResult();
-
-                if (CollectionUtils.isNotEmpty(changeApplyResultVO)) {
-                    ChangeApplyResultVO  nationalPassenger = changeApplyResultVO.get(0);
-                    boolean hasSuccess = nationalPassenger.getChangeApplyResult().isSuccess();
-                    if (hasSuccess) {
-                        generalResultMap.setResult(SysReturnCode.SUCC, apiResult.getResult());
-                    } else {
-                        generalResultMap.setResult(SysReturnCode.FAIL, "改签失败");
-                    }
-                }
+                generalResultMap.setResult(SysReturnCode.SUCC, apiResult.getResult());
             } else {
                 generalResultMap.setResult(SysReturnCode.FAIL, apiResult.getMessage());
             }

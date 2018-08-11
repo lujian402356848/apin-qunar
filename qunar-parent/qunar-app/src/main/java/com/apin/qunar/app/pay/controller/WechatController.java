@@ -9,6 +9,7 @@ import com.apin.qunar.app.pay.request.wechat.WechatPayRequest;
 import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.common.utils.HostUtil;
 import com.apin.qunar.order.common.config.OrderConfig;
+import com.apin.qunar.order.common.enums.OrderTypeEnum;
 import com.apin.qunar.order.common.enums.WechatPayStatusEnum;
 import com.apin.qunar.order.dao.impl.InternationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
@@ -62,9 +63,17 @@ public class WechatController extends BaseController {
         String qrCode = "";
         String orderNo = request.getOrderNo();
         try {
-            boolean validateResult = request.isHasInlandOrder() ? validatePay(orderNo) : validateNtsPay(orderNo);
+            boolean validateResult = false;
+            String payOrderNo = "";
+            if (request.getOrderType() == OrderTypeEnum.CHANGE.getCode()) {//改签订单不需要支付验证
+                payOrderNo = orderNo + "*";
+                validateResult = true;
+            } else {
+                validateResult = request.isHasInlandOrder() ? validatePay(orderNo) : validateNtsPay(orderNo);
+                payOrderNo = orderNo;
+            }
             if (validateResult) {
-                qrCode = wechatService.generateQrCode(bulidWechatBO(request));
+                qrCode = wechatService.generateQrCode(bulidWechatBO(request, payOrderNo));
             } else {
                 generalResultMap.setResult(SysReturnCode.FAIL, "航班或价格已发生变化，无法生成二维码，请重新下单");
                 return generalResultMap;
@@ -82,13 +91,14 @@ public class WechatController extends BaseController {
         return generalResultMap;
     }
 
-    private WechatBO bulidWechatBO(WechatPayRequest wechatPayRequest) {
+    private WechatBO bulidWechatBO(WechatPayRequest wechatPayRequest, String payOrderNo) {
         WechatBO wechatBO = new WechatBO();
         wechatBO.setMerchantNo(wechatPayRequest.getMerchantNo());
-        wechatBO.setOrderNo(wechatPayRequest.getOrderNo());
+        wechatBO.setOrderNo(payOrderNo);
         wechatBO.setTotalAmount(wechatPayRequest.getTotalAmount());
         wechatBO.setHasInlandOrder(wechatPayRequest.isHasInlandOrder());
         wechatBO.setIp(HostUtil.getLocalIp());
+        wechatBO.setOrderType(wechatPayRequest.getOrderType());
         return wechatBO;
     }
 

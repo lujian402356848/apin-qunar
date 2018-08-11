@@ -9,5 +9,6 @@ public class WechatBO {
     private Integer totalAmount;
     private boolean hasInlandOrder;
     private String ip;
+    private Integer orderType;
 }
 
