@@ -22,6 +22,11 @@ public class AliPay implements Serializable {
     private String orderNo;
 
     /**
+     * 订单类型(1:普通订单,2:改签订单)
+     */
+    private Integer orderType;
+
+    /**
      * 是否为国内订单
      */
     private Integer hasInlandOrder;
@@ -106,6 +111,20 @@ public class AliPay implements Serializable {
      */
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
+
+    /**
+     * @return 订单类型(1:普通订单,2:改签订单)
+     */
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    /**
+     * @param orderType 订单类型(1:普通订单,2:改签订单)
+     */
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
     }
 
     /**

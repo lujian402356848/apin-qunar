@@ -22,12 +22,17 @@ public class WechatPay implements Serializable {
     private String orderNo;
 
     /**
+     * 订单类型(1:普通订单,2:改签订单)
+     */
+    private Integer orderType;
+
+    /**
      * 是否为国内订单
      */
     private Integer hasInlandOrder;
 
     /**
-     * 支付金额(分为单位)
+     * 支付金额(元为单位)
      */
     private Integer payAmount;
 
@@ -109,6 +114,20 @@ public class WechatPay implements Serializable {
     }
 
     /**
+     * @return 订单类型(1:普通订单,2:改签订单)
+     */
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    /**
+     * @param orderType 订单类型(1:普通订单,2:改签订单)
+     */
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
+    }
+
+    /**
      * @return 是否为国内订单
      */
     public Integer getHasInlandOrder() {
@@ -123,14 +142,14 @@ public class WechatPay implements Serializable {
     }
 
     /**
-     * @return 支付金额(分为单位)
+     * @return 支付金额(元为单位)
      */
     public Integer getPayAmount() {
         return payAmount;
     }
 
     /**
-     * @param payAmount 支付金额(分为单位)
+     * @param payAmount 支付金额(元为单位)
      */
     public void setPayAmount(Integer payAmount) {
         this.payAmount = payAmount;

@@ -5,6 +5,7 @@
       <id column="id" property="id" jdbcType="CHAR" />
       <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
       <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+      <result column="order_type" property="orderType" jdbcType="INTEGER" />
       <result column="has_inland_order" property="hasInlandOrder" jdbcType="INTEGER" />
       <result column="pay_amount" property="payAmount" jdbcType="INTEGER" />
       <result column="wechat_trade_no" property="wechatTradeNo" jdbcType="VARCHAR" />
@@ -74,8 +75,9 @@
       </where>
     </sql>
     <sql id="WechatPayColumns" >
-      id, merchant_no, order_no, has_inland_order, pay_amount, wechat_trade_no, wechat_pay_status, 
-      wechat_pay_time, qunar_pay_status, qunar_pay_time, insert_time, update_time
+      id, merchant_no, order_no, order_type, has_inland_order, pay_amount, wechat_trade_no, 
+      wechat_pay_status, wechat_pay_time, qunar_pay_status, qunar_pay_time, insert_time, 
+      update_time
     </sql>
     <select id="selectByExample" resultMap="WechatPayResult" parameterType="com.apin.qunar.order.dao.model.WechatPayExample" >
       select
@@ -114,15 +116,15 @@
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.order.dao.model.WechatPay" >
       insert into wechat_pay (id, merchant_no, order_no, 
-        has_inland_order, pay_amount, wechat_trade_no, 
-        wechat_pay_status, wechat_pay_time, qunar_pay_status, 
-        qunar_pay_time, insert_time, update_time
-        )
+        order_type, has_inland_order, pay_amount, 
+        wechat_trade_no, wechat_pay_status, wechat_pay_time, 
+        qunar_pay_status, qunar_pay_time, insert_time, 
+        update_time)
       values (#{id,jdbcType=CHAR}, #{merchantNo,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
-        #{hasInlandOrder,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{wechatTradeNo,jdbcType=VARCHAR}, 
-        #{wechatPayStatus,jdbcType=INTEGER}, #{wechatPayTime,jdbcType=VARCHAR}, #{qunarPayStatus,jdbcType=INTEGER}, 
-        #{qunarPayTime,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-        )
+        #{orderType,jdbcType=INTEGER}, #{hasInlandOrder,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, 
+        #{wechatTradeNo,jdbcType=VARCHAR}, #{wechatPayStatus,jdbcType=INTEGER}, #{wechatPayTime,jdbcType=VARCHAR}, 
+        #{qunarPayStatus,jdbcType=INTEGER}, #{qunarPayTime,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+        #{updateTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.WechatPay" >
       insert into wechat_pay
@@ -135,6 +137,9 @@
         </if>
         <if test="orderNo != null" >
           order_no,
+        </if>
+        <if test="orderType != null" >
+          order_type,
         </if>
         <if test="hasInlandOrder != null" >
           has_inland_order,
@@ -173,6 +178,9 @@
         </if>
         <if test="orderNo != null" >
           #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="orderType != null" >
+          #{orderType,jdbcType=INTEGER},
         </if>
         <if test="hasInlandOrder != null" >
           #{hasInlandOrder,jdbcType=INTEGER},
@@ -221,6 +229,9 @@
         <if test="record.orderNo != null" >
           order_no = #{record.orderNo,jdbcType=VARCHAR},
         </if>
+        <if test="record.orderType != null" >
+          order_type = #{record.orderType,jdbcType=INTEGER},
+        </if>
         <if test="record.hasInlandOrder != null" >
           has_inland_order = #{record.hasInlandOrder,jdbcType=INTEGER},
         </if>
@@ -258,6 +269,7 @@
       set id = #{record.id,jdbcType=CHAR},
         merchant_no = #{record.merchantNo,jdbcType=CHAR},
         order_no = #{record.orderNo,jdbcType=VARCHAR},
+        order_type = #{record.orderType,jdbcType=INTEGER},
         has_inland_order = #{record.hasInlandOrder,jdbcType=INTEGER},
         pay_amount = #{record.payAmount,jdbcType=INTEGER},
         wechat_trade_no = #{record.wechatTradeNo,jdbcType=VARCHAR},
@@ -279,6 +291,9 @@
         </if>
         <if test="orderNo != null" >
           order_no = #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="orderType != null" >
+          order_type = #{orderType,jdbcType=INTEGER},
         </if>
         <if test="hasInlandOrder != null" >
           has_inland_order = #{hasInlandOrder,jdbcType=INTEGER},
@@ -314,6 +329,7 @@
       update wechat_pay
       set merchant_no = #{merchantNo,jdbcType=CHAR},
         order_no = #{orderNo,jdbcType=VARCHAR},
+        order_type = #{orderType,jdbcType=INTEGER},
         has_inland_order = #{hasInlandOrder,jdbcType=INTEGER},
         pay_amount = #{payAmount,jdbcType=INTEGER},
         wechat_trade_no = #{wechatTradeNo,jdbcType=VARCHAR},
