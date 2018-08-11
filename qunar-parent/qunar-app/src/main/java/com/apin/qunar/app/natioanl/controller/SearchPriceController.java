@@ -47,7 +47,7 @@ public class SearchPriceController extends BaseController {
                 processVendors(apiResult.getResult());
                 generalResultMap.setResult(SysReturnCode.SUCC, apiResult.getResult());
             } else {
-                generalResultMap.setResult(apiResult.getCode(), apiResult.getMessage());
+                generalResultMap.setResult(apiResult.getCode(),"航班信息变动，请重新搜索");
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

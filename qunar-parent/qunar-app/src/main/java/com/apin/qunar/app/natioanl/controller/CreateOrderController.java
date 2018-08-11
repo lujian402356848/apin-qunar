@@ -73,7 +73,7 @@ public class CreateOrderController extends BaseController {
                     generalResultMap.setResult(SysReturnCode.FAIL, validateResult);
                 }
             } else {
-                generalResultMap.setResult(bookingResult.getCode(), bookingResult.getMessage());
+                generalResultMap.setResult(bookingResult.getCode(), "航班价格发生变更，请重新搜索");
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

@@ -66,7 +66,7 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
         }
         if (!apiResult.isSuccess()) {
             log.warn("国内订单改签申请失败,params:{},原因:{}", JSON.toJSON(changeApplyParam), apiResult.getMessage());
-            return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
+            return ApiResult.fail();
         }
         if (apiResult.isSuccess()) {
             List<ChangeApplyResultVO> changeApplyResultVO = apiResult.getResult();
@@ -77,7 +77,7 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
                 if (hasSuccess) {
                     return apiResult;
                 } else {
-                    return ApiResult.fail(apiResult.getCode(), "改签申请失败");
+                    return ApiResult.fail();
                 }
             }
         }

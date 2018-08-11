@@ -48,7 +48,7 @@ public class ChangeSearchController extends BaseController {
                 data.put("passengerList", apiResult.getResult());
                 generalResultMap.setResult(SysReturnCode.SUCC, data);
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL, apiResult.getMessage());
+                generalResultMap.setResult(SysReturnCode.FAIL);
             }
         } catch (Exception e) {
             log.info("国内查询改签订单异常,request:{}", request, e);

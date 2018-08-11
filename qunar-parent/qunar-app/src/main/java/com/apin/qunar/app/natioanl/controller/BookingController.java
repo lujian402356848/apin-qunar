@@ -50,7 +50,7 @@ public class BookingController extends BaseController {
             if (apiResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC, apiResult.getResult());
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL, apiResult.getMessage());
+                generalResultMap.setResult(SysReturnCode.FAIL,"航班信息发生变更，请重新搜索");
             }
         } catch (Exception e) {
             log.info("预定国内订单异常,request:{}", request, e);

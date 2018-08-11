@@ -54,7 +54,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
         }
         if (!apiResult.isSuccess()) {
             log.warn("查询国际航班异常,params:{},原因:{}", JSON.toJSON(ntsSearchFlightParam), apiResult.getMessage());
-            return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
+            return ApiResult.fail(apiResult.getCode(), "航班信息发生变动，请重新搜索");
         }
         List<NtsSearchFlightResultVO> searchFlightResults = apiResult.getResult();
         for (NtsSearchFlightResultVO ntsSearchFlightResult : searchFlightResults) {

@@ -46,7 +46,7 @@ public class NtsBookingServiceImpl extends NtsApiService<NtsBookingParam, ApiRes
         }
         if (!apiResult.isSuccess()) {
             log.warn("查询国际booking异常,param:{},原因:{}", JSON.toJSON(ntsBookingParam), apiResult.getMessage());
-            return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
+            return ApiResult.fail(apiResult.getCode(),"航班价格发生变更，请重新搜索");
         }
         formatTime(apiResult.getResult());
         return apiResult;

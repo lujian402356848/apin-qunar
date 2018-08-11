@@ -45,7 +45,7 @@ public class NtsSearchPriceServiceImpl extends NtsApiService<NtsSearchPriceParam
         }
         if (!apiResult.isSuccess()) {
             log.warn("查询国际航班报价异常,param:{},原因:{}", JSON.toJSON(ntsPriceSearchParam), apiResult.getMessage());
-            return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
+            return ApiResult.fail(apiResult.getCode(),"航班信息发生变动，请重新搜索");
         }
         ntsSearchPriceResult.setPriceInfo(ntsSearchPriceResult.getPriceInfo().stream().sorted(Comparator.comparing(NtsSearchPriceResultVO.PriceInfo::getPrice)).collect(Collectors.toList()));
         return apiResult;

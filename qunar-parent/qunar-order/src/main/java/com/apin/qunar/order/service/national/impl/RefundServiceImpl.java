@@ -68,8 +68,8 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
             return ApiResult.fail();
         }
         if (!refundSearchResult.isSuccess()) {
-            log.warn("查询国内退款异常,param:{},原因:{}", JSON.toJSON(refundRequestBO), refundSearchResult.getMessage());
-            return ApiResult.fail(refundSearchResult.getCode(), refundSearchResult.getMessage());
+            log.warn("国内退票异常,param:{},原因:{}", JSON.toJSON(refundRequestBO), refundSearchResult.getMessage());
+            return ApiResult.fail();
         }
         if (CollectionUtils.isEmpty(refundSearchResult.getResult())) {
             return ApiResult.fail();

@@ -55,7 +55,7 @@ public class SearchFlightController extends BaseController {
                 data.put("ex_track", request.getExTrack());
                 generalResultMap.setResult(SysReturnCode.SUCC, data);
             } else {
-                generalResultMap.setResult(apiResult.getCode(), apiResult.getMessage());
+                generalResultMap.setResult(apiResult.getCode(), "航班信息发生变动，请重新搜索");
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

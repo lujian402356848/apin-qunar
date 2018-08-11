@@ -51,7 +51,7 @@ public class NtsBookingController extends BaseController {
             if (ntsBookingResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC, ntsBookingResult.getResult());
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL, ntsBookingResult.getMessage());
+                generalResultMap.setResult(SysReturnCode.FAIL, "航班信息发生变更，请重新搜索");
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

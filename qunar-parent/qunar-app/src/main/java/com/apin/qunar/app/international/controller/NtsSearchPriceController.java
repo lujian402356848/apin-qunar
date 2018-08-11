@@ -45,7 +45,7 @@ public class NtsSearchPriceController extends BaseController {
             if (apiResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC, apiResult.getResult());
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL, apiResult.getMessage());
+                generalResultMap.setResult(SysReturnCode.FAIL, "航班信息发生变动，请重新搜索");
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

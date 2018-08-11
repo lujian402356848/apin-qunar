@@ -45,7 +45,7 @@ public class RefundController extends BaseController {
             if (refundResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC, refundResult.getResult());
             } else {
-                generalResultMap.setResult(refundResult.getCode(), refundResult.getMessage());
+                generalResultMap.setResult(refundResult.getCode());
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

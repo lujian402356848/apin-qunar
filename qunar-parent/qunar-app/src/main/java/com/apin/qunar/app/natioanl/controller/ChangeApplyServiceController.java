@@ -49,7 +49,7 @@ public class ChangeApplyServiceController extends BaseController {
             if (apiResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC, apiResult.getResult());
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL, apiResult.getMessage());
+                generalResultMap.setResult(SysReturnCode.FAIL, "改签申请失败，请重新申请或咨询客服");
             }
         } catch (Exception e) {
             log.info("国内改签申请异常,request:{}", request, e);
