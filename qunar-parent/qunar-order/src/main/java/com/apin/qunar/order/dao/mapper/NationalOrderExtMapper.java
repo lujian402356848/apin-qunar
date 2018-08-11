@@ -14,13 +14,13 @@ public interface NationalOrderExtMapper {
     @Select("select count(1) from national_order where pay_status in '${payStatusStr}' and insert_time>=#{startTime} and insert_time<#{endTime}")
     int queryCntBy(@Param("payStatusStr") String payStatusStr, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
-    @Select("select count(1) from national_order where merchant_no=#{merchantNo} and pay_status in '${payStatusStr}' and insert_time>=#{startTime} and insert_time<#{endTime}")
+    @Select("select count(1) from national_order where merchant_no=#{merchantNo} and pay_status in (${payStatusStr}) and insert_time>=#{startTime} and insert_time<#{endTime}")
     int queryCntByMer(@Param("merchantNo") String merchantNo, @Param("payStatusStr") String payStatusStr, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
-    @Select("select sum(pay_amount) from national_order where merchant_no=#{merchantNo} and pay_status in '${payStatusStr}' and insert_time>=#{startTime} and insert_time<#{endTime}")
+    @Select("select sum(pay_amount) from national_order where merchant_no=#{merchantNo} and pay_status in (${payStatusStr}) and insert_time>=#{startTime} and insert_time<#{endTime}")
     int queryTotalAmountBy(@Param("payStatusStr") String payStatusStr, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
-    @Select("select sum(pay_amount) from national_order where merchant_no=#{merchantNo} and pay_status in '${payStatusStr}' and insert_time>=#{startTime} and insert_time<#{endTime}")
+    @Select("select sum(pay_amount) from national_order where merchant_no=#{merchantNo} and pay_status in (${payStatusStr}) and insert_time>=#{startTime} and insert_time<#{endTime}")
     int queryTotalAmountByMer(@Param("merchantNo") String merchantNo, @Param("payStatusStr") String payStatusStr, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
     @Update("update national_order set pay_status=#{payStatus} where order_no=#{orderNo} and pay_status!=#{payStatus}")

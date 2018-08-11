@@ -14,6 +14,6 @@ public interface NationalPassengerExtMapper {
     @Select("select order_no as orderNo,name from national_passenger where order_no in(${orderNos})")
     List<NationalPassenger> queryByOrderNo(@Param("orderNos") String orderNos);
 
-    @Select("select mobile_no from national_passenger where order_no=#{orderNo}")
+    @Select("select distinct mobile_no from national_passenger where order_no=#{orderNo}")
     List<String> queryMobileNoByOrderNo(@Param("orderNo") String orderNo);
 }

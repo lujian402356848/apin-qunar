@@ -100,6 +100,8 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                         result = nationalReturnOrderDao.updateStatusAndTicketNo(parentOrderNo, orderNo, payStatus, ticketNo);
                         nationalReturnPassengerDao.updateByOrderNo(parentOrderNo, orderNo);
                     }
+                    passengers = getPassengers(orderNo);
+                    sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
                     break;
                 case APPLY_CHANGE://改签中状态
                     nationalOrderDao.updateStatus(orderNo, payStatus);
@@ -171,11 +173,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                 sendTicketSms(relationOrder, passengers);
                 break;
             case REFUND_OK://退款
-                List<String> mobileNos = nationalPassengerDao.queryMobileNoByOrderNo(order.getOrderNo());
-                if (CollectionUtils.isNotEmpty(mobileNos)) {
-                    content = String.format(SmsConstants.REFUND, DateUtil.formatDate(order.getDeptDate()), order.getDeptCity(), order.getArriCity());
-                    smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.ORDER_CANCEL);
-                }
+                sendReturnSms(order, passengers);
                 break;
         }
     }
@@ -203,6 +201,26 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         User user = userDao.queryByAccount(order.getOperator());
         if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单，商户也会
             String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo.substring(1));
+            smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
+        }
+    }
+
+    private void sendReturnSms(NationalOrder order, List<SearchOrderDetailResultVO.Passenger> passengers) {
+        String content = "";
+        StringBuilder passengerInfo = new StringBuilder();
+        for (SearchOrderDetailResultVO.Passenger passenger : passengers) {
+            passengerInfo.append("，");
+            passengerInfo.append(passenger.getName());
+            passengerInfo.append(":");
+            passengerInfo.append(passenger.getTicketNo());
+
+            String passengerContent = passenger.getName() + ":" + passenger.getTicketNo();
+            content = String.format(SmsConstants.RETURN, passengerContent, order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo());
+            smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.RETURN);
+        }
+        User user = userDao.queryByAccount(order.getOperator());
+        if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单，商户也会
+            content = String.format(SmsConstants.RETURN, passengerInfo.substring(1), order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo());
             smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
         }
     }
