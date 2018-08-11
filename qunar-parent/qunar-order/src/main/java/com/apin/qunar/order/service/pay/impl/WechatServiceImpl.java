@@ -11,25 +11,21 @@ import com.apin.qunar.common.utils.HttpUtil;
 import com.apin.qunar.common.utils.UUIDUtil;
 import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.common.config.WeChatPayConfig;
-import com.apin.qunar.order.common.enums.OrderCountryEnum;
-import com.apin.qunar.order.common.enums.PayChannelEnum;
-import com.apin.qunar.order.common.enums.QunarPayStatusEnum;
-import com.apin.qunar.order.common.enums.WechatPayStatusEnum;
+import com.apin.qunar.order.common.enums.*;
 import com.apin.qunar.order.common.utils.WechatPayUtil;
-import com.apin.qunar.order.dao.impl.InternationalOrderDaoImpl;
-import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
-import com.apin.qunar.order.dao.impl.WechatPayDaoImpl;
-import com.apin.qunar.order.dao.model.InternationalOrder;
-import com.apin.qunar.order.dao.model.NationalOrder;
-import com.apin.qunar.order.dao.model.WechatPay;
+import com.apin.qunar.order.dao.impl.*;
+import com.apin.qunar.order.dao.model.*;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.pay.NtsPayParam;
 import com.apin.qunar.order.domain.international.pay.NtsPayResultVO;
+import com.apin.qunar.order.domain.national.changePay.ChangePayParam;
+import com.apin.qunar.order.domain.national.changePay.ChangePayResultVO;
 import com.apin.qunar.order.domain.national.pay.PayParam;
 import com.apin.qunar.order.domain.national.pay.PayResultVO;
 import com.apin.qunar.order.domain.pay.wechat.WechatBO;
 import com.apin.qunar.order.service.international.NtsPayFailOrderService;
 import com.apin.qunar.order.service.international.NtsPayService;
+import com.apin.qunar.order.service.national.ChangePayService;
 import com.apin.qunar.order.service.national.PayFailOrderService;
 import com.apin.qunar.order.service.national.PayService;
 import com.apin.qunar.order.service.pay.WechatService;
@@ -43,10 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Date;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -74,6 +67,12 @@ public class WechatServiceImpl implements WechatService {
     private SmsConfig smsConfig;
     @Autowired
     private OrderConfig orderConfig;
+    @Autowired
+    private NationalChangeOrderDaoImpl nationalChangeOrderDao;
+    @Autowired
+    private ChangePayService changePayService;
+    @Autowired
+    private NationalChangePassengerDaoImpl nationalChangePassengerDao;
 
     @Override
     public String generateQrCode(WechatBO wechatBO) {
@@ -179,6 +178,7 @@ public class WechatServiceImpl implements WechatService {
         wechatPay.setPayAmount(wechatBO.getTotalAmount() / 100);
         wechatPay.setWechatPayStatus(WechatPayStatusEnum.NO_PAY.getStatus());
         wechatPay.setQunarPayStatus(QunarPayStatusEnum.NO_PAY.getStatus());
+        wechatPay.setOrderType(wechatBO.getOrderType());
         return wechatPay;
     }
 
@@ -276,10 +276,14 @@ public class WechatServiceImpl implements WechatService {
 
     private boolean qunarOrderPay(WechatPay wechatPay) {
         ExecuteResult result = new ExecuteResult();
-        if (wechatPay.getHasInlandOrder() == 1) {
-            result = nationalOrderPay(wechatPay);//国内订单
+        if (wechatPay.getOrderType() == OrderTypeEnum.CHANGE.getCode()) {
+            result = changeOrderPay(wechatPay);//改签订单
         } else {
-            result = internationalOrderPay(wechatPay);//国际订单
+            if (wechatPay.getHasInlandOrder() == 1) {
+                result = nationalOrderPay(wechatPay);//国内订单
+            } else {
+                result = internationalOrderPay(wechatPay);//国际订单
+            }
         }
         if (!result.isSuccess()) {
             smsService.sendSms(smsConfig.getMobileNos(), result.getDesc(), SmsSendTypeEnum.QUNAER_PAY_FAIL_NOTIFY);
@@ -370,6 +374,49 @@ public class WechatServiceImpl implements WechatService {
         return result;
     }
 
+    private ExecuteResult changeOrderPay(WechatPay wechatPay) {
+        ExecuteResult result = new ExecuteResult();
+        String payOrderNo = wechatPay.getOrderNo();
+        String orderNo = payOrderNo.substring(0, payOrderNo.length() - 1);
+        NationalChangeOrder nationalChangeOrder = nationalChangeOrderDao.queryByOrderNo(orderNo);
+        if (nationalChangeOrder == null) {
+            log.info("微信改签付款成功，但是数据库中未找到该笔订单,wechatPayId:{},ordrNo:{}", wechatPay.getId(), wechatPay.getOrderNo());
+            return result;
+        }
+        QunarPayStatusEnum payStatus = QunarPayStatusEnum.NO_PAY;
+        ChangePayParam changePayParam = buildChangePayParam(nationalChangeOrder, wechatPay.getPayAmount());
+        try {
+            ApiResult<ChangePayResultVO> apiResult = changePayService.changePay(changePayParam);
+            if (apiResult.isSuccess() && apiResult.getResult() != null && apiResult.getResult().getResult() != null) {
+                ChangePayResultVO.PayResult payResult = apiResult.getResult().getResult();
+                if (payResult.getCode() == 0) {
+                    payStatus = QunarPayStatusEnum.PAY_SUCCESS;
+                } else {
+                    payStatus = QunarPayStatusEnum.PAY_FAIL;
+                }
+            } else {
+                payStatus = QunarPayStatusEnum.PAY_FAIL;
+            }
+            wechatPayDao.updateQunarPayInfo(wechatPay.getId(), payStatus.getStatus(), DateUtil.getCurrDate());
+            if (payStatus == QunarPayStatusEnum.PAY_SUCCESS) {
+                result.setSuccess(true);
+            } else {
+                result.setSuccess(false);
+                if (apiResult != null && apiResult.getResult() != null) {
+                    String desc = String.format(SmsConstants.QUNAR_PAY_FAIL_ALI, wechatPay.getOrderNo(), apiResult.getResult());
+                    result.setDesc(desc);
+                    log.error(desc);
+                }
+            }
+        } catch (Exception e) {
+            result.setSuccess(false);
+            String desc = String.format(SmsConstants.QUNAR_PAY_FAIL_ALI, wechatPay.getOrderNo(), e.getMessage());
+            result.setDesc(desc);
+            log.error(desc, e);
+        }
+        return result;
+    }
+
     private NtsPayParam buildNtsPayParam(String orderNo) {
         NtsPayParam ntsPayParam = new NtsPayParam();
         ntsPayParam.setOrderNo(orderNo);
@@ -390,5 +437,29 @@ public class WechatServiceImpl implements WechatService {
         payParam.setCurId("CNY");
         payParam.setBgRetUrl(orderConfig.getPayCallbackUrl());
         return payParam;
+    }
+
+    private ChangePayParam buildChangePayParam(NationalChangeOrder nationalChangeOrder, Integer payAmount) {
+        ChangePayParam changePayParam = new ChangePayParam();
+        changePayParam.setOrderNo(nationalChangeOrder.getOrderNo());
+        changePayParam.setGqId(nationalChangeOrder.getChangeId());
+        changePayParam.setPassengerIds(bulidPassengerIds(nationalChangeOrder.getOrderNo()));
+        changePayParam.setTotalAmount(payAmount.toString());
+        changePayParam.setPmCode(orderConfig.getPayType());
+        changePayParam.setBankCode(orderConfig.getBankCode());
+        changePayParam.setPaymentMerchantCode(orderConfig.getPayAccount());
+        changePayParam.setCallbackUrl(orderConfig.getPayCallbackUrl());
+        changePayParam.setCurId("CNY");
+        return changePayParam;
+    }
+
+    private String bulidPassengerIds(String orderNo) {
+        String passengerIds = "";
+        List<NationalChangePassenger> nationalChangePassengers = nationalChangePassengerDao.queryByOrderNo(orderNo);
+        for (NationalChangePassenger nationalChangePassenger : nationalChangePassengers) {
+            String id = nationalChangePassenger.getId();
+            passengerIds = id + ",";
+        }
+        return passengerIds.substring(0, passengerIds.length() - 1);
     }
 }

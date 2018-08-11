@@ -10,4 +10,5 @@ public class WechatPayRequest extends BaseRequest {
     private String orderNo;
     private Integer totalAmount;
     private boolean hasInlandOrder;
+    private Integer orderType;
 }

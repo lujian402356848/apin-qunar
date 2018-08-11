@@ -20,24 +20,20 @@ import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.common.utils.UUIDUtil;
 import com.apin.qunar.order.common.config.AlipayConfig;
 import com.apin.qunar.order.common.config.OrderConfig;
-import com.apin.qunar.order.common.enums.AlipayStatusEnum;
-import com.apin.qunar.order.common.enums.OrderCountryEnum;
-import com.apin.qunar.order.common.enums.PayChannelEnum;
-import com.apin.qunar.order.common.enums.QunarPayStatusEnum;
-import com.apin.qunar.order.dao.impl.AlipayDaoImpl;
-import com.apin.qunar.order.dao.impl.InternationalOrderDaoImpl;
-import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
-import com.apin.qunar.order.dao.model.AliPay;
-import com.apin.qunar.order.dao.model.InternationalOrder;
-import com.apin.qunar.order.dao.model.NationalOrder;
+import com.apin.qunar.order.common.enums.*;
+import com.apin.qunar.order.dao.impl.*;
+import com.apin.qunar.order.dao.model.*;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.pay.NtsPayParam;
 import com.apin.qunar.order.domain.international.pay.NtsPayResultVO;
+import com.apin.qunar.order.domain.national.changePay.ChangePayParam;
+import com.apin.qunar.order.domain.national.changePay.ChangePayResultVO;
 import com.apin.qunar.order.domain.national.pay.PayParam;
 import com.apin.qunar.order.domain.national.pay.PayResultVO;
 import com.apin.qunar.order.domain.pay.alipay.AlipayBO;
 import com.apin.qunar.order.service.international.NtsPayFailOrderService;
 import com.apin.qunar.order.service.international.NtsPayService;
+import com.apin.qunar.order.service.national.ChangePayService;
 import com.apin.qunar.order.service.national.PayFailOrderService;
 import com.apin.qunar.order.service.national.PayService;
 import com.apin.qunar.order.service.pay.AlipayService;
@@ -49,10 +45,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -79,7 +72,12 @@ public class AlipayServiceImpl implements AlipayService {
     private SmsConfig smsConfig;
     @Autowired
     private OrderConfig orderConfig;
-
+    @Autowired
+    private NationalChangeOrderDaoImpl nationalChangeOrderDao;
+    @Autowired
+    private ChangePayService changePayService;
+    @Autowired
+    private NationalChangePassengerDaoImpl nationalChangePassengerDao;
     private AlipayClient alipayClient;
 
     @PostConstruct
@@ -146,6 +144,7 @@ public class AlipayServiceImpl implements AlipayService {
         aliPay.setId(UUIDUtil.getUUID());
         aliPay.setMerchantNo(alipayBO.getMerchantNo());
         aliPay.setOrderNo(alipayBO.getOrderNo());
+        aliPay.setOrderType(alipayBO.getOrderType());
         aliPay.setPayAmount(alipayBO.getTotalAmount());
         aliPay.setAliPayStatus(AlipayStatusEnum.NO_PAY.getStatus());
         aliPay.setQunarPayStatus(QunarPayStatusEnum.NO_PAY.getStatus());
@@ -248,10 +247,14 @@ public class AlipayServiceImpl implements AlipayService {
             return false;
         }
         ExecuteResult result = new ExecuteResult();
-        if (aliPay.getHasInlandOrder() == 1) {
-            result = nationalOrderPay(aliPay);//国内订单
+        if (aliPay.getOrderType() == OrderTypeEnum.CHANGE.getCode()) {
+            result = changeOrderPay(aliPay);//改签订单
         } else {
-            result = internationalOrderPay(aliPay);//国际订单
+            if (aliPay.getHasInlandOrder() == 1) {
+                result = nationalOrderPay(aliPay);//国内订单
+            } else {
+                result = internationalOrderPay(aliPay);//国际订单
+            }
         }
         if (!result.isSuccess()) {
             smsService.sendSms(smsConfig.getMobileNos(), result.getDesc(), SmsSendTypeEnum.QUNAER_PAY_FAIL_NOTIFY);
@@ -342,6 +345,50 @@ public class AlipayServiceImpl implements AlipayService {
         return result;
     }
 
+    private ExecuteResult changeOrderPay(AliPay aliPay) {
+        ExecuteResult result = new ExecuteResult();
+        String payOrderNo = aliPay.getOrderNo();
+        String orderNo = payOrderNo.substring(0, payOrderNo.length() - 1);
+        NationalChangeOrder nationalChangeOrder = nationalChangeOrderDao.queryByOrderNo(orderNo);
+        if (nationalChangeOrder == null) {
+            log.info("支付宝改签付款成功，但是数据库中未找到该笔订单,alipayId:{},ordrNo:{}", aliPay.getId(), aliPay.getOrderNo());
+            return result;
+        }
+        QunarPayStatusEnum payStatus = QunarPayStatusEnum.NO_PAY;
+        ChangePayParam changePayParam = buildChangePayParam(nationalChangeOrder, aliPay.getPayAmount());
+        try {
+            ApiResult<ChangePayResultVO> apiResult = changePayService.changePay(changePayParam);
+            if (apiResult.isSuccess() && apiResult.getResult() != null && apiResult.getResult().getResult() != null) {
+                ChangePayResultVO.PayResult payResult = apiResult.getResult().getResult();
+                if (payResult.getCode() == 0) {
+                    payStatus = QunarPayStatusEnum.PAY_SUCCESS;
+                } else {
+                    payStatus = QunarPayStatusEnum.PAY_FAIL;
+                }
+            } else {
+                payStatus = QunarPayStatusEnum.PAY_FAIL;
+            }
+            alipayPayDao.updateQunarPayInfo(aliPay.getId(), payStatus.getStatus(), DateUtil.getCurrDate());
+            if (payStatus == QunarPayStatusEnum.PAY_SUCCESS) {
+                result.setSuccess(true);
+            } else {
+                result.setSuccess(false);
+                if (apiResult != null && apiResult.getResult() != null) {
+                    String desc = String.format(SmsConstants.QUNAR_PAY_FAIL_ALI, aliPay.getOrderNo(), apiResult.getResult());
+                    result.setDesc(desc);
+                    log.error(desc);
+                }
+            }
+        } catch (Exception e) {
+            result.setSuccess(false);
+            String desc = String.format(SmsConstants.QUNAR_PAY_FAIL_ALI, aliPay.getOrderNo(), e.getMessage());
+            result.setDesc(desc);
+            log.error(desc, e);
+        }
+        return result;
+    }
+
+
     private NtsPayParam buildNtsPayParam(String orderNo) {
         NtsPayParam ntsPayParam = new NtsPayParam();
         ntsPayParam.setOrderNo(orderNo);
@@ -362,6 +409,31 @@ public class AlipayServiceImpl implements AlipayService {
         payParam.setCurId("CNY");
         payParam.setBgRetUrl(orderConfig.getPayCallbackUrl());
         return payParam;
+    }
+
+
+    private ChangePayParam buildChangePayParam(NationalChangeOrder nationalChangeOrder, Integer payAmount) {
+        ChangePayParam changePayParam = new ChangePayParam();
+        changePayParam.setOrderNo(nationalChangeOrder.getOrderNo());
+        changePayParam.setGqId(nationalChangeOrder.getChangeId());
+        changePayParam.setPassengerIds(bulidPassengerIds(nationalChangeOrder.getOrderNo()));
+        changePayParam.setTotalAmount(payAmount.toString());
+        changePayParam.setPmCode(orderConfig.getPayType());
+        changePayParam.setBankCode(orderConfig.getBankCode());
+        changePayParam.setPaymentMerchantCode(orderConfig.getPayAccount());
+        changePayParam.setCallbackUrl(orderConfig.getPayCallbackUrl());
+        changePayParam.setCurId("CNY");
+        return changePayParam;
+    }
+
+    private String bulidPassengerIds(String orderNo) {
+        String passengerIds = "";
+        List<NationalChangePassenger> nationalChangePassengers = nationalChangePassengerDao.queryByOrderNo(orderNo);
+        for (NationalChangePassenger nationalChangePassenger : nationalChangePassengers) {
+            String id = nationalChangePassenger.getId();
+            passengerIds = id + ",";
+        }
+        return passengerIds.substring(0, passengerIds.length() - 1);
     }
 
     @Override
