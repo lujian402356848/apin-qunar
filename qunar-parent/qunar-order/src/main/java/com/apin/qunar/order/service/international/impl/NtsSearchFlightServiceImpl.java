@@ -45,7 +45,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
 
     @Override
     public ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo) {
-        searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
+//        searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
         ApiResult<List<NtsSearchFlightResultVO>> apiResult = execute(ntsSearchFlightParam);
         if (apiResult == null || CollectionUtils.isEmpty(apiResult.getResult())) {
             return ApiResult.fail();
