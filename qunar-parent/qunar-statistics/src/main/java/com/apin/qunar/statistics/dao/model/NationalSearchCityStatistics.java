@@ -3,7 +3,7 @@ package com.apin.qunar.statistics.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SearchFlightRecord implements Serializable {
+public class NationalSearchCityStatistics implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -17,19 +17,19 @@ public class SearchFlightRecord implements Serializable {
     private String merchantNo;
 
     /**
-     * 是否国内(0:国际,1:国内)
+     * 来回类型(1:去程,2:回程)
      */
-    private Integer hasInternal;
+    private Integer goBackType;
 
     /**
-     * 出发城市
+     * 城市
      */
-    private String deptCity;
+    private String city;
 
     /**
-     * 到达城市
+     * 查询次数
      */
-    private String arriCity;
+    private Integer searchCnt;
 
     /**
      * 插入时间
@@ -65,45 +65,45 @@ public class SearchFlightRecord implements Serializable {
     }
 
     /**
-     * @return 是否国内(0:国际,1:国内)
+     * @return 来回类型(1:去程,2:回程)
      */
-    public Integer getHasInternal() {
-        return hasInternal;
+    public Integer getGoBackType() {
+        return goBackType;
     }
 
     /**
-     * @param hasInternal 是否国内(0:国际,1:国内)
+     * @param goBackType 来回类型(1:去程,2:回程)
      */
-    public void setHasInternal(Integer hasInternal) {
-        this.hasInternal = hasInternal;
+    public void setGoBackType(Integer goBackType) {
+        this.goBackType = goBackType;
     }
 
     /**
-     * @return 出发城市
+     * @return 城市
      */
-    public String getDeptCity() {
-        return deptCity;
+    public String getCity() {
+        return city;
     }
 
     /**
-     * @param deptCity 出发城市
+     * @param city 城市
      */
-    public void setDeptCity(String deptCity) {
-        this.deptCity = deptCity == null ? null : deptCity.trim();
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
     }
 
     /**
-     * @return 到达城市
+     * @return 查询次数
      */
-    public String getArriCity() {
-        return arriCity;
+    public Integer getSearchCnt() {
+        return searchCnt;
     }
 
     /**
-     * @param arriCity 到达城市
+     * @param searchCnt 查询次数
      */
-    public void setArriCity(String arriCity) {
-        this.arriCity = arriCity == null ? null : arriCity.trim();
+    public void setSearchCnt(Integer searchCnt) {
+        this.searchCnt = searchCnt;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.apin.qunar.statistics.dao.impl;
 import com.apin.qunar.statistics.dao.mapper.InternationalSearchFlightRecordExtMapper;
 import com.apin.qunar.statistics.dao.mapper.InternationalSearchFlightRecordMapper;
 import com.apin.qunar.statistics.dao.model.InternationalSearchFlightRecord;
+import com.apin.qunar.statistics.domain.SearchFlightRecordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,14 @@ public class InternationalSearchFlightRecordDaoImpl {
 
     public int queryFlightCntByMerchantNoAndInsertTime(String merchantNo, Date startTime, Date endTime) {
         return searchFlightRecordExtMapper.queryFlightCntBy(merchantNo, startTime, endTime);
+    }
+
+    public List<SearchFlightRecordDTO> queryDeptCityTop20By(String merchantNo, Date startTime, Date endTime) {
+        return searchFlightRecordExtMapper.queryDeptCityTop20By(merchantNo, startTime, endTime);
+    }
+
+    public List<SearchFlightRecordDTO> queryArriCityTop20By(String merchantNo, Date startTime, Date endTime) {
+        return searchFlightRecordExtMapper.queryArriCityTop20By(merchantNo, startTime, endTime);
     }
 
     public boolean deleteByInsertTime(Date date) {

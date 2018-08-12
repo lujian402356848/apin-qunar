@@ -19,7 +19,7 @@ public class SearchFlightRequest extends BaseRequest {
     private String dpt;
 
     /**
-     * 到达机场三字码.
+     * 到达机场三字码
      */
     private String arr;
 

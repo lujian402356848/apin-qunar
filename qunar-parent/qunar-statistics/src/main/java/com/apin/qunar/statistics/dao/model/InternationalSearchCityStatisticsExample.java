@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SearchFlightRecordExample {
+public class InternationalSearchCityStatisticsExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -15,7 +15,7 @@ public class SearchFlightRecordExample {
 
     private Integer mysqlLength;
 
-    public SearchFlightRecordExample() {
+    public InternationalSearchCityStatisticsExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -257,203 +257,193 @@ public class SearchFlightRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalIsNull() {
-            addCriterion("has_internal is null");
+        public Criteria andGoBackTypeIsNull() {
+            addCriterion("go_back_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalIsNotNull() {
-            addCriterion("has_internal is not null");
+        public Criteria andGoBackTypeIsNotNull() {
+            addCriterion("go_back_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalEqualTo(Integer value) {
-            addCriterion("has_internal =", value, "hasInternal");
+        public Criteria andGoBackTypeEqualTo(Integer value) {
+            addCriterion("go_back_type =", value, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalNotEqualTo(Integer value) {
-            addCriterion("has_internal <>", value, "hasInternal");
+        public Criteria andGoBackTypeNotEqualTo(Integer value) {
+            addCriterion("go_back_type <>", value, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalGreaterThan(Integer value) {
-            addCriterion("has_internal >", value, "hasInternal");
+        public Criteria andGoBackTypeGreaterThan(Integer value) {
+            addCriterion("go_back_type >", value, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalGreaterThanOrEqualTo(Integer value) {
-            addCriterion("has_internal >=", value, "hasInternal");
+        public Criteria andGoBackTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("go_back_type >=", value, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalLessThan(Integer value) {
-            addCriterion("has_internal <", value, "hasInternal");
+        public Criteria andGoBackTypeLessThan(Integer value) {
+            addCriterion("go_back_type <", value, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalLessThanOrEqualTo(Integer value) {
-            addCriterion("has_internal <=", value, "hasInternal");
+        public Criteria andGoBackTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("go_back_type <=", value, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalIn(List<Integer> values) {
-            addCriterion("has_internal in", values, "hasInternal");
+        public Criteria andGoBackTypeIn(List<Integer> values) {
+            addCriterion("go_back_type in", values, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalNotIn(List<Integer> values) {
-            addCriterion("has_internal not in", values, "hasInternal");
+        public Criteria andGoBackTypeNotIn(List<Integer> values) {
+            addCriterion("go_back_type not in", values, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalBetween(Integer value1, Integer value2) {
-            addCriterion("has_internal between", value1, value2, "hasInternal");
+        public Criteria andGoBackTypeBetween(Integer value1, Integer value2) {
+            addCriterion("go_back_type between", value1, value2, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andHasInternalNotBetween(Integer value1, Integer value2) {
-            addCriterion("has_internal not between", value1, value2, "hasInternal");
+        public Criteria andGoBackTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("go_back_type not between", value1, value2, "goBackType");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityIsNull() {
-            addCriterion("dept_city is null");
+        public Criteria andCityIsNull() {
+            addCriterion("city is null");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityIsNotNull() {
-            addCriterion("dept_city is not null");
+        public Criteria andCityIsNotNull() {
+            addCriterion("city is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityEqualTo(String value) {
-            addCriterion("dept_city =", value, "deptCity");
+        public Criteria andCityEqualTo(String value) {
+            addCriterion("city =", value, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityNotEqualTo(String value) {
-            addCriterion("dept_city <>", value, "deptCity");
+        public Criteria andCityNotEqualTo(String value) {
+            addCriterion("city <>", value, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityGreaterThan(String value) {
-            addCriterion("dept_city >", value, "deptCity");
+        public Criteria andCityGreaterThan(String value) {
+            addCriterion("city >", value, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityGreaterThanOrEqualTo(String value) {
-            addCriterion("dept_city >=", value, "deptCity");
+        public Criteria andCityGreaterThanOrEqualTo(String value) {
+            addCriterion("city >=", value, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityLessThan(String value) {
-            addCriterion("dept_city <", value, "deptCity");
+        public Criteria andCityLessThan(String value) {
+            addCriterion("city <", value, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityLessThanOrEqualTo(String value) {
-            addCriterion("dept_city <=", value, "deptCity");
+        public Criteria andCityLessThanOrEqualTo(String value) {
+            addCriterion("city <=", value, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityLike(String value) {
-            addCriterion("dept_city like", value, "deptCity");
+        public Criteria andCityLike(String value) {
+            addCriterion("city like", value, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityNotLike(String value) {
-            addCriterion("dept_city not like", value, "deptCity");
+        public Criteria andCityNotLike(String value) {
+            addCriterion("city not like", value, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityIn(List<String> values) {
-            addCriterion("dept_city in", values, "deptCity");
+        public Criteria andCityIn(List<String> values) {
+            addCriterion("city in", values, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityNotIn(List<String> values) {
-            addCriterion("dept_city not in", values, "deptCity");
+        public Criteria andCityNotIn(List<String> values) {
+            addCriterion("city not in", values, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityBetween(String value1, String value2) {
-            addCriterion("dept_city between", value1, value2, "deptCity");
+        public Criteria andCityBetween(String value1, String value2) {
+            addCriterion("city between", value1, value2, "city");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCityNotBetween(String value1, String value2) {
-            addCriterion("dept_city not between", value1, value2, "deptCity");
+        public Criteria andCityNotBetween(String value1, String value2) {
+            addCriterion("city not between", value1, value2, "city");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityIsNull() {
-            addCriterion("arri_city is null");
+        public Criteria andSearchCntIsNull() {
+            addCriterion("search_cnt is null");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityIsNotNull() {
-            addCriterion("arri_city is not null");
+        public Criteria andSearchCntIsNotNull() {
+            addCriterion("search_cnt is not null");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityEqualTo(String value) {
-            addCriterion("arri_city =", value, "arriCity");
+        public Criteria andSearchCntEqualTo(Integer value) {
+            addCriterion("search_cnt =", value, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityNotEqualTo(String value) {
-            addCriterion("arri_city <>", value, "arriCity");
+        public Criteria andSearchCntNotEqualTo(Integer value) {
+            addCriterion("search_cnt <>", value, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityGreaterThan(String value) {
-            addCriterion("arri_city >", value, "arriCity");
+        public Criteria andSearchCntGreaterThan(Integer value) {
+            addCriterion("search_cnt >", value, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityGreaterThanOrEqualTo(String value) {
-            addCriterion("arri_city >=", value, "arriCity");
+        public Criteria andSearchCntGreaterThanOrEqualTo(Integer value) {
+            addCriterion("search_cnt >=", value, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityLessThan(String value) {
-            addCriterion("arri_city <", value, "arriCity");
+        public Criteria andSearchCntLessThan(Integer value) {
+            addCriterion("search_cnt <", value, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityLessThanOrEqualTo(String value) {
-            addCriterion("arri_city <=", value, "arriCity");
+        public Criteria andSearchCntLessThanOrEqualTo(Integer value) {
+            addCriterion("search_cnt <=", value, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityLike(String value) {
-            addCriterion("arri_city like", value, "arriCity");
+        public Criteria andSearchCntIn(List<Integer> values) {
+            addCriterion("search_cnt in", values, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityNotLike(String value) {
-            addCriterion("arri_city not like", value, "arriCity");
+        public Criteria andSearchCntNotIn(List<Integer> values) {
+            addCriterion("search_cnt not in", values, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityIn(List<String> values) {
-            addCriterion("arri_city in", values, "arriCity");
+        public Criteria andSearchCntBetween(Integer value1, Integer value2) {
+            addCriterion("search_cnt between", value1, value2, "searchCnt");
             return (Criteria) this;
         }
 
-        public Criteria andArriCityNotIn(List<String> values) {
-            addCriterion("arri_city not in", values, "arriCity");
-            return (Criteria) this;
-        }
-
-        public Criteria andArriCityBetween(String value1, String value2) {
-            addCriterion("arri_city between", value1, value2, "arriCity");
-            return (Criteria) this;
-        }
-
-        public Criteria andArriCityNotBetween(String value1, String value2) {
-            addCriterion("arri_city not between", value1, value2, "arriCity");
+        public Criteria andSearchCntNotBetween(Integer value1, Integer value2) {
+            addCriterion("search_cnt not between", value1, value2, "searchCnt");
             return (Criteria) this;
         }
 
@@ -529,13 +519,8 @@ public class SearchFlightRecordExample {
             return this;
         }
 
-        public Criteria andDeptCityLikeInsensitive(String value) {
-            addCriterion("upper(dept_city) like", value.toUpperCase(), "deptCity");
-            return this;
-        }
-
-        public Criteria andArriCityLikeInsensitive(String value) {
-            addCriterion("upper(arri_city) like", value.toUpperCase(), "arriCity");
+        public Criteria andCityLikeInsensitive(String value) {
+            addCriterion("upper(city) like", value.toUpperCase(), "city");
             return this;
         }
     }

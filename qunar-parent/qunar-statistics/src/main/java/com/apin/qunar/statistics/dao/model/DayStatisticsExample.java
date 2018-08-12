@@ -1,6 +1,7 @@
 package com.apin.qunar.statistics.dao.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DayStatisticsExample {
@@ -543,6 +544,66 @@ public class DayStatisticsExample {
 
         public Criteria andDealTotalAmountNotBetween(Integer value1, Integer value2) {
             addCriterion("deal_total_amount not between", value1, value2, "dealTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeIsNull() {
+            addCriterion("insert_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeIsNotNull() {
+            addCriterion("insert_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeEqualTo(Date value) {
+            addCriterion("insert_time =", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeNotEqualTo(Date value) {
+            addCriterion("insert_time <>", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeGreaterThan(Date value) {
+            addCriterion("insert_time >", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("insert_time >=", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeLessThan(Date value) {
+            addCriterion("insert_time <", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeLessThanOrEqualTo(Date value) {
+            addCriterion("insert_time <=", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeIn(List<Date> values) {
+            addCriterion("insert_time in", values, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeNotIn(List<Date> values) {
+            addCriterion("insert_time not in", values, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeBetween(Date value1, Date value2) {
+            addCriterion("insert_time between", value1, value2, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeNotBetween(Date value1, Date value2) {
+            addCriterion("insert_time not between", value1, value2, "insertTime");
             return (Criteria) this;
         }
     }

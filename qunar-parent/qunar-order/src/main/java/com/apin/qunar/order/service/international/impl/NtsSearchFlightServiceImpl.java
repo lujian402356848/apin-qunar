@@ -7,10 +7,10 @@ import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightParam;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightResultVO;
 import com.apin.qunar.order.service.international.NtsSearchFlightService;
+import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,14 +25,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightParam, ApiResult<List<NtsSearchFlightResultVO>>> implements NtsSearchFlightService {
-
     @Resource
     private AirlineServiceImpl airlineService;
     @Resource
     private MerchantPriceConfigService merchantPriceConfigService;
-
-    @Autowired
-    //  private SearchFlightRecordService searchFlightRecordService;
+    @Resource
+    private SearchFlightRecordService searchFlightRecordService;
 
     @Override
     protected String getTag() {
@@ -47,7 +45,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
 
     @Override
     public ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo) {
-        //     searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
+        searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
         ApiResult<List<NtsSearchFlightResultVO>> apiResult = execute(ntsSearchFlightParam);
         if (apiResult == null || CollectionUtils.isEmpty(apiResult.getResult())) {
             return ApiResult.fail();
@@ -65,7 +63,6 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
         sortByDepTime(searchFlightResults, ntsSearchFlightParam.getSortIdentification());
 //        setPrice(searchFlightResults, merchantNo);//国际查询航班 加价
         return apiResult;
-//        return new ApiResult<>(apiResult, BeanUtil.copyProperties(apiResult.getResult(), NtsSearchFlightResultVO.class));
     }
 
     private void setPrice(List<NtsSearchFlightResultVO> searchFlightResults, String merchantNo) {
