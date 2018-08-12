@@ -11,6 +11,8 @@ public enum SmsSendTypeEnum {
     RETURN(4, "退票"),
     FLIGHT_CHANGE(5, "航变"),
     FLIGHT_CANCEL(6, "航班取消"),
+    FLIGHT_RECOVERY(7, "航班取消后恢复"),
+    FLIGHT_CANCEL_PROTECT(8, "航班取消有保护"),
     MERCHANT_REGISTER(11, "商户注册"),
     MERCHANT_VERIFY_CODE(12, "商户注册验证码"),
     MERCHANT_AUDIT_PASS(13, "商户审核通过"),
