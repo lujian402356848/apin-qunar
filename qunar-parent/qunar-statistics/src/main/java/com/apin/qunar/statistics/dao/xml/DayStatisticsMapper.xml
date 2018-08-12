@@ -9,6 +9,7 @@
       <result column="search_international_flight_cnt" property="searchInternationalFlightCnt" jdbcType="INTEGER" />
       <result column="deal_order_cnt" property="dealOrderCnt" jdbcType="INTEGER" />
       <result column="deal_total_amount" property="dealTotalAmount" jdbcType="INTEGER" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Example_Where_Clause" >
       <where >
@@ -70,7 +71,7 @@
     </sql>
     <sql id="DayStatisticsColumns" >
       id, total_pv, total_uv, search_national_flight_cnt, search_international_flight_cnt, 
-      deal_order_cnt, deal_total_amount
+      deal_order_cnt, deal_total_amount, insert_time
     </sql>
     <select id="selectByExample" resultMap="DayStatisticsResult" parameterType="com.apin.qunar.statistics.dao.model.DayStatisticsExample" >
       select
@@ -110,10 +111,12 @@
     <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.DayStatistics" >
       insert into day_statistics (id, total_pv, total_uv, 
         search_national_flight_cnt, search_international_flight_cnt, 
-        deal_order_cnt, deal_total_amount)
+        deal_order_cnt, deal_total_amount, insert_time
+        )
       values (#{id,jdbcType=BIGINT}, #{totalPv,jdbcType=INTEGER}, #{totalUv,jdbcType=INTEGER}, 
         #{searchNationalFlightCnt,jdbcType=INTEGER}, #{searchInternationalFlightCnt,jdbcType=INTEGER}, 
-        #{dealOrderCnt,jdbcType=INTEGER}, #{dealTotalAmount,jdbcType=INTEGER})
+        #{dealOrderCnt,jdbcType=INTEGER}, #{dealTotalAmount,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}
+        )
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.DayStatistics" >
       insert into day_statistics
@@ -139,6 +142,9 @@
         <if test="dealTotalAmount != null" >
           deal_total_amount,
         </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides="," >
         <if test="id != null" >
@@ -161,6 +167,9 @@
         </if>
         <if test="dealTotalAmount != null" >
           #{dealTotalAmount,jdbcType=INTEGER},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
         </if>
       </trim>
     </insert>
@@ -194,6 +203,9 @@
         <if test="record.dealTotalAmount != null" >
           deal_total_amount = #{record.dealTotalAmount,jdbcType=INTEGER},
         </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
       </set>
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
@@ -207,7 +219,8 @@
         search_national_flight_cnt = #{record.searchNationalFlightCnt,jdbcType=INTEGER},
         search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=INTEGER},
         deal_order_cnt = #{record.dealOrderCnt,jdbcType=INTEGER},
-        deal_total_amount = #{record.dealTotalAmount,jdbcType=INTEGER}
+        deal_total_amount = #{record.dealTotalAmount,jdbcType=INTEGER},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
       </if>
@@ -233,6 +246,9 @@
         <if test="dealTotalAmount != null" >
           deal_total_amount = #{dealTotalAmount,jdbcType=INTEGER},
         </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
       </set>
       where id = #{id,jdbcType=BIGINT}
     </update>
@@ -243,7 +259,8 @@
         search_national_flight_cnt = #{searchNationalFlightCnt,jdbcType=INTEGER},
         search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=INTEGER},
         deal_order_cnt = #{dealOrderCnt,jdbcType=INTEGER},
-        deal_total_amount = #{dealTotalAmount,jdbcType=INTEGER}
+        deal_total_amount = #{dealTotalAmount,jdbcType=INTEGER},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
       where id = #{id,jdbcType=BIGINT}
     </update>
   </mapper>

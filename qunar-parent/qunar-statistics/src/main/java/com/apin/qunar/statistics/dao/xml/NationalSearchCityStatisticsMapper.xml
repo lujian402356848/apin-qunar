@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-  <mapper namespace="com.apin.qunar.statistics.dao.mapper.SearchFlightRecordMapper" >
-    <resultMap id="SearchFlightRecordResult" type="com.apin.qunar.statistics.dao.model.SearchFlightRecord" >
+  <mapper namespace="com.apin.qunar.statistics.dao.mapper.NationalSearchCityStatisticsMapper" >
+    <resultMap id="NationalSearchCityStatisticsResult" type="com.apin.qunar.statistics.dao.model.NationalSearchCityStatistics" >
       <id column="id" property="id" jdbcType="BIGINT" />
       <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
-      <result column="has_internal" property="hasInternal" jdbcType="INTEGER" />
-      <result column="dept_city" property="deptCity" jdbcType="VARCHAR" />
-      <result column="arri_city" property="arriCity" jdbcType="VARCHAR" />
+      <result column="go_back_type" property="goBackType" jdbcType="INTEGER" />
+      <result column="city" property="city" jdbcType="VARCHAR" />
+      <result column="search_cnt" property="searchCnt" jdbcType="INTEGER" />
       <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Example_Where_Clause" >
@@ -67,16 +67,16 @@
         </foreach>
       </where>
     </sql>
-    <sql id="SearchFlightRecordColumns" >
-      id, merchant_no, has_internal, dept_city, arri_city, insert_time
+    <sql id="NationalSearchCityStatisticsColumns" >
+      id, merchant_no, go_back_type, city, search_cnt, insert_time
     </sql>
-    <select id="selectByExample" resultMap="SearchFlightRecordResult" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample" >
+    <select id="selectByExample" resultMap="NationalSearchCityStatisticsResult" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchCityStatisticsExample" >
       select
       <if test="distinct" >
         distinct
       </if>
-      <include refid="SearchFlightRecordColumns" />
-      from search_flight_record
+      <include refid="NationalSearchCityStatisticsColumns" />
+      from national_search_city_statistics
       <if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
       </if>
@@ -89,32 +89,32 @@
         </if>
       </if>
     </select>
-    <select id="selectByPrimaryKey" resultMap="SearchFlightRecordResult" parameterType="java.lang.Long" >
+    <select id="selectByPrimaryKey" resultMap="NationalSearchCityStatisticsResult" parameterType="java.lang.Long" >
       select 
-      <include refid="SearchFlightRecordColumns" />
-      from search_flight_record
+      <include refid="NationalSearchCityStatisticsColumns" />
+      from national_search_city_statistics
       where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-      delete from search_flight_record
+      delete from national_search_city_statistics
       where id = #{id,jdbcType=BIGINT}
     </delete>
-    <delete id="deleteByExample" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample" >
-      delete from search_flight_record
+    <delete id="deleteByExample" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchCityStatisticsExample" >
+      delete from national_search_city_statistics
       <if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
       </if>
     </delete>
-    <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord" >
-      insert into search_flight_record (id, merchant_no, has_internal, 
-        dept_city, arri_city, insert_time
+    <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchCityStatistics" >
+      insert into national_search_city_statistics (id, merchant_no, go_back_type, 
+        city, search_cnt, insert_time
         )
-      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{hasInternal,jdbcType=INTEGER}, 
-        #{deptCity,jdbcType=VARCHAR}, #{arriCity,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{goBackType,jdbcType=INTEGER}, 
+        #{city,jdbcType=VARCHAR}, #{searchCnt,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}
         )
     </insert>
-    <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord" >
-      insert into search_flight_record
+    <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchCityStatistics" >
+      insert into national_search_city_statistics
       <trim prefix="(" suffix=")" suffixOverrides="," >
         <if test="id != null" >
           id,
@@ -122,14 +122,14 @@
         <if test="merchantNo != null" >
           merchant_no,
         </if>
-        <if test="hasInternal != null" >
-          has_internal,
+        <if test="goBackType != null" >
+          go_back_type,
         </if>
-        <if test="deptCity != null" >
-          dept_city,
+        <if test="city != null" >
+          city,
         </if>
-        <if test="arriCity != null" >
-          arri_city,
+        <if test="searchCnt != null" >
+          search_cnt,
         </if>
         <if test="insertTime != null" >
           insert_time,
@@ -142,28 +142,28 @@
         <if test="merchantNo != null" >
           #{merchantNo,jdbcType=CHAR},
         </if>
-        <if test="hasInternal != null" >
-          #{hasInternal,jdbcType=INTEGER},
+        <if test="goBackType != null" >
+          #{goBackType,jdbcType=INTEGER},
         </if>
-        <if test="deptCity != null" >
-          #{deptCity,jdbcType=VARCHAR},
+        <if test="city != null" >
+          #{city,jdbcType=VARCHAR},
         </if>
-        <if test="arriCity != null" >
-          #{arriCity,jdbcType=VARCHAR},
+        <if test="searchCnt != null" >
+          #{searchCnt,jdbcType=INTEGER},
         </if>
         <if test="insertTime != null" >
           #{insertTime,jdbcType=TIMESTAMP},
         </if>
       </trim>
     </insert>
-    <select id="countByExample" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecordExample" resultType="java.lang.Integer" >
-      select count(*) from search_flight_record
+    <select id="countByExample" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchCityStatisticsExample" resultType="java.lang.Integer" >
+      select count(*) from national_search_city_statistics
       <if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
       </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map" >
-      update search_flight_record
+      update national_search_city_statistics
       <set >
         <if test="record.id != null" >
           id = #{record.id,jdbcType=BIGINT},
@@ -171,14 +171,14 @@
         <if test="record.merchantNo != null" >
           merchant_no = #{record.merchantNo,jdbcType=CHAR},
         </if>
-        <if test="record.hasInternal != null" >
-          has_internal = #{record.hasInternal,jdbcType=INTEGER},
+        <if test="record.goBackType != null" >
+          go_back_type = #{record.goBackType,jdbcType=INTEGER},
         </if>
-        <if test="record.deptCity != null" >
-          dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        <if test="record.city != null" >
+          city = #{record.city,jdbcType=VARCHAR},
         </if>
-        <if test="record.arriCity != null" >
-          arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        <if test="record.searchCnt != null" >
+          search_cnt = #{record.searchCnt,jdbcType=INTEGER},
         </if>
         <if test="record.insertTime != null" >
           insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
@@ -189,31 +189,31 @@
       </if>
     </update>
     <update id="updateByExample" parameterType="map" >
-      update search_flight_record
+      update national_search_city_statistics
       set id = #{record.id,jdbcType=BIGINT},
         merchant_no = #{record.merchantNo,jdbcType=CHAR},
-        has_internal = #{record.hasInternal,jdbcType=INTEGER},
-        dept_city = #{record.deptCity,jdbcType=VARCHAR},
-        arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        go_back_type = #{record.goBackType,jdbcType=INTEGER},
+        city = #{record.city,jdbcType=VARCHAR},
+        search_cnt = #{record.searchCnt,jdbcType=INTEGER},
         insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
       </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord" >
-      update search_flight_record
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchCityStatistics" >
+      update national_search_city_statistics
       <set >
         <if test="merchantNo != null" >
           merchant_no = #{merchantNo,jdbcType=CHAR},
         </if>
-        <if test="hasInternal != null" >
-          has_internal = #{hasInternal,jdbcType=INTEGER},
+        <if test="goBackType != null" >
+          go_back_type = #{goBackType,jdbcType=INTEGER},
         </if>
-        <if test="deptCity != null" >
-          dept_city = #{deptCity,jdbcType=VARCHAR},
+        <if test="city != null" >
+          city = #{city,jdbcType=VARCHAR},
         </if>
-        <if test="arriCity != null" >
-          arri_city = #{arriCity,jdbcType=VARCHAR},
+        <if test="searchCnt != null" >
+          search_cnt = #{searchCnt,jdbcType=INTEGER},
         </if>
         <if test="insertTime != null" >
           insert_time = #{insertTime,jdbcType=TIMESTAMP},
@@ -221,12 +221,12 @@
       </set>
       where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.SearchFlightRecord" >
-      update search_flight_record
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchCityStatistics" >
+      update national_search_city_statistics
       set merchant_no = #{merchantNo,jdbcType=CHAR},
-        has_internal = #{hasInternal,jdbcType=INTEGER},
-        dept_city = #{deptCity,jdbcType=VARCHAR},
-        arri_city = #{arriCity,jdbcType=VARCHAR},
+        go_back_type = #{goBackType,jdbcType=INTEGER},
+        city = #{city,jdbcType=VARCHAR},
+        search_cnt = #{searchCnt,jdbcType=INTEGER},
         insert_time = #{insertTime,jdbcType=TIMESTAMP}
       where id = #{id,jdbcType=BIGINT}
     </update>

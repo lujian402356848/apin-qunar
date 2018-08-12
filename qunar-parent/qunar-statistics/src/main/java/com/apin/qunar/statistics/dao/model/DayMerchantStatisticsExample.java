@@ -1,6 +1,7 @@
 package com.apin.qunar.statistics.dao.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DayMerchantStatisticsExample {
@@ -256,303 +257,423 @@ public class DayMerchantStatisticsExample {
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvIsNull() {
-            addCriterion("merchant_pv is null");
+        public Criteria andNationalSearchFlightCntIsNull() {
+            addCriterion("national_search_flight_cnt is null");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvIsNotNull() {
-            addCriterion("merchant_pv is not null");
+        public Criteria andNationalSearchFlightCntIsNotNull() {
+            addCriterion("national_search_flight_cnt is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvEqualTo(Integer value) {
-            addCriterion("merchant_pv =", value, "merchantPv");
+        public Criteria andNationalSearchFlightCntEqualTo(Integer value) {
+            addCriterion("national_search_flight_cnt =", value, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvNotEqualTo(Integer value) {
-            addCriterion("merchant_pv <>", value, "merchantPv");
+        public Criteria andNationalSearchFlightCntNotEqualTo(Integer value) {
+            addCriterion("national_search_flight_cnt <>", value, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvGreaterThan(Integer value) {
-            addCriterion("merchant_pv >", value, "merchantPv");
+        public Criteria andNationalSearchFlightCntGreaterThan(Integer value) {
+            addCriterion("national_search_flight_cnt >", value, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvGreaterThanOrEqualTo(Integer value) {
-            addCriterion("merchant_pv >=", value, "merchantPv");
+        public Criteria andNationalSearchFlightCntGreaterThanOrEqualTo(Integer value) {
+            addCriterion("national_search_flight_cnt >=", value, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvLessThan(Integer value) {
-            addCriterion("merchant_pv <", value, "merchantPv");
+        public Criteria andNationalSearchFlightCntLessThan(Integer value) {
+            addCriterion("national_search_flight_cnt <", value, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvLessThanOrEqualTo(Integer value) {
-            addCriterion("merchant_pv <=", value, "merchantPv");
+        public Criteria andNationalSearchFlightCntLessThanOrEqualTo(Integer value) {
+            addCriterion("national_search_flight_cnt <=", value, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvIn(List<Integer> values) {
-            addCriterion("merchant_pv in", values, "merchantPv");
+        public Criteria andNationalSearchFlightCntIn(List<Integer> values) {
+            addCriterion("national_search_flight_cnt in", values, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvNotIn(List<Integer> values) {
-            addCriterion("merchant_pv not in", values, "merchantPv");
+        public Criteria andNationalSearchFlightCntNotIn(List<Integer> values) {
+            addCriterion("national_search_flight_cnt not in", values, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvBetween(Integer value1, Integer value2) {
-            addCriterion("merchant_pv between", value1, value2, "merchantPv");
+        public Criteria andNationalSearchFlightCntBetween(Integer value1, Integer value2) {
+            addCriterion("national_search_flight_cnt between", value1, value2, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andMerchantPvNotBetween(Integer value1, Integer value2) {
-            addCriterion("merchant_pv not between", value1, value2, "merchantPv");
+        public Criteria andNationalSearchFlightCntNotBetween(Integer value1, Integer value2) {
+            addCriterion("national_search_flight_cnt not between", value1, value2, "nationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntIsNull() {
-            addCriterion("search_national_flight_cnt is null");
+        public Criteria andInternationalSearchFlightCntIsNull() {
+            addCriterion("international_search_flight_cnt is null");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntIsNotNull() {
-            addCriterion("search_national_flight_cnt is not null");
+        public Criteria andInternationalSearchFlightCntIsNotNull() {
+            addCriterion("international_search_flight_cnt is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntEqualTo(Integer value) {
-            addCriterion("search_national_flight_cnt =", value, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntEqualTo(Integer value) {
+            addCriterion("international_search_flight_cnt =", value, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntNotEqualTo(Integer value) {
-            addCriterion("search_national_flight_cnt <>", value, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntNotEqualTo(Integer value) {
+            addCriterion("international_search_flight_cnt <>", value, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntGreaterThan(Integer value) {
-            addCriterion("search_national_flight_cnt >", value, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntGreaterThan(Integer value) {
+            addCriterion("international_search_flight_cnt >", value, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntGreaterThanOrEqualTo(Integer value) {
-            addCriterion("search_national_flight_cnt >=", value, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntGreaterThanOrEqualTo(Integer value) {
+            addCriterion("international_search_flight_cnt >=", value, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntLessThan(Integer value) {
-            addCriterion("search_national_flight_cnt <", value, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntLessThan(Integer value) {
+            addCriterion("international_search_flight_cnt <", value, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntLessThanOrEqualTo(Integer value) {
-            addCriterion("search_national_flight_cnt <=", value, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntLessThanOrEqualTo(Integer value) {
+            addCriterion("international_search_flight_cnt <=", value, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntIn(List<Integer> values) {
-            addCriterion("search_national_flight_cnt in", values, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntIn(List<Integer> values) {
+            addCriterion("international_search_flight_cnt in", values, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntNotIn(List<Integer> values) {
-            addCriterion("search_national_flight_cnt not in", values, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntNotIn(List<Integer> values) {
+            addCriterion("international_search_flight_cnt not in", values, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntBetween(Integer value1, Integer value2) {
-            addCriterion("search_national_flight_cnt between", value1, value2, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntBetween(Integer value1, Integer value2) {
+            addCriterion("international_search_flight_cnt between", value1, value2, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchNationalFlightCntNotBetween(Integer value1, Integer value2) {
-            addCriterion("search_national_flight_cnt not between", value1, value2, "searchNationalFlightCnt");
+        public Criteria andInternationalSearchFlightCntNotBetween(Integer value1, Integer value2) {
+            addCriterion("international_search_flight_cnt not between", value1, value2, "internationalSearchFlightCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntIsNull() {
-            addCriterion("search_international_flight_cnt is null");
+        public Criteria andNationalDealOrderCntIsNull() {
+            addCriterion("national_deal_order_cnt is null");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntIsNotNull() {
-            addCriterion("search_international_flight_cnt is not null");
+        public Criteria andNationalDealOrderCntIsNotNull() {
+            addCriterion("national_deal_order_cnt is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntEqualTo(Integer value) {
-            addCriterion("search_international_flight_cnt =", value, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntEqualTo(Integer value) {
+            addCriterion("national_deal_order_cnt =", value, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntNotEqualTo(Integer value) {
-            addCriterion("search_international_flight_cnt <>", value, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntNotEqualTo(Integer value) {
+            addCriterion("national_deal_order_cnt <>", value, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntGreaterThan(Integer value) {
-            addCriterion("search_international_flight_cnt >", value, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntGreaterThan(Integer value) {
+            addCriterion("national_deal_order_cnt >", value, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntGreaterThanOrEqualTo(Integer value) {
-            addCriterion("search_international_flight_cnt >=", value, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntGreaterThanOrEqualTo(Integer value) {
+            addCriterion("national_deal_order_cnt >=", value, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntLessThan(Integer value) {
-            addCriterion("search_international_flight_cnt <", value, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntLessThan(Integer value) {
+            addCriterion("national_deal_order_cnt <", value, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntLessThanOrEqualTo(Integer value) {
-            addCriterion("search_international_flight_cnt <=", value, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntLessThanOrEqualTo(Integer value) {
+            addCriterion("national_deal_order_cnt <=", value, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntIn(List<Integer> values) {
-            addCriterion("search_international_flight_cnt in", values, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntIn(List<Integer> values) {
+            addCriterion("national_deal_order_cnt in", values, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntNotIn(List<Integer> values) {
-            addCriterion("search_international_flight_cnt not in", values, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntNotIn(List<Integer> values) {
+            addCriterion("national_deal_order_cnt not in", values, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntBetween(Integer value1, Integer value2) {
-            addCriterion("search_international_flight_cnt between", value1, value2, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntBetween(Integer value1, Integer value2) {
+            addCriterion("national_deal_order_cnt between", value1, value2, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andSearchInternationalFlightCntNotBetween(Integer value1, Integer value2) {
-            addCriterion("search_international_flight_cnt not between", value1, value2, "searchInternationalFlightCnt");
+        public Criteria andNationalDealOrderCntNotBetween(Integer value1, Integer value2) {
+            addCriterion("national_deal_order_cnt not between", value1, value2, "nationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntIsNull() {
-            addCriterion("deal_order_cnt is null");
+        public Criteria andInternationalDealOrderCntIsNull() {
+            addCriterion("international_deal_order_cnt is null");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntIsNotNull() {
-            addCriterion("deal_order_cnt is not null");
+        public Criteria andInternationalDealOrderCntIsNotNull() {
+            addCriterion("international_deal_order_cnt is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntEqualTo(Integer value) {
-            addCriterion("deal_order_cnt =", value, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntEqualTo(Integer value) {
+            addCriterion("international_deal_order_cnt =", value, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntNotEqualTo(Integer value) {
-            addCriterion("deal_order_cnt <>", value, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntNotEqualTo(Integer value) {
+            addCriterion("international_deal_order_cnt <>", value, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntGreaterThan(Integer value) {
-            addCriterion("deal_order_cnt >", value, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntGreaterThan(Integer value) {
+            addCriterion("international_deal_order_cnt >", value, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntGreaterThanOrEqualTo(Integer value) {
-            addCriterion("deal_order_cnt >=", value, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntGreaterThanOrEqualTo(Integer value) {
+            addCriterion("international_deal_order_cnt >=", value, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntLessThan(Integer value) {
-            addCriterion("deal_order_cnt <", value, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntLessThan(Integer value) {
+            addCriterion("international_deal_order_cnt <", value, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntLessThanOrEqualTo(Integer value) {
-            addCriterion("deal_order_cnt <=", value, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntLessThanOrEqualTo(Integer value) {
+            addCriterion("international_deal_order_cnt <=", value, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntIn(List<Integer> values) {
-            addCriterion("deal_order_cnt in", values, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntIn(List<Integer> values) {
+            addCriterion("international_deal_order_cnt in", values, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntNotIn(List<Integer> values) {
-            addCriterion("deal_order_cnt not in", values, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntNotIn(List<Integer> values) {
+            addCriterion("international_deal_order_cnt not in", values, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntBetween(Integer value1, Integer value2) {
-            addCriterion("deal_order_cnt between", value1, value2, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntBetween(Integer value1, Integer value2) {
+            addCriterion("international_deal_order_cnt between", value1, value2, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealOrderCntNotBetween(Integer value1, Integer value2) {
-            addCriterion("deal_order_cnt not between", value1, value2, "dealOrderCnt");
+        public Criteria andInternationalDealOrderCntNotBetween(Integer value1, Integer value2) {
+            addCriterion("international_deal_order_cnt not between", value1, value2, "internationalDealOrderCnt");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountIsNull() {
-            addCriterion("deal_total_amount is null");
+        public Criteria andNationalDealTotalAmountIsNull() {
+            addCriterion("national_deal_total_amount is null");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountIsNotNull() {
-            addCriterion("deal_total_amount is not null");
+        public Criteria andNationalDealTotalAmountIsNotNull() {
+            addCriterion("national_deal_total_amount is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountEqualTo(Integer value) {
-            addCriterion("deal_total_amount =", value, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountEqualTo(Integer value) {
+            addCriterion("national_deal_total_amount =", value, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountNotEqualTo(Integer value) {
-            addCriterion("deal_total_amount <>", value, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountNotEqualTo(Integer value) {
+            addCriterion("national_deal_total_amount <>", value, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountGreaterThan(Integer value) {
-            addCriterion("deal_total_amount >", value, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountGreaterThan(Integer value) {
+            addCriterion("national_deal_total_amount >", value, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("deal_total_amount >=", value, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("national_deal_total_amount >=", value, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountLessThan(Integer value) {
-            addCriterion("deal_total_amount <", value, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountLessThan(Integer value) {
+            addCriterion("national_deal_total_amount <", value, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountLessThanOrEqualTo(Integer value) {
-            addCriterion("deal_total_amount <=", value, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("national_deal_total_amount <=", value, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountIn(List<Integer> values) {
-            addCriterion("deal_total_amount in", values, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountIn(List<Integer> values) {
+            addCriterion("national_deal_total_amount in", values, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountNotIn(List<Integer> values) {
-            addCriterion("deal_total_amount not in", values, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountNotIn(List<Integer> values) {
+            addCriterion("national_deal_total_amount not in", values, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountBetween(Integer value1, Integer value2) {
-            addCriterion("deal_total_amount between", value1, value2, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountBetween(Integer value1, Integer value2) {
+            addCriterion("national_deal_total_amount between", value1, value2, "nationalDealTotalAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDealTotalAmountNotBetween(Integer value1, Integer value2) {
-            addCriterion("deal_total_amount not between", value1, value2, "dealTotalAmount");
+        public Criteria andNationalDealTotalAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("national_deal_total_amount not between", value1, value2, "nationalDealTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountIsNull() {
+            addCriterion("international_total_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountIsNotNull() {
+            addCriterion("international_total_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountEqualTo(Integer value) {
+            addCriterion("international_total_amount =", value, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountNotEqualTo(Integer value) {
+            addCriterion("international_total_amount <>", value, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountGreaterThan(Integer value) {
+            addCriterion("international_total_amount >", value, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("international_total_amount >=", value, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountLessThan(Integer value) {
+            addCriterion("international_total_amount <", value, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("international_total_amount <=", value, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountIn(List<Integer> values) {
+            addCriterion("international_total_amount in", values, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountNotIn(List<Integer> values) {
+            addCriterion("international_total_amount not in", values, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountBetween(Integer value1, Integer value2) {
+            addCriterion("international_total_amount between", value1, value2, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInternationalTotalAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("international_total_amount not between", value1, value2, "internationalTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeIsNull() {
+            addCriterion("insert_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeIsNotNull() {
+            addCriterion("insert_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeEqualTo(Date value) {
+            addCriterion("insert_time =", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeNotEqualTo(Date value) {
+            addCriterion("insert_time <>", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeGreaterThan(Date value) {
+            addCriterion("insert_time >", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("insert_time >=", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeLessThan(Date value) {
+            addCriterion("insert_time <", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeLessThanOrEqualTo(Date value) {
+            addCriterion("insert_time <=", value, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeIn(List<Date> values) {
+            addCriterion("insert_time in", values, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeNotIn(List<Date> values) {
+            addCriterion("insert_time not in", values, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeBetween(Date value1, Date value2) {
+            addCriterion("insert_time between", value1, value2, "insertTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertTimeNotBetween(Date value1, Date value2) {
+            addCriterion("insert_time not between", value1, value2, "insertTime");
             return (Criteria) this;
         }
     }

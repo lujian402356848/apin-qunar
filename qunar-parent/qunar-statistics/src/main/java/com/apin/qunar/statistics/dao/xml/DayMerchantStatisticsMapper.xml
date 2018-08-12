@@ -4,11 +4,13 @@
     <resultMap id="DayMerchantStatisticsResult" type="com.apin.qunar.statistics.dao.model.DayMerchantStatistics" >
       <id column="id" property="id" jdbcType="BIGINT" />
       <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
-      <result column="merchant_pv" property="merchantPv" jdbcType="INTEGER" />
-      <result column="search_national_flight_cnt" property="searchNationalFlightCnt" jdbcType="INTEGER" />
-      <result column="search_international_flight_cnt" property="searchInternationalFlightCnt" jdbcType="INTEGER" />
-      <result column="deal_order_cnt" property="dealOrderCnt" jdbcType="INTEGER" />
-      <result column="deal_total_amount" property="dealTotalAmount" jdbcType="INTEGER" />
+      <result column="national_search_flight_cnt" property="nationalSearchFlightCnt" jdbcType="INTEGER" />
+      <result column="international_search_flight_cnt" property="internationalSearchFlightCnt" jdbcType="INTEGER" />
+      <result column="national_deal_order_cnt" property="nationalDealOrderCnt" jdbcType="INTEGER" />
+      <result column="international_deal_order_cnt" property="internationalDealOrderCnt" jdbcType="INTEGER" />
+      <result column="national_deal_total_amount" property="nationalDealTotalAmount" jdbcType="INTEGER" />
+      <result column="international_total_amount" property="internationalTotalAmount" jdbcType="INTEGER" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Example_Where_Clause" >
       <where >
@@ -69,8 +71,9 @@
       </where>
     </sql>
     <sql id="DayMerchantStatisticsColumns" >
-      id, merchant_no, merchant_pv, search_national_flight_cnt, search_international_flight_cnt, 
-      deal_order_cnt, deal_total_amount
+      id, merchant_no, national_search_flight_cnt, international_search_flight_cnt, national_deal_order_cnt, 
+      international_deal_order_cnt, national_deal_total_amount, international_total_amount, 
+      insert_time
     </sql>
     <select id="selectByExample" resultMap="DayMerchantStatisticsResult" parameterType="com.apin.qunar.statistics.dao.model.DayMerchantStatisticsExample" >
       select
@@ -108,12 +111,14 @@
       </if>
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.DayMerchantStatistics" >
-      insert into day_merchant_statistics (id, merchant_no, merchant_pv, 
-        search_national_flight_cnt, search_international_flight_cnt, 
-        deal_order_cnt, deal_total_amount)
-      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{merchantPv,jdbcType=INTEGER}, 
-        #{searchNationalFlightCnt,jdbcType=INTEGER}, #{searchInternationalFlightCnt,jdbcType=INTEGER}, 
-        #{dealOrderCnt,jdbcType=INTEGER}, #{dealTotalAmount,jdbcType=INTEGER})
+      insert into day_merchant_statistics (id, merchant_no, national_search_flight_cnt, 
+        international_search_flight_cnt, national_deal_order_cnt, 
+        international_deal_order_cnt, national_deal_total_amount, 
+        international_total_amount, insert_time)
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{nationalSearchFlightCnt,jdbcType=INTEGER}, 
+        #{internationalSearchFlightCnt,jdbcType=INTEGER}, #{nationalDealOrderCnt,jdbcType=INTEGER}, 
+        #{internationalDealOrderCnt,jdbcType=INTEGER}, #{nationalDealTotalAmount,jdbcType=INTEGER}, 
+        #{internationalTotalAmount,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.DayMerchantStatistics" >
       insert into day_merchant_statistics
@@ -124,20 +129,26 @@
         <if test="merchantNo != null" >
           merchant_no,
         </if>
-        <if test="merchantPv != null" >
-          merchant_pv,
+        <if test="nationalSearchFlightCnt != null" >
+          national_search_flight_cnt,
         </if>
-        <if test="searchNationalFlightCnt != null" >
-          search_national_flight_cnt,
+        <if test="internationalSearchFlightCnt != null" >
+          international_search_flight_cnt,
         </if>
-        <if test="searchInternationalFlightCnt != null" >
-          search_international_flight_cnt,
+        <if test="nationalDealOrderCnt != null" >
+          national_deal_order_cnt,
         </if>
-        <if test="dealOrderCnt != null" >
-          deal_order_cnt,
+        <if test="internationalDealOrderCnt != null" >
+          international_deal_order_cnt,
         </if>
-        <if test="dealTotalAmount != null" >
-          deal_total_amount,
+        <if test="nationalDealTotalAmount != null" >
+          national_deal_total_amount,
+        </if>
+        <if test="internationalTotalAmount != null" >
+          international_total_amount,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
         </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -147,20 +158,26 @@
         <if test="merchantNo != null" >
           #{merchantNo,jdbcType=CHAR},
         </if>
-        <if test="merchantPv != null" >
-          #{merchantPv,jdbcType=INTEGER},
+        <if test="nationalSearchFlightCnt != null" >
+          #{nationalSearchFlightCnt,jdbcType=INTEGER},
         </if>
-        <if test="searchNationalFlightCnt != null" >
-          #{searchNationalFlightCnt,jdbcType=INTEGER},
+        <if test="internationalSearchFlightCnt != null" >
+          #{internationalSearchFlightCnt,jdbcType=INTEGER},
         </if>
-        <if test="searchInternationalFlightCnt != null" >
-          #{searchInternationalFlightCnt,jdbcType=INTEGER},
+        <if test="nationalDealOrderCnt != null" >
+          #{nationalDealOrderCnt,jdbcType=INTEGER},
         </if>
-        <if test="dealOrderCnt != null" >
-          #{dealOrderCnt,jdbcType=INTEGER},
+        <if test="internationalDealOrderCnt != null" >
+          #{internationalDealOrderCnt,jdbcType=INTEGER},
         </if>
-        <if test="dealTotalAmount != null" >
-          #{dealTotalAmount,jdbcType=INTEGER},
+        <if test="nationalDealTotalAmount != null" >
+          #{nationalDealTotalAmount,jdbcType=INTEGER},
+        </if>
+        <if test="internationalTotalAmount != null" >
+          #{internationalTotalAmount,jdbcType=INTEGER},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
         </if>
       </trim>
     </insert>
@@ -179,20 +196,26 @@
         <if test="record.merchantNo != null" >
           merchant_no = #{record.merchantNo,jdbcType=CHAR},
         </if>
-        <if test="record.merchantPv != null" >
-          merchant_pv = #{record.merchantPv,jdbcType=INTEGER},
+        <if test="record.nationalSearchFlightCnt != null" >
+          national_search_flight_cnt = #{record.nationalSearchFlightCnt,jdbcType=INTEGER},
         </if>
-        <if test="record.searchNationalFlightCnt != null" >
-          search_national_flight_cnt = #{record.searchNationalFlightCnt,jdbcType=INTEGER},
+        <if test="record.internationalSearchFlightCnt != null" >
+          international_search_flight_cnt = #{record.internationalSearchFlightCnt,jdbcType=INTEGER},
         </if>
-        <if test="record.searchInternationalFlightCnt != null" >
-          search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=INTEGER},
+        <if test="record.nationalDealOrderCnt != null" >
+          national_deal_order_cnt = #{record.nationalDealOrderCnt,jdbcType=INTEGER},
         </if>
-        <if test="record.dealOrderCnt != null" >
-          deal_order_cnt = #{record.dealOrderCnt,jdbcType=INTEGER},
+        <if test="record.internationalDealOrderCnt != null" >
+          international_deal_order_cnt = #{record.internationalDealOrderCnt,jdbcType=INTEGER},
         </if>
-        <if test="record.dealTotalAmount != null" >
-          deal_total_amount = #{record.dealTotalAmount,jdbcType=INTEGER},
+        <if test="record.nationalDealTotalAmount != null" >
+          national_deal_total_amount = #{record.nationalDealTotalAmount,jdbcType=INTEGER},
+        </if>
+        <if test="record.internationalTotalAmount != null" >
+          international_total_amount = #{record.internationalTotalAmount,jdbcType=INTEGER},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
         </if>
       </set>
       <if test="_parameter != null" >
@@ -203,11 +226,13 @@
       update day_merchant_statistics
       set id = #{record.id,jdbcType=BIGINT},
         merchant_no = #{record.merchantNo,jdbcType=CHAR},
-        merchant_pv = #{record.merchantPv,jdbcType=INTEGER},
-        search_national_flight_cnt = #{record.searchNationalFlightCnt,jdbcType=INTEGER},
-        search_international_flight_cnt = #{record.searchInternationalFlightCnt,jdbcType=INTEGER},
-        deal_order_cnt = #{record.dealOrderCnt,jdbcType=INTEGER},
-        deal_total_amount = #{record.dealTotalAmount,jdbcType=INTEGER}
+        national_search_flight_cnt = #{record.nationalSearchFlightCnt,jdbcType=INTEGER},
+        international_search_flight_cnt = #{record.internationalSearchFlightCnt,jdbcType=INTEGER},
+        national_deal_order_cnt = #{record.nationalDealOrderCnt,jdbcType=INTEGER},
+        international_deal_order_cnt = #{record.internationalDealOrderCnt,jdbcType=INTEGER},
+        national_deal_total_amount = #{record.nationalDealTotalAmount,jdbcType=INTEGER},
+        international_total_amount = #{record.internationalTotalAmount,jdbcType=INTEGER},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
       </if>
@@ -218,20 +243,26 @@
         <if test="merchantNo != null" >
           merchant_no = #{merchantNo,jdbcType=CHAR},
         </if>
-        <if test="merchantPv != null" >
-          merchant_pv = #{merchantPv,jdbcType=INTEGER},
+        <if test="nationalSearchFlightCnt != null" >
+          national_search_flight_cnt = #{nationalSearchFlightCnt,jdbcType=INTEGER},
         </if>
-        <if test="searchNationalFlightCnt != null" >
-          search_national_flight_cnt = #{searchNationalFlightCnt,jdbcType=INTEGER},
+        <if test="internationalSearchFlightCnt != null" >
+          international_search_flight_cnt = #{internationalSearchFlightCnt,jdbcType=INTEGER},
         </if>
-        <if test="searchInternationalFlightCnt != null" >
-          search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=INTEGER},
+        <if test="nationalDealOrderCnt != null" >
+          national_deal_order_cnt = #{nationalDealOrderCnt,jdbcType=INTEGER},
         </if>
-        <if test="dealOrderCnt != null" >
-          deal_order_cnt = #{dealOrderCnt,jdbcType=INTEGER},
+        <if test="internationalDealOrderCnt != null" >
+          international_deal_order_cnt = #{internationalDealOrderCnt,jdbcType=INTEGER},
         </if>
-        <if test="dealTotalAmount != null" >
-          deal_total_amount = #{dealTotalAmount,jdbcType=INTEGER},
+        <if test="nationalDealTotalAmount != null" >
+          national_deal_total_amount = #{nationalDealTotalAmount,jdbcType=INTEGER},
+        </if>
+        <if test="internationalTotalAmount != null" >
+          international_total_amount = #{internationalTotalAmount,jdbcType=INTEGER},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
         </if>
       </set>
       where id = #{id,jdbcType=BIGINT}
@@ -239,11 +270,13 @@
     <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.DayMerchantStatistics" >
       update day_merchant_statistics
       set merchant_no = #{merchantNo,jdbcType=CHAR},
-        merchant_pv = #{merchantPv,jdbcType=INTEGER},
-        search_national_flight_cnt = #{searchNationalFlightCnt,jdbcType=INTEGER},
-        search_international_flight_cnt = #{searchInternationalFlightCnt,jdbcType=INTEGER},
-        deal_order_cnt = #{dealOrderCnt,jdbcType=INTEGER},
-        deal_total_amount = #{dealTotalAmount,jdbcType=INTEGER}
+        national_search_flight_cnt = #{nationalSearchFlightCnt,jdbcType=INTEGER},
+        international_search_flight_cnt = #{internationalSearchFlightCnt,jdbcType=INTEGER},
+        national_deal_order_cnt = #{nationalDealOrderCnt,jdbcType=INTEGER},
+        international_deal_order_cnt = #{internationalDealOrderCnt,jdbcType=INTEGER},
+        national_deal_total_amount = #{nationalDealTotalAmount,jdbcType=INTEGER},
+        international_total_amount = #{internationalTotalAmount,jdbcType=INTEGER},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
       where id = #{id,jdbcType=BIGINT}
     </update>
   </mapper>

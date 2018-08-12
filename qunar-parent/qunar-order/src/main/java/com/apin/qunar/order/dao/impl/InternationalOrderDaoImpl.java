@@ -31,24 +31,14 @@ public class InternationalOrderDaoImpl {
         return CollectionUtils.isEmpty(internationalOrders) ? null : internationalOrders.get(0);
     }
 
-    public List<InternationalOrder> queryOrderBy(Integer status, Date satrtInsertTime, Date endInsertTime) {
-        InternationalOrderExample example = new InternationalOrderExample();
-        InternationalOrderExample.Criteria criteria = example.createCriteria();
-        criteria.andPayStatusEqualTo(status);
-        criteria.andInsertTimeBetween(satrtInsertTime, endInsertTime);
-        example.setOrderByClause("insert_time asc");
-        return internationalOrderMapper.selectByExample(example);
+    public int queryCntBy(String operator, List<Integer> payStatusList, Date startTime, Date endTime) {
+        String payStatusStr = StringUtils.join(payStatusList, ",");
+        return internationalOrderExtMapper.queryCntBy(operator, payStatusStr, startTime, endTime);
     }
 
-    public List<InternationalOrder> queryOrderBy(List<Integer> status, Date lastTime, Integer limit) {
-        InternationalOrderExample example = new InternationalOrderExample();
-        InternationalOrderExample.Criteria criteria = example.createCriteria();
-        criteria.andPayStatusIn(status);
-        criteria.andUpdateTimeGreaterThanOrEqualTo(lastTime);
-        example.setMysqlOffset(0);
-        example.setMysqlLength(limit);
-        example.setOrderByClause("insert_time asc");
-        return internationalOrderMapper.selectByExample(example);
+    public int queryTotalAmountBy(String operator, List<Integer> payStatusList, Date startTime, Date endTime) {
+        String payStatusStr = StringUtils.join(payStatusList, ",");
+        return internationalOrderExtMapper.queryTotalAmountBy(operator, payStatusStr, startTime, endTime);
     }
 
     public List<InternationalOrder> queryPageListBy(String merchantNo, String account, Integer status, String orderNo, Integer offset, Integer limit) {

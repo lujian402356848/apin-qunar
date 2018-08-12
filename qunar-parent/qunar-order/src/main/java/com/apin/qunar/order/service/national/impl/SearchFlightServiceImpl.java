@@ -7,6 +7,7 @@ import com.apin.qunar.order.domain.national.searchFlight.FlightInfo;
 import com.apin.qunar.order.domain.national.searchFlight.SearchFlightParam;
 import com.apin.qunar.order.domain.national.searchFlight.SearchFlightResultVO;
 import com.apin.qunar.order.service.national.SearchFlightService;
+import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,10 +24,8 @@ import java.util.List;
 public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiResult<SearchFlightResultVO>> implements SearchFlightService {
     @Autowired
     private AirlineServiceImpl airlineService;
-
     @Autowired
-//    private SearchFlightRecordService searchFlightRecordService;
-
+    private SearchFlightRecordService searchFlightRecordService;
 
     @Override
     protected String getTag() {
@@ -48,7 +47,7 @@ public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiRe
      */
     @Override
     public ApiResult<SearchFlightResultVO> searchFlight(final SearchFlightParam searchFlightParam, final String merchantNo) {
-        //   searchFlightRecordService.create(merchantNo, true, searchFlightParam.getDpt(), searchFlightParam.getArr());
+//        searchFlightRecordService.create(merchantNo, true, searchFlightParam.getDpt(), searchFlightParam.getArr());
         ApiResult<SearchFlightResultVO> apiResult = execute(searchFlightParam);
         if (apiResult == null) {
             return ApiResult.fail();

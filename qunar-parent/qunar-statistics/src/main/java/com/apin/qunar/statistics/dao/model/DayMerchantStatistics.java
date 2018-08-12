@@ -1,6 +1,7 @@
 package com.apin.qunar.statistics.dao.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class DayMerchantStatistics implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -16,29 +17,39 @@ public class DayMerchantStatistics implements Serializable {
     private String merchantNo;
 
     /**
-     * 商户的日访问次数
+     * 国内每日航班查询次数
      */
-    private Integer merchantPv;
+    private Integer nationalSearchFlightCnt;
 
     /**
-     * 每日国内航班查询次数
+     * 国际每日航班查询次数
      */
-    private Integer searchNationalFlightCnt;
+    private Integer internationalSearchFlightCnt;
 
     /**
-     * 每日国际航班查询次数
+     * 国内日成交订单数
      */
-    private Integer searchInternationalFlightCnt;
+    private Integer nationalDealOrderCnt;
 
     /**
-     * 日成交单数
+     * 国际日成交订单数
      */
-    private Integer dealOrderCnt;
+    private Integer internationalDealOrderCnt;
 
     /**
-     * 日成交总金额
+     * 国内日成交总金额
      */
-    private Integer dealTotalAmount;
+    private Integer nationalDealTotalAmount;
+
+    /**
+     * 国际日成交总金额
+     */
+    private Integer internationalTotalAmount;
+
+    /**
+     * 插入时间
+     */
+    private Date insertTime;
 
     /**
      * @return 唯一标识
@@ -69,72 +80,100 @@ public class DayMerchantStatistics implements Serializable {
     }
 
     /**
-     * @return 商户的日访问次数
+     * @return 国内每日航班查询次数
      */
-    public Integer getMerchantPv() {
-        return merchantPv;
+    public Integer getNationalSearchFlightCnt() {
+        return nationalSearchFlightCnt;
     }
 
     /**
-     * @param merchantPv 商户的日访问次数
+     * @param nationalSearchFlightCnt 国内每日航班查询次数
      */
-    public void setMerchantPv(Integer merchantPv) {
-        this.merchantPv = merchantPv;
+    public void setNationalSearchFlightCnt(Integer nationalSearchFlightCnt) {
+        this.nationalSearchFlightCnt = nationalSearchFlightCnt;
     }
 
     /**
-     * @return 每日国内航班查询次数
+     * @return 国际每日航班查询次数
      */
-    public Integer getSearchNationalFlightCnt() {
-        return searchNationalFlightCnt;
+    public Integer getInternationalSearchFlightCnt() {
+        return internationalSearchFlightCnt;
     }
 
     /**
-     * @param searchNationalFlightCnt 每日国内航班查询次数
+     * @param internationalSearchFlightCnt 国际每日航班查询次数
      */
-    public void setSearchNationalFlightCnt(Integer searchNationalFlightCnt) {
-        this.searchNationalFlightCnt = searchNationalFlightCnt;
+    public void setInternationalSearchFlightCnt(Integer internationalSearchFlightCnt) {
+        this.internationalSearchFlightCnt = internationalSearchFlightCnt;
     }
 
     /**
-     * @return 每日国际航班查询次数
+     * @return 国内日成交订单数
      */
-    public Integer getSearchInternationalFlightCnt() {
-        return searchInternationalFlightCnt;
+    public Integer getNationalDealOrderCnt() {
+        return nationalDealOrderCnt;
     }
 
     /**
-     * @param searchInternationalFlightCnt 每日国际航班查询次数
+     * @param nationalDealOrderCnt 国内日成交订单数
      */
-    public void setSearchInternationalFlightCnt(Integer searchInternationalFlightCnt) {
-        this.searchInternationalFlightCnt = searchInternationalFlightCnt;
+    public void setNationalDealOrderCnt(Integer nationalDealOrderCnt) {
+        this.nationalDealOrderCnt = nationalDealOrderCnt;
     }
 
     /**
-     * @return 日成交单数
+     * @return 国际日成交订单数
      */
-    public Integer getDealOrderCnt() {
-        return dealOrderCnt;
+    public Integer getInternationalDealOrderCnt() {
+        return internationalDealOrderCnt;
     }
 
     /**
-     * @param dealOrderCnt 日成交单数
+     * @param internationalDealOrderCnt 国际日成交订单数
      */
-    public void setDealOrderCnt(Integer dealOrderCnt) {
-        this.dealOrderCnt = dealOrderCnt;
+    public void setInternationalDealOrderCnt(Integer internationalDealOrderCnt) {
+        this.internationalDealOrderCnt = internationalDealOrderCnt;
     }
 
     /**
-     * @return 日成交总金额
+     * @return 国内日成交总金额
      */
-    public Integer getDealTotalAmount() {
-        return dealTotalAmount;
+    public Integer getNationalDealTotalAmount() {
+        return nationalDealTotalAmount;
     }
 
     /**
-     * @param dealTotalAmount 日成交总金额
+     * @param nationalDealTotalAmount 国内日成交总金额
      */
-    public void setDealTotalAmount(Integer dealTotalAmount) {
-        this.dealTotalAmount = dealTotalAmount;
+    public void setNationalDealTotalAmount(Integer nationalDealTotalAmount) {
+        this.nationalDealTotalAmount = nationalDealTotalAmount;
+    }
+
+    /**
+     * @return 国际日成交总金额
+     */
+    public Integer getInternationalTotalAmount() {
+        return internationalTotalAmount;
+    }
+
+    /**
+     * @param internationalTotalAmount 国际日成交总金额
+     */
+    public void setInternationalTotalAmount(Integer internationalTotalAmount) {
+        this.internationalTotalAmount = internationalTotalAmount;
+    }
+
+    /**
+     * @return 插入时间
+     */
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    /**
+     * @param insertTime 插入时间
+     */
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 }

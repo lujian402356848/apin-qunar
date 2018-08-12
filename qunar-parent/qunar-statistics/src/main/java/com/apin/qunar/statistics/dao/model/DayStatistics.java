@@ -1,6 +1,7 @@
 package com.apin.qunar.statistics.dao.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class DayStatistics implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -39,6 +40,11 @@ public class DayStatistics implements Serializable {
      * 每日成交流水
      */
     private Integer dealTotalAmount;
+
+    /**
+     * 插入时间
+     */
+    private Date insertTime;
 
     /**
      * @return 唯一标识
@@ -136,5 +142,19 @@ public class DayStatistics implements Serializable {
      */
     public void setDealTotalAmount(Integer dealTotalAmount) {
         this.dealTotalAmount = dealTotalAmount;
+    }
+
+    /**
+     * @return 插入时间
+     */
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    /**
+     * @param insertTime 插入时间
+     */
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 }
