@@ -94,9 +94,9 @@ public class FlightChangeServiceImpl implements FlightChangeService {
                 result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CANCEL);
                 break;
             case "航班取消有保护":
-                sourceFlight = String.format("%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getFlightNum());
-                targetFlight = String.format("%s%s-%s到%s的%s航班", flightChange.getFolDptDate(), flightChange.getFolDptTime(), flightChange.getFolDptAirport(), flightChange.getFolArrAirport(), flightChange.getFolFlightNo());
-                dptArrTime = String.format("%s-%s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
+                sourceFlight = String.format("%s %s从%s到%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
+                targetFlight = String.format("%s %s的%s航班", flightChange.getFolDptDate(), flightChange.getFolDptTime(), flightChange.getFolFlightNo());
+                dptArrTime = String.format("%s %s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
                 content = String.format(SmsConstants.FLIGHT_CANCEL_PROTECT, sourceFlight, targetFlight, dptArrTime);
                 result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CANCEL_PROTECT);
                 break;
@@ -105,8 +105,8 @@ public class FlightChangeServiceImpl implements FlightChangeService {
                 result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_RECOVERY);
                 break;
             case "航班变更":
-                sourceFlight = String.format("%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getFlightNum());
-                targetFlight = String.format("%s%s-%s到%s的%s航班", flightChange.getFolDptDate(), flightChange.getFolDptTime(), flightChange.getFolDptAirport(), flightChange.getFolArrAirport(), flightChange.getFolFlightNo());
+                sourceFlight = String.format("%s %s从%s到%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
+                targetFlight = String.format("%s %s的%s航班", flightChange.getFolDptDate(), flightChange.getFolDptTime(), flightChange.getFolFlightNo());
                 dptArrTime = String.format("%s-%s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
                 content = String.format(SmsConstants.FLIGHT_CHANGE, sourceFlight, targetFlight, dptArrTime);
                 result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CHANGE);
