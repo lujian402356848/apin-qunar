@@ -8,6 +8,7 @@ import com.apin.qunar.order.dao.impl.InternationalPassengerDaoImpl;
 import com.apin.qunar.order.dao.model.InternationalOrder;
 import com.apin.qunar.order.dao.model.InternationalPassenger;
 import com.apin.qunar.order.domain.common.ApiResult;
+import com.apin.qunar.order.domain.international.booking.NtsBookingResultVO;
 import com.apin.qunar.order.domain.international.searchOrderDetail.NtsSearchOrderDetailParam;
 import com.apin.qunar.order.domain.international.searchOrderDetail.NtsSearchOrderDetailResultVO;
 import com.apin.qunar.order.service.international.NtsSearchOrderDetailService;
@@ -51,8 +52,32 @@ public class NtsSearchOrderDetailServiceImpl extends NtsApiService<NtsSearchOrde
             return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
         setSearchOrderDetailResult(apiResult.getResult());
+        formatString(apiResult.getResult());
         syncOrderStatusToDb(apiResult.getResult());
         return apiResult;
+    }
+
+    private void formatString(NtsSearchOrderDetailResultVO apiResults) {
+        NtsSearchOrderDetailResultVO.FlightInfo flightInfo = apiResults.getFlightInfo();
+        if (flightInfo == null) {
+            return;
+        }
+        NtsSearchOrderDetailResultVO.Tgq tgq=flightInfo.getTgqRule();
+        if (tgq == null) {
+            return;
+        }
+        if (StringUtils.isNotBlank(tgq.getBaggage())) {
+            tgq.setBaggage(tgq.getBaggage().replaceAll("去哪儿", "爱拼机"));
+        }
+        if (StringUtils.isNotBlank(tgq.getChange())) {
+            tgq.setChange(tgq.getChange().replaceAll("去哪儿", "爱拼机"));
+        }
+        if (StringUtils.isNotBlank(tgq.getOther())) {
+            tgq.setOther(tgq.getOther().replaceAll("去哪儿", "爱拼机"));
+        }
+        if (StringUtils.isNotBlank(tgq.getRefund())) {
+            tgq.setRefund(tgq.getRefund().replaceAll("去哪儿", "爱拼机"));
+        }
     }
 
     private void setSearchOrderDetailResult(NtsSearchOrderDetailResultVO ntsSearchOrderDetailResult) {

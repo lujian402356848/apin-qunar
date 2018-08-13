@@ -8,6 +8,7 @@ import com.apin.qunar.order.domain.international.booking.NtsBookingResultVO;
 import com.apin.qunar.order.service.international.NtsBookingService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,10 +47,30 @@ public class NtsBookingServiceImpl extends NtsApiService<NtsBookingParam, ApiRes
         }
         if (!apiResult.isSuccess()) {
             log.warn("查询国际booking异常,param:{},原因:{}", JSON.toJSON(ntsBookingParam), apiResult.getMessage());
-            return ApiResult.fail(apiResult.getCode(),"航班价格发生变更，请重新搜索");
+            return ApiResult.fail(apiResult.getCode(), "航班价格发生变更，请重新搜索");
         }
         formatTime(apiResult.getResult());
+        formatString(apiResult.getResult());
         return apiResult;
+    }
+
+    private void formatString(NtsBookingResultVO apiResults) {
+        NtsBookingResultVO.TgqRule tgqRule = apiResults.getTgqRule();
+        if (tgqRule == null) {
+            return;
+        }
+        if (StringUtils.isNotBlank(tgqRule.getBaggage())) {
+            tgqRule.setBaggage(tgqRule.getBaggage().replaceAll("去哪儿", "爱拼机"));
+        }
+        if (StringUtils.isNotBlank(tgqRule.getChange())) {
+            tgqRule.setChange(tgqRule.getChange().replaceAll("去哪儿", "爱拼机"));
+        }
+        if (StringUtils.isNotBlank(tgqRule.getOther())) {
+            tgqRule.setOther(tgqRule.getOther().replaceAll("去哪儿", "爱拼机"));
+        }
+        if (StringUtils.isNotBlank(tgqRule.getRefund())) {
+            tgqRule.setRefund(tgqRule.getRefund().replaceAll("去哪儿", "爱拼机"));
+        }
     }
 
     private void formatTime(NtsBookingResultVO apiResults) {

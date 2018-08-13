@@ -60,7 +60,7 @@ public class CreateOrderServiceImpl extends ApiService<CreateOrderParam, ApiResu
         }
         if (!apiResult.isSuccess()) {
             log.warn("国内订单下单失败,params:{},原因:{}", JSON.toJSON(createOrderParam), apiResult.getMessage());
-            return ApiResult.fail(apiResult.getCode(), "航班价格发生变更，请重新搜索");
+            return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
         if (apiResult.isSuccess()) {
             saveOrderToDb(createOrderRequest, apiResult.getResult(), bookingResult, createOrderParam);
