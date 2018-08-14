@@ -1,13 +1,12 @@
 package com.apin.qunar.order.service.international.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.apin.qunar.basic.service.MerchantPriceConfigService;
 import com.apin.qunar.basic.service.impl.AirlineServiceImpl;
+import com.apin.qunar.order.common.redis.NtsFlightRedis;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightParam;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightResultVO;
 import com.apin.qunar.order.service.international.NtsSearchFlightService;
-import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -28,9 +27,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     @Resource
     private AirlineServiceImpl airlineService;
     @Resource
-    private MerchantPriceConfigService merchantPriceConfigService;
-    @Resource
-    private SearchFlightRecordService searchFlightRecordService;
+    private NtsFlightRedis ntsFlightRedis;
 
     @Override
     protected String getTag() {
@@ -45,7 +42,11 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
 
     @Override
     public ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo) {
-//        searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
+//      searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
+        List<NtsSearchFlightResultVO> flightResults = ntsFlightRedis.getFlightInfo(ntsSearchFlightParam);
+        if (!CollectionUtils.isEmpty(flightResults)) {
+            return new ApiResult<>(0, "", System.currentTimeMillis(), flightResults);
+        }
         ApiResult<List<NtsSearchFlightResultVO>> apiResult = execute(ntsSearchFlightParam);
         if (apiResult == null || CollectionUtils.isEmpty(apiResult.getResult())) {
             return ApiResult.fail();
@@ -54,24 +55,21 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
             log.warn("查询国际航班异常,params:{},原因:{}", JSON.toJSON(ntsSearchFlightParam), apiResult.getMessage());
             return ApiResult.fail(apiResult.getCode(), "航班信息发生变动，请重新搜索");
         }
+        formatResult(apiResult, ntsSearchFlightParam.getSortIdentification());
+        ntsFlightRedis.setFlightInfo(ntsSearchFlightParam, apiResult.getResult());
+        return apiResult;
+    }
+
+    private void formatResult(ApiResult<List<NtsSearchFlightResultVO>> apiResult, Integer sort) {
         List<NtsSearchFlightResultVO> searchFlightResults = apiResult.getResult();
         for (NtsSearchFlightResultVO ntsSearchFlightResult : searchFlightResults) {
             setDeptTime(ntsSearchFlightResult);
             formatDuration(ntsSearchFlightResult);
             formatStayTime(ntsSearchFlightResult);
         }
-        sortByDepTime(searchFlightResults, ntsSearchFlightParam.getSortIdentification());
-//        setPrice(searchFlightResults, merchantNo);//国际查询航班 加价
-        return apiResult;
+        sortByDepTime(searchFlightResults, sort);
     }
 
-    private void setPrice(List<NtsSearchFlightResultVO> searchFlightResults, String merchantNo) {
-        double ratio = merchantPriceConfigService.queryPriceRatio(merchantNo, false);
-        for (NtsSearchFlightResultVO ntsSearchFlightResultVO : searchFlightResults) {
-            int priceAfter = (int) (ntsSearchFlightResultVO.getPrice() * ratio);
-            ntsSearchFlightResultVO.setPrice(priceAfter);
-        }
-    }
 
     private void sortByDepTime(List<NtsSearchFlightResultVO> ntsSearchFlightResultVO, Integer sortIdentigfication) {
         Collections.sort(ntsSearchFlightResultVO, new Comparator<NtsSearchFlightResultVO>() {

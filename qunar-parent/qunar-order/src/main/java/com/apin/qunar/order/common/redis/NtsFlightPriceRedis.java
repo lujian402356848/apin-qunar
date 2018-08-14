@@ -2,33 +2,32 @@ package com.apin.qunar.order.common.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.apin.qunar.common.utils.ProtobufUtil;
-import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightParam;
-import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightResultVO;
+import com.apin.qunar.order.domain.international.searchPrice.NtsSearchPriceParam;
+import com.apin.qunar.order.domain.international.searchPrice.NtsSearchPriceResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class NtsFlightRedis {
+public class NtsFlightPriceRedis {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-    private ValueOperations<String, Object> operations;
+    private HashOperations<String, String, Object> operations;
     private long FLIGHT_INFO_EXPIRES_TIME = 15;//分钟为单位
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
-        operations = redisTemplate.opsForValue();
+        operations = redisTemplate.opsForHash();
     }
 
-    private String getCacheKey(NtsSearchFlightParam param) {
+    private String getCacheKey(NtsSearchPriceParam param) {
         StringBuilder keyStr = new StringBuilder(20);
         keyStr.append(param.getDepCity());
         keyStr.append(param.getArrCity());
@@ -48,36 +47,35 @@ public class NtsFlightRedis {
         return keyStr.toString();
     }
 
-    public void setFlightInfo(NtsSearchFlightParam flightParam, List<NtsSearchFlightResultVO> flightResult) {
-        if (flightParam == null) {
+    public void setFlightPriceInfo(NtsSearchPriceParam flightParam, NtsSearchPriceResultVO priceResultVO) {
+        if (flightParam == null || StringUtils.isBlank(flightParam.getFlightCode())) {
             return;
         }
         String key = getCacheKey(flightParam);
         if (StringUtils.isBlank(key)) {
             return;
         }
-        FlightCacheEntry flightCacheEntry = new FlightCacheEntry(flightResult);
         try {
-            byte[] values = ProtobufUtil.serialize(flightCacheEntry);
-            operations.set(key, values);
+            byte[] values = ProtobufUtil.serialize(priceResultVO);
+            operations.put(key, flightParam.getFlightCode(), values);
             redisTemplate.expire(key, FLIGHT_INFO_EXPIRES_TIME, TimeUnit.MINUTES);
         } catch (Exception e) {
-            log.error("设置国际航班缓存信息异常,param:{}", JSON.toJSONString(flightParam), e);
+            log.error("设置国际航班价格缓存信息异常,param:{}", JSON.toJSONString(flightParam), e);
         }
     }
 
-    public List<NtsSearchFlightResultVO> getFlightInfo(NtsSearchFlightParam flightParam) {
-        FlightCacheEntry flightCacheEntry = null;
+    public NtsSearchPriceResultVO getFlightPriceInfo(NtsSearchPriceParam flightParam) {
+        NtsSearchPriceResultVO priceResultVO = null;
         String key = getCacheKey(flightParam);
         try {
-            byte[] bytes = (byte[]) operations.get(key);
+            byte[] bytes = (byte[]) operations.get(key, flightParam.getFlightCode());
             if (bytes != null && bytes.length > 0) {
-                flightCacheEntry = ProtobufUtil.deserialize(bytes, FlightCacheEntry.class);
+                priceResultVO = ProtobufUtil.deserialize(bytes, NtsSearchPriceResultVO.class);
             }
         } catch (Exception e) {
-            operations.set(key, "", 1, TimeUnit.MILLISECONDS);//如果解析失败，则删除该缓存
-            log.error("获取国际航班缓存信息异常", e);
+            operations.delete(key, flightParam.getFlightCode());//如果解析失败，则删除该缓存
+            log.error("获取国际航班价格缓存信息异常", e);
         }
-        return flightCacheEntry == null ? null : flightCacheEntry.getFligths();
+        return priceResultVO;
     }
 }

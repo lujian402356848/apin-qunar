@@ -86,10 +86,6 @@ public class NtsSearchFlightController extends BaseController {
         ntsSearchFlightParam.setCabinLevel(ntsSearchFlightRequest.getCabinLevel());
         ntsSearchFlightParam.setSource(orderConfig.getInternationalSource());
         ntsSearchFlightParam.setSortIdentification(ntsSearchFlightRequest.getSortIdentification());
-
-        ntsSearchFlightParam.setTakeoffTime(ntsSearchFlightRequest.getTakeoffTime());
-        ntsSearchFlightParam.setTakeoffAirport(ntsSearchFlightRequest.getTakeoffAirport());
-        ntsSearchFlightParam.setAirlineCompany(ntsSearchFlightRequest.getAirlineCompany());
         return ntsSearchFlightParam;
     }
 }

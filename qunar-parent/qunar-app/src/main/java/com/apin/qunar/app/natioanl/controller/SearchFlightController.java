@@ -70,7 +70,7 @@ public class SearchFlightController extends BaseController {
         searchFlightParam.setArr(searchFlightRequest.getArr());
         searchFlightParam.setDate(searchFlightRequest.getDate());
         searchFlightParam.setDpt(searchFlightRequest.getDpt());
-        searchFlightParam.setEx_track(searchFlightRequest.getExTrack());
+        searchFlightParam.setEx_track("youxuan");
         searchFlightParam.setTakeoffTime(searchFlightRequest.getTakeoffTime());
         searchFlightParam.setTakeoffAirport(searchFlightRequest.getTakeoffAirport());
         searchFlightParam.setAirlineCompany(searchFlightRequest.getAirlineCompany());

@@ -1,9 +1,9 @@
-package com.apin.qunar.order.domain.national.ticketNoUpdate;
+package com.apin.qunar.order.domain.national.updateTicketNo;
 
 import lombok.Data;
 
 @Data
-public class TicketNoUpdateDTO {
+public class UpdateTicketNoDTO {
     private String oldTicketNo;
     private String newTicketNo;
     private String ttsOrderNo;

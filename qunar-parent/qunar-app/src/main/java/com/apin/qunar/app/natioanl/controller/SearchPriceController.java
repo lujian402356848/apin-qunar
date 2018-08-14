@@ -77,7 +77,7 @@ public class SearchPriceController extends BaseController {
         searchPriceParam.setCarrier(searchPriceRequest.getCarrier());
         searchPriceParam.setFlightNum(searchPriceRequest.getFlightNum());
         searchPriceParam.setCabin(searchPriceRequest.getCabin());
-        searchPriceParam.setEx_track(searchPriceRequest.getExTrack());
+        searchPriceParam.setEx_track("youxuan");
         return searchPriceParam;
     }
 }

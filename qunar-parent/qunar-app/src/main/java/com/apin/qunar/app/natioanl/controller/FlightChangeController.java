@@ -12,9 +12,9 @@ import com.apin.qunar.common.ids.IDGenerator;
 import com.apin.qunar.order.dao.model.NationalFlightChange;
 import com.apin.qunar.order.domain.national.flightChange.FlightChangeCallbackDTO;
 import com.apin.qunar.order.domain.national.flightChange.SearchFlightChangeVO;
-import com.apin.qunar.order.domain.national.ticketNoUpdate.TicketNoUpdateDTO;
+import com.apin.qunar.order.domain.national.updateTicketNo.UpdateTicketNoDTO;
 import com.apin.qunar.order.service.national.FlightChangeService;
-import com.apin.qunar.order.service.national.TicketNoUpdateService;
+import com.apin.qunar.order.service.national.UpdateTicketNoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +39,7 @@ public class FlightChangeController extends BaseController {
     @Autowired
     FlightChangeService flightChangeService;
     @Autowired
-    TicketNoUpdateService ticketNoUpdateService;
+    UpdateTicketNoService updateTicketNoService;
 
     @PostMapping(value = "/flightChange/list")
     public GeneralResultMap flightChangeList(@RequestBody SearchFlightChangeListRequest request) {
@@ -97,10 +97,10 @@ public class FlightChangeController extends BaseController {
                     }
                     break;
                 case "flight.national.supply.sl.ticketNoUpdate":
-                    TicketNoUpdateDTO ticketNoUpdateDTO = getTicketNoUpdateCallbackData(request.getData());
-                    if(ticketNoUpdateDTO != null){
-                        log.info("二次修改票号接收消息,解析后:{}",JSON.toJSON(ticketNoUpdateDTO));
-                        ticketNoUpdateService.updateOrder(ticketNoUpdateDTO);
+                    UpdateTicketNoDTO updateTicketNoDTO = getTicketNoUpdateCallbackData(request.getData());
+                    if(updateTicketNoDTO != null){
+                        log.info("二次修改票号接收消息,解析后:{}",JSON.toJSON(updateTicketNoDTO));
+                        updateTicketNoService.updateOrder(updateTicketNoDTO);
                     }
                     break;
                 default:
@@ -122,15 +122,15 @@ public class FlightChangeController extends BaseController {
         return flightChangeCallbackDTO;
     }
 
-    private TicketNoUpdateDTO getTicketNoUpdateCallbackData(String data) {
-        TicketNoUpdateDTO ticketNoUpdateDTO = null;
+    private UpdateTicketNoDTO getTicketNoUpdateCallbackData(String data) {
+        UpdateTicketNoDTO updateTicketNoDTO = null;
         final Base64.Decoder decoder = Base64.getDecoder();
         try {
-            ticketNoUpdateDTO = JSON.parseObject(new String(decoder.decode(data), "UTF-8"), TicketNoUpdateDTO.class);
+            updateTicketNoDTO = JSON.parseObject(new String(decoder.decode(data), "UTF-8"), UpdateTicketNoDTO.class);
         } catch (Exception e) {
             log.error("二次修改票号消息解码失败,data:{}", data);
         }
-        return ticketNoUpdateDTO;
+        return updateTicketNoDTO;
     }
 
     private NationalFlightChange buildNationalFlightChange(FlightChangeCallbackDTO callbackDTO) {

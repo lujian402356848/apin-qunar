@@ -58,6 +58,7 @@ public class NtsSearchFlightResultVO {
         private String planeTypeName;
         private int stops;
         private List<Stop> stop;//经停
+        private String packName;//ui
     }
 
     @Data

@@ -18,21 +18,4 @@ public class NtsSearchFlightParam {
     private Integer childNum;
     private String cabinLevel;
     private Integer sortIdentification;
-
-    /**
-     * 二次筛选的起飞时间.
-     */
-    private List<List<String>> takeoffTime;
-
-    /**
-     * 起飞机场
-     */
-    private String takeoffAirport;
-
-    /**
-     * 航空公司.
-     */
-    private String airlineCompany;
-
-
 }
