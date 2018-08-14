@@ -76,7 +76,7 @@ public class WechatController extends BaseController {
             if (executeResult.isSuccess()) {
                 qrCode = wechatService.generateQrCode(buildWechatBO(request, payOrderNo));
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL, "航班或价格已发生变化，无法生成二维码，请重新下单");
+                generalResultMap.setResult(SysReturnCode.FAIL, executeResult.getDesc());
                 return generalResultMap;
             }
             if (StringUtils.isBlank(qrCode)) {

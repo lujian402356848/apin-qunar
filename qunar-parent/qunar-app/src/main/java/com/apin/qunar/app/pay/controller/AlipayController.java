@@ -77,7 +77,7 @@ public class AlipayController extends BaseController {
             if (executeResult.isSuccess()) {
                 qrCode = alipayService.generateQrCode(buildAlipayBO(request, payOrderNo));
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL, "航班或价格已发生变化，无法生成二维码，请重新下单");
+                generalResultMap.setResult(SysReturnCode.FAIL, executeResult.getDesc());
                 return generalResultMap;
             }
             if (StringUtils.isBlank(qrCode)) {
