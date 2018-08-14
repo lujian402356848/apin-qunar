@@ -99,6 +99,10 @@ public class NationalOrderDaoImpl {
         return nationalOrderExtMapper.updateStatusAndTicketNo(orderNo, ticketNo, payStatus) > 0;
     }
 
+    public boolean updateTicketNo(String orderNo,String oldTicketNo,String newTicketNo){
+        return nationalOrderExtMapper.updateTicketNo(orderNo,oldTicketNo,newTicketNo)>0;
+    }
+
     public boolean updatePayInfo(String orderNo, String payId, int payStatus, String payTime) {
         return nationalOrderExtMapper.updatePayInfo(orderNo, payId, payStatus, payTime) > 0;
     }

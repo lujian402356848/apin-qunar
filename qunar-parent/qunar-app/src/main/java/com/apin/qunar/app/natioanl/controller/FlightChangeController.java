@@ -12,7 +12,9 @@ import com.apin.qunar.common.ids.IDGenerator;
 import com.apin.qunar.order.dao.model.NationalFlightChange;
 import com.apin.qunar.order.domain.national.flightChange.FlightChangeCallbackDTO;
 import com.apin.qunar.order.domain.national.flightChange.SearchFlightChangeVO;
+import com.apin.qunar.order.domain.national.ticketNoUpdate.TicketNoUpdateDTO;
 import com.apin.qunar.order.service.national.FlightChangeService;
+import com.apin.qunar.order.service.national.TicketNoUpdateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +38,8 @@ import java.util.Map;
 public class FlightChangeController extends BaseController {
     @Autowired
     FlightChangeService flightChangeService;
+    @Autowired
+    TicketNoUpdateService ticketNoUpdateService;
 
     @PostMapping(value = "/flightChange/list")
     public GeneralResultMap flightChangeList(@RequestBody SearchFlightChangeListRequest request) {
@@ -80,23 +84,34 @@ public class FlightChangeController extends BaseController {
 
     @PostMapping(value = "/flightChange/callback")
     public void callback(@RequestBody FlightChangeCallbackRequest request) {
-        log.info("国内航班变更接收消息,request:{}", JSON.toJSON(request));
-        if (request == null || !"flight.national.supply.sl.flightChange".equalsIgnoreCase(request.getTag())) {
-            return;
-        }
+        log.info("国内航班变更及二次修改票号接收消息,request:{}", JSON.toJSON(request));
         try {
-            FlightChangeCallbackDTO callbackDTO = getCallbackData(request.getData());
-            if (callbackDTO != null) {
-                log.info("国内航班变更接收消息,解析后:{}", JSON.toJSON(callbackDTO));
-                NationalFlightChange flightChange = buildNationalFlightChange(callbackDTO);
-                flightChangeService.saveFlightChange(flightChange);
+            switch (request.getTag())
+            {
+                case "flight.national.supply.sl.flightChange":
+                    FlightChangeCallbackDTO callbackDTO = getFlightChangeCallbackData(request.getData());
+                    if (callbackDTO != null) {
+                        log.info("国内航班变更接收消息,解析后:{}", JSON.toJSON(callbackDTO));
+                        NationalFlightChange flightChange = buildNationalFlightChange(callbackDTO);
+                        flightChangeService.saveFlightChange(flightChange);
+                    }
+                    break;
+                case "flight.national.supply.sl.ticketNoUpdate":
+                    TicketNoUpdateDTO ticketNoUpdateDTO = getTicketNoUpdateCallbackData(request.getData());
+                    if(ticketNoUpdateDTO != null){
+                        log.info("二次修改票号接收消息,解析后:{}",JSON.toJSON(ticketNoUpdateDTO));
+                        ticketNoUpdateService.updateOrder(ticketNoUpdateDTO);
+                    }
+                    break;
+                default:
+                    break;
             }
         } catch (Exception e) {
-            log.error("国内航班变更接收消息处理异常,request:{}", request, e);
+            log.error("国内航班变更及二次修改票号接收消息异常,request:{}", request, e);
         }
     }
 
-    private FlightChangeCallbackDTO getCallbackData(String data) {
+    private FlightChangeCallbackDTO getFlightChangeCallbackData(String data) {
         FlightChangeCallbackDTO flightChangeCallbackDTO = null;
         final Base64.Decoder decoder = Base64.getDecoder();
         try {
@@ -105,6 +120,17 @@ public class FlightChangeController extends BaseController {
             log.error("国内航班变更消息解码失败,data:{}", data);
         }
         return flightChangeCallbackDTO;
+    }
+
+    private TicketNoUpdateDTO getTicketNoUpdateCallbackData(String data) {
+        TicketNoUpdateDTO ticketNoUpdateDTO = null;
+        final Base64.Decoder decoder = Base64.getDecoder();
+        try {
+            ticketNoUpdateDTO = JSON.parseObject(new String(decoder.decode(data), "UTF-8"), TicketNoUpdateDTO.class);
+        } catch (Exception e) {
+            log.error("二次修改票号消息解码失败,data:{}", data);
+        }
+        return ticketNoUpdateDTO;
     }
 
     private NationalFlightChange buildNationalFlightChange(FlightChangeCallbackDTO callbackDTO) {
