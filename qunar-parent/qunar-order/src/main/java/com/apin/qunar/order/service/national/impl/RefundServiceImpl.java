@@ -143,6 +143,7 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
         NationalReturnOrder nationalReturnOrder = new NationalReturnOrder();
         nationalReturnOrder.setId(IDGenerator.getUniqueId());
         nationalReturnOrder.setMerchantNo(nationalOrder.getMerchantNo());
+        nationalReturnOrder.setParentOrderNo(refundParam.getOrderNo());
         nationalReturnOrder.setOrderNo(nationalOrder.getOrderNo());
         nationalReturnOrder.setTicketNo(ticketNo);
         nationalReturnOrder.setFlightNum(nationalOrder.getFlightNum());

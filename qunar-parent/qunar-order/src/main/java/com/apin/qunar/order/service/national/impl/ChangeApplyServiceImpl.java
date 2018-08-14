@@ -132,6 +132,7 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
     private NationalChangeOrder buildNationalChangeOrder(SearchOrderDetailResultVO searchOrderDetailResultVO, List<ChangeApplyResultVO> changeApplyResultVOS, ChangeApplyParam changeApplyParam, String account, String orderNo, String merchantNo) {
         NationalChangeOrder nationalChangeOrder = new NationalChangeOrder();
         nationalChangeOrder.setId(IDGenerator.getUniqueId());
+        nationalChangeOrder.setParentOrderNo(changeApplyParam.getOrderNo());
         nationalChangeOrder.setMerchantNo(merchantNo);
         nationalChangeOrder.setOrderNo(orderNo);
         SearchOrderDetailResultVO.OrderDetail orderDetail = searchOrderDetailResultVO.getDetail();
