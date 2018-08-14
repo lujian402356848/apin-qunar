@@ -17,6 +17,11 @@ public class NationalReturnOrder implements Serializable {
     private String merchantNo;
 
     /**
+     * 父订单号
+     */
+    private String parentOrderNo;
+
+    /**
      * 订单号
      */
     private String orderNo;
@@ -167,6 +172,20 @@ public class NationalReturnOrder implements Serializable {
      */
     public void setMerchantNo(String merchantNo) {
         this.merchantNo = merchantNo == null ? null : merchantNo.trim();
+    }
+
+    /**
+     * @return 父订单号
+     */
+    public String getParentOrderNo() {
+        return parentOrderNo;
+    }
+
+    /**
+     * @param parentOrderNo 父订单号
+     */
+    public void setParentOrderNo(String parentOrderNo) {
+        this.parentOrderNo = parentOrderNo == null ? null : parentOrderNo.trim();
     }
 
     /**

@@ -95,7 +95,7 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
                 definition.setIsolationLevel(DefaultTransactionDefinition.ISOLATION_SERIALIZABLE);
                 TransactionStatus status = transactionManager.getTransaction(definition);//事务开始
                 List<NationalChangePassenger> nationalChangePessengers = bulidNationalChangePessenger(changeApplyResultVOS, orderNo, merchantNo);
-                NationalChangeOrder nationalChangeOrder = bulidNationalChangeOrder(apiResult.getResult(), changeApplyResultVOS, changeApplyParam, account, orderNo, merchantNo);
+                NationalChangeOrder nationalChangeOrder = buildNationalChangeOrder(apiResult.getResult(), changeApplyResultVOS, changeApplyParam, account, orderNo, merchantNo);
                 try {
                     nationalChangeOrderDao.insert(nationalChangeOrder);
                     for (NationalChangePassenger nationalChangePessenger : nationalChangePessengers) {
@@ -129,7 +129,7 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
         return nationalChangePessengers;
     }
 
-    private NationalChangeOrder bulidNationalChangeOrder(SearchOrderDetailResultVO searchOrderDetailResultVO, List<ChangeApplyResultVO> changeApplyResultVOS, ChangeApplyParam changeApplyParam, String account, String orderNo, String merchantNo) {
+    private NationalChangeOrder buildNationalChangeOrder(SearchOrderDetailResultVO searchOrderDetailResultVO, List<ChangeApplyResultVO> changeApplyResultVOS, ChangeApplyParam changeApplyParam, String account, String orderNo, String merchantNo) {
         NationalChangeOrder nationalChangeOrder = new NationalChangeOrder();
         nationalChangeOrder.setId(IDGenerator.getUniqueId());
         nationalChangeOrder.setMerchantNo(merchantNo);
