@@ -1,6 +1,7 @@
 package com.apin.qunar.basic.common.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,8 +43,9 @@ public class RedisConfig {
         redisStandaloneConfiguration.setHostName(host);
         redisStandaloneConfiguration.setPort(port);
         redisStandaloneConfiguration.setDatabase(0);
-        redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
-
+        if (StringUtils.isNotBlank(password)) {
+            redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
+        }
         JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
         jedisClientConfiguration.connectTimeout(Duration.ofMillis(timeOut));
         return new JedisConnectionFactory(redisStandaloneConfiguration, jedisClientConfiguration.build());
