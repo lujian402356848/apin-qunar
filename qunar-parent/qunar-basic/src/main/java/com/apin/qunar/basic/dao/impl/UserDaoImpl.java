@@ -27,6 +27,10 @@ public class UserDaoImpl {
         return userMapper.insert(user) > 0;
     }
 
+    public List<String> queryMerchantMobileNo() {
+        return userExtMapper.queryMobileNos();
+    }
+
 
     public User queryByAccount(String account) {
         UserExample example = new UserExample();
