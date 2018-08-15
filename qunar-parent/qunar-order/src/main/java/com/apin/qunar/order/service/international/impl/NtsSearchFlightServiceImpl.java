@@ -11,9 +11,11 @@ import com.apin.qunar.order.domain.international.searchPrice.NtsSearchPriceParam
 import com.apin.qunar.order.domain.international.searchPrice.NtsSearchPriceResultVO;
 import com.apin.qunar.order.service.international.NtsSearchFlightService;
 import com.apin.qunar.order.service.international.NtsSearchPriceService;
+import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,6 +38,8 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     private NtsSearchPriceService ntsSearchPriceService;
     @Resource
     private OrderConfig orderConfig;
+    @Autowired
+    private SearchFlightRecordService searchFlightRecordService;
 
     @Override
     protected String getTag() {
@@ -50,6 +54,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
 
     @Override
     public ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo) {
+        searchFlightRecordService.create(merchantNo, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
         List<NtsSearchFlightResultVO> flightResults = ntsFlightRedis.getFlightInfo(ntsSearchFlightParam);
         if (!CollectionUtils.isEmpty(flightResults)) {
             return new ApiResult<>(0, "", System.currentTimeMillis(), flightResults);

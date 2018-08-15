@@ -15,8 +15,8 @@ public class AirportSearchDaoImpl {
     @Autowired
     private AirportSearchExtMapper airportSearchExtMapper;
 
-    public List<Integer> queryAirportIdByKeyword(String keyword) {
-        return airportSearchExtMapper.queryAirportIdByKeyword(keyword);
+    public List<String> queryAirportCodeByKeyword(String keyword) {
+        return airportSearchExtMapper.queryAirportCodeByKeyword(keyword);
     }
 
     public boolean insert(AirportSearch airportSearch) {

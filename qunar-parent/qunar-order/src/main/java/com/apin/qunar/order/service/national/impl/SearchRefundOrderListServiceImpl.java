@@ -29,17 +29,16 @@ public class SearchRefundOrderListServiceImpl implements SearchRefundOrderListSe
 
     @Override
     public List<NationRefundOrderVO> queryPageList(String merchantNo, String account, String orderNo, String pessengerName, Integer offset, Integer limit) {
-        merchantNo = "20180726460336";
         List<NationalReturnOrder> nationalReturnOrders = null;
         List<NationalReturnPassenger> passengers = null;
         if (StringUtils.isNotBlank(pessengerName)) {
             passengers = nationalReturnPassengerDao.queryBy(merchantNo, orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                nationalReturnOrders = nationalReturnOrderDao.queryPageListBy(merchantNo, orderNos, offset, limit);
+                nationalReturnOrders = nationalReturnOrderDao.queryPageListBy("", orderNos, offset, limit);
             }
         } else {
-            nationalReturnOrders = nationalReturnOrderDao.queryPageListBy(merchantNo, account, orderNo, offset, limit);
+            nationalReturnOrders = nationalReturnOrderDao.queryPageListBy("", account, orderNo, offset, limit);
             List<String> orderNos = nationalReturnOrders.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
             passengers = nationalReturnPassengerDao.queryByOrderNos(orderNos);
         }

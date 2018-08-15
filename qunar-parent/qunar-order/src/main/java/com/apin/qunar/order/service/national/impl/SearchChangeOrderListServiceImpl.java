@@ -3,16 +3,10 @@ package com.apin.qunar.order.service.national.impl;
 import com.apin.qunar.common.utils.BeanUtil;
 import com.apin.qunar.order.dao.impl.NationalChangeOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalChangePassengerDaoImpl;
-import com.apin.qunar.order.dao.impl.NationalReturnOrderDaoImpl;
-import com.apin.qunar.order.dao.impl.NationalReturnPassengerDaoImpl;
 import com.apin.qunar.order.dao.model.NationalChangeOrder;
 import com.apin.qunar.order.dao.model.NationalChangePassenger;
-import com.apin.qunar.order.dao.model.NationalReturnOrder;
-import com.apin.qunar.order.dao.model.NationalReturnPassenger;
 import com.apin.qunar.order.domain.national.searchChangeOrderList.NationalChangeOrderVO;
-import com.apin.qunar.order.domain.national.searchRefundOrderList.NationRefundOrderVO;
 import com.apin.qunar.order.service.national.SearchChangeOrderListService;
-import com.apin.qunar.order.service.national.SearchRefundOrderListService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +28,17 @@ public class SearchChangeOrderListServiceImpl implements SearchChangeOrderListSe
     private NationalChangePassengerDaoImpl nationalChangePassengerDao;
 
     @Override
-    public List<NationalChangeOrderVO> queryPageList(String merchantNo, String account,Integer status, String orderNo, String pessengerName, Integer offset, Integer limit) {
+    public List<NationalChangeOrderVO> queryPageList(String merchantNo, String account, Integer status, String orderNo, String pessengerName, Integer offset, Integer limit) {
         List<NationalChangeOrder> nationalChangeOrders = null;
         List<NationalChangePassenger> passengers = null;
         if (StringUtils.isNotBlank(pessengerName)) {
-            passengers = nationalChangePassengerDao.queryBy(merchantNo, orderNo, pessengerName);
+            passengers = nationalChangePassengerDao.queryBy("", orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                nationalChangeOrders = nationalChangeOrderDao.queryPageListBy(merchantNo, status,orderNos, offset, limit);
+                nationalChangeOrders = nationalChangeOrderDao.queryPageListBy(merchantNo, status, orderNos, offset, limit);
             }
         } else {
-            nationalChangeOrders = nationalChangeOrderDao.queryPageListBy(merchantNo, account,status, orderNo, offset, limit);
+            nationalChangeOrders = nationalChangeOrderDao.queryPageListBy("", account, status, orderNo, offset, limit);
             List<String> orderNos = nationalChangeOrders.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
             passengers = nationalChangePassengerDao.queryByOrderNos(orderNos);
         }

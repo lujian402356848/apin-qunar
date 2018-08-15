@@ -187,63 +187,73 @@ public class AirportSearchExample {
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdIsNull() {
-            addCriterion("airport_id is null");
+        public Criteria andAirportCodeIsNull() {
+            addCriterion("airport_code is null");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdIsNotNull() {
-            addCriterion("airport_id is not null");
+        public Criteria andAirportCodeIsNotNull() {
+            addCriterion("airport_code is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdEqualTo(Integer value) {
-            addCriterion("airport_id =", value, "airportId");
+        public Criteria andAirportCodeEqualTo(String value) {
+            addCriterion("airport_code =", value, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdNotEqualTo(Integer value) {
-            addCriterion("airport_id <>", value, "airportId");
+        public Criteria andAirportCodeNotEqualTo(String value) {
+            addCriterion("airport_code <>", value, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdGreaterThan(Integer value) {
-            addCriterion("airport_id >", value, "airportId");
+        public Criteria andAirportCodeGreaterThan(String value) {
+            addCriterion("airport_code >", value, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("airport_id >=", value, "airportId");
+        public Criteria andAirportCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("airport_code >=", value, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdLessThan(Integer value) {
-            addCriterion("airport_id <", value, "airportId");
+        public Criteria andAirportCodeLessThan(String value) {
+            addCriterion("airport_code <", value, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdLessThanOrEqualTo(Integer value) {
-            addCriterion("airport_id <=", value, "airportId");
+        public Criteria andAirportCodeLessThanOrEqualTo(String value) {
+            addCriterion("airport_code <=", value, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdIn(List<Integer> values) {
-            addCriterion("airport_id in", values, "airportId");
+        public Criteria andAirportCodeLike(String value) {
+            addCriterion("airport_code like", value, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdNotIn(List<Integer> values) {
-            addCriterion("airport_id not in", values, "airportId");
+        public Criteria andAirportCodeNotLike(String value) {
+            addCriterion("airport_code not like", value, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdBetween(Integer value1, Integer value2) {
-            addCriterion("airport_id between", value1, value2, "airportId");
+        public Criteria andAirportCodeIn(List<String> values) {
+            addCriterion("airport_code in", values, "airportCode");
             return (Criteria) this;
         }
 
-        public Criteria andAirportIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("airport_id not between", value1, value2, "airportId");
+        public Criteria andAirportCodeNotIn(List<String> values) {
+            addCriterion("airport_code not in", values, "airportCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAirportCodeBetween(String value1, String value2) {
+            addCriterion("airport_code between", value1, value2, "airportCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAirportCodeNotBetween(String value1, String value2) {
+            addCriterion("airport_code not between", value1, value2, "airportCode");
             return (Criteria) this;
         }
 
@@ -382,6 +392,11 @@ public class AirportSearchExample {
 
         protected Criteria() {
             super();
+        }
+
+        public Criteria andAirportCodeLikeInsensitive(String value) {
+            addCriterion("upper(airport_code) like", value.toUpperCase(), "airportCode");
+            return this;
         }
 
         public Criteria andSearchKeywordLikeInsensitive(String value) {

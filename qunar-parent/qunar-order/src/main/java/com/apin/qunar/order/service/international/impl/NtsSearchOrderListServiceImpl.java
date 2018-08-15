@@ -1,6 +1,5 @@
 package com.apin.qunar.order.service.international.impl;
 
-import com.apin.qunar.basic.service.MerchantPriceConfigService;
 import com.apin.qunar.common.utils.BeanUtil;
 import com.apin.qunar.order.dao.impl.InternationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.InternationalPassengerDaoImpl;
@@ -8,6 +7,8 @@ import com.apin.qunar.order.dao.model.InternationalOrder;
 import com.apin.qunar.order.dao.model.InternationalPassenger;
 import com.apin.qunar.order.domain.international.searchOrderList.InternationalOrderVO;
 import com.apin.qunar.order.service.international.NtsSearchOrderListService;
+import com.apin.qunar.statistics.dao.model.NationalSearchFlightRecord;
+import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,22 +30,19 @@ public class NtsSearchOrderListServiceImpl implements NtsSearchOrderListService 
     private InternationalOrderDaoImpl internationalOrderDao;
     @Autowired
     private InternationalPassengerDaoImpl internationalPassengerDao;
-    @Autowired
-    private MerchantPriceConfigService merchantPriceConfigService;
 
     @Override
     public List<InternationalOrderVO> queryPageList(String merchantNo, String account, Integer status, String orderNo, String pessengerName, Integer offset, Integer limit) {
-        merchantNo = "20180726460336";
         List<InternationalOrder> internationalOrders = null;
         List<InternationalPassenger> passengers = null;
         if (StringUtils.isNotBlank(pessengerName)) {
-            passengers = internationalPassengerDao.queryBy(merchantNo, orderNo, pessengerName);
+            passengers = internationalPassengerDao.queryBy("", orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                internationalOrders = internationalOrderDao.queryPageListBy(merchantNo,status, orderNos, offset, limit);
+                internationalOrders = internationalOrderDao.queryPageListBy("", status, orderNos, offset, limit);
             }
         } else {
-            internationalOrders = internationalOrderDao.queryPageListBy(merchantNo, account,status, orderNo, offset, limit);
+            internationalOrders = internationalOrderDao.queryPageListBy("", account, status, orderNo, offset, limit);
             List<String> orderNos = internationalOrders.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
             passengers = internationalPassengerDao.queryByOrderNos(orderNos);
         }

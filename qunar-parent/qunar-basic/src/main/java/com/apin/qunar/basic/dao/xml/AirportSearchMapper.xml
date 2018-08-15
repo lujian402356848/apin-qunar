@@ -3,7 +3,7 @@
   <mapper namespace="com.apin.qunar.basic.dao.mapper.AirportSearchMapper" >
     <resultMap id="AirportSearchResult" type="com.apin.qunar.basic.dao.model.AirportSearch" >
       <id column="id" property="id" jdbcType="BIGINT" />
-      <result column="airport_id" property="airportId" jdbcType="INTEGER" />
+      <result column="airport_code" property="airportCode" jdbcType="VARCHAR" />
       <result column="search_keyword" property="searchKeyword" jdbcType="VARCHAR" />
       <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     </resultMap>
@@ -66,7 +66,7 @@
       </where>
     </sql>
     <sql id="AirportSearchColumns" >
-      id, airport_id, search_keyword, insert_time
+      id, airport_code, search_keyword, insert_time
     </sql>
     <select id="selectByExample" resultMap="AirportSearchResult" parameterType="com.apin.qunar.basic.dao.model.AirportSearchExample" >
       select
@@ -104,9 +104,9 @@
       </if>
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.basic.dao.model.AirportSearch" >
-      insert into airport_search (id, airport_id, search_keyword, 
+      insert into airport_search (id, airport_code, search_keyword, 
         insert_time)
-      values (#{id,jdbcType=BIGINT}, #{airportId,jdbcType=INTEGER}, #{searchKeyword,jdbcType=VARCHAR}, 
+      values (#{id,jdbcType=BIGINT}, #{airportCode,jdbcType=VARCHAR}, #{searchKeyword,jdbcType=VARCHAR}, 
         #{insertTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.basic.dao.model.AirportSearch" >
@@ -115,8 +115,8 @@
         <if test="id != null" >
           id,
         </if>
-        <if test="airportId != null" >
-          airport_id,
+        <if test="airportCode != null" >
+          airport_code,
         </if>
         <if test="searchKeyword != null" >
           search_keyword,
@@ -129,8 +129,8 @@
         <if test="id != null" >
           #{id,jdbcType=BIGINT},
         </if>
-        <if test="airportId != null" >
-          #{airportId,jdbcType=INTEGER},
+        <if test="airportCode != null" >
+          #{airportCode,jdbcType=VARCHAR},
         </if>
         <if test="searchKeyword != null" >
           #{searchKeyword,jdbcType=VARCHAR},
@@ -152,8 +152,8 @@
         <if test="record.id != null" >
           id = #{record.id,jdbcType=BIGINT},
         </if>
-        <if test="record.airportId != null" >
-          airport_id = #{record.airportId,jdbcType=INTEGER},
+        <if test="record.airportCode != null" >
+          airport_code = #{record.airportCode,jdbcType=VARCHAR},
         </if>
         <if test="record.searchKeyword != null" >
           search_keyword = #{record.searchKeyword,jdbcType=VARCHAR},
@@ -169,7 +169,7 @@
     <update id="updateByExample" parameterType="map" >
       update airport_search
       set id = #{record.id,jdbcType=BIGINT},
-        airport_id = #{record.airportId,jdbcType=INTEGER},
+        airport_code = #{record.airportCode,jdbcType=VARCHAR},
         search_keyword = #{record.searchKeyword,jdbcType=VARCHAR},
         insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
       <if test="_parameter != null" >
@@ -179,8 +179,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.basic.dao.model.AirportSearch" >
       update airport_search
       <set >
-        <if test="airportId != null" >
-          airport_id = #{airportId,jdbcType=INTEGER},
+        <if test="airportCode != null" >
+          airport_code = #{airportCode,jdbcType=VARCHAR},
         </if>
         <if test="searchKeyword != null" >
           search_keyword = #{searchKeyword,jdbcType=VARCHAR},
@@ -193,7 +193,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.apin.qunar.basic.dao.model.AirportSearch" >
       update airport_search
-      set airport_id = #{airportId,jdbcType=INTEGER},
+      set airport_code = #{airportCode,jdbcType=VARCHAR},
         search_keyword = #{searchKeyword,jdbcType=VARCHAR},
         insert_time = #{insertTime,jdbcType=TIMESTAMP}
       where id = #{id,jdbcType=BIGINT}

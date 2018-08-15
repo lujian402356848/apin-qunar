@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class AirportServiceImpl implements AirportService {
-    private Cache<Integer, Airport> airportCache = CacheBuilder.newBuilder().maximumSize(5000).build();
+    private Cache<String, Airport> airportCache = CacheBuilder.newBuilder().maximumSize(5000).build();
     @Autowired
     private AirportDaoImpl airportDao;
     @Autowired
@@ -41,9 +41,14 @@ public class AirportServiceImpl implements AirportService {
             return;
         }
         for (Airport airport : airports) {
-            airportCache.put(airport.getId(), airport);
+            airportCache.put(airport.getAirportCode(), airport);
         }
         log.info("初始化机场信息完毕");
+    }
+
+    @Override
+    public Airport queryByCode(String code) {
+        return airportCache.getIfPresent(code);
     }
 
     @Override
@@ -54,9 +59,9 @@ public class AirportServiceImpl implements AirportService {
         }
         Airport airport = null;
         try {
-            List<Integer> airportIds = airportSearchDao.queryAirportIdByKeyword(keyword);
-            for (Integer airportId : airportIds) {
-                airport = airportCache.getIfPresent(airportId);
+            List<String> airportCodes = airportSearchDao.queryAirportCodeByKeyword(keyword);
+            for (String airportCode : airportCodes) {
+                airport = airportCache.getIfPresent(airportCode);
                 if (airport != null) {
                     airports.add(airport);
                 }

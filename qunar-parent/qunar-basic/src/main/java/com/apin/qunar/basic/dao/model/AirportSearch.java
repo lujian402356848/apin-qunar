@@ -12,9 +12,9 @@ public class AirportSearch implements Serializable {
     private Long id;
 
     /**
-     * 机场id
+     * 机场编号
      */
-    private Integer airportId;
+    private String airportCode;
 
     /**
      * 查询关键字
@@ -41,17 +41,17 @@ public class AirportSearch implements Serializable {
     }
 
     /**
-     * @return 机场id
+     * @return 机场编号
      */
-    public Integer getAirportId() {
-        return airportId;
+    public String getAirportCode() {
+        return airportCode;
     }
 
     /**
-     * @param airportId 机场id
+     * @param airportCode 机场编号
      */
-    public void setAirportId(Integer airportId) {
-        this.airportId = airportId;
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode == null ? null : airportCode.trim();
     }
 
     /**
