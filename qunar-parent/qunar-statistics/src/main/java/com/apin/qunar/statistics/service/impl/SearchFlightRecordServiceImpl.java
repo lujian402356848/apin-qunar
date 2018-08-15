@@ -6,6 +6,7 @@ import com.apin.qunar.statistics.dao.model.InternationalSearchFlightRecord;
 import com.apin.qunar.statistics.dao.model.NationalSearchFlightRecord;
 import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,10 @@ public class SearchFlightRecordServiceImpl implements SearchFlightRecordService 
 
     @Override
     public void create(String merchantNo, boolean hasInternal, String deptCity, String arriCity) {
+        if (StringUtils.isBlank(merchantNo) || StringUtils.isBlank(deptCity) || StringUtils.isBlank(arriCity)) {
+            log.warn("创建航班查询记录有数据为空:merchantNo:{},deptCity:{},arriCity:{}", merchantNo, deptCity, arriCity);
+            return;
+        }
         try {
             if (hasInternal) {
                 nationalSearchFlightRecordDao.insert(buildNationalSearchFlightRecord(merchantNo, deptCity, arriCity));
