@@ -43,10 +43,10 @@ public class MerchantStasticsJob {
     /**
      * 商户统计job启动
      */
-//    @Scheduled(fixedDelay = 60 * 60 * 1000)
+    @Scheduled(fixedDelay = 60 * 60 * 1000)
     private void start() {
         log.error("商户统计job开始执行,时间:" + DateUtil.getCurrDate());
-        if (!isExecute()) {
+        if (isExecute()) {
             return;
         }
         try {
@@ -75,14 +75,13 @@ public class MerchantStasticsJob {
             if (merchant == null || StringUtils.isBlank(merchant.getContactMobile())) {
                 continue;
             }
-            String operator = merchant.getContactMobile();
             int merFlightCnt = nationalSearchFlightRecordDao.queryFlightCntByMerchantNoAndInsertTime(merchantNo, startTime, endTime);
             int merNtsFlightCnt = internationalSearchFlightRecordDao.queryFlightCntByMerchantNoAndInsertTime(merchantNo, startTime, endTime);
 
-            int merOrderCnt = nationalOrderDao.queryCntBy(operator, orderStatus, startTime, endTime);
-            int merNtsOrderCnt = internationalOrderDao.queryCntBy(operator, ntsOrderStatus, startTime, endTime);
-            int merDealTotalAmount = nationalOrderDao.queryTotalAmountBy(operator, orderStatus, startTime, endTime);
-            int merNtsDealTotalAmount = internationalOrderDao.queryTotalAmountBy(operator, orderStatus, startTime, endTime);
+            int merOrderCnt = nationalOrderDao.queryCntBy(merchantNo, orderStatus, startTime, endTime);
+            int merNtsOrderCnt = internationalOrderDao.queryCntBy(merchantNo, ntsOrderStatus, startTime, endTime);
+            int merDealTotalAmount = nationalOrderDao.queryTotalAmountBy(merchantNo, orderStatus, startTime, endTime);
+            int merNtsDealTotalAmount = internationalOrderDao.queryTotalAmountBy(merchantNo, orderStatus, startTime, endTime);
 
             DayMerchantStatistics merchantStatistics = buildDayMerchantStatistics(merchantNo, merFlightCnt, merNtsFlightCnt, merOrderCnt, merNtsOrderCnt, merDealTotalAmount, merNtsDealTotalAmount);
             dayMerchantStatisticsDao.insert(merchantStatistics);
@@ -122,7 +121,7 @@ public class MerchantStasticsJob {
     private boolean isExecute() {
         Date maxDate = dayMerchantStatisticsDao.queryMaxInsertTime();
         if (maxDate == null) {
-            return true;
+            return false;
         }
         String currDate = DateUtil.format(new Date(), DateUtil.DEFAULT_DATE_DAYPATTERN);
         String maxDateFormat = DateUtil.format(maxDate, DateUtil.DEFAULT_DATE_DAYPATTERN);

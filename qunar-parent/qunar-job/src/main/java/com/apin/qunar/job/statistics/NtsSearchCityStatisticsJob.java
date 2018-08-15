@@ -9,6 +9,7 @@ import com.apin.qunar.statistics.domain.SearchFlightRecordDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,10 +28,10 @@ public class NtsSearchCityStatisticsJob {
     /**
      * 国际城市查询统计job启动
      */
-//    @Scheduled(fixedDelay = 60 * 60 * 1000)
+    @Scheduled(fixedDelay = 60 * 60 * 1000)
     private void start() {
         log.error("国际城市查询统计job开始执行,时间:" + DateUtil.getCurrDate());
-        if (!isExecute()) {
+        if (isExecute()) {
             return;
         }
         try {
@@ -83,7 +84,7 @@ public class NtsSearchCityStatisticsJob {
     private boolean isExecute() {
         Date maxDate = internationalSearchCityStatisticsDao.queryMaxInsertTime();
         if (maxDate == null) {
-            return true;
+            return false;
         }
         String currDate = DateUtil.format(new Date(), DateUtil.DEFAULT_DATE_DAYPATTERN);
         String maxDateFormat = DateUtil.format(maxDate, DateUtil.DEFAULT_DATE_DAYPATTERN);

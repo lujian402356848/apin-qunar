@@ -11,11 +11,11 @@ import java.util.Date;
  * @create 2018-06-27 20:36
  */
 public interface NationalOrderExtMapper {
-    @Select("select count(1) from national_order where operator=#{operator} and pay_status in (${payStatusStr}) and insert_time>=#{startTime} and insert_time<#{endTime}")
-    int queryCntBy(@Param("operator") String operator, @Param("payStatusStr") String payStatusStr, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
+    @Select("select count(1) from national_order where merchant_no=#{merchantNo} and pay_status in (${payStatusStr}) and insert_time>=#{startTime} and insert_time<#{endTime}")
+    int queryCntBy(@Param("merchantNo") String merchantNo, @Param("payStatusStr") String payStatusStr, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
-    @Select("select ifnull(sum(pay_amount),0) from national_order where operator=#{operator} and pay_status in (${payStatusStr}) and insert_time>=#{startTime} and insert_time<#{endTime}")
-    int queryTotalAmountBy(@Param("operator") String operator, @Param("payStatusStr") String payStatusStr, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
+    @Select("select ifnull(sum(pay_amount),0) from national_order where merchant_no=#{merchantNo} and pay_status in (${payStatusStr}) and insert_time>=#{startTime} and insert_time<#{endTime}")
+    int queryTotalAmountBy(@Param("merchantNo") String merchantNo, @Param("payStatusStr") String payStatusStr, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
     @Update("update national_order set pay_status=#{payStatus} where order_no=#{orderNo} and pay_status!=#{payStatus}")
     int updateStatus(@Param("orderNo") String orderNo, @Param("payStatus") int payStatus);

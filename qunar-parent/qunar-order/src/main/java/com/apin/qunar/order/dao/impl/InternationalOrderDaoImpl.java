@@ -31,14 +31,14 @@ public class InternationalOrderDaoImpl {
         return CollectionUtils.isEmpty(internationalOrders) ? null : internationalOrders.get(0);
     }
 
-    public int queryCntBy(String operator, List<Integer> payStatusList, Date startTime, Date endTime) {
+    public int queryCntBy(String merchantNo, List<Integer> payStatusList, Date startTime, Date endTime) {
         String payStatusStr = StringUtils.join(payStatusList, ",");
-        return internationalOrderExtMapper.queryCntBy(operator, payStatusStr, startTime, endTime);
+        return internationalOrderExtMapper.queryCntBy(merchantNo, payStatusStr, startTime, endTime);
     }
 
-    public int queryTotalAmountBy(String operator, List<Integer> payStatusList, Date startTime, Date endTime) {
+    public int queryTotalAmountBy(String merchantNo, List<Integer> payStatusList, Date startTime, Date endTime) {
         String payStatusStr = StringUtils.join(payStatusList, ",");
-        return internationalOrderExtMapper.queryTotalAmountBy(operator, payStatusStr, startTime, endTime);
+        return internationalOrderExtMapper.queryTotalAmountBy(merchantNo, payStatusStr, startTime, endTime);
     }
 
     public List<InternationalOrder> queryPageListBy(String merchantNo, String account, Integer status, String orderNo, Integer offset, Integer limit) {

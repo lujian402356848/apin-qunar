@@ -34,7 +34,7 @@ public class SearchCityStatisticsJob {
     @Scheduled(fixedDelay = 60 * 60 * 1000)
     private void start() {
         log.error("国内城市查询统计job开始执行,时间:" + DateUtil.getCurrDate());
-        if (!isExecute()) {
+        if (isExecute()) {
             return;
         }
         try {
@@ -87,7 +87,7 @@ public class SearchCityStatisticsJob {
     private boolean isExecute() {
         Date maxDate = nationalSearchCityStatisticsDao.queryMaxInsertTime();
         if (maxDate == null) {
-            return true;
+            return false;
         }
         String currDate = DateUtil.format(new Date(), DateUtil.DEFAULT_DATE_DAYPATTERN);
         String maxDateFormat = DateUtil.format(maxDate, DateUtil.DEFAULT_DATE_DAYPATTERN);
