@@ -1,13 +1,16 @@
 package com.apin.qunar.order.service.national.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.common.ids.IDGenerator;
 import com.apin.qunar.common.utils.UUIDUtil;
 import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
+import com.apin.qunar.order.dao.impl.NationalPassengerDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalReturnOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalReturnPassengerDaoImpl;
 import com.apin.qunar.order.dao.model.NationalOrder;
+import com.apin.qunar.order.dao.model.NationalPassenger;
 import com.apin.qunar.order.dao.model.NationalReturnOrder;
 import com.apin.qunar.order.dao.model.NationalReturnPassenger;
 import com.apin.qunar.order.domain.common.ApiResult;
@@ -49,6 +52,8 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
     private NationalReturnPassengerDaoImpl nationalReturnPassengerDao;
     @Autowired
     private RefundSearchService refundSearchService;
+    @Autowired
+    private NationalPassengerDaoImpl nationalPassengerDao;
 
     @Override
     protected String getTag() {
@@ -78,6 +83,19 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
         ApiResult<List<RefundResultVO>> refundResult = execute(refundParam);
         if (refundResult == null || !refundResult.isSuccess()) {
             return ApiResult.fail();
+        }
+        List<RefundResultVO> refundResultVOS = refundResult.getResult();
+        if (CollectionUtils.isEmpty(refundResultVOS)) {
+            return ApiResult.fail();
+        }
+        RefundResultVO refundResultVO = refundResultVOS.get(0);
+        if (refundResultVO == null) {
+            return ApiResult.fail();
+        }
+        RefundResultVO.RefundApplyResult refundApplyResult = refundResultVO.getRefundApplyResult();
+        boolean hasSuccess = refundApplyResult.isSuccess();
+        if (!hasSuccess) {
+            return ApiResult.fail(SysReturnCode.FAIL.getCode(), refundApplyResult.getReason());
         }
         int retundFee = 0;
         List<RefundSearchResultVO.TgqReason> tgqReasons = refundSearchResult.getResult().get(0).getRefundSearchResult().getTgqReasons();
@@ -143,8 +161,8 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
         NationalReturnOrder nationalReturnOrder = new NationalReturnOrder();
         nationalReturnOrder.setId(IDGenerator.getUniqueId());
         nationalReturnOrder.setMerchantNo(nationalOrder.getMerchantNo());
-        nationalReturnOrder.setParentOrderNo(refundParam.getOrderNo());
         nationalReturnOrder.setOrderNo(nationalOrder.getOrderNo());
+        nationalReturnOrder.setParentOrderNo(refundParam.getOrderNo());
         nationalReturnOrder.setTicketNo(ticketNo);
         nationalReturnOrder.setFlightNum(nationalOrder.getFlightNum());
         nationalReturnOrder.setActFlightNum(nationalOrder.getActFlightNum());
@@ -186,6 +204,7 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
         List<NationalReturnPassenger> nationalReturnPassengers = new ArrayList<>();
         String orderNo = refundParam.getOrderNo();
         for (RefundResultVO refundResultVO : RefundResultVOS) {
+            NationalPassenger nationalPassenger = nationalPassengerDao.queryBy(orderNo, refundResultVO.getName());
             NationalReturnPassenger passenger = new NationalReturnPassenger();
             passenger.setId(UUIDUtil.getUUID());
             passenger.setMerchantNo(merchantNo);
@@ -199,6 +218,9 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
             passenger.setHasRefund(hasrefund);
             passenger.setRefundReason(refundResultVO.getRefundApplyResult().getReason());
             nationalReturnPassengers.add(passenger);
+            if (passenger != null) {
+                passenger.setCardNo(nationalPassenger.getCardNo());
+            }
         }
         return nationalReturnPassengers;
     }

@@ -387,9 +387,9 @@ public class WechatServiceImpl implements WechatService {
         ChangePayParam changePayParam = buildChangePayParam(nationalChangeOrder, wechatPay.getPayAmount());
         try {
             ApiResult<ChangePayResultVO> apiResult = changePayService.changePay(changePayParam);
-            if (apiResult.isSuccess() && apiResult.getResult() != null && apiResult.getResult().getResult() != null) {
-                ChangePayResultVO.PayResult payResult = apiResult.getResult().getResult();
-                if (payResult.getCode() == 0) {
+            if (apiResult.isSuccess() && apiResult.getResult() != null) {
+                ChangePayResultVO changePayResult = apiResult.getResult();
+                if (changePayResult.getCode() == 0) {
                     payStatus = QunarPayStatusEnum.PAY_SUCCESS;
                 } else {
                     payStatus = QunarPayStatusEnum.PAY_FAIL;

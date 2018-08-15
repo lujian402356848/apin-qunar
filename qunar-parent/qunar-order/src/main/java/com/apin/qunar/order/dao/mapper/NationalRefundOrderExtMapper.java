@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface NationalRefundOrderExtMapper {
 
-    @Update("update national_return_order set order_no=#{orderNo},return_status=#{payStatus},ticket_no=#{ticketNo} where order_no=#{parentOrderNo}")
+    @Update("update national_return_order set order_no=#{orderNo},return_status=#{payStatus},ticket_no=#{ticketNo} where parent_order_no=#{parentOrderNo}")
     int updateStatusAndTicketNo(@Param("parentOrderNo") String parentOrderNo, @Param("orderNo") String orderNo, @Param("payStatus") int payStatus, @Param("ticketNo") String ticketNo);
 
 
