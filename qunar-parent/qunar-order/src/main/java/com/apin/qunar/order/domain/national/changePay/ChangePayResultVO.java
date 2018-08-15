@@ -11,13 +11,9 @@ import java.util.List;
 @Data
 public class ChangePayResultVO {
 
-    private PayResult result;
-
-    @Data
-    public static class PayResult {
         private int code;
+        private String errMsg;
         private List<PayFormResult> results;
-    }
 
     @Data
     public static class PayFormResult {
