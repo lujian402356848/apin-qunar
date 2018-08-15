@@ -42,11 +42,6 @@ public class Airport implements Serializable {
      */
     private String countryName;
 
-    /**
-     * 查询关键字
-     */
-    private String searchKeyword;
-
     public Integer getId() {
         return id;
     }
@@ -151,19 +146,5 @@ public class Airport implements Serializable {
      */
     public void setCountryName(String countryName) {
         this.countryName = countryName == null ? null : countryName.trim();
-    }
-
-    /**
-     * @return 查询关键字
-     */
-    public String getSearchKeyword() {
-        return searchKeyword;
-    }
-
-    /**
-     * @param searchKeyword 查询关键字
-     */
-    public void setSearchKeyword(String searchKeyword) {
-        this.searchKeyword = searchKeyword == null ? null : searchKeyword.trim();
     }
 }

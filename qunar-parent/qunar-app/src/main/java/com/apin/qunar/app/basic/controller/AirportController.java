@@ -5,6 +5,7 @@ import com.apin.qunar.app.basic.request.AirportRequest;
 import com.apin.qunar.app.common.constant.AppConstants;
 import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
+import com.apin.qunar.basic.dao.model.Airport;
 import com.apin.qunar.basic.domain.airport.AirportVO;
 import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.common.enums.SysReturnCode;
@@ -37,7 +38,7 @@ public class AirportController extends BaseController {
             return generalResultMap;
         }
         try {
-            List<AirportVO> airports = airportService.getByCode(airportRequest.getCode().toLowerCase());
+            List<Airport> airports = airportService.queryByKeyword(airportRequest.getCode().toLowerCase());
             generalResultMap.setResult(SysReturnCode.SUCC, airports);
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
