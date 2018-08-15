@@ -13,4 +13,6 @@ public class AirportVO {
     private String completeSpell;
     private String shortSpell;
     private String cityName;
+    private String countryCode;
+    private String countryName;
 }
