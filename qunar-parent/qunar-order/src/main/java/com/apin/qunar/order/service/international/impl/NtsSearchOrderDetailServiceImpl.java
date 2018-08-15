@@ -1,14 +1,14 @@
 package com.apin.qunar.order.service.international.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.apin.qunar.basic.dao.model.Airport;
+import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.order.common.enums.NtsOrderStatusEnum;
-import com.apin.qunar.order.common.enums.OrderStatusEnum;
 import com.apin.qunar.order.dao.impl.InternationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.InternationalPassengerDaoImpl;
 import com.apin.qunar.order.dao.model.InternationalOrder;
 import com.apin.qunar.order.dao.model.InternationalPassenger;
 import com.apin.qunar.order.domain.common.ApiResult;
-import com.apin.qunar.order.domain.international.booking.NtsBookingResultVO;
 import com.apin.qunar.order.domain.international.searchOrderDetail.NtsSearchOrderDetailParam;
 import com.apin.qunar.order.domain.international.searchOrderDetail.NtsSearchOrderDetailResultVO;
 import com.apin.qunar.order.service.international.NtsSearchOrderDetailService;
@@ -29,6 +29,8 @@ public class NtsSearchOrderDetailServiceImpl extends NtsApiService<NtsSearchOrde
     private InternationalOrderDaoImpl internationalOrderDao;
     @Autowired
     private InternationalPassengerDaoImpl internationalPassengerDao;
+    @Autowired
+    private AirportService airportService;
 
     @Override
     protected String getTag() {
@@ -53,8 +55,33 @@ public class NtsSearchOrderDetailServiceImpl extends NtsApiService<NtsSearchOrde
         }
         setSearchOrderDetailResult(apiResult.getResult());
         formatString(apiResult.getResult());
+        formatCityCode(apiResult.getResult());
         syncOrderStatusToDb(apiResult.getResult());
         return apiResult;
+    }
+
+
+    private void formatCityCode(NtsSearchOrderDetailResultVO apiResults) {
+        NtsSearchOrderDetailResultVO.FlightInfo flightInfo = apiResults.getFlightInfo();
+        if (flightInfo == null) {
+            return;
+        }
+        if (CollectionUtils.isNotEmpty(flightInfo.getSegments())) {
+            List<NtsSearchOrderDetailResultVO.Segment> segments = flightInfo.getSegments();
+            for (NtsSearchOrderDetailResultVO.Segment segment : segments) {
+                String depAirport = segment.getDepAirport();
+                String arrAirport = segment.getArrAirport();
+                Airport departAirport = airportService.queryByCode(depAirport);
+                Airport arrayAirport = airportService.queryByCode(arrAirport);
+                if (departAirport == null || arrayAirport == null||StringUtils.isBlank(departAirport.getCityName())||StringUtils.isBlank(arrayAirport.getCityName())) {
+                    segment.setDptCityName(depAirport);
+                    segment.setArrCityName(arrAirport);
+                    continue;
+                }
+                segment.setDptCityName(departAirport.getCityName());
+                segment.setArrCityName(arrayAirport.getCityName());
+            }
+        }
     }
 
     private void formatString(NtsSearchOrderDetailResultVO apiResults) {
@@ -62,7 +89,7 @@ public class NtsSearchOrderDetailServiceImpl extends NtsApiService<NtsSearchOrde
         if (flightInfo == null) {
             return;
         }
-        NtsSearchOrderDetailResultVO.Tgq tgq=flightInfo.getTgqRule();
+        NtsSearchOrderDetailResultVO.Tgq tgq = flightInfo.getTgqRule();
         if (tgq == null) {
             return;
         }

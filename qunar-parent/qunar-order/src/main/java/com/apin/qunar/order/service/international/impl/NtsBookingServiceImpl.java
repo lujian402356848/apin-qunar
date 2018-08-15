@@ -1,6 +1,8 @@
 package com.apin.qunar.order.service.international.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.apin.qunar.basic.dao.model.Airport;
+import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.basic.service.MerchantPriceConfigService;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.booking.NtsBookingParam;
@@ -8,6 +10,7 @@ import com.apin.qunar.order.domain.international.booking.NtsBookingResultVO;
 import com.apin.qunar.order.service.international.NtsBookingService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,8 @@ public class NtsBookingServiceImpl extends NtsApiService<NtsBookingParam, ApiRes
     private final SimpleDateFormat sdfTarget = new SimpleDateFormat("yyyy-MM-dd HH:mm"); //转化为目标格式
     @Autowired
     private MerchantPriceConfigService merchantPriceConfigService;
+    @Autowired
+    private AirportService airportService;
 
     @Override
     protected String getTag() {
@@ -51,7 +56,27 @@ public class NtsBookingServiceImpl extends NtsApiService<NtsBookingParam, ApiRes
         }
         formatTime(apiResult.getResult());
         formatString(apiResult.getResult());
+        formatCityCode(apiResult.getResult());
         return apiResult;
+    }
+
+    private void formatCityCode(NtsBookingResultVO apiResults) {
+        if (CollectionUtils.isNotEmpty(apiResults.getSegments())) {
+            List<NtsBookingResultVO.Segment> segments = apiResults.getSegments();
+            for (NtsBookingResultVO.Segment segment : segments) {
+                String depAirport = segment.getDepartPort();
+                String arrAirport = segment.getArrivePort();
+                Airport departAirport = airportService.queryByCode(depAirport);
+                Airport arrayAirport = airportService.queryByCode(arrAirport);
+                if (departAirport == null || arrayAirport == null || StringUtils.isBlank(departAirport.getCityName()) || StringUtils.isBlank(arrayAirport.getCityName())) {
+                    segment.setDptCityName(depAirport);
+                    segment.setArrCityName(arrAirport);
+                    continue;
+                }
+                segment.setDptCityName(departAirport.getCityName());
+                segment.setArrCityName(arrayAirport.getCityName());
+            }
+        }
     }
 
     private void formatString(NtsBookingResultVO apiResults) {

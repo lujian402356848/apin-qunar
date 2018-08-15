@@ -46,5 +46,7 @@ public class NtsBookingResultVO {
         private String cabin;
         private String aircraftCode;
         private int cabinClass;
+        private String dptCityName;//ui需要
+        private String arrCityName;//ui需要
     }
 }

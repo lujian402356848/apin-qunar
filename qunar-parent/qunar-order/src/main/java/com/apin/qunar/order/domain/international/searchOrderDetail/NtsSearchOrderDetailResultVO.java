@@ -161,5 +161,7 @@ public class NtsSearchOrderDetailResultVO {
         private String arrTerminal;//ui需要
         private String deptDate;//ui需要
         private String arrTime;//ui需要
+        private String dptCityName;//ui需要
+        private String arrCityName;//ui需要
     }
 }
