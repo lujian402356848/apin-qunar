@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
 import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalPassengerDaoImpl;
+import com.apin.qunar.order.dao.impl.NationalReturnOrderDaoImpl;
 import com.apin.qunar.order.dao.model.NationalOrder;
 import com.apin.qunar.order.dao.model.NationalPassenger;
+import com.apin.qunar.order.dao.model.NationalReturnOrder;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailParam;
 import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailResultVO;
@@ -27,6 +29,8 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
     private NationalOrderDaoImpl nationalOrderDao;
     @Autowired
     private NationalPassengerDaoImpl nationalPassengerDao;
+    @Autowired
+    private NationalReturnOrderDaoImpl nationalReturnOrderDao;
 
     @Override
     protected String getTag() {
@@ -60,6 +64,12 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
             return;
         }
         NationalOrder nationalOrder = nationalOrderDao.queryByOrderNo(orderNo);
+        NationalReturnOrder nationalReturnOrder = nationalReturnOrderDao.queryByOrderNo(orderNo);
+        Integer returnFee = 0;
+        if (nationalReturnOrder != null) {
+            returnFee = nationalReturnOrder.getReturnFee();
+        }
+
         if (nationalOrder == null) {
             orderNo = searchOrderDetailResult.getDetail().getParentOrderNo();
             nationalOrder = nationalOrderDao.queryByOrderNo(orderNo);
@@ -104,6 +114,11 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
                 passenger.setCardNum(searchPassengers.get(0).getCardNo());
                 passenger.setCardType(searchPassengers.get(0).getCardType());
             }
+        }
+        List<SearchOrderDetailResultVO.PassengerType> passengerTypes = searchOrderDetailResult.getPassengerTypes();
+        if (CollectionUtils.isNotEmpty(passengerTypes)) {
+            SearchOrderDetailResultVO.PassengerType PassengerType = passengerTypes.get(0);
+            PassengerType.setRefundPrices(returnFee * passengers.size());
         }
     }
 

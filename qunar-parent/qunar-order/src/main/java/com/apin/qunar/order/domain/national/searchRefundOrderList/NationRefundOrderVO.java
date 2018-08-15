@@ -146,5 +146,9 @@ public class NationRefundOrderVO {
      * 修改时间
      */
     private Date updateTime;
+    /*
+    * 退票总费用
+    * */
+    private Integer returnPrices;
 
 }

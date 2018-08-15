@@ -23,6 +23,14 @@ public class NationalReturnOrderDaoImpl {
     private NationalRefundOrderExtMapper nationalRefundOrderExtMapper;
 
 
+    public NationalReturnOrder queryByOrderNo(String orderNo) {
+        NationalReturnOrderExample example = new NationalReturnOrderExample();
+        NationalReturnOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andOrderNoEqualTo(orderNo);
+        List<NationalReturnOrder> nationalReturnOrders = nationalReturnOrderMapper.selectByExample(example);
+        return CollectionUtils.isEmpty(nationalReturnOrders) ? null : nationalReturnOrders.get(0);
+    }
+
     public List<NationalReturnOrder> queryPageListBy(String merchantNo, String account, String orderNo, Integer offset, Integer limit) {
         NationalReturnOrderExample example = new NationalReturnOrderExample();
         NationalReturnOrderExample.Criteria criteria = example.createCriteria();

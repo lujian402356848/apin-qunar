@@ -120,5 +120,6 @@ public class SearchOrderDetailResultVO {
         private int constructionFee;
         private int fuelTax;
         private int allPrices;
+        private int refundPrices;
     }
 }

@@ -29,7 +29,7 @@ public class SearchRefundOrderListServiceImpl implements SearchRefundOrderListSe
 
     @Override
     public List<NationRefundOrderVO> queryPageList(String merchantNo, String account, String orderNo, String pessengerName, Integer offset, Integer limit) {
-        merchantNo="20180726460336";
+        merchantNo = "20180726460336";
         List<NationalReturnOrder> nationalReturnOrders = null;
         List<NationalReturnPassenger> passengers = null;
         if (StringUtils.isNotBlank(pessengerName)) {
@@ -55,6 +55,8 @@ public class SearchRefundOrderListServiceImpl implements SearchRefundOrderListSe
         for (NationalReturnOrder order : orders) {
             nationRefundOrderVO = BeanUtil.copyProperties(order, NationRefundOrderVO.class);
             List<NationalReturnPassenger> filterPassenger = passengers.stream().filter(p -> p.getOrderNo().equals(order.getOrderNo())).collect(Collectors.toList());
+            int returnFee = order.getReturnFee() * filterPassenger.size();
+            nationRefundOrderVO.setReturnPrices(returnFee);
             nationRefundOrderVO.setPassengers(buildPassengers(filterPassenger));
             nationRefundOrderVOS.add(nationRefundOrderVO);
         }
