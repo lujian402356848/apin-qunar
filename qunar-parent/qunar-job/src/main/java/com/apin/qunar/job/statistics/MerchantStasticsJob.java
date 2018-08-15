@@ -43,7 +43,7 @@ public class MerchantStasticsJob {
     /**
      * 商户统计job启动
      */
-    @Scheduled(fixedDelay = 60 * 60 * 1000)
+    @Scheduled(cron = "0 0 1 * * *")
     private void start() {
         log.error("商户统计job开始执行,时间:" + DateUtil.getCurrDate());
         if (isExecute()) {

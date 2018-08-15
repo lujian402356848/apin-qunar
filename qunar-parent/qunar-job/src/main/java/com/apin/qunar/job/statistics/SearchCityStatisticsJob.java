@@ -31,9 +31,9 @@ public class SearchCityStatisticsJob {
     /**
      * 国内城市查询统计job启动
      */
-    @Scheduled(fixedDelay = 60 * 60 * 1000)
+    @Scheduled(cron = "0 0 1 * * *")
     private void start() {
-        log.error("国内城市查询统计job开始执行,时间:" + DateUtil.getCurrDate());
+        log.info("国内城市查询统计job开始执行,时间:" + DateUtil.getCurrDate());
         if (isExecute()) {
             return;
         }
