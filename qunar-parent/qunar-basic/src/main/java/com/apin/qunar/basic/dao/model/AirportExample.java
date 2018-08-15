@@ -675,6 +675,76 @@ public class AirportExample {
             addCriterion("country_name not between", value1, value2, "countryName");
             return (Criteria) this;
         }
+
+        public Criteria andSearchKeywordIsNull() {
+            addCriterion("search_keyword is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordIsNotNull() {
+            addCriterion("search_keyword is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordEqualTo(String value) {
+            addCriterion("search_keyword =", value, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordNotEqualTo(String value) {
+            addCriterion("search_keyword <>", value, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordGreaterThan(String value) {
+            addCriterion("search_keyword >", value, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordGreaterThanOrEqualTo(String value) {
+            addCriterion("search_keyword >=", value, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordLessThan(String value) {
+            addCriterion("search_keyword <", value, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordLessThanOrEqualTo(String value) {
+            addCriterion("search_keyword <=", value, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordLike(String value) {
+            addCriterion("search_keyword like", value, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordNotLike(String value) {
+            addCriterion("search_keyword not like", value, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordIn(List<String> values) {
+            addCriterion("search_keyword in", values, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordNotIn(List<String> values) {
+            addCriterion("search_keyword not in", values, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordBetween(String value1, String value2) {
+            addCriterion("search_keyword between", value1, value2, "searchKeyword");
+            return (Criteria) this;
+        }
+
+        public Criteria andSearchKeywordNotBetween(String value1, String value2) {
+            addCriterion("search_keyword not between", value1, value2, "searchKeyword");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
@@ -715,6 +785,11 @@ public class AirportExample {
 
         public Criteria andCountryNameLikeInsensitive(String value) {
             addCriterion("upper(country_name) like", value.toUpperCase(), "countryName");
+            return this;
+        }
+
+        public Criteria andSearchKeywordLikeInsensitive(String value) {
+            addCriterion("upper(search_keyword) like", value.toUpperCase(), "searchKeyword");
             return this;
         }
     }
