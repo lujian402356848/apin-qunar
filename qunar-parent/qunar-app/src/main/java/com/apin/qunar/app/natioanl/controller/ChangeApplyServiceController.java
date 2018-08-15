@@ -6,12 +6,10 @@ import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
 import com.apin.qunar.app.natioanl.request.change.ChangeApplyRequest;
 import com.apin.qunar.common.enums.SysReturnCode;
-import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.domain.common.ApiResult;
-import com.apin.qunar.order.domain.national.changeApply.ChangeApplyParam;
+import com.apin.qunar.order.domain.national.changeApply.ChangeApplyBO;
 import com.apin.qunar.order.domain.national.changeApply.ChangeApplyResultVO;
 import com.apin.qunar.order.service.national.ChangeApplyService;
-import com.apin.qunar.order.service.national.ChangeSearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,10 +30,6 @@ import java.util.List;
 public class ChangeApplyServiceController extends BaseController {
     @Autowired
     private ChangeApplyService changeService;
-    @Autowired
-    private OrderConfig orderConfig;
-    @Autowired
-    private ChangeSearchService changeSearchService;
 
     @PostMapping(value = "/order/changeApply")
     public GeneralResultMap changeApply(@RequestBody ChangeApplyRequest request) {
@@ -45,7 +39,7 @@ public class ChangeApplyServiceController extends BaseController {
             return generalResultMap;
         }
         try {
-            ApiResult<List<ChangeApplyResultVO>> apiResult = changeService.changeApply(buildChangeParam(request), request.getAccount(), request.getMerchantNo());
+            ApiResult<List<ChangeApplyResultVO>> apiResult = changeService.changeApply(buildChangeApplyBO(request), request.getAccount(), request.getMerchantNo());
             if (apiResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC, apiResult.getResult());
             } else {
@@ -57,21 +51,38 @@ public class ChangeApplyServiceController extends BaseController {
         return generalResultMap;
     }
 
-    private ChangeApplyParam buildChangeParam(final ChangeApplyRequest changeApplyRequest) {
-        ChangeApplyParam changeApplyParam = new ChangeApplyParam();
-        changeApplyParam.setOrderNo(changeApplyRequest.getOrderNo());
-        changeApplyParam.setChangeCauseId(changeApplyRequest.getChangeCauseId());
-        changeApplyParam.setPassengerIds(changeApplyRequest.getPassengerIds());
-        changeApplyParam.setApplyRemarks(changeApplyRequest.getApplyRemarks());
-        changeApplyParam.setUniqKey(changeApplyRequest.getUniqKey());
-        changeApplyParam.setGqFee(changeApplyRequest.getGqFee());
-        changeApplyParam.setUpgradeFee(changeApplyRequest.getUpgradeFee());
-        changeApplyParam.setFlightNo(changeApplyRequest.getFlightNo());
-        changeApplyParam.setCabinCode(changeApplyRequest.getCabinCode());
-        changeApplyParam.setStartDate(changeApplyRequest.getStartDate());
-        changeApplyParam.setStartTime(changeApplyRequest.getStartTime());
-        changeApplyParam.setEndTime(changeApplyRequest.getEndTime());
-        changeApplyParam.setCallbackUrl(orderConfig.getPayCallbackUrl());
-        return changeApplyParam;
+    private ChangeApplyBO buildChangeApplyBO(final ChangeApplyRequest changeApplyRequest) {
+        ChangeApplyBO changeApplyBO = new ChangeApplyBO();
+        changeApplyBO.setActFlightNo(changeApplyRequest.getActFlightNo());
+        changeApplyBO.setOrderNo(changeApplyRequest.getOrderNo());
+        changeApplyBO.setChangeCauseId(changeApplyRequest.getChangeCauseId());
+        changeApplyBO.setPassengerIds(changeApplyRequest.getPassengerIds());
+        changeApplyBO.setApplyRemarks(changeApplyRequest.getApplyRemarks());
+        changeApplyBO.setUniqKey(changeApplyRequest.getUniqKey());
+        changeApplyBO.setGqFee(changeApplyRequest.getGqFee());
+        changeApplyBO.setUpgradeFee(changeApplyRequest.getUpgradeFee());
+        changeApplyBO.setFlightNo(changeApplyRequest.getFlightNo());
+        changeApplyBO.setCabinCode(changeApplyRequest.getCabinCode());
+        changeApplyBO.setChangeDate(changeApplyRequest.getChangeDate());
+        changeApplyBO.setStartTime(changeApplyRequest.getStartTime());
+        changeApplyBO.setEndTime(changeApplyRequest.getEndTime());
+        changeApplyBO.setAccount(changeApplyRequest.getAccount());
+        changeApplyBO.setDptAirportCode(changeApplyRequest.getDptAirportCode());
+        changeApplyBO.setArrAirportCode(changeApplyRequest.getArrAirportCode());
+        changeApplyBO.setDptTerminal(changeApplyRequest.getDptTerminal());
+        changeApplyBO.setArrTerminal(changeApplyRequest.getArrTerminal());
+        changeApplyBO.setFlight(changeApplyRequest.getFlight());
+        changeApplyBO.setFlightNo(changeApplyRequest.getFlightNo());
+        changeApplyBO.setFlightType(changeApplyRequest.getFlightType());
+        changeApplyBO.setStartPlace(changeApplyRequest.getStartPlace());
+        changeApplyBO.setEndPlace(changeApplyRequest.getEndPlace());
+        changeApplyBO.setCabin(changeApplyRequest.getCabin());
+        changeApplyBO.setCabinCode(changeApplyRequest.getCabinCode());
+        changeApplyBO.setCarrier(changeApplyRequest.getCarrier());
+        changeApplyBO.setAllFee(changeApplyRequest.getAllFee());
+        changeApplyBO.setCabinStatus(changeApplyRequest.getCabinStatus());
+        changeApplyBO.setActFlightNo(changeApplyRequest.getActFlightNo());
+        changeApplyBO.setShare(changeApplyRequest.getShare());
+        return changeApplyBO;
     }
 }

@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 /**
  * @outhor lujian
  * @create 2018-07-19 11:20
@@ -11,6 +13,10 @@ import org.apache.ibatis.annotations.Update;
 public interface UserExtMapper {
     @Update("update user set password=#{password} where account=#{account}")
     int updatePwd(@Param("account") String account, @Param("password") String password);
+
     @Select("select count(1) from user where account=#{account}")
     int queryCntByAccount(@Param("account") String account);
+
+    @Select("select account from user where account_type=2")
+    List<String> queryMobileNos();
 }

@@ -68,10 +68,8 @@ public class NtsCreateOrderServiceImpl extends NtsApiService<NtsCreateOrderParam
             log.warn("国际订单下单失败,params:{},原因:{}", JSON.toJSON(ntsCreateOrderRequest), apiResult.getMessage());
             return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
-        if (apiResult.isSuccess()) {
-            ApiResult<NtsSearchRefundChangeSignResultVO> ntsSearchRefundChangeSignResultApiResult = ntsSearchRefundChangeSignService.searchRefundChangeSign(buildNtsSearchRefundChangeSignParam(ntsCreateOrderRequest, ntsBookingResult));
-            saveOrderToDb(ntsCreateOrderRequest, apiResult.getResult(), ntsCreateOrderParam, ntsBookingResult, ntsSearchRefundChangeSignResultApiResult.getResult());
-        }
+        ApiResult<NtsSearchRefundChangeSignResultVO> ntsSearchRefundChangeSignResultApiResult = ntsSearchRefundChangeSignService.searchRefundChangeSign(buildNtsSearchRefundChangeSignParam(ntsCreateOrderRequest, ntsBookingResult));
+        saveOrderToDb(ntsCreateOrderRequest, apiResult.getResult(), ntsCreateOrderParam, ntsBookingResult, ntsSearchRefundChangeSignResultApiResult.getResult());
         return apiResult;
 //        return new ApiResult<>(apiResult, BeanUtil.copyProperties(apiResult.getResult(), NtsCreateOrderResultVO.class));
     }

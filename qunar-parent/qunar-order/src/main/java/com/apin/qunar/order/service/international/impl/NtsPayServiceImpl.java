@@ -1,6 +1,8 @@
 package com.apin.qunar.order.service.international.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.apin.qunar.basic.domain.ExecuteResult;
+import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.common.enums.NtsOrderStatusEnum;
@@ -47,33 +49,42 @@ public class NtsPayServiceImpl extends NtsApiService<NtsPayParam, ApiResult<NtsP
 
     @Override
     public ApiResult<NtsPayResultVO> pay(final NtsPayParam ntsPayParam) {
-        boolean validateResult = validatePay(ntsPayParam);
-        if (!validateResult) {
-            return ApiResult.fail();
+        ExecuteResult executeResult = validatePay(ntsPayParam);
+        if (!executeResult.isSuccess()) {
+            return ApiResult.fail(SysReturnCode.FAIL.getCode(), executeResult.getDesc());
         }
         ApiResult<NtsPayResultVO> apiResult = execute(ntsPayParam);
         if (apiResult == null) {
             ApiResult.fail();
         }
-        if (apiResult.isSuccess() && apiResult.getResult() != null) {
-            ntsDbOrderService.updatePayInfo(ntsPayParam.getOrderNo(), StringUtils.join(apiResult.getResult().getPayIds(), ","), NtsOrderStatusEnum.PAY_OK.getCode(), fomatToDate(apiResult.getCreateTime()));
+        if (!apiResult.isSuccess()) {
+            log.warn("国际订单支付失败,params:{},原因:{}", JSON.toJSONString(ntsPayParam), apiResult.getMessage());
+            return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
+        }
+        if (apiResult.getResult() != null) {
+            ntsDbOrderService.updatePayInfo(ntsPayParam.getOrderNo(), StringUtils.join(apiResult.getResult().getPayIds(), ","), NtsOrderStatusEnum.PAY_OK.getCode(), formatToDate(apiResult.getCreateTime()));
         }
         return apiResult;
 //        return new ApiResult<>(apiResult, BeanUtil.copyProperties(apiResult.getResult(), NtsPayResultVO.class));
     }
 
     @Override
-    public boolean validatePay(NtsPayParam ntsPayParam) {
+    public ExecuteResult validatePay(NtsPayParam ntsPayParam) {
+        ExecuteResult executeResult = new ExecuteResult();
         NtsPayValidateParam ntsPayValidateParam = buildNtsPayValidateParam(ntsPayParam);
         ApiResult<NtsPayValidateResultVO> apiResult = ntsPayValidateService.payValidate(ntsPayValidateParam);
         if (apiResult == null) {
-            return false;
+            executeResult.setDesc("支付验证失败，请从新下单");
+            return executeResult;
         }
         boolean result = apiResult.isSuccess() && apiResult.getCode() == 0;
+        executeResult.setSuccess(result);
         if (!result) {
-            log.warn("国际支付校验失败,result:{}", JSON.toJSON(apiResult));
+            String msg = String.format("支付验证失败,原因:%s", apiResult.getMessage());
+            executeResult.setDesc(msg);
+            log.warn(msg);
         }
-        return result;
+        return executeResult;
     }
 
     private NtsPayValidateParam buildNtsPayValidateParam(final NtsPayParam ntsPayParam) {
@@ -83,7 +94,7 @@ public class NtsPayServiceImpl extends NtsApiService<NtsPayParam, ApiResult<NtsP
         return ntsPayValidateParam;
     }
 
-    private String fomatToDate(long timeStamp) {
+    private String formatToDate(long timeStamp) {
         return DateUtil.DEFAULT_FORMAT.format(new Date(timeStamp));
     }
 }

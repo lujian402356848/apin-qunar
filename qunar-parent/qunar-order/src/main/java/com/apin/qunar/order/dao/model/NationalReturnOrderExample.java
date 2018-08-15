@@ -257,6 +257,76 @@ public class NationalReturnOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andParentOrderNoIsNull() {
+            addCriterion("parent_order_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoIsNotNull() {
+            addCriterion("parent_order_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoEqualTo(String value) {
+            addCriterion("parent_order_no =", value, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoNotEqualTo(String value) {
+            addCriterion("parent_order_no <>", value, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoGreaterThan(String value) {
+            addCriterion("parent_order_no >", value, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoGreaterThanOrEqualTo(String value) {
+            addCriterion("parent_order_no >=", value, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoLessThan(String value) {
+            addCriterion("parent_order_no <", value, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoLessThanOrEqualTo(String value) {
+            addCriterion("parent_order_no <=", value, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoLike(String value) {
+            addCriterion("parent_order_no like", value, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoNotLike(String value) {
+            addCriterion("parent_order_no not like", value, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoIn(List<String> values) {
+            addCriterion("parent_order_no in", values, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoNotIn(List<String> values) {
+            addCriterion("parent_order_no not in", values, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoBetween(String value1, String value2) {
+            addCriterion("parent_order_no between", value1, value2, "parentOrderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentOrderNoNotBetween(String value1, String value2) {
+            addCriterion("parent_order_no not between", value1, value2, "parentOrderNo");
+            return (Criteria) this;
+        }
+
         public Criteria andOrderNoIsNull() {
             addCriterion("order_no is null");
             return (Criteria) this;
@@ -1956,6 +2026,11 @@ public class NationalReturnOrderExample {
 
         public Criteria andMerchantNoLikeInsensitive(String value) {
             addCriterion("upper(merchant_no) like", value.toUpperCase(), "merchantNo");
+            return this;
+        }
+
+        public Criteria andParentOrderNoLikeInsensitive(String value) {
+            addCriterion("upper(parent_order_no) like", value.toUpperCase(), "parentOrderNo");
             return this;
         }
 

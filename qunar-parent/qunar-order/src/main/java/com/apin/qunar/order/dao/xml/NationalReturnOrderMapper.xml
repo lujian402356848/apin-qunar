@@ -4,6 +4,7 @@
     <resultMap id="NationalReturnOrderResult" type="com.apin.qunar.order.dao.model.NationalReturnOrder" >
       <id column="id" property="id" jdbcType="BIGINT" />
       <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="parent_order_no" property="parentOrderNo" jdbcType="VARCHAR" />
       <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
       <result column="ticket_no" property="ticketNo" jdbcType="VARCHAR" />
       <result column="flight_num" property="flightNum" jdbcType="VARCHAR" />
@@ -89,10 +90,11 @@
       </where>
     </sql>
     <sql id="NationalReturnOrderColumns" >
-      id, merchant_no, order_no, ticket_no, flight_num, act_flight_num, carrier_code, carrier_name, 
-      dept_city, arri_city, dept_airport_name, arri_airport_name, dept_date, dept_time, 
-      arri_time, reteun_code, has_disabled, disable_reason, return_status, return_time, 
-      return_fee, contact_name, contact_mobile, contact_email, operator, insert_time, update_time
+      id, merchant_no, parent_order_no, order_no, ticket_no, flight_num, act_flight_num, 
+      carrier_code, carrier_name, dept_city, arri_city, dept_airport_name, arri_airport_name, 
+      dept_date, dept_time, arri_time, reteun_code, has_disabled, disable_reason, return_status, 
+      return_time, return_fee, contact_name, contact_mobile, contact_email, operator, insert_time, 
+      update_time
     </sql>
     <select id="selectByExample" resultMap="NationalReturnOrderResult" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrderExample" >
       select
@@ -130,26 +132,26 @@
       </if>
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrder" >
-      insert into national_return_order (id, merchant_no, order_no, 
-        ticket_no, flight_num, act_flight_num, 
-        carrier_code, carrier_name, dept_city, 
-        arri_city, dept_airport_name, arri_airport_name, 
-        dept_date, dept_time, arri_time, 
-        reteun_code, has_disabled, disable_reason, 
-        return_status, return_time, return_fee, 
-        contact_name, contact_mobile, contact_email, 
-        operator, insert_time, update_time
-        )
-      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
-        #{ticketNo,jdbcType=VARCHAR}, #{flightNum,jdbcType=VARCHAR}, #{actFlightNum,jdbcType=VARCHAR}, 
-        #{carrierCode,jdbcType=VARCHAR}, #{carrierName,jdbcType=VARCHAR}, #{deptCity,jdbcType=VARCHAR}, 
-        #{arriCity,jdbcType=VARCHAR}, #{deptAirportName,jdbcType=VARCHAR}, #{arriAirportName,jdbcType=VARCHAR}, 
-        #{deptDate,jdbcType=VARCHAR}, #{deptTime,jdbcType=VARCHAR}, #{arriTime,jdbcType=VARCHAR}, 
-        #{reteunCode,jdbcType=INTEGER}, #{hasDisabled,jdbcType=INTEGER}, #{disableReason,jdbcType=VARCHAR}, 
-        #{returnStatus,jdbcType=INTEGER}, #{returnTime,jdbcType=VARCHAR}, #{returnFee,jdbcType=INTEGER}, 
-        #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, 
-        #{operator,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-        )
+      insert into national_return_order (id, merchant_no, parent_order_no, 
+        order_no, ticket_no, flight_num, 
+        act_flight_num, carrier_code, carrier_name, 
+        dept_city, arri_city, dept_airport_name, 
+        arri_airport_name, dept_date, dept_time, 
+        arri_time, reteun_code, has_disabled, 
+        disable_reason, return_status, return_time, 
+        return_fee, contact_name, contact_mobile, 
+        contact_email, operator, insert_time, 
+        update_time)
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{parentOrderNo,jdbcType=VARCHAR}, 
+        #{orderNo,jdbcType=VARCHAR}, #{ticketNo,jdbcType=VARCHAR}, #{flightNum,jdbcType=VARCHAR}, 
+        #{actFlightNum,jdbcType=VARCHAR}, #{carrierCode,jdbcType=VARCHAR}, #{carrierName,jdbcType=VARCHAR}, 
+        #{deptCity,jdbcType=VARCHAR}, #{arriCity,jdbcType=VARCHAR}, #{deptAirportName,jdbcType=VARCHAR}, 
+        #{arriAirportName,jdbcType=VARCHAR}, #{deptDate,jdbcType=VARCHAR}, #{deptTime,jdbcType=VARCHAR}, 
+        #{arriTime,jdbcType=VARCHAR}, #{reteunCode,jdbcType=INTEGER}, #{hasDisabled,jdbcType=INTEGER}, 
+        #{disableReason,jdbcType=VARCHAR}, #{returnStatus,jdbcType=INTEGER}, #{returnTime,jdbcType=VARCHAR}, 
+        #{returnFee,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
+        #{contactEmail,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+        #{updateTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrder" >
       insert into national_return_order
@@ -159,6 +161,9 @@
         </if>
         <if test="merchantNo != null" >
           merchant_no,
+        </if>
+        <if test="parentOrderNo != null" >
+          parent_order_no,
         </if>
         <if test="orderNo != null" >
           order_no,
@@ -242,6 +247,9 @@
         </if>
         <if test="merchantNo != null" >
           #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="parentOrderNo != null" >
+          #{parentOrderNo,jdbcType=VARCHAR},
         </if>
         <if test="orderNo != null" >
           #{orderNo,jdbcType=VARCHAR},
@@ -335,6 +343,9 @@
         <if test="record.merchantNo != null" >
           merchant_no = #{record.merchantNo,jdbcType=CHAR},
         </if>
+        <if test="record.parentOrderNo != null" >
+          parent_order_no = #{record.parentOrderNo,jdbcType=VARCHAR},
+        </if>
         <if test="record.orderNo != null" >
           order_no = #{record.orderNo,jdbcType=VARCHAR},
         </if>
@@ -419,6 +430,7 @@
       update national_return_order
       set id = #{record.id,jdbcType=BIGINT},
         merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        parent_order_no = #{record.parentOrderNo,jdbcType=VARCHAR},
         order_no = #{record.orderNo,jdbcType=VARCHAR},
         ticket_no = #{record.ticketNo,jdbcType=VARCHAR},
         flight_num = #{record.flightNum,jdbcType=VARCHAR},
@@ -453,6 +465,9 @@
       <set >
         <if test="merchantNo != null" >
           merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="parentOrderNo != null" >
+          parent_order_no = #{parentOrderNo,jdbcType=VARCHAR},
         </if>
         <if test="orderNo != null" >
           order_no = #{orderNo,jdbcType=VARCHAR},
@@ -535,6 +550,7 @@
     <update id="updateByPrimaryKey" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrder" >
       update national_return_order
       set merchant_no = #{merchantNo,jdbcType=CHAR},
+        parent_order_no = #{parentOrderNo,jdbcType=VARCHAR},
         order_no = #{orderNo,jdbcType=VARCHAR},
         ticket_no = #{ticketNo,jdbcType=VARCHAR},
         flight_num = #{flightNum,jdbcType=VARCHAR},

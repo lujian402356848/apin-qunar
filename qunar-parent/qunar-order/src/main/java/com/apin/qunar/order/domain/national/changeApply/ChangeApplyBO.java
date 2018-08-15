@@ -1,16 +1,13 @@
-package com.apin.qunar.app.natioanl.request.change;
+package com.apin.qunar.order.domain.national.changeApply;
 
-import com.apin.qunar.app.common.domain.BaseRequest;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
- * @outhor lujian
- * @create 2018-07-02 16:59
+ * @outhor ligang
+ * @create 2018-08-15 0:38
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class ChangeApplyRequest extends BaseRequest {
+public class ChangeApplyBO {
     private String orderNo;
     private String changeCauseId;
     private String passengerIds;

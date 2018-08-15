@@ -18,6 +18,7 @@ public class NtsSearchFlightResultVO {
     private int cprice;
     private int ctax;
     private String depTime;//ui需要
+    private String packName;//ui需要显示包U
 
     @Data
     public static class NtsFlightTrip {
@@ -58,7 +59,6 @@ public class NtsSearchFlightResultVO {
         private String planeTypeName;
         private int stops;
         private List<Stop> stop;//经停
-        private String packName;//ui
     }
 
     @Data

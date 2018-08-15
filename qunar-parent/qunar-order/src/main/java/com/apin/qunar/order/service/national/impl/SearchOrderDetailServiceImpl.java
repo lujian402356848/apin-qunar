@@ -60,6 +60,10 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
             return;
         }
         NationalOrder nationalOrder = nationalOrderDao.queryByOrderNo(orderNo);
+        if (nationalOrder == null) {
+            orderNo = searchOrderDetailResult.getDetail().getParentOrderNo();
+            nationalOrder = nationalOrderDao.queryByOrderNo(orderNo);
+        }
         if (nationalOrder != null) {
             SearchOrderDetailResultVO.OrderDetail orderDetail = searchOrderDetailResult.getDetail();
             if (orderDetail != null) {
