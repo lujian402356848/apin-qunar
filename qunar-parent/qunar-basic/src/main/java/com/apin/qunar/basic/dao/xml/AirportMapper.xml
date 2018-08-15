@@ -10,6 +10,7 @@
       <result column="city_name" property="cityName" jdbcType="VARCHAR" />
       <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
       <result column="country_name" property="countryName" jdbcType="VARCHAR" />
+      <result column="search_keyword" property="searchKeyword" jdbcType="VARCHAR" />
     </resultMap>
     <sql id="Example_Where_Clause" >
       <where >
@@ -71,7 +72,7 @@
     </sql>
     <sql id="AirportColumns" >
       id, airport_code, airport_name, complete_spell, short_spell, city_name, country_code, 
-      country_name
+      country_name, search_keyword
     </sql>
     <select id="selectByExample" resultMap="AirportResult" parameterType="com.apin.qunar.basic.dao.model.AirportExample" >
       select
@@ -111,10 +112,12 @@
     <insert id="insert" parameterType="com.apin.qunar.basic.dao.model.Airport" >
       insert into airport (id, airport_code, airport_name, 
         complete_spell, short_spell, city_name, 
-        country_code, country_name)
+        country_code, country_name, search_keyword
+        )
       values (#{id,jdbcType=INTEGER}, #{airportCode,jdbcType=VARCHAR}, #{airportName,jdbcType=VARCHAR}, 
         #{completeSpell,jdbcType=VARCHAR}, #{shortSpell,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, 
-        #{countryCode,jdbcType=VARCHAR}, #{countryName,jdbcType=VARCHAR})
+        #{countryCode,jdbcType=VARCHAR}, #{countryName,jdbcType=VARCHAR}, #{searchKeyword,jdbcType=VARCHAR}
+        )
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.basic.dao.model.Airport" >
       insert into airport
@@ -143,6 +146,9 @@
         <if test="countryName != null" >
           country_name,
         </if>
+        <if test="searchKeyword != null" >
+          search_keyword,
+        </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides="," >
         <if test="id != null" >
@@ -168,6 +174,9 @@
         </if>
         <if test="countryName != null" >
           #{countryName,jdbcType=VARCHAR},
+        </if>
+        <if test="searchKeyword != null" >
+          #{searchKeyword,jdbcType=VARCHAR},
         </if>
       </trim>
     </insert>
@@ -204,6 +213,9 @@
         <if test="record.countryName != null" >
           country_name = #{record.countryName,jdbcType=VARCHAR},
         </if>
+        <if test="record.searchKeyword != null" >
+          search_keyword = #{record.searchKeyword,jdbcType=VARCHAR},
+        </if>
       </set>
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
@@ -218,7 +230,8 @@
         short_spell = #{record.shortSpell,jdbcType=VARCHAR},
         city_name = #{record.cityName,jdbcType=VARCHAR},
         country_code = #{record.countryCode,jdbcType=VARCHAR},
-        country_name = #{record.countryName,jdbcType=VARCHAR}
+        country_name = #{record.countryName,jdbcType=VARCHAR},
+        search_keyword = #{record.searchKeyword,jdbcType=VARCHAR}
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
       </if>
@@ -247,6 +260,9 @@
         <if test="countryName != null" >
           country_name = #{countryName,jdbcType=VARCHAR},
         </if>
+        <if test="searchKeyword != null" >
+          search_keyword = #{searchKeyword,jdbcType=VARCHAR},
+        </if>
       </set>
       where id = #{id,jdbcType=INTEGER}
     </update>
@@ -258,7 +274,8 @@
         short_spell = #{shortSpell,jdbcType=VARCHAR},
         city_name = #{cityName,jdbcType=VARCHAR},
         country_code = #{countryCode,jdbcType=VARCHAR},
-        country_name = #{countryName,jdbcType=VARCHAR}
+        country_name = #{countryName,jdbcType=VARCHAR},
+        search_keyword = #{searchKeyword,jdbcType=VARCHAR}
       where id = #{id,jdbcType=INTEGER}
     </update>
   </mapper>
