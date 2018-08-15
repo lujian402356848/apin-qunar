@@ -174,6 +174,7 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
         changeApplyParam.setChangeCauseId(changeApplyBO.getChangeCauseId());
         changeApplyParam.setPassengerIds(changeApplyBO.getPassengerIds());
         changeApplyParam.setApplyRemarks(changeApplyBO.getApplyRemarks());
+        changeApplyParam.setStartDate(changeApplyBO.getChangeDate());
         changeApplyParam.setUniqKey(changeApplyBO.getUniqKey());
         changeApplyParam.setGqFee(changeApplyBO.getGqFee());
         changeApplyParam.setUpgradeFee(changeApplyBO.getUpgradeFee());
