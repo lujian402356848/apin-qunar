@@ -19,11 +19,13 @@ import com.apin.qunar.order.service.international.NtsCreateOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -46,16 +48,13 @@ public class NtsCreateOrderController extends BaseController {
     private CountryService countryService;
 
     @PostMapping(value = "/ntsOrder/create")
-    public GeneralResultMap createOrder(@RequestBody NtsCreateOrderRequest request) {
+    public GeneralResultMap createOrder(@Valid @RequestBody NtsCreateOrderRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = new GeneralResultMap();
 //        if (!generalResultMap.isSuccess()) {
 //            log.warn("/ntsOrder/create接口基础验证不通过，request:{}", JSON.toJSON(request));
 //            return generalResultMap;
 //        }
-        if (StringUtils.isBlank(request.getBookingTagKey()) || "null".equals(request.getBookingTagKey())) {
-            log.error("参数错误，获取到的priceKey为空");
-            return generalResultMap;
-        }
+
         try {
             ApiResult<NtsBookingResultVO> ntsBookingResult = ntsBookingService.booking(buildNtsBookingParam(request), request.getMerchantNo());
             if (ntsBookingResult.isSuccess()) {//如果预定成功，则判断座位数是否大于0

@@ -14,10 +14,13 @@ import com.apin.qunar.order.service.international.NtsBookingService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor lujian
@@ -36,16 +39,13 @@ public class NtsBookingController extends BaseController {
 
 
     @PostMapping(value = "/ntsOrder/booking")
-    public GeneralResultMap booking(@RequestBody NtsBookingRequest ntsBookingRequest) {
+    public GeneralResultMap booking(@Valid @RequestBody NtsBookingRequest ntsBookingRequest, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(ntsBookingRequest);
         if (!generalResultMap.isSuccess()) {
             log.warn("/ntsOrder/booking接口基础验证不通过，request:{}", JSON.toJSON(ntsBookingRequest));
             return generalResultMap;
         }
-        if (StringUtils.isBlank(ntsBookingRequest.getPriceKey())) {
-            log.error("参数错误，获取到的priceKey为空");
-            return generalResultMap;
-        }
+
         try {
             ApiResult<NtsBookingResultVO> ntsBookingResult = ntsBookingService.booking(buildNtsBookingParam(ntsBookingRequest), ntsBookingRequest.getMerchantNo());
             if (ntsBookingResult.isSuccess()) {

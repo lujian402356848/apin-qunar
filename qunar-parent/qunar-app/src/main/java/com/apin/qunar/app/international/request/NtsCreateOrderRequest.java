@@ -7,6 +7,7 @@ import com.apin.qunar.order.domain.international.createOrder.Xcd;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class NtsCreateOrderRequest extends BaseRequest {
     /*去*/
+    @NotEmpty(message = "bookingTagKey不能为空")
     private String bookingTagKey;
     private String depCityName;//出发城市名
     private String arrCityName;//到达城市名
