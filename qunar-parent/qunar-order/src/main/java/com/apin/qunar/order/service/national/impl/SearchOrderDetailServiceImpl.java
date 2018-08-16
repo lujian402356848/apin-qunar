@@ -2,6 +2,7 @@ package com.apin.qunar.order.service.national.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
+import com.apin.qunar.order.dao.impl.NationalChangeOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalPassengerDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalReturnOrderDaoImpl;
@@ -31,6 +32,8 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
     private NationalPassengerDaoImpl nationalPassengerDao;
     @Autowired
     private NationalReturnOrderDaoImpl nationalReturnOrderDao;
+    @Autowired
+    private NationalChangeOrderDaoImpl nationalChangeOrderDao;
 
     @Override
     protected String getTag() {
@@ -148,9 +151,11 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
                     break;
                 case "改签完成":
                     nationalOrderDao.updateStatus(orderNo, OrderStatusEnum.CHANGE_OK.getCode());
+                    nationalChangeOrderDao.updateStatus(orderNo, OrderStatusEnum.CHANGE_OK.getCode());
                     break;
                 case "退款完成":
                     nationalOrderDao.updateStatus(orderNo, OrderStatusEnum.REFUND_OK.getCode());
+                    nationalReturnOrderDao.updateStatus(orderNo, OrderStatusEnum.REFUND_OK.getCode());
                     break;
                 case "订单取消":
                     nationalOrderDao.updateStatus(orderNo, OrderStatusEnum.CANCEL_OK.getCode());

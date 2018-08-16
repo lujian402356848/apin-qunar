@@ -7,8 +7,6 @@ import com.apin.qunar.order.dao.model.InternationalOrder;
 import com.apin.qunar.order.dao.model.InternationalPassenger;
 import com.apin.qunar.order.domain.international.searchOrderList.InternationalOrderVO;
 import com.apin.qunar.order.service.international.NtsSearchOrderListService;
-import com.apin.qunar.statistics.dao.model.NationalSearchFlightRecord;
-import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -46,15 +44,16 @@ public class NtsSearchOrderListServiceImpl implements NtsSearchOrderListService 
             List<String> orderNos = internationalOrders.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
             passengers = internationalPassengerDao.queryByOrderNos(orderNos);
         }
-        return buildInternationalOrder(internationalOrders, passengers, merchantNo);
+        return buildInternationalOrder(internationalOrders, passengers);
     }
 
-    private List<InternationalOrderVO> buildInternationalOrder(final List<InternationalOrder> internationalOrders, final List<InternationalPassenger> passengers, final String merchantNo) {
-//        double ratio = merchantPriceConfigService.queryPriceRatio(merchantNo, false);
+    private List<InternationalOrderVO> buildInternationalOrder(final List<InternationalOrder> internationalOrders, final List<InternationalPassenger> passengers) {
         List<InternationalOrderVO> internationalOrderVOS = new ArrayList<>();
+        if (CollectionUtils.isEmpty(internationalOrders)) {
+            return internationalOrderVOS;
+        }
         InternationalOrderVO internationalOrderVO = null;
         for (InternationalOrder internationalOrder : internationalOrders) {
-//            internationalOrder.setPayAmount((int) (internationalOrder.getPayAmount() * ratio));
             internationalOrderVO = BeanUtil.copyProperties(internationalOrder, InternationalOrderVO.class);
             List<InternationalPassenger> filterPassengerVOS = passengers.stream().filter(p -> p.getOrderNo().equals(internationalOrder.getOrderNo())).collect(Collectors.toList());
             internationalOrderVO.setPassengers(buildPassengers(filterPassengerVOS));
