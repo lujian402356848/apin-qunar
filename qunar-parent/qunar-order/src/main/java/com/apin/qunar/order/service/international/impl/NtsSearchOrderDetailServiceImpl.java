@@ -73,7 +73,7 @@ public class NtsSearchOrderDetailServiceImpl extends NtsApiService<NtsSearchOrde
                 String arrAirport = segment.getArrAirport();
                 Airport departAirport = airportService.queryByCode(depAirport);
                 Airport arrayAirport = airportService.queryByCode(arrAirport);
-                if (departAirport == null || arrayAirport == null||StringUtils.isBlank(departAirport.getCityName())||StringUtils.isBlank(arrayAirport.getCityName())) {
+                if (departAirport == null || arrayAirport == null || StringUtils.isBlank(departAirport.getCityName()) || StringUtils.isBlank(arrayAirport.getCityName())) {
                     segment.setDptCityName(depAirport);
                     segment.setArrCityName(arrAirport);
                     continue;

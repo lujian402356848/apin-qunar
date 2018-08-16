@@ -19,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author lujian
@@ -98,7 +100,13 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
             setBaoUTag(ntsSearchFlightResult, ntsSearchFlightParam, merchantNo);
         }
         sortByDepTime(searchFlightResults, ntsSearchFlightParam.getSortIdentification());
+        sortByPrice(apiResult.getResult());
     }
+
+    private void sortByPrice(List<NtsSearchFlightResultVO> ntsSearchFlightResultVO) {
+        ntsSearchFlightResultVO.sort(Comparator.comparing(NtsSearchFlightResultVO::getPrice));
+    }
+
 
     private void setBaoUTag(NtsSearchFlightResultVO ntsSearchFlightResult, final NtsSearchFlightParam ntsSearchFlightParam, String merchantNo) {
         NtsSearchFlightResultVO.NtsFlightTrip goFlightTrip = ntsSearchFlightResult.getGoTrip();//去程
