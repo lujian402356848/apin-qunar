@@ -17,11 +17,13 @@ import com.apin.qunar.order.service.national.FlightChangeService;
 import com.apin.qunar.order.service.national.UpdateTicketNoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +44,7 @@ public class FlightChangeController extends BaseController {
     UpdateTicketNoService updateTicketNoService;
 
     @PostMapping(value = "/flightChange/list")
-    public GeneralResultMap flightChangeList(@RequestBody SearchFlightChangeListRequest request) {
+    public GeneralResultMap flightChangeList(@RequestBody@Valid SearchFlightChangeListRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/flightChange/list接口基础验证不通过，request:{}", JSON.toJSON(request));

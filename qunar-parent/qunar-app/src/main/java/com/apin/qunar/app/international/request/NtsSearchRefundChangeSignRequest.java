@@ -15,6 +15,8 @@ import javax.validation.constraints.NotEmpty;
 public class NtsSearchRefundChangeSignRequest extends BaseRequest {
     @NotEmpty(message = "pricekey不能为空")
     private String pricekey;
+    @NotEmpty(message = "passengerType不能为空")
     private String passengerType;
+    @NotEmpty(message = "planeType不能为空")
     private String planeType;
 }

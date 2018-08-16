@@ -11,9 +11,13 @@ import com.apin.qunar.order.domain.national.payValidate.PayValidateParam;
 import com.apin.qunar.order.service.national.PayValidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor lujian
@@ -28,7 +32,7 @@ public class PayValidateController extends BaseController {
     private PayValidateService payValidateService;
 
     @PostMapping(value = "/order/payValidate")
-    public GeneralResultMap payValidate(PayValidateRequest request) {
+    public GeneralResultMap payValidate(@RequestBody@Valid PayValidateRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/order/payValidate接口基础验证不通过，request:{}", JSON.toJSON(request));

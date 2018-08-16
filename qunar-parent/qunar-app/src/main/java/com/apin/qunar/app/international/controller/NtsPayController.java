@@ -16,10 +16,13 @@ import com.apin.qunar.order.service.international.NtsPayService;
 import com.apin.qunar.order.service.international.NtsPayValidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor lujian
@@ -39,7 +42,7 @@ public class NtsPayController extends BaseController {
     private NtsPayValidateService ntsPayValidateService;
 
     @PostMapping(value = "/ntsOrder/pay")
-    public GeneralResultMap pay(@RequestBody NtsPayRequest request) {
+    public GeneralResultMap pay(@RequestBody@Valid NtsPayRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/ntsOrder/pay接口基础验证不通过，request:{}", JSON.toJSON(request));

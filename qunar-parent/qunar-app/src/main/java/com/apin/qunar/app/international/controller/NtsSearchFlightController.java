@@ -13,12 +13,14 @@ import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightRes
 import com.apin.qunar.order.service.international.NtsSearchFlightService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +41,7 @@ public class NtsSearchFlightController extends BaseController {
     private NtsSearchFlightService ntsSearchFlightService;
 
     @PostMapping(value = "/ntsSearch/flight")
-    public GeneralResultMap searchFlight(@RequestBody NtsSearchFlightRequest request) {
+    public GeneralResultMap searchFlight(@RequestBody@Valid NtsSearchFlightRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/ntsSearch/flight接口基础验证不通过，request:{}", JSON.toJSON(request));

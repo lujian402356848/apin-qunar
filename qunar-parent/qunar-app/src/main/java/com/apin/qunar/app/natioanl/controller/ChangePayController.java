@@ -13,10 +13,13 @@ import com.apin.qunar.order.domain.national.changePay.ChangePayResultVO;
 import com.apin.qunar.order.service.national.ChangePayService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor lujian
@@ -34,7 +37,7 @@ public class ChangePayController extends BaseController {
     private OrderConfig orderConfig;
 
     @PostMapping(value = "/order/changePay")
-    public GeneralResultMap changePay(@RequestBody ChangePayRequest request) {
+    public GeneralResultMap changePay(@RequestBody@Valid ChangePayRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/order/changePay接口基础验证不通过，request:{}", JSON.toJSON(request));

@@ -11,12 +11,14 @@ import com.apin.qunar.order.domain.national.searchFlight.SearchFlightParam;
 import com.apin.qunar.order.domain.national.searchFlight.SearchFlightResultVO;
 import com.apin.qunar.order.service.national.SearchFlightService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ public class SearchFlightController extends BaseController {
     private SearchFlightService searchFlightService;
 
     @PostMapping(value = "/search/flight")
-    public GeneralResultMap searchFlight(@RequestBody SearchFlightRequest request) {
+    public GeneralResultMap searchFlight(@RequestBody@Valid SearchFlightRequest request, BindingResult bindingResult) {
 
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {

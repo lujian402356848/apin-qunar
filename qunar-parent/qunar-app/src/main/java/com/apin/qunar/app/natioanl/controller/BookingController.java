@@ -16,10 +16,13 @@ import com.apin.qunar.order.domain.national.booking.Vendor;
 import com.apin.qunar.order.service.national.BookingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor lujian
@@ -38,7 +41,7 @@ public class BookingController extends BaseController {
     private BookingService bookingService;
 
     @PostMapping(value = "/order/booking")
-    public GeneralResultMap booking(@RequestBody BookingRequest request) {
+    public GeneralResultMap booking(@RequestBody@Valid BookingRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/order/booking接口基础验证不通过，request:{}", JSON.toJSON(request));
