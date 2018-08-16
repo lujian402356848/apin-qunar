@@ -17,5 +17,4 @@ public class NtsSearchFlightParam {
     private Integer adultNum;
     private Integer childNum;
     private String cabinLevel;
-    private Integer sortIdentification;
 }

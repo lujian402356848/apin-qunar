@@ -7,6 +7,7 @@ import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightRes
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
@@ -61,6 +62,8 @@ public class NtsFlightRedis {
             byte[] values = ProtobufUtil.serialize(flightCacheEntry);
             operations.set(key, values);
             redisTemplate.expire(key, FLIGHT_INFO_EXPIRES_TIME, TimeUnit.MINUTES);
+        } catch (RedisConnectionFailureException e) {
+            log.error("redis连接失败", e);
         } catch (Exception e) {
             log.error("设置国际航班缓存信息异常,param:{}", JSON.toJSONString(flightParam), e);
         }
@@ -74,6 +77,8 @@ public class NtsFlightRedis {
             if (bytes != null && bytes.length > 0) {
                 flightCacheEntry = ProtobufUtil.deserialize(bytes, FlightCacheEntry.class);
             }
+        } catch (RedisConnectionFailureException e) {
+            log.error("redis连接失败", e);
         } catch (Exception e) {
             operations.set(key, "", 1, TimeUnit.MILLISECONDS);//如果解析失败，则删除该缓存
             log.error("获取国际航班缓存信息异常", e);

@@ -1,6 +1,7 @@
 package com.apin.qunar.order.service.international.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.basic.service.impl.AirlineServiceImpl;
 import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.common.redis.NtsFlightRedis;
@@ -15,11 +16,11 @@ import com.apin.qunar.statistics.service.SearchFlightRecordService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -40,27 +41,14 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     private OrderConfig orderConfig;
     @Autowired
     private SearchFlightRecordService searchFlightRecordService;
-//    private Map<String, String> controry;
-//    private int count = 0;
+    @Autowired
+    private AirportService airportService;
 
     @Override
     protected String getTag() {
         return "flight.international.supply.sl.flightsearch";
     }
 
-//    private void init(){
-//        controry.put("DPS","巴厘岛");
-//        controry.put("CMB","普吉岛");
-//        controry.put("ADP","斯里兰卡");
-//        controry.put("BTC","斯里兰卡");
-//        controry.put("CN","中国");
-//        controry.put("CN","中国");
-//        controry.put("CN","中国");
-//        controry.put("CN","中国");
-//        controry.put("CN","中国");
-//        controry.put("CN","中国");
-//        controry.put("CN","中国");
-//    }
 
     @Override
     protected TypeReference<ApiResult<List<NtsSearchFlightResultVO>>> getTypeReference() {
@@ -93,20 +81,49 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
 
     private void formatResult(ApiResult<List<NtsSearchFlightResultVO>> apiResult, final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo) {
         List<NtsSearchFlightResultVO> searchFlightResults = apiResult.getResult();
+        if (CollectionUtils.isEmpty(searchFlightResults)) {
+            return;
+        }
+        boolean isBaoYou = isBaoYouTag(ntsSearchFlightParam);
         for (NtsSearchFlightResultVO ntsSearchFlightResult : searchFlightResults) {
             setDeptTime(ntsSearchFlightResult);
             formatDuration(ntsSearchFlightResult);
             formatStayTime(ntsSearchFlightResult);
-            setBaoUTag(ntsSearchFlightResult, ntsSearchFlightParam, merchantNo);
+            if (isBaoYou) {
+                setBaoUTag(ntsSearchFlightResult, ntsSearchFlightParam, merchantNo);
+            }
         }
-        sortByDepTime(searchFlightResults, ntsSearchFlightParam.getSortIdentification());
-        sortByPrice(apiResult.getResult());
+        sortByPrice(searchFlightResults);
     }
 
     private void sortByPrice(List<NtsSearchFlightResultVO> ntsSearchFlightResultVO) {
         ntsSearchFlightResultVO.sort(Comparator.comparing(NtsSearchFlightResultVO::getPrice));
     }
 
+    private boolean isBaoYouTag(final NtsSearchFlightParam ntsSearchFlightParam) {
+        boolean isBaoYou = false;
+        String deptCity = ntsSearchFlightParam.getDepCity();
+        String arrCity = ntsSearchFlightParam.getArrCity();
+        boolean deptCityIsChina = airportService.isChinaCity(deptCity);
+        boolean arrCityIsChina = airportService.isChinaCity(arrCity);
+        //如果出发到达城市都是中国或都不是中国，则不设置包优
+        if (deptCityIsChina && arrCityIsChina || !deptCityIsChina && !arrCityIsChina) {
+            return isBaoYou;
+        }
+        //如果出发城市是中国但是达到城市不是包优城市，则不设置包优
+        if (deptCityIsChina && !airportService.isBaoYouCity(arrCity)) {
+            return isBaoYou;
+        }
+        //如果到达城市是中国但是出发城市不是包优城市，则不设置包优
+        if (arrCityIsChina && !airportService.isBaoYouCity(deptCity)) {
+            return isBaoYou;
+        }
+        //如果不选择返程时间，则不设置包优
+        if (StringUtils.isBlank(ntsSearchFlightParam.getRetDate())) {
+            return isBaoYou;
+        }
+        return true;
+    }
 
     private void setBaoUTag(NtsSearchFlightResultVO ntsSearchFlightResult, final NtsSearchFlightParam ntsSearchFlightParam, String merchantNo) {
         NtsSearchFlightResultVO.NtsFlightTrip goFlightTrip = ntsSearchFlightResult.getGoTrip();//去程
@@ -122,15 +139,22 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
         if (CollectionUtils.isEmpty(goFlightTrip.getFlightSegments()) || CollectionUtils.isEmpty(backFlightTrip.getFlightSegments())) {
             return;
         }
-        boolean isExist = goFlightTrip.getFlightSegments().stream().anyMatch(p -> CollectionUtils.isNotEmpty(p.getStop()));
-        if (isExist) {//去程如果存在经停，则直接返回
-            return;
+        //去程如果存在经停或者是不存在的包U航空公司，则直接返回
+        List<NtsSearchFlightResultVO.NtsFlightSegment> goFlightSegments = goFlightTrip.getFlightSegments();
+        for (NtsSearchFlightResultVO.NtsFlightSegment flightSegment : goFlightSegments) {
+            if (!CollectionUtils.isEmpty(flightSegment.getStop()) || !airlineService.isBaoYouAirline(flightSegment.getCarrierCode())) {
+                return;
+            }
         }
-        isExist = backFlightTrip.getFlightSegments().stream().anyMatch(p -> CollectionUtils.isNotEmpty(p.getStop()));
-        if (isExist) {//回程如果存在经停，则直接返回
-            return;
+        //回程如果存在经停或者是不存在的包U航空公司，则直接返回
+        List<NtsSearchFlightResultVO.NtsFlightSegment> backFlightSegments = backFlightTrip.getFlightSegments();
+        for (NtsSearchFlightResultVO.NtsFlightSegment flightSegment : backFlightSegments) {
+            if (!CollectionUtils.isEmpty(flightSegment.getStop()) || !airlineService.isBaoYouAirline(flightSegment.getCarrierCode())) {
+                return;
+            }
         }
-        ntsSearchFlightResult.setPackName(getBaoUTag(ntsSearchFlightParam, ntsSearchFlightResult.getFlightCode(), merchantNo));
+        ntsSearchFlightResult.setPackName("包");
+        //ntsSearchFlightResult.setPackName(getBaoUTag(ntsSearchFlightParam, ntsSearchFlightResult.getFlightCode(), merchantNo));
     }
 
     private String getBaoUTag(final NtsSearchFlightParam flightParam, final String flightCode, final String merchantNo) {
@@ -143,7 +167,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
             return "";
         }
         boolean result = searchPriceResult.getPriceInfo().stream().anyMatch(p -> "爱拼国际包优".equals(p.getPackName()));
-        return result ? "爱拼国际包优" : "";
+        return result ? "包" : "";
     }
 
     private NtsSearchPriceParam buildNtsSearchPriceParam(final NtsSearchFlightParam flightParam, final String flightCode) {
@@ -160,19 +184,6 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
         return ntsSearchPriceParam;
     }
 
-
-    private void sortByDepTime(List<NtsSearchFlightResultVO> ntsSearchFlightResultVO, Integer sortIdentigfication) {
-        Collections.sort(ntsSearchFlightResultVO, new Comparator<NtsSearchFlightResultVO>() {
-            @Override
-            public int compare(NtsSearchFlightResultVO ntsSearchFlightOne, NtsSearchFlightResultVO ntsSearchFlightTwo) {
-                if (sortIdentigfication == 0) {
-                    return ntsSearchFlightTwo.getDepTime().compareTo(ntsSearchFlightOne.getDepTime());// 降序
-                } else {
-                    return ntsSearchFlightOne.getDepTime().compareTo(ntsSearchFlightTwo.getDepTime());// 升序
-                }
-            }
-        });
-    }
 
     private void formatDuration(NtsSearchFlightResultVO ntsSearchFlightResult) {
         NtsSearchFlightResultVO.NtsFlightTrip backFlightTrip = ntsSearchFlightResult.getBackTrip();

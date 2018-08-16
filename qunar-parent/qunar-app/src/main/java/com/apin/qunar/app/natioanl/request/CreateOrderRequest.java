@@ -37,7 +37,7 @@ public class CreateOrderRequest extends BaseRequest {
     @NotEmpty(message = "contactMob不能为空")
     private String contactMob;//联系人电话
     private String contactEmail = "";//联系人邮箱
-    @Size(min=1,message = "flightNum不能为空")
+    @Size(min = 1, message = "flightNum不能为空")
     private List<Passenger> passengers;//乘客信息
     private String needInvoice = "";//是否需要发票,1:需要,空:不需要
     private int invoiceType = 1;//1:旅行产品发票,2:行程单和差额发票
