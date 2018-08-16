@@ -19,11 +19,13 @@ import com.apin.qunar.order.service.national.CreateOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +49,7 @@ public class CreateOrderController extends BaseController {
     private CreateOrderService createOrderService;
 
     @PostMapping(value = "/order/create")
-    public GeneralResultMap createOrder(@RequestBody CreateOrderRequest request) {
+    public GeneralResultMap createOrder(@RequestBody@Valid CreateOrderRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/order/create接口基础验证不通过，request:{}", JSON.toJSON(request));

@@ -12,10 +12,13 @@ import com.apin.qunar.order.domain.national.searchRefundChangeSign.SearchRefundC
 import com.apin.qunar.order.service.national.SearchRefundChangeSignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor lujian
@@ -31,7 +34,7 @@ public class SearchRefundChangeSignController extends BaseController {
     private SearchRefundChangeSignService searchRefundChangeSignService;
 
     @PostMapping(value = "/search/refundChangeSign")
-    public GeneralResultMap searchRefundChangeSign(@RequestBody SearchRefundChangeSignRequest request) {
+    public GeneralResultMap searchRefundChangeSign(@RequestBody@Valid SearchRefundChangeSignRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/search/refundChangeSign接口基础验证不通过，request:{}", JSON.toJSON(request));

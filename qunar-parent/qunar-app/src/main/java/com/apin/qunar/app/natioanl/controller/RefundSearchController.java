@@ -12,11 +12,13 @@ import com.apin.qunar.order.domain.national.refundSearch.RefundSearchResultVO;
 import com.apin.qunar.order.service.national.RefundSearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -32,7 +34,7 @@ public class RefundSearchController extends BaseController {
     private RefundSearchService refundSearchService;
 
     @PostMapping(value = "/order/refundSearch")
-    public GeneralResultMap refundSearch(@RequestBody RefundSearchRequest request) {
+    public GeneralResultMap refundSearch(@RequestBody@Valid RefundSearchRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/order/refundSearch接口基础验证不通过，request:{}", JSON.toJSON(request));

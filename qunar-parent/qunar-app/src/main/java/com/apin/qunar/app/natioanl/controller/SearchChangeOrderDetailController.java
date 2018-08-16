@@ -14,10 +14,13 @@ import com.apin.qunar.order.service.national.SearchChangeOrderDetailService;
 import com.apin.qunar.order.service.national.SearchOrderDetailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor ligang
@@ -33,7 +36,7 @@ public class SearchChangeOrderDetailController extends BaseController {
     SearchChangeOrderDetailService searchChangeOrderDetailService;
 
     @PostMapping(value = "/changeOrder/detail")
-    public GeneralResultMap searchOrderDetail(@RequestBody SearchOrderDetailRequest request) {
+    public GeneralResultMap searchOrderDetail(@RequestBody@Valid SearchOrderDetailRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/changeOrder/detail接口基础验证不通过，request:{}", JSON.toJSON(request));

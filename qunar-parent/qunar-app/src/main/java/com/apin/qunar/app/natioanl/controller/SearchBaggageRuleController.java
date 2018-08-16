@@ -12,10 +12,13 @@ import com.apin.qunar.order.domain.national.searchBaggageRule.SearchBaggageRuleR
 import com.apin.qunar.order.service.national.SearchBaggageRuleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor lujian
@@ -31,7 +34,7 @@ public class SearchBaggageRuleController extends BaseController {
     SearchBaggageRuleService searchBaggageRuleService;
 
     @PostMapping(value = "/search/baggageRule")
-    public GeneralResultMap searchBaggageRule(@RequestBody SearchBaggageRuleRequest request) {
+    public GeneralResultMap searchBaggageRule(@RequestBody@Valid SearchBaggageRuleRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/search/baggageRule接口基础验证不通过，request:{}", JSON.toJSON(request));

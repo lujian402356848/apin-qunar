@@ -14,11 +14,13 @@ import com.apin.qunar.order.service.national.SearchPriceService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -35,7 +37,7 @@ public class SearchPriceController extends BaseController {
     private SearchPriceService searchPriceService;
 
     @PostMapping(value = "/search/price")
-    public GeneralResultMap searchPrice(@RequestBody SearchPriceRequest request) {
+    public GeneralResultMap searchPrice(@RequestBody@Valid SearchPriceRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/search/price接口基础验证不通过，request:{}", JSON.toJSON(request));

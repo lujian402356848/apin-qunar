@@ -13,10 +13,13 @@ import com.apin.qunar.order.domain.international.searchRefundChangeSign.NtsSearc
 import com.apin.qunar.order.service.international.NtsSearchRefundChangeSignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @outhor lujian
@@ -34,7 +37,7 @@ public class NtsSearchRefundChangeSignController extends BaseController {
     private NtsSearchRefundChangeSignService ntsSearchRefundChangeSignService;
 
     @PostMapping(value = "/ntsSearch/refundChangeSign")
-    public GeneralResultMap searchRefundChangeSign(@RequestBody NtsSearchRefundChangeSignRequest request) {
+    public GeneralResultMap searchRefundChangeSign(@RequestBody@Valid NtsSearchRefundChangeSignRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/ntsSearch/refundChangeSign接口基础验证不通过，request:{}", JSON.toJSON(request));
