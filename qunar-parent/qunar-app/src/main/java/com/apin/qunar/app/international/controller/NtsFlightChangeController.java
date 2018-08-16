@@ -15,13 +15,11 @@ import com.apin.qunar.order.domain.international.flightChange.NtsSearchFlightCha
 import com.apin.qunar.order.service.international.NtsFlightChangeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +38,7 @@ public class NtsFlightChangeController extends BaseController {
     NtsFlightChangeService ntsFlightChangeService;
 
     @PostMapping(value = "/ntsFlightChange/List")
-    public GeneralResultMap flightChangeList(@Valid @RequestBody NtsSearchFlightChangeListRequest request, BindingResult bindingResult) {
+    public GeneralResultMap flightChangeList(@RequestBody NtsSearchFlightChangeListRequest request) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/ntsFlightChange/List接口基础验证不通过，request:{}", JSON.toJSON(request));

@@ -31,7 +31,7 @@ public class BaseRequestService {
         try {
             Map<String, String> paramsMap = buildParamMap(key, token, tag, params);
             String url = buildRequestUrl(paramsMap);
-            result = HttpClientUtil.doGet(url);
+            result = HttpClientUtil.doPost(url);
         } catch (Exception e) {
             log.error("request error", e);
         }
