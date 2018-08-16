@@ -9,11 +9,8 @@ import lombok.Data;
  */
 @Data
 public class ChangeSearchStatusCallbackRequest {
-
-        private String tag;
-        private String createTime;
-        private String sign;
-        private String data;
-
-
+    private String tag;
+    private String createTime;
+    private String sign;
+    private String data;
 }

@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @outhor lujian
@@ -28,10 +30,45 @@ public class AirportServiceImpl implements AirportService {
     private AirportDaoImpl airportDao;
     @Autowired
     private AirportSearchDaoImpl airportSearchDao;
+    private Map<String, String> baoYouCityCode = new HashMap<>(20);
+    private Map<String, String> chinaCityCode = new HashMap<>(40);
 
     @PostConstruct
     public void init() {
         loadAllData();
+        loadBaoYouCity();
+    }
+
+    private void loadBaoYouCity() {
+        baoYouCityCode.put("DPS", "巴厘岛");
+        baoYouCityCode.put("HKT", "普吉岛");
+        baoYouCityCode.put("BKI", "沙巴");
+        baoYouCityCode.put("DAD", "岘港");
+        baoYouCityCode.put("CXR", "芽庄");
+        baoYouCityCode.put("ROR", "帕劳");
+        baoYouCityCode.put("CEB", "宿务");
+        baoYouCityCode.put("KBV", "甲米");
+        baoYouCityCode.put("MDC", "美娜多");
+        baoYouCityCode.put("USM", "苏梅岛");
+        baoYouCityCode.put("URT", "万伦");
+        baoYouCityCode.put("KLO", "长滩岛,卡里波");
+        baoYouCityCode.put("PQC", "富国岛");
+        baoYouCityCode.put("NAN", "楠迪");
+        baoYouCityCode.put("MRU", "毛里求斯");
+        baoYouCityCode.put("SPN", "塞班");
+        baoYouCityCode.put("CMB", "科伦坡");
+        baoYouCityCode.put("MLE", "马累");
+        baoYouCityCode.put("OKD", "塞舌岛");
+        baoYouCityCode.put("BKK", "曼谷");
+        baoYouCityCode.put("DMK", "曼谷");
+        baoYouCityCode.put("CNX", "清迈");
+        baoYouCityCode.put("SIN", "新加坡");
+        baoYouCityCode.put("KUL", "吉隆坡");
+        baoYouCityCode.put("HND", "东京");
+        baoYouCityCode.put("NRT", "东京");
+        baoYouCityCode.put("KIX", "大阪");
+        baoYouCityCode.put("OKA", "冲绳");
+        baoYouCityCode.put("FUK", "福冈");
     }
 
     private void loadAllData() {
@@ -42,17 +79,20 @@ public class AirportServiceImpl implements AirportService {
         }
         for (Airport airport : airports) {
             airportCache.put(airport.getAirportCode(), airport);
+            if ("CN".equalsIgnoreCase(airport.getCountryCode())) {
+                chinaCityCode.put(airport.getAirportCode(), airport.getCityName());
+            }
         }
         log.info("初始化机场信息完毕");
     }
 
     @Override
-    public Airport queryByCode(String code) {
+    public Airport queryByCode(final String code) {
         return airportCache.getIfPresent(code);
     }
 
     @Override
-    public List<Airport> queryByKeyword(String keyword) {
+    public List<Airport> queryByKeyword(final String keyword) {
         List<Airport> airports = new ArrayList<>();
         if (StringUtils.isBlank(keyword)) {
             return airports;
@@ -70,5 +110,15 @@ public class AirportServiceImpl implements AirportService {
             log.error("查询机场信息异常,keyword:{}", keyword, e);
         }
         return airports;
+    }
+
+    @Override
+    public boolean isBaoYouCity(final String cityCode) {
+        return StringUtils.isBlank(cityCode) ? false : baoYouCityCode.containsKey(cityCode);
+    }
+
+    @Override
+    public boolean isChinaCity(final String cityCode) {
+        return StringUtils.isBlank(cityCode) ? false : chinaCityCode.containsKey(cityCode);
     }
 }

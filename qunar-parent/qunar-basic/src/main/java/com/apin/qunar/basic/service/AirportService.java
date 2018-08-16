@@ -12,4 +12,8 @@ public interface AirportService {
     Airport queryByCode(String code);
 
     List<Airport> queryByKeyword(String code);
+
+    boolean isBaoYouCity(String cityCode);
+
+    boolean isChinaCity(String cityCode);
 }

@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -40,25 +39,15 @@ public class NtsCreateOrderRequest extends BaseRequest {
     @NotEmpty(message = "duration不能为空")
     private String duration;//飞行时间
     /*回*/
-    @NotEmpty(message = "backDepCityName不能为空")
     private String backDepCityName;//出发城市名
-    @NotEmpty(message = "backArrCityName不能为空")
     private String backArrCityName;//到达城市名
-    @NotEmpty(message = "backDepTerminal不能为空")
     private String backDepTerminal;//出发航站楼
-    @NotEmpty(message = "backArrTerminal不能为空")
     private String backArrTerminal;//到达航站楼
-    @NotEmpty(message = "backDepAirportName不能为空")
     private String backDepAirportName;//出发机场名称
-    @NotEmpty(message = "backArrAirportName不能为空")
     private String backArrAirportName;//到达机场名称
-    @NotEmpty(message = "backCarrierCode不能为空")
     private String backCarrierCode;//航空公司编号
-    @NotEmpty(message = "backCarrierFullName不能为空")
     private String backCarrierFullName;//航空公司全名
-    @NotEmpty(message = "backDuration不能为空")
     private String backDuration;//飞行时间
-    @Size(min = 1,message = "passengerList不能为空")
     private List<Passenger> passengerList;
 
     private Contact contact;
