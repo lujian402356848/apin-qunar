@@ -14,6 +14,6 @@ import javax.validation.constraints.NotEmpty;
 @EqualsAndHashCode(callSuper = true)
 public class NtsCancelOrderRequest extends BaseRequest {
 
-    @NotEmpty(message = "orderNono不能为空")
+    @NotEmpty(message = "orderNo不能为空")
     private String orderNo;
 }

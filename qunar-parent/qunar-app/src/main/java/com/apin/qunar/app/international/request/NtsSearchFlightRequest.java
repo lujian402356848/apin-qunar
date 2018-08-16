@@ -4,6 +4,7 @@ import com.apin.qunar.app.common.domain.BaseRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -13,8 +14,11 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NtsSearchFlightRequest extends BaseRequest {
+    @NotEmpty(message = "depCity不能为空")
     private String depCity;
+    @NotEmpty(message = "arrCity不能为空")
     private String arrCity;
+    @NotEmpty(message = "depDate不能为空")
     private String depDate;
     private String retDate;
     private Integer adultNum;

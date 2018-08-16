@@ -19,9 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author lujian
@@ -40,11 +38,27 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     private OrderConfig orderConfig;
     @Autowired
     private SearchFlightRecordService searchFlightRecordService;
+//    private Map<String, String> controry;
+//    private int count = 0;
 
     @Override
     protected String getTag() {
         return "flight.international.supply.sl.flightsearch";
     }
+
+//    private void init(){
+//        controry.put("DPS","巴厘岛");
+//        controry.put("CMB","普吉岛");
+//        controry.put("ADP","斯里兰卡");
+//        controry.put("BTC","斯里兰卡");
+//        controry.put("CN","中国");
+//        controry.put("CN","中国");
+//        controry.put("CN","中国");
+//        controry.put("CN","中国");
+//        controry.put("CN","中国");
+//        controry.put("CN","中国");
+//        controry.put("CN","中国");
+//    }
 
     @Override
     protected TypeReference<ApiResult<List<NtsSearchFlightResultVO>>> getTypeReference() {
@@ -81,7 +95,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
             setDeptTime(ntsSearchFlightResult);
             formatDuration(ntsSearchFlightResult);
             formatStayTime(ntsSearchFlightResult);
-//            setBaoUTag(ntsSearchFlightResult, ntsSearchFlightParam, merchantNo);
+            setBaoUTag(ntsSearchFlightResult, ntsSearchFlightParam, merchantNo);
         }
         sortByDepTime(searchFlightResults, ntsSearchFlightParam.getSortIdentification());
     }
