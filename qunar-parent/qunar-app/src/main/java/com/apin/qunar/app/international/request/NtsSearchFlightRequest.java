@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 
 /**
  * @outhor lujian
@@ -24,24 +23,6 @@ public class NtsSearchFlightRequest extends BaseRequest {
     private Integer adultNum;
     private Integer childNum;
     private String cabinLevel;
-    /**
-     * 排序标识，ui使用
-     */
-    private Integer sortIdentification;
+    @NotEmpty(message = "account不能为空")
     private String account;
-
-    /**
-     * 二次筛选的起飞时间.
-     */
-    private List<List<String>> takeoffTime;
-
-    /**
-     * 起飞机场
-     */
-    private String takeoffAirport;
-
-    /**
-     * 航空公司.
-     */
-    private String airlineCompany;
 }

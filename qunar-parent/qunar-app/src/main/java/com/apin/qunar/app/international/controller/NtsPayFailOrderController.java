@@ -64,7 +64,7 @@ public class NtsPayFailOrderController extends BaseController {
             return generalResultMap;
         }
         try {
-            boolean result = ntsPayFailOrderService.updateOrder(request.getOrderNo(), request.getStatus(), request.getPayAmount(), request.getDesc(), request.getOperator());
+            boolean result = ntsPayFailOrderService.updateOrder(request.getOrderNo(), request.getStatus(), request.getPayAmount(), request.getDesc(), request.getAccount());
             if (result) {
                 generalResultMap.setResult(SysReturnCode.SUCC, result);
             } else {

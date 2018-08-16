@@ -8,6 +8,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 
 public class NtsRemoveRegularPassengerRequest extends BaseRequest {
-
     private Long id;
 }

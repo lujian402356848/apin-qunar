@@ -15,8 +15,10 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 /**
- *  TODO: 利用切面统一处理参数校验异常的方法
+ * TODO: 利用切面统一处理参数校验异常的方法
  *
  * @author fy
  * @version 1.0
@@ -37,7 +39,6 @@ public class BindingResultAspect {
      */
     @Around(value = "(execution(* com.apin.qunar.app.*.controller.*.*(..)) && args(..,bindingResult))")
     public GeneralResultMap doAround(ProceedingJoinPoint proceedingJoinPoint, BindingResult bindingResult) throws Throwable {
-
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
         String classUrl = "";
         RequestMapping classMapping = proceedingJoinPoint.getTarget().getClass().getAnnotation(RequestMapping.class);
@@ -47,7 +48,6 @@ public class BindingResultAspect {
                 classUrl = classUrls[0];
             }
         }
-
         String methodUrl = "";
         PostMapping postMapping = methodSignature.getMethod().getAnnotation(PostMapping.class);
         if (null != postMapping) {
@@ -56,7 +56,6 @@ public class BindingResultAspect {
                 methodUrl = methodUrls[0];
             }
         }
-
         String url;
         char slash = '/';
         if (classUrl.length() >= 1 && slash == (classUrl.charAt(classUrl.length() - 1))) {
@@ -64,22 +63,17 @@ public class BindingResultAspect {
         } else {
             url = classUrl + methodUrl;
         }
-        log.info("【AOP参数校验】url{}", url);
-
         GeneralResultMap generalResultMap;
         if (bindingResult.hasErrors()) {
-            //将所有参数进行校验
-            bindingResult.getAllErrors()
-                    .forEach((ObjectError error)
-                            -> log.error("【参数校验异常】{}!,url={}", error.getDefaultMessage(), url));
-
+            List<ObjectError> errors = bindingResult.getAllErrors();//将所有参数进行校验
+            for (ObjectError error : errors) {
+                log.error("请求参数校验异常,url={},{},", url, error.getDefaultMessage());
+            }
             generalResultMap = new GeneralResultMap();
             generalResultMap.setResult(SysReturnCode.FAIL, AbnormalEnum.PARAMETER_IS_INCORRECT.getMessage());
-            return generalResultMap;
         } else {
             generalResultMap = (GeneralResultMap) proceedingJoinPoint.proceed();
         }
-
         return generalResultMap;
     }
 

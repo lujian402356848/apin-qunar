@@ -18,11 +18,8 @@ public class SearchPriceRequest extends BaseRequest {
     private String arr;
     @NotEmpty(message = "date不能为空")
     private String date;
-    @NotEmpty(message = "carrier不能为空")
-    private String carrier;
     @NotEmpty(message = "flightNum不能为空")
     private String flightNum;
-    private String cabin;
     @NotEmpty(message = "exTrack不能为空")
     private String exTrack;
 }

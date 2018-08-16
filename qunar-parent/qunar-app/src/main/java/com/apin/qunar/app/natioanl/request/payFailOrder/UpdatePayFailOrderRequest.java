@@ -11,5 +11,5 @@ public class UpdatePayFailOrderRequest extends BaseRequest {
     private Integer status;
     private String desc;
     private Integer payAmount;
-    private String operator;
+    private String account;
 }
