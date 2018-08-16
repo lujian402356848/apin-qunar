@@ -44,7 +44,7 @@ public class FlightChangeController extends BaseController {
     UpdateTicketNoService updateTicketNoService;
 
     @PostMapping(value = "/flightChange/list")
-    public GeneralResultMap flightChangeList(@RequestBody@Valid SearchFlightChangeListRequest request, BindingResult bindingResult) {
+    public GeneralResultMap flightChangeList(@RequestBody @Valid SearchFlightChangeListRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/flightChange/list接口基础验证不通过，request:{}", JSON.toJSON(request));
@@ -88,8 +88,7 @@ public class FlightChangeController extends BaseController {
     public void callback(@RequestBody FlightChangeCallbackRequest request) {
         log.info("国内航班变更及二次修改票号接收消息,request:{}", JSON.toJSON(request));
         try {
-            switch (request.getTag())
-            {
+            switch (request.getTag()) {
                 case "flight.national.supply.sl.flightChange":
                     FlightChangeCallbackDTO callbackDTO = getFlightChangeCallbackData(request.getData());
                     if (callbackDTO != null) {
@@ -100,8 +99,8 @@ public class FlightChangeController extends BaseController {
                     break;
                 case "flight.national.supply.sl.ticketNoUpdate":
                     UpdateTicketNoDTO updateTicketNoDTO = getTicketNoUpdateCallbackData(request.getData());
-                    if(updateTicketNoDTO != null){
-                        log.info("二次修改票号接收消息,解析后:{}",JSON.toJSON(updateTicketNoDTO));
+                    if (updateTicketNoDTO != null) {
+                        log.info("二次修改票号接收消息,解析后:{}", JSON.toJSON(updateTicketNoDTO));
                         updateTicketNoService.updateOrder(updateTicketNoDTO);
                     }
                     break;

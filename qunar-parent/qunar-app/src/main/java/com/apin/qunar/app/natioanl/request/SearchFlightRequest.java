@@ -34,25 +34,10 @@ public class SearchFlightRequest extends BaseRequest {
     private String date;
 
     /**
-     * 报价类型。<报价类型默认为youxuan></>
+     * 报价类型。报价类型默认为youxuan
      */
     @NotEmpty(message = "exTrack不能为空")
     private String exTrack;
-
-    /**
-     * 二次筛选的起飞时间.
-     */
-    private List<List<String>> takeoffTime;
-
-    /**
-     * 起飞机场
-     */
-    private String takeoffAirport;
-
-    /**
-     * 航空公司.
-     */
-    private String airlineCompany;
 
 }
 

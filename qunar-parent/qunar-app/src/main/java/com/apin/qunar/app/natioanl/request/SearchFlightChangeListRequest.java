@@ -15,6 +15,5 @@ import javax.validation.constraints.NotEmpty;
 public class SearchFlightChangeListRequest extends BaseRequest {
     private Integer offset;
     private Integer limit;
-    @NotEmpty(message = "account不能为空")
     private String account;
 }

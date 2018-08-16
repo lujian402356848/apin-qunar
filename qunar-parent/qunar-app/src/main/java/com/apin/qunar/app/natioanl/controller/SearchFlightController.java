@@ -31,7 +31,6 @@ import java.util.Map;
 @RestController
 @RequestMapping((AppConstants.ROOT_URL))
 public class SearchFlightController extends BaseController {
-
     @Resource
     private SearchFlightService searchFlightService;
 
@@ -73,9 +72,6 @@ public class SearchFlightController extends BaseController {
         searchFlightParam.setDate(searchFlightRequest.getDate());
         searchFlightParam.setDpt(searchFlightRequest.getDpt());
         searchFlightParam.setEx_track("youxuan");
-        searchFlightParam.setTakeoffTime(searchFlightRequest.getTakeoffTime());
-        searchFlightParam.setTakeoffAirport(searchFlightRequest.getTakeoffAirport());
-        searchFlightParam.setAirlineCompany(searchFlightRequest.getAirlineCompany());
         return searchFlightParam;
     }
 

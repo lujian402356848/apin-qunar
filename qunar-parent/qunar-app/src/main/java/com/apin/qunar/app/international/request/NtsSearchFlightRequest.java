@@ -23,6 +23,4 @@ public class NtsSearchFlightRequest extends BaseRequest {
     private Integer adultNum;
     private Integer childNum;
     private String cabinLevel;
-    @NotEmpty(message = "account不能为空")
-    private String account;
 }

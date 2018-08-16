@@ -15,10 +15,7 @@ import javax.validation.constraints.NotEmpty;
 public class SearchRefundOrderListRequest extends BaseRequest {
     private Integer offset;
     private Integer limit;
-    @NotEmpty(message = "account不能为空")
     private String account;
-    @NotEmpty(message = "orderNo不能为空")
     private String orderNo;
-    @NotEmpty(message = "pessengerName不能为空")
     private String pessengerName;
 }

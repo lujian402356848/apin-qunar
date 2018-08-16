@@ -11,57 +11,6 @@ public class SearchFlightParam {
     private String arr;
     private String date;
     private String ex_track;
-    /**
-     * 二次过滤的时间段.
-     */
-    private List<List<String>> takeoffTime;
-
-    /**
-     * 起飞机场
-     */
-    private String takeoffAirport;
-
-    /**
-     * 航空公司.
-     */
-    private String airlineCompany;
-
-    /**
-     * 航位.
-     */
-    private String flightPosition;
-
-    public String getTakeoffAirport() {
-        return takeoffAirport;
-    }
-
-    public void setTakeoffAirport(String takeoffAirport) {
-        this.takeoffAirport = takeoffAirport;
-    }
-
-    public String getAirlineCompany() {
-        return airlineCompany;
-    }
-
-    public void setAirlineCompany(String airlineCompany) {
-        this.airlineCompany = airlineCompany;
-    }
-
-    public String getFlightPosition() {
-        return flightPosition;
-    }
-
-    public void setFlightPosition(String flightPosition) {
-        this.flightPosition = flightPosition;
-    }
-
-    public List<List<String>> getTakeoffTime() {
-        return takeoffTime;
-    }
-
-    public void setTakeoffTime(List<List<String>> takeoffTime) {
-        this.takeoffTime = takeoffTime;
-    }
 
     public String getDpt() {
         return dpt;

@@ -10,7 +10,6 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NtsCreateRegularPassengerRequest extends BaseRequest {
-
     private String name;
     private int ageType;
     private String cardType;

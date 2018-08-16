@@ -4,8 +4,6 @@ import com.apin.qunar.app.common.domain.BaseRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotEmpty;
-
 /**
  * @outhor lujian
  * @create 2018-07-27 9:12
@@ -15,6 +13,4 @@ import javax.validation.constraints.NotEmpty;
 public class NtsSearchFlightChangeListRequest extends BaseRequest {
     private Integer offset;
     private Integer limit;
-    @NotEmpty(message = "account不能为空")
-    private String account;
 }
