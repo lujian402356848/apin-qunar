@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -64,7 +65,12 @@ public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiRe
 
     private void sortByPrice(SearchFlightResultVO searchFlightResultVO) {
         List<FlightInfo> flightInfos = searchFlightResultVO.getFlightInfos();
-        flightInfos.sort(Comparator.comparing(FlightInfo::getBarePrice));
+        Collections.sort(flightInfos, new Comparator<FlightInfo>() {
+            @Override
+            public int compare(FlightInfo flightInfoOne, FlightInfo flightInfoTwo) {
+                return Double.parseDouble(flightInfoOne.getBarePrice()) > Double.parseDouble(flightInfoTwo.getBarePrice()) ? 1 : -1;// 升序
+            }
+        });
     }
 
     private void setAirlineName(SearchFlightResultVO searchFlightResult) {
