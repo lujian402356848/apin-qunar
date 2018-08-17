@@ -3,7 +3,7 @@
   <mapper namespace="com.apin.qunar.statistics.dao.mapper.DayMerchantStatisticsMapper" >
     <resultMap id="DayMerchantStatisticsResult" type="com.apin.qunar.statistics.dao.model.DayMerchantStatistics" >
       <id column="id" property="id" jdbcType="BIGINT" />
-      <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="account" property="account" jdbcType="VARCHAR" />
       <result column="national_search_flight_cnt" property="nationalSearchFlightCnt" jdbcType="INTEGER" />
       <result column="international_search_flight_cnt" property="internationalSearchFlightCnt" jdbcType="INTEGER" />
       <result column="national_deal_order_cnt" property="nationalDealOrderCnt" jdbcType="INTEGER" />
@@ -71,7 +71,7 @@
       </where>
     </sql>
     <sql id="DayMerchantStatisticsColumns" >
-      id, merchant_no, national_search_flight_cnt, international_search_flight_cnt, national_deal_order_cnt, 
+      id, account, national_search_flight_cnt, international_search_flight_cnt, national_deal_order_cnt, 
       international_deal_order_cnt, national_deal_total_amount, international_total_amount, 
       insert_time
     </sql>
@@ -111,11 +111,11 @@
       </if>
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.DayMerchantStatistics" >
-      insert into day_merchant_statistics (id, merchant_no, national_search_flight_cnt, 
+      insert into day_merchant_statistics (id, account, national_search_flight_cnt, 
         international_search_flight_cnt, national_deal_order_cnt, 
         international_deal_order_cnt, national_deal_total_amount, 
         international_total_amount, insert_time)
-      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{nationalSearchFlightCnt,jdbcType=INTEGER}, 
+      values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{nationalSearchFlightCnt,jdbcType=INTEGER}, 
         #{internationalSearchFlightCnt,jdbcType=INTEGER}, #{nationalDealOrderCnt,jdbcType=INTEGER}, 
         #{internationalDealOrderCnt,jdbcType=INTEGER}, #{nationalDealTotalAmount,jdbcType=INTEGER}, 
         #{internationalTotalAmount,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP})
@@ -126,8 +126,8 @@
         <if test="id != null" >
           id,
         </if>
-        <if test="merchantNo != null" >
-          merchant_no,
+        <if test="account != null" >
+          account,
         </if>
         <if test="nationalSearchFlightCnt != null" >
           national_search_flight_cnt,
@@ -155,8 +155,8 @@
         <if test="id != null" >
           #{id,jdbcType=BIGINT},
         </if>
-        <if test="merchantNo != null" >
-          #{merchantNo,jdbcType=CHAR},
+        <if test="account != null" >
+          #{account,jdbcType=VARCHAR},
         </if>
         <if test="nationalSearchFlightCnt != null" >
           #{nationalSearchFlightCnt,jdbcType=INTEGER},
@@ -193,8 +193,8 @@
         <if test="record.id != null" >
           id = #{record.id,jdbcType=BIGINT},
         </if>
-        <if test="record.merchantNo != null" >
-          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        <if test="record.account != null" >
+          account = #{record.account,jdbcType=VARCHAR},
         </if>
         <if test="record.nationalSearchFlightCnt != null" >
           national_search_flight_cnt = #{record.nationalSearchFlightCnt,jdbcType=INTEGER},
@@ -225,7 +225,7 @@
     <update id="updateByExample" parameterType="map" >
       update day_merchant_statistics
       set id = #{record.id,jdbcType=BIGINT},
-        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        account = #{record.account,jdbcType=VARCHAR},
         national_search_flight_cnt = #{record.nationalSearchFlightCnt,jdbcType=INTEGER},
         international_search_flight_cnt = #{record.internationalSearchFlightCnt,jdbcType=INTEGER},
         national_deal_order_cnt = #{record.nationalDealOrderCnt,jdbcType=INTEGER},
@@ -240,8 +240,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.statistics.dao.model.DayMerchantStatistics" >
       update day_merchant_statistics
       <set >
-        <if test="merchantNo != null" >
-          merchant_no = #{merchantNo,jdbcType=CHAR},
+        <if test="account != null" >
+          account = #{account,jdbcType=VARCHAR},
         </if>
         <if test="nationalSearchFlightCnt != null" >
           national_search_flight_cnt = #{nationalSearchFlightCnt,jdbcType=INTEGER},
@@ -269,7 +269,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.DayMerchantStatistics" >
       update day_merchant_statistics
-      set merchant_no = #{merchantNo,jdbcType=CHAR},
+      set account = #{account,jdbcType=VARCHAR},
         national_search_flight_cnt = #{nationalSearchFlightCnt,jdbcType=INTEGER},
         international_search_flight_cnt = #{internationalSearchFlightCnt,jdbcType=INTEGER},
         national_deal_order_cnt = #{nationalDealOrderCnt,jdbcType=INTEGER},

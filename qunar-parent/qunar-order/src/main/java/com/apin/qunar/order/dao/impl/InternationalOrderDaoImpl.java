@@ -36,9 +36,9 @@ public class InternationalOrderDaoImpl {
         return internationalOrderExtMapper.queryCntBy(merchantNo, payStatusStr, startTime, endTime);
     }
 
-    public int queryTotalAmountBy(String merchantNo, List<Integer> payStatusList, Date startTime, Date endTime) {
+    public int queryTotalAmountBy(String account, List<Integer> payStatusList, Date startTime, Date endTime) {
         String payStatusStr = StringUtils.join(payStatusList, ",");
-        return internationalOrderExtMapper.queryTotalAmountBy(merchantNo, payStatusStr, startTime, endTime);
+        return internationalOrderExtMapper.queryTotalAmountBy(account, payStatusStr, startTime, endTime);
     }
 
     public List<InternationalOrder> queryPageListBy(String merchantNo, String account, Integer status, String orderNo, Integer offset, Integer limit) {

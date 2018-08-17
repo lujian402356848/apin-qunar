@@ -16,8 +16,8 @@ public interface NtsSearchFlightService {
      * 国际机票订单查询
      *
      * @param ntsSearchFlightParam 页面对象
-     * @param merchantNo           商户唯一的id
+     * @param account              账户信息
      * @return 页面返回数据
      */
-    ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo);
+    ApiResult<List<NtsSearchFlightResultVO>> searchFlight(NtsSearchFlightParam ntsSearchFlightParam, String merchantNo, String account);
 }

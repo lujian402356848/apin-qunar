@@ -19,33 +19,33 @@ public class SearchFlightRecordServiceImpl implements SearchFlightRecordService 
     private InternationalSearchFlightRecordDaoImpl internationalSearchFlightRecordDao;
 
     @Override
-    public void create(String merchantNo, boolean hasInternal, String deptCity, String arriCity) {
-        if (StringUtils.isBlank(merchantNo) || StringUtils.isBlank(deptCity) || StringUtils.isBlank(arriCity)) {
-            log.warn("创建航班查询记录有数据为空:merchantNo:{},deptCity:{},arriCity:{}", merchantNo, deptCity, arriCity);
+    public void create(String account, boolean hasInternal, String deptCity, String arriCity) {
+        if (StringUtils.isBlank(account) || StringUtils.isBlank(deptCity) || StringUtils.isBlank(arriCity)) {
+            log.warn("创建航班查询记录有数据为空:account:{},deptCity:{},arriCity:{}", account, deptCity, arriCity);
             return;
         }
         try {
             if (hasInternal) {
-                nationalSearchFlightRecordDao.insert(buildNationalSearchFlightRecord(merchantNo, deptCity, arriCity));
+                nationalSearchFlightRecordDao.insert(buildNationalSearchFlightRecord(account, deptCity, arriCity));
             } else {
-                internationalSearchFlightRecordDao.insert(buildInternationalSearchFlightRecord(merchantNo, deptCity, arriCity));
+                internationalSearchFlightRecordDao.insert(buildInternationalSearchFlightRecord(account, deptCity, arriCity));
             }
         } catch (Exception e) {
             log.error("添加查询航班记录异常");
         }
     }
 
-    private NationalSearchFlightRecord buildNationalSearchFlightRecord(final String merchantNo, final String deptCity, final String arriCity) {
+    private NationalSearchFlightRecord buildNationalSearchFlightRecord(final String account, final String deptCity, final String arriCity) {
         NationalSearchFlightRecord searchFlightRecord = new NationalSearchFlightRecord();
-        searchFlightRecord.setMerchantNo(merchantNo);
+        searchFlightRecord.setAccount(account);
         searchFlightRecord.setDeptCity(deptCity);
         searchFlightRecord.setArriCity(arriCity);
         return searchFlightRecord;
     }
 
-    private InternationalSearchFlightRecord buildInternationalSearchFlightRecord(final String merchantNo, final String deptCity, final String arriCity) {
+    private InternationalSearchFlightRecord buildInternationalSearchFlightRecord(final String account, final String deptCity, final String arriCity) {
         InternationalSearchFlightRecord searchFlightRecord = new InternationalSearchFlightRecord();
-        searchFlightRecord.setMerchantNo(merchantNo);
+        searchFlightRecord.setAccount(account);
         searchFlightRecord.setDeptCity(deptCity);
         searchFlightRecord.setArriCity(arriCity);
         return searchFlightRecord;

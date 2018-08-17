@@ -22,15 +22,15 @@ public class InternationalSearchFlightRecordDaoImpl {
         return searchFlightRecordMapper.insert(searchFlightRecord) > 0;
     }
 
-    public List<String> queryMerchantNoByInsertTime(Date startTime, Date endTime) {
+    public List<String> queryAccountByInsertTime(Date startTime, Date endTime) {
         if (startTime == null || endTime == null) {
             return new ArrayList<>();
         }
-        return searchFlightRecordExtMapper.queryMerchantNoByInsertTime(startTime, endTime);
+        return searchFlightRecordExtMapper.queryAccountByInsertTime(startTime, endTime);
     }
 
-    public int queryFlightCntByMerchantNoAndInsertTime(String merchantNo, Date startTime, Date endTime) {
-        return searchFlightRecordExtMapper.queryFlightCntBy(merchantNo, startTime, endTime);
+    public int queryFlightCntByAccountAndInsertTime(String account, Date startTime, Date endTime) {
+        return searchFlightRecordExtMapper.queryFlightCntBy(account, startTime, endTime);
     }
 
     public List<SearchFlightRecordDTO> queryDeptCityTop20By(String merchantNo, Date startTime, Date endTime) {

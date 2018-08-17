@@ -31,7 +31,7 @@ public class SearchCityStatisticsJob {
     /**
      * 国内城市查询统计job启动
      */
-    @Scheduled(cron = "0 0 1 * * *")
+//    @Scheduled(cron = "0 0 1 * * *")
     private void start() {
         log.info("国内城市查询统计job开始执行,时间:" + DateUtil.getCurrDate());
         if (isExecute()) {
@@ -47,13 +47,13 @@ public class SearchCityStatisticsJob {
     private void statistics() {
         Date startTime = getStartTime();
         Date endTime = getEndTime();
-        List<String> merchantNos = internationalSearchFlightRecordDao.queryMerchantNoByInsertTime(startTime, endTime);
-        if (CollectionUtils.isEmpty(merchantNos)) {
+        List<String> accounts = internationalSearchFlightRecordDao.queryAccountByInsertTime(startTime, endTime);
+        if (CollectionUtils.isEmpty(accounts)) {
             return;
         }
         List<SearchFlightRecordDTO> searchFlightRecordDTOs = null;
         List<NationalSearchCityStatistics> searchCityStatistics = null;
-        for (String merchantNo : merchantNos) {
+        for (String merchantNo : accounts) {
             searchFlightRecordDTOs = nationalSearchFlightRecordDao.queryDeptCityTop20By(merchantNo, startTime, endTime);
             searchCityStatistics = buildSearchCityStatisticsList(searchFlightRecordDTOs, GoBackTypeEnum.DEPT);
             nationalSearchCityStatisticsDao.insert(searchCityStatistics);
@@ -77,7 +77,7 @@ public class SearchCityStatisticsJob {
 
     private NationalSearchCityStatistics buildSearchCityStatistics(SearchFlightRecordDTO flightRecordDTO, GoBackTypeEnum goBackTypeEnum) {
         NationalSearchCityStatistics searchCityStatistics = new NationalSearchCityStatistics();
-        searchCityStatistics.setMerchantNo(flightRecordDTO.getMerchantNo());
+        searchCityStatistics.setAccount(flightRecordDTO.getAccount());
         searchCityStatistics.setGoBackType(goBackTypeEnum.getCode());
         searchCityStatistics.setCity(flightRecordDTO.getCity());
         searchCityStatistics.setSearchCnt(flightRecordDTO.getSearchCnt());

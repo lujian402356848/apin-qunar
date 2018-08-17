@@ -4,7 +4,6 @@ import com.apin.qunar.app.common.domain.BaseRequest;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
 import com.apin.qunar.basic.dao.model.Merchant;
 import com.apin.qunar.basic.service.MerchantService;
-import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.common.utils.Md5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -101,7 +100,7 @@ public abstract class BaseController {
             return result;
         }
 
-        Merchant merchant = merchantService.queryByMerchantNo(merchantNo);
+        Merchant merchant = merchantService.queryByAccount(merchantNo);
         if (merchant == null) {
             result = "没有该商户或该商户未审核通过,merchantNo:" + merchantNo;
         }
@@ -126,7 +125,7 @@ public abstract class BaseController {
 
         SortedMap<String, Object> sortedMap = getSortedMap(request);
         String data = getSignData(sortedMap);
-        Merchant merchant = merchantService.queryByMerchantNo(request.getMerchantNo());
+        Merchant merchant = merchantService.queryByAccount(request.getMerchantNo());
 
         String newSign = Md5Util.encrypt(data + merchant.getSecretKey());
         if (newSign != null && !newSign.equalsIgnoreCase(request.getSign())) {

@@ -9,7 +9,6 @@ import com.apin.qunar.statistics.domain.SearchFlightRecordDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class NtsSearchCityStatisticsJob {
     /**
      * 国际城市查询统计job启动
      */
-    @Scheduled(cron = "0 0 1 * * *")
+//    @Scheduled(cron = "0 0 1 * * *")
     private void start() {
         log.info("国际城市查询统计job开始执行,时间:" + DateUtil.getCurrDate());
         if (isExecute()) {
@@ -44,7 +43,7 @@ public class NtsSearchCityStatisticsJob {
     private void statistics() {
         Date startTime = getStartTime();
         Date endTime = getEndTime();
-        List<String> merchantNos = internationalSearchFlightRecordDao.queryMerchantNoByInsertTime(startTime, endTime);
+        List<String> merchantNos = internationalSearchFlightRecordDao.queryAccountByInsertTime(startTime, endTime);
         if (CollectionUtils.isEmpty(merchantNos)) {
             return;
         }
@@ -74,7 +73,7 @@ public class NtsSearchCityStatisticsJob {
 
     private InternationalSearchCityStatistics buildSearchCityStatistics(SearchFlightRecordDTO flightRecordDTO, GoBackTypeEnum goBackTypeEnum) {
         InternationalSearchCityStatistics searchCityStatistics = new InternationalSearchCityStatistics();
-        searchCityStatistics.setMerchantNo(flightRecordDTO.getMerchantNo());
+        searchCityStatistics.setAccount(flightRecordDTO.getAccount());
         searchCityStatistics.setGoBackType(goBackTypeEnum.getCode());
         searchCityStatistics.setCity(flightRecordDTO.getCity());
         searchCityStatistics.setSearchCnt(flightRecordDTO.getSearchCnt());

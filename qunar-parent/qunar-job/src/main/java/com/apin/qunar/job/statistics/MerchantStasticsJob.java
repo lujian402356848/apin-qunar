@@ -1,7 +1,5 @@
 package com.apin.qunar.job.statistics;
 
-import com.apin.qunar.basic.dao.model.Merchant;
-import com.apin.qunar.basic.service.MerchantService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.enums.NtsOrderStatusEnum;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
@@ -37,8 +35,6 @@ public class MerchantStasticsJob {
     private NationalOrderDaoImpl nationalOrderDao;
     @Autowired
     private InternationalOrderDaoImpl internationalOrderDao;
-    @Autowired
-    private MerchantService merchantService;
 
     /**
      * 商户统计job启动
@@ -62,28 +58,31 @@ public class MerchantStasticsJob {
 
         Date startTime = getStartTime();
         Date endTime = getEndTime();
-        List<String> merchantNos = internationalSearchFlightRecordDao.queryMerchantNoByInsertTime(startTime, endTime);
-        if (CollectionUtils.isEmpty(merchantNos)) {
+        List<String> internationalAccounts = internationalSearchFlightRecordDao.queryAccountByInsertTime(startTime, endTime);
+        List<String> nationalAccounts = nationalSearchFlightRecordDao.queryAccountByInsertTime(startTime, endTime);
+        List<String> accounts = new ArrayList<>();
+        accounts.addAll(internationalAccounts);
+        accounts.addAll(nationalAccounts);
+        if (CollectionUtils.isEmpty(accounts)) {
             return;
         }
         int flightCnt = 0;
         int ntsFlightCnt = 0;
         int totalOrderCnt = 0;
         int detalTotalAmount = 0;
-        for (String merchantNo : merchantNos) {
-            Merchant merchant = merchantService.queryByMerchantNo(merchantNo);
-            if (merchant == null || StringUtils.isBlank(merchant.getContactMobile())) {
+        for (String account : accounts) {
+            if (StringUtils.isBlank(account)) {
                 continue;
             }
-            int merFlightCnt = nationalSearchFlightRecordDao.queryFlightCntByMerchantNoAndInsertTime(merchantNo, startTime, endTime);
-            int merNtsFlightCnt = internationalSearchFlightRecordDao.queryFlightCntByMerchantNoAndInsertTime(merchantNo, startTime, endTime);
+            int merFlightCnt = nationalSearchFlightRecordDao.queryFlightCntByMerchantNoAndInsertTime(account, startTime, endTime);
+            int merOrderCnt = nationalOrderDao.queryCntBy(account, orderStatus, startTime, endTime);
+            int merDealTotalAmount = nationalOrderDao.queryTotalAmountBy(account, orderStatus, startTime, endTime);
 
-            int merOrderCnt = nationalOrderDao.queryCntBy(merchantNo, orderStatus, startTime, endTime);
-            int merNtsOrderCnt = internationalOrderDao.queryCntBy(merchantNo, ntsOrderStatus, startTime, endTime);
-            int merDealTotalAmount = nationalOrderDao.queryTotalAmountBy(merchantNo, orderStatus, startTime, endTime);
-            int merNtsDealTotalAmount = internationalOrderDao.queryTotalAmountBy(merchantNo, orderStatus, startTime, endTime);
+            int merNtsFlightCnt = internationalSearchFlightRecordDao.queryFlightCntByAccountAndInsertTime(account, startTime, endTime);
+            int merNtsOrderCnt = internationalOrderDao.queryCntBy(account, ntsOrderStatus, startTime, endTime);
+            int merNtsDealTotalAmount = internationalOrderDao.queryTotalAmountBy(account, orderStatus, startTime, endTime);
 
-            DayMerchantStatistics merchantStatistics = buildDayMerchantStatistics(merchantNo, merFlightCnt, merNtsFlightCnt, merOrderCnt, merNtsOrderCnt, merDealTotalAmount, merNtsDealTotalAmount);
+            DayMerchantStatistics merchantStatistics = buildDayMerchantStatistics(account, merFlightCnt, merNtsFlightCnt, merOrderCnt, merNtsOrderCnt, merDealTotalAmount, merNtsDealTotalAmount);
             dayMerchantStatisticsDao.insert(merchantStatistics);
             flightCnt += merFlightCnt;
             ntsFlightCnt = merNtsFlightCnt;
@@ -91,13 +90,13 @@ public class MerchantStasticsJob {
             detalTotalAmount += merDealTotalAmount + merNtsDealTotalAmount;
         }
         int pv = (flightCnt + ntsFlightCnt) * (new Random().nextInt(3) + 1) + new Random().nextInt(201);
-        DayStatistics dayStatistics = buildDayStatistics(pv, merchantNos.size(), flightCnt, ntsFlightCnt, totalOrderCnt, detalTotalAmount);
+        DayStatistics dayStatistics = buildDayStatistics(pv, accounts.size(), flightCnt, ntsFlightCnt, totalOrderCnt, detalTotalAmount);
         dayStatisticsDao.insert(dayStatistics);
     }
 
-    private DayMerchantStatistics buildDayMerchantStatistics(String merchantNo, int flightCnt, int nstFlightCnt, int totalOrderCtn, int ntsOrderOrderCtn, int dealTotalAmount, int ntsDealTotalAmount) {
+    private DayMerchantStatistics buildDayMerchantStatistics(String account, int flightCnt, int nstFlightCnt, int totalOrderCtn, int ntsOrderOrderCtn, int dealTotalAmount, int ntsDealTotalAmount) {
         DayMerchantStatistics dayMerchantStatistics = new DayMerchantStatistics();
-        dayMerchantStatistics.setMerchantNo(merchantNo);
+        dayMerchantStatistics.setAccount(account);
         dayMerchantStatistics.setNationalSearchFlightCnt(flightCnt);
         dayMerchantStatistics.setInternationalSearchFlightCnt(nstFlightCnt);
         dayMerchantStatistics.setNationalDealOrderCnt(totalOrderCtn);

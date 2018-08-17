@@ -97,7 +97,7 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public Merchant queryByMerchantNo(String merchantNo) {
+    public Merchant queryByAccount(String merchantNo) {
         return merchantCache.getIfPresent(merchantNo);
     }
 

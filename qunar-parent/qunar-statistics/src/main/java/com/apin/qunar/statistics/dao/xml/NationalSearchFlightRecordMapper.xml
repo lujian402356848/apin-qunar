@@ -4,6 +4,7 @@
     <resultMap id="NationalSearchFlightRecordResult" type="com.apin.qunar.statistics.dao.model.NationalSearchFlightRecord" >
       <id column="id" property="id" jdbcType="BIGINT" />
       <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="account" property="account" jdbcType="VARCHAR" />
       <result column="dept_city" property="deptCity" jdbcType="VARCHAR" />
       <result column="arri_city" property="arriCity" jdbcType="VARCHAR" />
       <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
@@ -67,7 +68,7 @@
       </where>
     </sql>
     <sql id="NationalSearchFlightRecordColumns" >
-      id, merchant_no, dept_city, arri_city, insert_time
+      id, merchant_no, account, dept_city, arri_city, insert_time
     </sql>
     <select id="selectByExample" resultMap="NationalSearchFlightRecordResult" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchFlightRecordExample" >
       select
@@ -105,10 +106,12 @@
       </if>
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchFlightRecord" >
-      insert into national_search_flight_record (id, merchant_no, dept_city, 
-        arri_city, insert_time)
-      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{deptCity,jdbcType=VARCHAR}, 
-        #{arriCity,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP})
+      insert into national_search_flight_record (id, merchant_no, account, 
+        dept_city, arri_city, insert_time
+        )
+      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{account,jdbcType=VARCHAR}, 
+        #{deptCity,jdbcType=VARCHAR}, #{arriCity,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}
+        )
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchFlightRecord" >
       insert into national_search_flight_record
@@ -118,6 +121,9 @@
         </if>
         <if test="merchantNo != null" >
           merchant_no,
+        </if>
+        <if test="account != null" >
+          account,
         </if>
         <if test="deptCity != null" >
           dept_city,
@@ -135,6 +141,9 @@
         </if>
         <if test="merchantNo != null" >
           #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="account != null" >
+          #{account,jdbcType=VARCHAR},
         </if>
         <if test="deptCity != null" >
           #{deptCity,jdbcType=VARCHAR},
@@ -162,6 +171,9 @@
         <if test="record.merchantNo != null" >
           merchant_no = #{record.merchantNo,jdbcType=CHAR},
         </if>
+        <if test="record.account != null" >
+          account = #{record.account,jdbcType=VARCHAR},
+        </if>
         <if test="record.deptCity != null" >
           dept_city = #{record.deptCity,jdbcType=VARCHAR},
         </if>
@@ -180,6 +192,7 @@
       update national_search_flight_record
       set id = #{record.id,jdbcType=BIGINT},
         merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        account = #{record.account,jdbcType=VARCHAR},
         dept_city = #{record.deptCity,jdbcType=VARCHAR},
         arri_city = #{record.arriCity,jdbcType=VARCHAR},
         insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
@@ -192,6 +205,9 @@
       <set >
         <if test="merchantNo != null" >
           merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="account != null" >
+          account = #{account,jdbcType=VARCHAR},
         </if>
         <if test="deptCity != null" >
           dept_city = #{deptCity,jdbcType=VARCHAR},
@@ -208,6 +224,7 @@
     <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.NationalSearchFlightRecord" >
       update national_search_flight_record
       set merchant_no = #{merchantNo,jdbcType=CHAR},
+        account = #{account,jdbcType=VARCHAR},
         dept_city = #{deptCity,jdbcType=VARCHAR},
         arri_city = #{arriCity,jdbcType=VARCHAR},
         insert_time = #{insertTime,jdbcType=TIMESTAMP}

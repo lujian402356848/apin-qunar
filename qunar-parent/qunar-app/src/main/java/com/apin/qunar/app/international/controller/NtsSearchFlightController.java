@@ -41,7 +41,7 @@ public class NtsSearchFlightController extends BaseController {
     private NtsSearchFlightService ntsSearchFlightService;
 
     @PostMapping(value = "/ntsSearch/flight")
-    public GeneralResultMap searchFlight(@RequestBody@Valid NtsSearchFlightRequest request, BindingResult bindingResult) {
+    public GeneralResultMap searchFlight(@RequestBody @Valid NtsSearchFlightRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/ntsSearch/flight接口基础验证不通过，request:{}", JSON.toJSON(request));
@@ -49,7 +49,7 @@ public class NtsSearchFlightController extends BaseController {
         }
         Map<String, Object> data = new HashMap<>();
         try {
-            ApiResult<List<NtsSearchFlightResultVO>> apiResult = ntsSearchFlightService.searchFlight(buildNtsSearchFlightParam(request), request.getMerchantNo());
+            ApiResult<List<NtsSearchFlightResultVO>> apiResult = ntsSearchFlightService.searchFlight(buildNtsSearchFlightParam(request), request.getMerchantNo(), request.getAccount());
             if (apiResult.isSuccess()) {
                 data.put("ntsFlightSearchResult", apiResult.getResult());
                 data.put("depCity", request.getDepCity());

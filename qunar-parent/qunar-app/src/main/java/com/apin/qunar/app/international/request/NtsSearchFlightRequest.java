@@ -23,4 +23,5 @@ public class NtsSearchFlightRequest extends BaseRequest {
     private Integer adultNum;
     private Integer childNum;
     private String cabinLevel;
+    private String account;//记录查询信息
 }

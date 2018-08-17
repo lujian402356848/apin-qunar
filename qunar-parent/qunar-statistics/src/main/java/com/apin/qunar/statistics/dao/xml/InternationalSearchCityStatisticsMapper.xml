@@ -3,7 +3,7 @@
   <mapper namespace="com.apin.qunar.statistics.dao.mapper.InternationalSearchCityStatisticsMapper" >
     <resultMap id="InternationalSearchCityStatisticsResult" type="com.apin.qunar.statistics.dao.model.InternationalSearchCityStatistics" >
       <id column="id" property="id" jdbcType="BIGINT" />
-      <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="account" property="account" jdbcType="VARCHAR" />
       <result column="go_back_type" property="goBackType" jdbcType="INTEGER" />
       <result column="city" property="city" jdbcType="VARCHAR" />
       <result column="search_cnt" property="searchCnt" jdbcType="INTEGER" />
@@ -68,7 +68,7 @@
       </where>
     </sql>
     <sql id="InternationalSearchCityStatisticsColumns" >
-      id, merchant_no, go_back_type, city, search_cnt, insert_time
+      id, account, go_back_type, city, search_cnt, insert_time
     </sql>
     <select id="selectByExample" resultMap="InternationalSearchCityStatisticsResult" parameterType="com.apin.qunar.statistics.dao.model.InternationalSearchCityStatisticsExample" >
       select
@@ -106,10 +106,10 @@
       </if>
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.statistics.dao.model.InternationalSearchCityStatistics" >
-      insert into international_search_city_statistics (id, merchant_no, go_back_type, 
+      insert into international_search_city_statistics (id, account, go_back_type, 
         city, search_cnt, insert_time
         )
-      values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{goBackType,jdbcType=INTEGER}, 
+      values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{goBackType,jdbcType=INTEGER}, 
         #{city,jdbcType=VARCHAR}, #{searchCnt,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}
         )
     </insert>
@@ -119,8 +119,8 @@
         <if test="id != null" >
           id,
         </if>
-        <if test="merchantNo != null" >
-          merchant_no,
+        <if test="account != null" >
+          account,
         </if>
         <if test="goBackType != null" >
           go_back_type,
@@ -139,8 +139,8 @@
         <if test="id != null" >
           #{id,jdbcType=BIGINT},
         </if>
-        <if test="merchantNo != null" >
-          #{merchantNo,jdbcType=CHAR},
+        <if test="account != null" >
+          #{account,jdbcType=VARCHAR},
         </if>
         <if test="goBackType != null" >
           #{goBackType,jdbcType=INTEGER},
@@ -168,8 +168,8 @@
         <if test="record.id != null" >
           id = #{record.id,jdbcType=BIGINT},
         </if>
-        <if test="record.merchantNo != null" >
-          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        <if test="record.account != null" >
+          account = #{record.account,jdbcType=VARCHAR},
         </if>
         <if test="record.goBackType != null" >
           go_back_type = #{record.goBackType,jdbcType=INTEGER},
@@ -191,7 +191,7 @@
     <update id="updateByExample" parameterType="map" >
       update international_search_city_statistics
       set id = #{record.id,jdbcType=BIGINT},
-        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        account = #{record.account,jdbcType=VARCHAR},
         go_back_type = #{record.goBackType,jdbcType=INTEGER},
         city = #{record.city,jdbcType=VARCHAR},
         search_cnt = #{record.searchCnt,jdbcType=INTEGER},
@@ -203,8 +203,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.statistics.dao.model.InternationalSearchCityStatistics" >
       update international_search_city_statistics
       <set >
-        <if test="merchantNo != null" >
-          merchant_no = #{merchantNo,jdbcType=CHAR},
+        <if test="account != null" >
+          account = #{account,jdbcType=VARCHAR},
         </if>
         <if test="goBackType != null" >
           go_back_type = #{goBackType,jdbcType=INTEGER},
@@ -223,7 +223,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.apin.qunar.statistics.dao.model.InternationalSearchCityStatistics" >
       update international_search_city_statistics
-      set merchant_no = #{merchantNo,jdbcType=CHAR},
+      set account = #{account,jdbcType=VARCHAR},
         go_back_type = #{goBackType,jdbcType=INTEGER},
         city = #{city,jdbcType=VARCHAR},
         search_cnt = #{searchCnt,jdbcType=INTEGER},

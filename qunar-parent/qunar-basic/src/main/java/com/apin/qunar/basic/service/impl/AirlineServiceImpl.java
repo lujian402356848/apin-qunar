@@ -35,7 +35,7 @@ public class AirlineServiceImpl implements AirlineService {
         log.info("开始初始化航空公司信息");
         List<Airline> airlines = airlineDao.queryAll();
         for (Airline airline : airlines) {
-            airlineCache.put(airline.getCode(), airline);
+            airlineCache.put(airline.getCode().trim(), airline);
         }
         log.info("初始化航空公司信息完毕");
     }
@@ -45,6 +45,11 @@ public class AirlineServiceImpl implements AirlineService {
         noBaoYouAirline.put("CZ", "中国南方航空公司");
         noBaoYouAirline.put("MU", "中国东方航空公司");
         noBaoYouAirline.put("9C", "春秋航空公司");
+        noBaoYouAirline.put("HO", "上海吉祥航空公司");
+        noBaoYouAirline.put("XJ", "亚洲航空公司");
+        noBaoYouAirline.put("CA", "中国国际航空公司");
+        noBaoYouAirline.put("FM", "上海航空公司");
+        noBaoYouAirline.put("TG", "泰国国际航空公司");
     }
 
     @Override
@@ -70,6 +75,6 @@ public class AirlineServiceImpl implements AirlineService {
 
     @Override
     public boolean isBaoYouAirline(String code) {
-        return !noBaoYouAirline.containsKey(code);
+        return StringUtils.isBlank(code) ? false : !noBaoYouAirline.containsKey(code);
     }
 }

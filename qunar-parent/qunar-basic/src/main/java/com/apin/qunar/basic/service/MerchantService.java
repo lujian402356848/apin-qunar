@@ -14,7 +14,7 @@ public interface MerchantService {
 
     List<MerchantVO> queryPageListBy(Integer offset, Integer limit);
 
-    Merchant queryByMerchantNo(String merchantNo);
+    Merchant queryByAccount(String merchantNo);
 
     Merchant queryByContactMobile(String contactMobile);
 

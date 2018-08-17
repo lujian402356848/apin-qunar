@@ -12,9 +12,9 @@ public class NationalSearchCityStatistics implements Serializable {
     private Long id;
 
     /**
-     * 商户号
+     * 用户账户
      */
-    private String merchantNo;
+    private String account;
 
     /**
      * 来回类型(1:去程,2:回程)
@@ -51,17 +51,17 @@ public class NationalSearchCityStatistics implements Serializable {
     }
 
     /**
-     * @return 商户号
+     * @return 用户账户
      */
-    public String getMerchantNo() {
-        return merchantNo;
+    public String getAccount() {
+        return account;
     }
 
     /**
-     * @param merchantNo 商户号
+     * @param account 用户账户
      */
-    public void setMerchantNo(String merchantNo) {
-        this.merchantNo = merchantNo == null ? null : merchantNo.trim();
+    public void setAccount(String account) {
+        this.account = account == null ? null : account.trim();
     }
 
     /**

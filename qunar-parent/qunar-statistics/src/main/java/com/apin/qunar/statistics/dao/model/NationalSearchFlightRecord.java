@@ -17,6 +17,11 @@ public class NationalSearchFlightRecord implements Serializable {
     private String merchantNo;
 
     /**
+     * 账户
+     */
+    private String account;
+
+    /**
      * 出发城市
      */
     private String deptCity;
@@ -57,6 +62,20 @@ public class NationalSearchFlightRecord implements Serializable {
      */
     public void setMerchantNo(String merchantNo) {
         this.merchantNo = merchantNo == null ? null : merchantNo.trim();
+    }
+
+    /**
+     * @return 账户
+     */
+    public String getAccount() {
+        return account;
+    }
+
+    /**
+     * @param account 账户
+     */
+    public void setAccount(String account) {
+        this.account = account == null ? null : account.trim();
     }
 
     /**

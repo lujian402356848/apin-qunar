@@ -1,5 +1,5 @@
 package com.apin.qunar.statistics.service;
 
 public interface SearchFlightRecordService {
-    void create(String merchantNo, boolean hasInternal, String deptCity, String arriCity);
+    void create(String account, boolean hasInternal, String deptCity, String arriCity);
 }
