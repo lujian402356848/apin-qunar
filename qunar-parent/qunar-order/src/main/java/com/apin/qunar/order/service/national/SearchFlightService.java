@@ -18,5 +18,5 @@ public interface SearchFlightService {
      * @param merchantNo        商户号，系统注册的时候会分配.
      * @return 页面需要对象信息
      */
-    ApiResult<SearchFlightResultVO> searchFlight(final SearchFlightParam searchFlightParam, final String merchantNo);
+    ApiResult<SearchFlightResultVO> searchFlight(SearchFlightParam searchFlightParam, String merchantNo, String account);
 }

@@ -39,6 +39,8 @@ public class SearchFlightRequest extends BaseRequest {
     @NotEmpty(message = "exTrack不能为空")
     private String exTrack;
 
+    private String account;//记录航班信息的时候需要
+
 }
 
 

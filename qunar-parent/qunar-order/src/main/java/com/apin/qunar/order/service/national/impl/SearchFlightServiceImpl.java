@@ -48,8 +48,8 @@ public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiRe
      * @return 页面需要对象信息
      */
     @Override
-    public ApiResult<SearchFlightResultVO> searchFlight(final SearchFlightParam searchFlightParam, final String merchantNo) {
-        searchFlightRecordService.create(merchantNo, true, searchFlightParam.getDpt(), searchFlightParam.getArr());
+    public ApiResult<SearchFlightResultVO> searchFlight(final SearchFlightParam searchFlightParam, final String merchantNo,final String account) {
+        searchFlightRecordService.create(account, true, searchFlightParam.getDpt(), searchFlightParam.getArr());
         ApiResult<SearchFlightResultVO> apiResult = execute(searchFlightParam);
         if (apiResult == null) {
             return ApiResult.fail();

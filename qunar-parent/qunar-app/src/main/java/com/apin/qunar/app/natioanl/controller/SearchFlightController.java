@@ -35,7 +35,7 @@ public class SearchFlightController extends BaseController {
     private SearchFlightService searchFlightService;
 
     @PostMapping(value = "/search/flight")
-    public GeneralResultMap searchFlight(@RequestBody@Valid SearchFlightRequest request, BindingResult bindingResult) {
+    public GeneralResultMap searchFlight(@RequestBody @Valid SearchFlightRequest request, BindingResult bindingResult) {
 
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
@@ -45,7 +45,7 @@ public class SearchFlightController extends BaseController {
 
         Map<String, Object> data = new HashMap<>();
         try {
-            ApiResult<SearchFlightResultVO> apiResult = searchFlightService.searchFlight(buildSearchFlightParam(request), request.getMerchantNo());
+            ApiResult<SearchFlightResultVO> apiResult = searchFlightService.searchFlight(buildSearchFlightParam(request), request.getMerchantNo(), request.getAccount());
             if (apiResult.isSuccess()) {
 
                 SearchFlightResultVO searchFlightResult = apiResult.getResult();
