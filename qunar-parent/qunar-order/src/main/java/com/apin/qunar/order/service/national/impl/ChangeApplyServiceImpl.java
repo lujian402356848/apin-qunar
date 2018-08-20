@@ -160,7 +160,7 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
                 nationalChangeOrder.setOrderNo(changeApplyResult.getOrderNo());
             }
         }
-        nationalChangeOrder.setChangeFee(Integer.parseInt(changeApplyBO.getGqFee()));
+        nationalChangeOrder.setChangeFee(Integer.parseInt(changeApplyBO.getAllFee()));
         nationalChangeOrder.setChangeStatus(40);
         nationalChangeOrder.setContactName(nationalOrder.getContactName());
         nationalChangeOrder.setContactMobile(nationalOrder.getContactMobile());

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.basic.dao.mapper.AreaMapper" >
+    <resultMap id="AreaResult" type="com.apin.qunar.basic.dao.model.Area" >
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="city_id" property="cityId" jdbcType="BIGINT" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="AreaColumns" >
+      id, city_id, name, insert_time
+    </sql>
+    <select id="selectByExample" resultMap="AreaResult" parameterType="com.apin.qunar.basic.dao.model.AreaExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="AreaColumns" />
+      from area
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="AreaResult" parameterType="java.lang.Long" >
+      select 
+      <include refid="AreaColumns" />
+      from area
+      where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      delete from area
+      where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.basic.dao.model.AreaExample" >
+      delete from area
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.basic.dao.model.Area" >
+      insert into area (id, city_id, name, 
+        insert_time)
+      values (#{id,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+        #{insertTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.basic.dao.model.Area" >
+      insert into area
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="cityId != null" >
+          city_id,
+        </if>
+        <if test="name != null" >
+          name,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=BIGINT},
+        </if>
+        <if test="cityId != null" >
+          #{cityId,jdbcType=BIGINT},
+        </if>
+        <if test="name != null" >
+          #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.basic.dao.model.AreaExample" resultType="java.lang.Integer" >
+      select count(*) from area
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update area
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=BIGINT},
+        </if>
+        <if test="record.cityId != null" >
+          city_id = #{record.cityId,jdbcType=BIGINT},
+        </if>
+        <if test="record.name != null" >
+          name = #{record.name,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update area
+      set id = #{record.id,jdbcType=BIGINT},
+        city_id = #{record.cityId,jdbcType=BIGINT},
+        name = #{record.name,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.basic.dao.model.Area" >
+      update area
+      <set >
+        <if test="cityId != null" >
+          city_id = #{cityId,jdbcType=BIGINT},
+        </if>
+        <if test="name != null" >
+          name = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.basic.dao.model.Area" >
+      update area
+      set city_id = #{cityId,jdbcType=BIGINT},
+        name = #{name,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=BIGINT}
+    </update>
+  </mapper>
