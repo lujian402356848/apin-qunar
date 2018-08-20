@@ -88,7 +88,7 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     public Airport queryByCode(final String code) {
-        return airportCache.getIfPresent(code);
+        return StringUtils.isBlank(code) ? null : airportCache.getIfPresent(code);
     }
 
     @Override

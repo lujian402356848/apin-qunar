@@ -7,6 +7,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserChangePasswordRequest extends BaseRequest {
-    private String account;
     private String password;
 }

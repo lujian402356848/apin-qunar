@@ -61,11 +61,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String account, String password, String ip) {
-        if (StringUtils.isBlank(account) || StringUtils.isBlank(password)) {
+    public User login(String loginName, String password, String ip) {
+        if (StringUtils.isBlank(loginName) || StringUtils.isBlank(password)) {
             return null;
         }
-        User user = userDao.queryByAccountAndPwd(account, password);
+        User user = userDao.queryByAccountAndPwd(loginName, password);
         addLoginLog(user, ip);
         return user;
     }

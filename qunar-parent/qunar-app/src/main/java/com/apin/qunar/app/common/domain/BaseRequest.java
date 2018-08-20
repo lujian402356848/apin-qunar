@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 public abstract class BaseRequest {
     @NotEmpty(message = "merchantNo不能为空")
     private String merchantNo;
+    private String account;
     private long timestamp;
     private String sign;
 }

@@ -54,7 +54,7 @@ public class UserController extends BaseController {
     public GeneralResultMap login(@RequestBody UserLoginRequest request) {
         GeneralResultMap generalResultMap = new GeneralResultMap();
         try {
-            User user = userService.login(request.getAccount(), request.getPassword(), request.getIp());
+            User user = userService.login(request.getLoginName(), request.getPassword(), request.getIp());
             if (user == null) {
                 generalResultMap.setResult(SysReturnCode.FAIL, "账户名或密码不正确");
             } else {
