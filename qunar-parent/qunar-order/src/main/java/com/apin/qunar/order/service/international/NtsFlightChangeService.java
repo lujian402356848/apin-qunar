@@ -1,7 +1,6 @@
 package com.apin.qunar.order.service.international;
 
 import com.apin.qunar.order.dao.model.InternationalFlightChange;
-import com.apin.qunar.order.domain.international.flightChange.NtsFlightChangeVO;
 import com.apin.qunar.order.domain.international.flightChange.NtsSearchFlightChangeVO;
 
 import java.util.List;

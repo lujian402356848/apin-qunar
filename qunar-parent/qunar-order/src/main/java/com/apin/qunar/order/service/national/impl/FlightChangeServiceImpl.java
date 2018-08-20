@@ -2,6 +2,8 @@ package com.apin.qunar.order.service.national.impl;
 
 import com.apin.qunar.basic.common.constant.SmsConstants;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
+import com.apin.qunar.basic.dao.model.Airport;
+import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.BeanUtil;
 import com.apin.qunar.order.dao.impl.NationalFlightChangeDaoImpl;
@@ -17,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,11 +36,27 @@ public class FlightChangeServiceImpl implements FlightChangeService {
     @Autowired
     private NationalPassengerDaoImpl nationalPassengerDao;
     @Autowired
+    private AirportService airportService;
+    @Autowired
     private SmsService smsService;
 
     public List<SearchFlightChangeVO> queryPageList(String merchantNo, Integer offset, Integer limit) {
         List<NationalFlightChange> flightChanges = nationalFlightChangeDao.queryPageList(merchantNo, offset, limit);
-        return BeanUtil.copyProperties(flightChanges, SearchFlightChangeVO.class);
+        return buildSearchFlightChangeVOs(flightChanges);
+    }
+
+    private List<SearchFlightChangeVO> buildSearchFlightChangeVOs(List<NationalFlightChange> flightChanges) {
+        if (CollectionUtils.isEmpty(flightChanges)) {
+            return new ArrayList<>();
+        }
+        List<SearchFlightChangeVO> flightChangeVOS = new ArrayList<>(flightChanges.size());
+        SearchFlightChangeVO flightChangeVO;
+        for (NationalFlightChange flightChange : flightChanges) {
+            flightChangeVO = BeanUtil.copyProperties(flightChange, SearchFlightChangeVO.class);
+            setAirportName(flightChangeVO);
+            flightChangeVOS.add(flightChangeVO);
+        }
+        return flightChangeVOS;
     }
 
     @Override
@@ -57,6 +76,25 @@ public class FlightChangeServiceImpl implements FlightChangeService {
             sendSms(flightChange);
         } catch (Exception e) {
             log.error("保存国内航班信息异常,nationalFlightChange:{}", flightChange, e);
+        }
+    }
+
+    private void setAirportName(SearchFlightChangeVO flightChange) {
+        Airport airport = airportService.queryByCode(flightChange.getDptAirport());
+        if (airport != null) {
+            flightChange.setDptAirport(airport.getAirportName());
+        }
+        airport = airportService.queryByCode(flightChange.getArrAirport());
+        if (airport != null) {
+            flightChange.setArrAirport(airport.getAirportName());
+        }
+        airport = airportService.queryByCode(flightChange.getFolDptAirport());
+        if (airport != null) {
+            flightChange.setFolDptAirport(airport.getAirportName());
+        }
+        airport = airportService.queryByCode(flightChange.getFolArrAirport());
+        if (airport != null) {
+            flightChange.setFolArrAirport(airport.getAirportName());
         }
     }
 

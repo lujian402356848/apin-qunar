@@ -2,6 +2,8 @@ package com.apin.qunar.order.service.international.impl;
 
 import com.apin.qunar.basic.common.constant.SmsConstants;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
+import com.apin.qunar.basic.dao.model.Airport;
+import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.BeanUtil;
 import com.apin.qunar.order.dao.impl.InternationalFlightChangeDaoImpl;
@@ -34,6 +36,8 @@ public class NtsFlightChangeServiceImpl implements NtsFlightChangeService {
     @Autowired
     private InternationalPassengerDaoImpl internationalPassengerDao;
     @Autowired
+    private AirportService airportService;
+    @Autowired
     private SmsService smsService;
 
     @Override
@@ -50,7 +54,9 @@ public class NtsFlightChangeServiceImpl implements NtsFlightChangeService {
         NtsSearchFlightChangeVO flightChangeVO;
         for (InternationalFlightChange flightChange : flightChanges) {
             flightChangeVO = BeanUtil.copyProperties(flightChange, NtsSearchFlightChangeVO.class);
+            setAirportName(flightChangeVO);
             flightChangeVO.setChangeStatus(formatStatus(flightChange.getStatus()));
+            flightChangeVOS.add(flightChangeVO);
         }
         return flightChangeVOS;
     }
@@ -102,6 +108,25 @@ public class NtsFlightChangeServiceImpl implements NtsFlightChangeService {
         }
     }
 
+    private void setAirportName(NtsSearchFlightChangeVO flightChange) {
+        Airport airport = airportService.queryByCode(flightChange.getDptAirport());
+        if (airport != null) {
+            flightChange.setDptAirport(airport.getAirportName());
+        }
+        airport = airportService.queryByCode(flightChange.getArrAirport());
+        if (airport != null) {
+            flightChange.setArrAirport(airport.getAirportName());
+        }
+        airport = airportService.queryByCode(flightChange.getFolDptAirport());
+        if (airport != null) {
+            flightChange.setFolDptAirport(airport.getAirportName());
+        }
+        airport = airportService.queryByCode(flightChange.getFolArrAirport());
+        if (airport != null) {
+            flightChange.setFolArrAirport(airport.getAirportName());
+        }
+    }
+
     @Override
     public boolean smsNotify(String merchantNo, String orderNo) {
         InternationalFlightChange flightChange = internationalFlightChangeDao.queryByOrderNo(orderNo);
@@ -114,7 +139,7 @@ public class NtsFlightChangeServiceImpl implements NtsFlightChangeService {
     }
 
     private boolean sendSms(InternationalFlightChange flightChange) {
-        boolean  result = false;
+        boolean result = false;
         InternationalOrder nationalOrder = internationalOrderDao.queryByOrderNo(flightChange.getOrderNo());
         if (nationalOrder == null) {
             return result;

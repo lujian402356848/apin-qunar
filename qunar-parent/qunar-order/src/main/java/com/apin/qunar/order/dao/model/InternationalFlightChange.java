@@ -32,7 +32,7 @@ public class InternationalFlightChange implements Serializable {
     private String dptDate;
 
     /**
-     * 起飞机场三字码
+     * 出发机场三字码
      */
     private String dptAirport;
 
@@ -77,7 +77,7 @@ public class InternationalFlightChange implements Serializable {
     private String folArrTime;
 
     /**
-     * 变更后起飞机场三字码
+     * 变更后出发机场三字码
      */
     private String folDptAirport;
 
@@ -207,14 +207,14 @@ public class InternationalFlightChange implements Serializable {
     }
 
     /**
-     * @return 起飞机场三字码
+     * @return 出发机场三字码
      */
     public String getDptAirport() {
         return dptAirport;
     }
 
     /**
-     * @param dptAirport 起飞机场三字码
+     * @param dptAirport 出发机场三字码
      */
     public void setDptAirport(String dptAirport) {
         this.dptAirport = dptAirport == null ? null : dptAirport.trim();
@@ -333,14 +333,14 @@ public class InternationalFlightChange implements Serializable {
     }
 
     /**
-     * @return 变更后起飞机场三字码
+     * @return 变更后出发机场三字码
      */
     public String getFolDptAirport() {
         return folDptAirport;
     }
 
     /**
-     * @param folDptAirport 变更后起飞机场三字码
+     * @param folDptAirport 变更后出发机场三字码
      */
     public void setFolDptAirport(String folDptAirport) {
         this.folDptAirport = folDptAirport == null ? null : folDptAirport.trim();
