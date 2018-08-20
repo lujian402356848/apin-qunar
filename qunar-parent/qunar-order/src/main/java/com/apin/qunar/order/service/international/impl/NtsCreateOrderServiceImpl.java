@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.apin.qunar.common.ids.IDGenerator;
 import com.apin.qunar.common.utils.UUIDUtil;
 import com.apin.qunar.order.common.config.OrderConfig;
+import com.apin.qunar.order.common.enums.OrderShowEnum;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
 import com.apin.qunar.order.dao.impl.InternationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.InternationalPassengerDaoImpl;
@@ -166,6 +167,7 @@ public class NtsCreateOrderServiceImpl extends NtsApiService<NtsCreateOrderParam
         }
         internationalOrder.setOperator(ntsCreateOrderRequest.getAccount());
         internationalOrder.setPackName(ntsCreateOrderRequest.getPackName());
+        internationalOrder.setHasShow(OrderShowEnum.SHOW.getStatus());
         return internationalOrder;
     }
 

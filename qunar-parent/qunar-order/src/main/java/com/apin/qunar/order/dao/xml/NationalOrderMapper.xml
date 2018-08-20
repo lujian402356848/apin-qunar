@@ -46,6 +46,7 @@
       <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
       <result column="contact_email" property="contactEmail" jdbcType="VARCHAR" />
       <result column="operator" property="operator" jdbcType="VARCHAR" />
+      <result column="has_show" property="hasShow" jdbcType="INTEGER" />
       <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
       <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     </resultMap>
@@ -114,7 +115,7 @@
       dept_terminal, arri_terminal, dept_date, dept_time, arri_time, fuel_tax, construction_fee, 
       return_fee, return_text, change_fee, change_text, print_price, code_share, publish_price, 
       pay_id, pay_order_id, pay_amount, pay_status, pay_time, contact_name, contact_num, 
-      contact_mobile, contact_email, operator, insert_time, update_time
+      contact_mobile, contact_email, operator, has_show, insert_time, update_time
     </sql>
     <select id="selectByExample" resultMap="NationalOrderResult" parameterType="com.apin.qunar.order.dao.model.NationalOrderExample" >
       select
@@ -166,8 +167,8 @@
         publish_price, pay_id, pay_order_id, 
         pay_amount, pay_status, pay_time, 
         contact_name, contact_num, contact_mobile, 
-        contact_email, operator, insert_time, 
-        update_time)
+        contact_email, operator, has_show, 
+        insert_time, update_time)
       values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
         #{orderRelationNo,jdbcType=CHAR}, #{ticketNo,jdbcType=VARCHAR}, #{clientSite,jdbcType=VARCHAR}, 
         #{flightNum,jdbcType=VARCHAR}, #{actFlightNum,jdbcType=VARCHAR}, #{flightTime,jdbcType=VARCHAR}, 
@@ -182,8 +183,8 @@
         #{publishPrice,jdbcType=INTEGER}, #{payId,jdbcType=VARCHAR}, #{payOrderId,jdbcType=VARCHAR}, 
         #{payAmount,jdbcType=INTEGER}, #{payStatus,jdbcType=INTEGER}, #{payTime,jdbcType=VARCHAR}, 
         #{contactName,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
-        #{contactEmail,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
-        #{updateTime,jdbcType=TIMESTAMP})
+        #{contactEmail,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{hasShow,jdbcType=INTEGER}, 
+        #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.NationalOrder" >
       insert into national_order
@@ -319,6 +320,9 @@
         </if>
         <if test="operator != null" >
           operator,
+        </if>
+        <if test="hasShow != null" >
+          has_show,
         </if>
         <if test="insertTime != null" >
           insert_time,
@@ -459,6 +463,9 @@
         </if>
         <if test="operator != null" >
           #{operator,jdbcType=VARCHAR},
+        </if>
+        <if test="hasShow != null" >
+          #{hasShow,jdbcType=INTEGER},
         </if>
         <if test="insertTime != null" >
           #{insertTime,jdbcType=TIMESTAMP},
@@ -609,6 +616,9 @@
         <if test="record.operator != null" >
           operator = #{record.operator,jdbcType=VARCHAR},
         </if>
+        <if test="record.hasShow != null" >
+          has_show = #{record.hasShow,jdbcType=INTEGER},
+        </if>
         <if test="record.insertTime != null" >
           insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
         </if>
@@ -666,6 +676,7 @@
         contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
         contact_email = #{record.contactEmail,jdbcType=VARCHAR},
         operator = #{record.operator,jdbcType=VARCHAR},
+        has_show = #{record.hasShow,jdbcType=INTEGER},
         insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
         update_time = #{record.updateTime,jdbcType=TIMESTAMP}
       <if test="_parameter != null" >
@@ -804,6 +815,9 @@
         <if test="operator != null" >
           operator = #{operator,jdbcType=VARCHAR},
         </if>
+        <if test="hasShow != null" >
+          has_show = #{hasShow,jdbcType=INTEGER},
+        </if>
         <if test="insertTime != null" >
           insert_time = #{insertTime,jdbcType=TIMESTAMP},
         </if>
@@ -858,6 +872,7 @@
         contact_mobile = #{contactMobile,jdbcType=VARCHAR},
         contact_email = #{contactEmail,jdbcType=VARCHAR},
         operator = #{operator,jdbcType=VARCHAR},
+        has_show = #{hasShow,jdbcType=INTEGER},
         insert_time = #{insertTime,jdbcType=TIMESTAMP},
         update_time = #{updateTime,jdbcType=TIMESTAMP}
       where id = #{id,jdbcType=BIGINT}

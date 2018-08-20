@@ -2,6 +2,7 @@ package com.apin.qunar.order.service.national.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.apin.qunar.common.utils.UUIDUtil;
+import com.apin.qunar.order.common.enums.OrderShowEnum;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
 import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalPassengerDaoImpl;
@@ -110,12 +111,12 @@ public class CreateOrderServiceImpl extends ApiService<CreateOrderParam, ApiResu
         natioanlOrder.setFuelTax(createOrderParam.getFuelTax());
         natioanlOrder.setConstructionFee(createOrderParam.getConstructionFee());
         natioanlOrder.setPrintPrice(createOrderParam.getPrintPrice());
-//        natioanlOrder.setIncomePrice(bookingResult.getPriceInfo().getIncomePrice());
         natioanlOrder.setPublishPrice(createOrderParam.getyPrice());
         natioanlOrder.setPayOrderId(String.valueOf(createOrderResult.getId()));
         natioanlOrder.setPayAmount(createOrderResult.getNoPayAmount());
         natioanlOrder.setPayStatus(OrderStatusEnum.BOOK_OK.getCode());
         natioanlOrder.setOperator(createOrderRequest.getAccount());
+        natioanlOrder.setHasShow(OrderShowEnum.SHOW.getStatus());
         if (CollectionUtils.isNotEmpty(bookingResult.getFlightInfo())) {
             BookingFlightInfo bookingFlightInfo = bookingResult.getFlightInfo().get(0);
             natioanlOrder.setActFlightNum(bookingFlightInfo.getActFlightNum());

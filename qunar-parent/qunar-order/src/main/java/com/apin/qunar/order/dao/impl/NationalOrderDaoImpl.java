@@ -1,5 +1,6 @@
 package com.apin.qunar.order.dao.impl;
 
+import com.apin.qunar.order.common.enums.OrderShowEnum;
 import com.apin.qunar.order.dao.mapper.NationalOrderExtMapper;
 import com.apin.qunar.order.dao.mapper.NationalOrderMapper;
 import com.apin.qunar.order.dao.model.NationalOrder;
@@ -56,6 +57,7 @@ public class NationalOrderDaoImpl {
         if (StringUtils.isNotBlank(orderNo)) {
             criteria.andOrderNoEqualTo(orderNo);
         }
+        criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
         example.setMysqlOffset(offset);
         example.setMysqlLength(limit);
         example.setOrderByClause("insert_time desc");
@@ -74,9 +76,9 @@ public class NationalOrderDaoImpl {
         if (CollectionUtils.isNotEmpty(orderNos)) {
             criteria.andOrderNoIn(orderNos);
         }
+        criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
         example.setMysqlOffset(offset);
         example.setMysqlLength(limit);
-
         example.setOrderByClause("insert_time desc");
         return nationalOrderMapper.selectByExample(example);
     }
@@ -99,12 +101,16 @@ public class NationalOrderDaoImpl {
         return nationalOrderExtMapper.updateStatusAndTicketNo(orderNo, ticketNo, payStatus) > 0;
     }
 
-    public boolean updateTicketNo(String orderNo,String oldTicketNo,String newTicketNo){
-        return nationalOrderExtMapper.updateTicketNo(orderNo,oldTicketNo,newTicketNo)>0;
+    public boolean updateTicketNo(String orderNo, String oldTicketNo, String newTicketNo) {
+        return nationalOrderExtMapper.updateTicketNo(orderNo, oldTicketNo, newTicketNo) > 0;
     }
 
     public boolean updatePayInfo(String orderNo, String payId, int payStatus, String payTime) {
         return nationalOrderExtMapper.updatePayInfo(orderNo, payId, payStatus, payTime) > 0;
+    }
+
+    public boolean updateShowStatus(String orderNo, int showStatus) {
+        return nationalOrderExtMapper.updateShowStatus(orderNo, showStatus) > 0;
     }
 
     public boolean insert(NationalOrder nationalOrder) {

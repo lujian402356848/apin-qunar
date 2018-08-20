@@ -3097,6 +3097,66 @@ public class NationalOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andHasShowIsNull() {
+            addCriterion("has_show is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowIsNotNull() {
+            addCriterion("has_show is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowEqualTo(Integer value) {
+            addCriterion("has_show =", value, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowNotEqualTo(Integer value) {
+            addCriterion("has_show <>", value, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowGreaterThan(Integer value) {
+            addCriterion("has_show >", value, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowGreaterThanOrEqualTo(Integer value) {
+            addCriterion("has_show >=", value, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowLessThan(Integer value) {
+            addCriterion("has_show <", value, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowLessThanOrEqualTo(Integer value) {
+            addCriterion("has_show <=", value, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowIn(List<Integer> values) {
+            addCriterion("has_show in", values, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowNotIn(List<Integer> values) {
+            addCriterion("has_show not in", values, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowBetween(Integer value1, Integer value2) {
+            addCriterion("has_show between", value1, value2, "hasShow");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasShowNotBetween(Integer value1, Integer value2) {
+            addCriterion("has_show not between", value1, value2, "hasShow");
+            return (Criteria) this;
+        }
+
         public Criteria andInsertTimeIsNull() {
             addCriterion("insert_time is null");
             return (Criteria) this;

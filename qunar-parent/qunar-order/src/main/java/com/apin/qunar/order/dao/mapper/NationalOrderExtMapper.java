@@ -28,4 +28,7 @@ public interface NationalOrderExtMapper {
 
     @Update("update national_order set ticket_no=replace(ticket_no,#{oldTicketNo},#{newTicketNo}) where order_no=#{orderNo}")
     int updateTicketNo(@Param("orderNo") String orderNo,@Param("oldTicketNo") String oldTicketNo,@Param("newTicketNo") String newTicketNo);
+
+    @Update("update national_order set has_show=#{showStatus} where order_no=#{orderNo}")
+    int updateShowStatus(@Param("orderNo") String orderNo, @Param("showStatus") int showStatus);
 }

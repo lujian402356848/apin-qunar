@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 public class RegularPassengerServiceImpl implements RegularPassengerService {
     @Autowired
-    NationalRegularPassengerDaoImpl regularPassengerDao;
+    private NationalRegularPassengerDaoImpl regularPassengerDao;
 
     @Override
     public ExecuteResult create(RegularPassengerBO regularPassengerBO) {

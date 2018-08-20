@@ -25,4 +25,7 @@ public interface InternationalOrderExtMapper {
 
     @Update("update international_order set pay_id=#{payId},pay_status=#{payStatus},pay_time=#{payTime} where order_no=#{orderNo}")
     int updatePayInfo(@Param("orderNo") String orderNo, @Param("payId") String payId, @Param("payStatus") int payStatus, @Param("payTime") String payTime);
+
+    @Update("update international_order set has_show=#{showStatus} where order_no=#{orderNo}")
+    int updateShowStatus(@Param("orderNo") String orderNo, @Param("showStatus") int showStatus);
 }

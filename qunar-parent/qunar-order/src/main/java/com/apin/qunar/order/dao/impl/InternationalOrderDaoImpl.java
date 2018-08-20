@@ -1,5 +1,6 @@
 package com.apin.qunar.order.dao.impl;
 
+import com.apin.qunar.order.common.enums.OrderShowEnum;
 import com.apin.qunar.order.dao.mapper.InternationalOrderExtMapper;
 import com.apin.qunar.order.dao.mapper.InternationalOrderMapper;
 import com.apin.qunar.order.dao.model.InternationalOrder;
@@ -56,6 +57,7 @@ public class InternationalOrderDaoImpl {
         if (StringUtils.isNotBlank(orderNo)) {
             criteria.andOrderNoEqualTo(orderNo);
         }
+        criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
         example.setMysqlOffset(offset);
         example.setMysqlLength(limit);
         example.setOrderByClause("insert_time desc");
@@ -74,6 +76,7 @@ public class InternationalOrderDaoImpl {
         if (CollectionUtils.isNotEmpty(orderNos)) {
             criteria.andOrderNoIn(orderNos);
         }
+        criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
         example.setMysqlOffset(offset);
         example.setMysqlLength(limit);
         example.setOrderByClause("insert_time desc");
@@ -90,6 +93,10 @@ public class InternationalOrderDaoImpl {
 
     public boolean updatePayInfo(String orderNo, String payId, int payStatus, String payTime) {
         return internationalOrderExtMapper.updatePayInfo(orderNo, payId, payStatus, payTime) > 0;
+    }
+
+    public boolean updateShowStatus(String orderNo, int showStatus) {
+        return internationalOrderExtMapper.updateShowStatus(orderNo, showStatus) > 0;
     }
 
     public boolean insert(InternationalOrder internationalOrder) {

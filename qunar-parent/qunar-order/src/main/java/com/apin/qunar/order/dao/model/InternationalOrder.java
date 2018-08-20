@@ -277,6 +277,16 @@ public class InternationalOrder implements Serializable {
     private String contactEmail;
 
     /**
+     * 操作人
+     */
+    private String operator;
+
+    /**
+     * 是否显示(0:不显示,1:显示)
+     */
+    private Integer hasShow;
+
+    /**
      * 插入时间
      */
     private Date insertTime;
@@ -285,11 +295,6 @@ public class InternationalOrder implements Serializable {
      * 修改时间
      */
     private Date updateTime;
-
-    /**
-     * 操作人
-     */
-    private String operator;
 
     /**
      * @return 订单id
@@ -1048,6 +1053,34 @@ public class InternationalOrder implements Serializable {
     }
 
     /**
+     * @return 操作人
+     */
+    public String getOperator() {
+        return operator;
+    }
+
+    /**
+     * @param operator 操作人
+     */
+    public void setOperator(String operator) {
+        this.operator = operator == null ? null : operator.trim();
+    }
+
+    /**
+     * @return 是否显示(0:不显示,1:显示)
+     */
+    public Integer getHasShow() {
+        return hasShow;
+    }
+
+    /**
+     * @param hasShow 是否显示(0:不显示,1:显示)
+     */
+    public void setHasShow(Integer hasShow) {
+        this.hasShow = hasShow;
+    }
+
+    /**
      * @return 插入时间
      */
     public Date getInsertTime() {
@@ -1073,19 +1106,5 @@ public class InternationalOrder implements Serializable {
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    /**
-     * @return 操作人
-     */
-    public String getOperator() {
-        return operator;
-    }
-
-    /**
-     * @param operator 操作人
-     */
-    public void setOperator(String operator) {
-        this.operator = operator == null ? null : operator.trim();
     }
 }

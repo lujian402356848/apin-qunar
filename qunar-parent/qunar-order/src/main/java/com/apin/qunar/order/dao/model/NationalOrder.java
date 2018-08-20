@@ -227,6 +227,11 @@ public class NationalOrder implements Serializable {
     private String operator;
 
     /**
+     * 是否显示(0:不显示,1:显示)
+     */
+    private Integer hasShow;
+
+    /**
      * 插入时间
      */
     private Date insertTime;
@@ -850,6 +855,20 @@ public class NationalOrder implements Serializable {
      */
     public void setOperator(String operator) {
         this.operator = operator == null ? null : operator.trim();
+    }
+
+    /**
+     * @return 是否显示(0:不显示,1:显示)
+     */
+    public Integer getHasShow() {
+        return hasShow;
+    }
+
+    /**
+     * @param hasShow 是否显示(0:不显示,1:显示)
+     */
+    public void setHasShow(Integer hasShow) {
+        this.hasShow = hasShow;
     }
 
     /**
