@@ -8,6 +8,7 @@ import com.apin.qunar.basic.dao.impl.LoginLogDaoImpl;
 import com.apin.qunar.basic.dao.impl.UserDaoImpl;
 import com.apin.qunar.basic.dao.model.LoginLog;
 import com.apin.qunar.basic.dao.model.User;
+import com.apin.qunar.basic.domain.ExecuteResult;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.basic.service.UserService;
 import com.apin.qunar.common.ids.IDGenerator;
@@ -33,12 +34,20 @@ public class UserServiceImpl implements UserService {
     private SmsService smsService;
 
     @Override
-    public boolean register(String name, String account, String password, String department) {
+    public ExecuteResult register(String name, String account, String password, String department) {
+        ExecuteResult executeResult = new ExecuteResult();
         boolean isExist = userDao.isExistAccount(account);
         if (isExist) {
-            log.warn("该用户账户已经存在,account:{}", account);
-            return false;
+            executeResult.setDesc("该账户已注册,不能重复注册");
+            return executeResult;
         }
+        User user = buildUser(account, name, password, department);
+        boolean result = userDao.insert(user);
+        executeResult.setSuccess(result);
+        return executeResult;
+    }
+
+    private User buildUser(final String account, final String name, final String password, final String department) {
         User user = new User();
         user.setId(IDGenerator.getUniqueId());
         user.setAccount(account);
@@ -48,24 +57,24 @@ public class UserServiceImpl implements UserService {
         user.setDepartment(department);
         user.setHasAdmin(0);
         user.setHasEnable(1);
-        return userDao.insert(user);
+        return user;
     }
 
     @Override
-    public User queryByAccountAndPwd(String account, String password) {
+    public User login(String account, String password, String ip) {
         if (StringUtils.isBlank(account) || StringUtils.isBlank(password)) {
             return null;
         }
         User user = userDao.queryByAccountAndPwd(account, password);
-        addLoginLog(user);
+        addLoginLog(user, ip);
         return user;
     }
 
-    private void addLoginLog(User user) {
+    private void addLoginLog(User user, String ip) {
         if (user == null) {
             return;
         }
-        LoginLog loginLog = buildLoginLog(user);
+        LoginLog loginLog = buildLoginLog(user, ip);
         try {
             loginLogDao.insert(loginLog);
         } catch (Exception e) {
@@ -73,17 +82,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private LoginLog buildLoginLog(User user) {
+    private LoginLog buildLoginLog(User user, String ip) {
         LoginLog loginLog = new LoginLog();
         loginLog.setId(IDGenerator.getUniqueId());
         loginLog.setAccount(user.getAccount());
         loginLog.setLoginTime(new Date());
+        loginLog.setIp(ip);
         return loginLog;
-    }
-
-    @Override
-    public boolean isExistAccount(String account) {
-        return userDao.isExistAccount(account);
     }
 
     @Override
@@ -94,8 +99,7 @@ public class UserServiceImpl implements UserService {
         return userDao.updatePwd(account, password);
     }
 
-    @Override
-    public boolean createVerifyCode(String account, SmsSendTypeEnum smsSendTypeEnum) {
+    private boolean createVerifyCode(String account, SmsSendTypeEnum smsSendTypeEnum) {
         boolean result = false;
         try {
             User user = new User();
@@ -108,8 +112,7 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    @Override
-    public boolean validateVerifyCode(String account, String verifyCode) {
+    private boolean validateVerifyCode(String account, String verifyCode) {
         boolean result = false;
         try {
             if (StringUtils.isBlank(account) || StringUtils.isBlank(verifyCode)) {

@@ -6,11 +6,10 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserRequest extends BaseRequest {
+public class UserRegisterRequest extends BaseRequest {
     private String realName;
     private String account;
     private String password;
     private String mobileNo;
-    private String verifyCode;
-    private int hasLogin;//1:登录，2:修改密码
+    private String ip;
 }
