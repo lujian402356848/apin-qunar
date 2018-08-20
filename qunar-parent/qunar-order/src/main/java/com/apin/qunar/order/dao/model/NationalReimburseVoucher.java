@@ -1,6 +1,7 @@
 package com.apin.qunar.order.dao.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class NationalReimburseVoucher implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -19,6 +20,41 @@ public class NationalReimburseVoucher implements Serializable {
      * 订单号
      */
     private String orderNo;
+
+    /**
+     * 出发城市
+     */
+    private String deptCity;
+
+    /**
+     * 到达城市
+     */
+    private String arriCity;
+
+    /**
+     * 航班号
+     */
+    private String flightNum;
+
+    /**
+     * 出发日期
+     */
+    private String deptDate;
+
+    /**
+     * 凭据号(行程单号/票号)
+     */
+    private String voucherNo;
+
+    /**
+     * 凭据类型(1:行程单,2:发票)
+     */
+    private Integer voucherType;
+
+    /**
+     * 快递号
+     */
+    private String invoiceNo;
 
     /**
      * 报销单类型(1:行程单差额发票)
@@ -66,6 +102,21 @@ public class NationalReimburseVoucher implements Serializable {
     private String receiveAddress;
 
     /**
+     * 编辑人
+     */
+    private String operator;
+
+    /**
+     * 插入时间
+     */
+    private Date insertTime;
+
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
+
+    /**
      * @return 唯一标识
      */
     public Long getId() {
@@ -105,6 +156,104 @@ public class NationalReimburseVoucher implements Serializable {
      */
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
+
+    /**
+     * @return 出发城市
+     */
+    public String getDeptCity() {
+        return deptCity;
+    }
+
+    /**
+     * @param deptCity 出发城市
+     */
+    public void setDeptCity(String deptCity) {
+        this.deptCity = deptCity == null ? null : deptCity.trim();
+    }
+
+    /**
+     * @return 到达城市
+     */
+    public String getArriCity() {
+        return arriCity;
+    }
+
+    /**
+     * @param arriCity 到达城市
+     */
+    public void setArriCity(String arriCity) {
+        this.arriCity = arriCity == null ? null : arriCity.trim();
+    }
+
+    /**
+     * @return 航班号
+     */
+    public String getFlightNum() {
+        return flightNum;
+    }
+
+    /**
+     * @param flightNum 航班号
+     */
+    public void setFlightNum(String flightNum) {
+        this.flightNum = flightNum == null ? null : flightNum.trim();
+    }
+
+    /**
+     * @return 出发日期
+     */
+    public String getDeptDate() {
+        return deptDate;
+    }
+
+    /**
+     * @param deptDate 出发日期
+     */
+    public void setDeptDate(String deptDate) {
+        this.deptDate = deptDate == null ? null : deptDate.trim();
+    }
+
+    /**
+     * @return 凭据号(行程单号/票号)
+     */
+    public String getVoucherNo() {
+        return voucherNo;
+    }
+
+    /**
+     * @param voucherNo 凭据号(行程单号/票号)
+     */
+    public void setVoucherNo(String voucherNo) {
+        this.voucherNo = voucherNo == null ? null : voucherNo.trim();
+    }
+
+    /**
+     * @return 凭据类型(1:行程单,2:发票)
+     */
+    public Integer getVoucherType() {
+        return voucherType;
+    }
+
+    /**
+     * @param voucherType 凭据类型(1:行程单,2:发票)
+     */
+    public void setVoucherType(Integer voucherType) {
+        this.voucherType = voucherType;
+    }
+
+    /**
+     * @return 快递号
+     */
+    public String getInvoiceNo() {
+        return invoiceNo;
+    }
+
+    /**
+     * @param invoiceNo 快递号
+     */
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo == null ? null : invoiceNo.trim();
     }
 
     /**
@@ -231,5 +380,47 @@ public class NationalReimburseVoucher implements Serializable {
      */
     public void setReceiveAddress(String receiveAddress) {
         this.receiveAddress = receiveAddress == null ? null : receiveAddress.trim();
+    }
+
+    /**
+     * @return 编辑人
+     */
+    public String getOperator() {
+        return operator;
+    }
+
+    /**
+     * @param operator 编辑人
+     */
+    public void setOperator(String operator) {
+        this.operator = operator == null ? null : operator.trim();
+    }
+
+    /**
+     * @return 插入时间
+     */
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    /**
+     * @param insertTime 插入时间
+     */
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
+    }
+
+    /**
+     * @return 修改时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * @param updateTime 修改时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

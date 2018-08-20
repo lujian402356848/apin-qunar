@@ -5,6 +5,13 @@
       <id column="id" property="id" jdbcType="BIGINT" />
       <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
       <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+      <result column="dept_city" property="deptCity" jdbcType="VARCHAR" />
+      <result column="arri_city" property="arriCity" jdbcType="VARCHAR" />
+      <result column="flight_num" property="flightNum" jdbcType="VARCHAR" />
+      <result column="dept_date" property="deptDate" jdbcType="VARCHAR" />
+      <result column="voucher_no" property="voucherNo" jdbcType="VARCHAR" />
+      <result column="voucher_type" property="voucherType" jdbcType="INTEGER" />
+      <result column="invoice_no" property="invoiceNo" jdbcType="VARCHAR" />
       <result column="reimburse_type" property="reimburseType" jdbcType="INTEGER" />
       <result column="distribution_type" property="distributionType" jdbcType="INTEGER" />
       <result column="distribution_amount" property="distributionAmount" jdbcType="INTEGER" />
@@ -14,6 +21,9 @@
       <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
       <result column="receiver_mobile_no" property="receiverMobileNo" jdbcType="VARCHAR" />
       <result column="receive_address" property="receiveAddress" jdbcType="VARCHAR" />
+      <result column="operator" property="operator" jdbcType="VARCHAR" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Example_Where_Clause" >
       <where >
@@ -74,9 +84,10 @@
       </where>
     </sql>
     <sql id="NationalReimburseVoucherColumns" >
-      id, merchant_no, order_no, reimburse_type, distribution_type, distribution_amount, 
+      id, merchant_no, order_no, dept_city, arri_city, flight_num, dept_date, voucher_no, 
+      voucher_type, invoice_no, reimburse_type, distribution_type, distribution_amount, 
       invoice_title_type, invoice_title_content, taxpayer_no, receiver_name, receiver_mobile_no, 
-      receive_address
+      receive_address, operator, insert_time, update_time
     </sql>
     <select id="selectByExample" resultMap="NationalReimburseVoucherResult" parameterType="com.apin.qunar.order.dao.model.NationalReimburseVoucherExample" >
       select
@@ -115,15 +126,21 @@
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.order.dao.model.NationalReimburseVoucher" >
       insert into national_reimburse_voucher (id, merchant_no, order_no, 
-        reimburse_type, distribution_type, distribution_amount, 
-        invoice_title_type, invoice_title_content, 
+        dept_city, arri_city, flight_num, 
+        dept_date, voucher_no, voucher_type, 
+        invoice_no, reimburse_type, distribution_type, 
+        distribution_amount, invoice_title_type, invoice_title_content, 
         taxpayer_no, receiver_name, receiver_mobile_no, 
-        receive_address)
+        receive_address, operator, insert_time, 
+        update_time)
       values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
-        #{reimburseType,jdbcType=INTEGER}, #{distributionType,jdbcType=INTEGER}, #{distributionAmount,jdbcType=INTEGER}, 
-        #{invoiceTitleType,jdbcType=INTEGER}, #{invoiceTitleContent,jdbcType=VARCHAR}, 
+        #{deptCity,jdbcType=VARCHAR}, #{arriCity,jdbcType=VARCHAR}, #{flightNum,jdbcType=VARCHAR}, 
+        #{deptDate,jdbcType=VARCHAR}, #{voucherNo,jdbcType=VARCHAR}, #{voucherType,jdbcType=INTEGER}, 
+        #{invoiceNo,jdbcType=VARCHAR}, #{reimburseType,jdbcType=INTEGER}, #{distributionType,jdbcType=INTEGER}, 
+        #{distributionAmount,jdbcType=INTEGER}, #{invoiceTitleType,jdbcType=INTEGER}, #{invoiceTitleContent,jdbcType=VARCHAR}, 
         #{taxpayerNo,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, #{receiverMobileNo,jdbcType=VARCHAR}, 
-        #{receiveAddress,jdbcType=VARCHAR})
+        #{receiveAddress,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+        #{updateTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.NationalReimburseVoucher" >
       insert into national_reimburse_voucher
@@ -136,6 +153,27 @@
         </if>
         <if test="orderNo != null" >
           order_no,
+        </if>
+        <if test="deptCity != null" >
+          dept_city,
+        </if>
+        <if test="arriCity != null" >
+          arri_city,
+        </if>
+        <if test="flightNum != null" >
+          flight_num,
+        </if>
+        <if test="deptDate != null" >
+          dept_date,
+        </if>
+        <if test="voucherNo != null" >
+          voucher_no,
+        </if>
+        <if test="voucherType != null" >
+          voucher_type,
+        </if>
+        <if test="invoiceNo != null" >
+          invoice_no,
         </if>
         <if test="reimburseType != null" >
           reimburse_type,
@@ -164,6 +202,15 @@
         <if test="receiveAddress != null" >
           receive_address,
         </if>
+        <if test="operator != null" >
+          operator,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides="," >
         <if test="id != null" >
@@ -174,6 +221,27 @@
         </if>
         <if test="orderNo != null" >
           #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="deptCity != null" >
+          #{deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="arriCity != null" >
+          #{arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="flightNum != null" >
+          #{flightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="deptDate != null" >
+          #{deptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="voucherNo != null" >
+          #{voucherNo,jdbcType=VARCHAR},
+        </if>
+        <if test="voucherType != null" >
+          #{voucherType,jdbcType=INTEGER},
+        </if>
+        <if test="invoiceNo != null" >
+          #{invoiceNo,jdbcType=VARCHAR},
         </if>
         <if test="reimburseType != null" >
           #{reimburseType,jdbcType=INTEGER},
@@ -202,6 +270,15 @@
         <if test="receiveAddress != null" >
           #{receiveAddress,jdbcType=VARCHAR},
         </if>
+        <if test="operator != null" >
+          #{operator,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>
       </trim>
     </insert>
     <select id="countByExample" parameterType="com.apin.qunar.order.dao.model.NationalReimburseVoucherExample" resultType="java.lang.Integer" >
@@ -221,6 +298,27 @@
         </if>
         <if test="record.orderNo != null" >
           order_no = #{record.orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.deptCity != null" >
+          dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arriCity != null" >
+          arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="record.flightNum != null" >
+          flight_num = #{record.flightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="record.deptDate != null" >
+          dept_date = #{record.deptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="record.voucherNo != null" >
+          voucher_no = #{record.voucherNo,jdbcType=VARCHAR},
+        </if>
+        <if test="record.voucherType != null" >
+          voucher_type = #{record.voucherType,jdbcType=INTEGER},
+        </if>
+        <if test="record.invoiceNo != null" >
+          invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
         </if>
         <if test="record.reimburseType != null" >
           reimburse_type = #{record.reimburseType,jdbcType=INTEGER},
@@ -249,6 +347,15 @@
         <if test="record.receiveAddress != null" >
           receive_address = #{record.receiveAddress,jdbcType=VARCHAR},
         </if>
+        <if test="record.operator != null" >
+          operator = #{record.operator,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="record.updateTime != null" >
+          update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        </if>
       </set>
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
@@ -259,6 +366,13 @@
       set id = #{record.id,jdbcType=BIGINT},
         merchant_no = #{record.merchantNo,jdbcType=CHAR},
         order_no = #{record.orderNo,jdbcType=VARCHAR},
+        dept_city = #{record.deptCity,jdbcType=VARCHAR},
+        arri_city = #{record.arriCity,jdbcType=VARCHAR},
+        flight_num = #{record.flightNum,jdbcType=VARCHAR},
+        dept_date = #{record.deptDate,jdbcType=VARCHAR},
+        voucher_no = #{record.voucherNo,jdbcType=VARCHAR},
+        voucher_type = #{record.voucherType,jdbcType=INTEGER},
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
         reimburse_type = #{record.reimburseType,jdbcType=INTEGER},
         distribution_type = #{record.distributionType,jdbcType=INTEGER},
         distribution_amount = #{record.distributionAmount,jdbcType=INTEGER},
@@ -267,7 +381,10 @@
         taxpayer_no = #{record.taxpayerNo,jdbcType=VARCHAR},
         receiver_name = #{record.receiverName,jdbcType=VARCHAR},
         receiver_mobile_no = #{record.receiverMobileNo,jdbcType=VARCHAR},
-        receive_address = #{record.receiveAddress,jdbcType=VARCHAR}
+        receive_address = #{record.receiveAddress,jdbcType=VARCHAR},
+        operator = #{record.operator,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
       </if>
@@ -280,6 +397,27 @@
         </if>
         <if test="orderNo != null" >
           order_no = #{orderNo,jdbcType=VARCHAR},
+        </if>
+        <if test="deptCity != null" >
+          dept_city = #{deptCity,jdbcType=VARCHAR},
+        </if>
+        <if test="arriCity != null" >
+          arri_city = #{arriCity,jdbcType=VARCHAR},
+        </if>
+        <if test="flightNum != null" >
+          flight_num = #{flightNum,jdbcType=VARCHAR},
+        </if>
+        <if test="deptDate != null" >
+          dept_date = #{deptDate,jdbcType=VARCHAR},
+        </if>
+        <if test="voucherNo != null" >
+          voucher_no = #{voucherNo,jdbcType=VARCHAR},
+        </if>
+        <if test="voucherType != null" >
+          voucher_type = #{voucherType,jdbcType=INTEGER},
+        </if>
+        <if test="invoiceNo != null" >
+          invoice_no = #{invoiceNo,jdbcType=VARCHAR},
         </if>
         <if test="reimburseType != null" >
           reimburse_type = #{reimburseType,jdbcType=INTEGER},
@@ -308,6 +446,15 @@
         <if test="receiveAddress != null" >
           receive_address = #{receiveAddress,jdbcType=VARCHAR},
         </if>
+        <if test="operator != null" >
+          operator = #{operator,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
       </set>
       where id = #{id,jdbcType=BIGINT}
     </update>
@@ -315,6 +462,13 @@
       update national_reimburse_voucher
       set merchant_no = #{merchantNo,jdbcType=CHAR},
         order_no = #{orderNo,jdbcType=VARCHAR},
+        dept_city = #{deptCity,jdbcType=VARCHAR},
+        arri_city = #{arriCity,jdbcType=VARCHAR},
+        flight_num = #{flightNum,jdbcType=VARCHAR},
+        dept_date = #{deptDate,jdbcType=VARCHAR},
+        voucher_no = #{voucherNo,jdbcType=VARCHAR},
+        voucher_type = #{voucherType,jdbcType=INTEGER},
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
         reimburse_type = #{reimburseType,jdbcType=INTEGER},
         distribution_type = #{distributionType,jdbcType=INTEGER},
         distribution_amount = #{distributionAmount,jdbcType=INTEGER},
@@ -323,7 +477,10 @@
         taxpayer_no = #{taxpayerNo,jdbcType=VARCHAR},
         receiver_name = #{receiverName,jdbcType=VARCHAR},
         receiver_mobile_no = #{receiverMobileNo,jdbcType=VARCHAR},
-        receive_address = #{receiveAddress,jdbcType=VARCHAR}
+        receive_address = #{receiveAddress,jdbcType=VARCHAR},
+        operator = #{operator,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
       where id = #{id,jdbcType=BIGINT}
     </update>
   </mapper>
