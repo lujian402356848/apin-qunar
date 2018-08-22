@@ -30,7 +30,7 @@ import java.util.Map;
 @RequestMapping((AppConstants.ROOT_URL))
 public class NtsSearchOrderListController extends BaseController {
     @Autowired
-    NtsSearchOrderListService ntsSearchOrderListService;
+    private NtsSearchOrderListService ntsSearchOrderListService;
 
     @PostMapping(value = "/ntsOrder/list")
     public GeneralResultMap searchOrderList(@RequestBody NtsSearchOrderListRequest request) {

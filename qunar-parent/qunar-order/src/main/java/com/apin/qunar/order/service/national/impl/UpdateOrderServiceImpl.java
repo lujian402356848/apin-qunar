@@ -9,6 +9,7 @@ import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
 import com.apin.qunar.order.dao.impl.*;
+import com.apin.qunar.order.dao.model.NationalChangeOrder;
 import com.apin.qunar.order.dao.model.NationalOrder;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailParam;
@@ -114,6 +115,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                         result = nationalChangeOrderDao.updateStatusAndTicketNo(orderNo, payStatus, ticketNo);
                     }
                     nationalOrderDao.updateStatus(orderNo, payStatus);
+                    sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
                     break;
                 default://默认修改订单状态
                     nationalOrderDao.updateStatus(orderNo, payStatus);
@@ -166,7 +168,6 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         if (StringUtils.isNotBlank(order.getOrderRelationNo())) {
             nationalOrderDao.queryRelationOrderBy(order.getId(), order.getOrderNo(), order.getOrderRelationNo());
         }
-        String content = "";
         switch (orderStatusEnum) {
             case TICKET_OK://出票完成
                 sendTicketSms(order, passengers);
@@ -174,6 +175,9 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                 break;
             case REFUND_OK://退款
                 sendReturnSms(order, passengers);
+                break;
+            case CHANGE_OK://改签成功
+                sendChangeSms(order, passengers);
                 break;
         }
     }
@@ -222,6 +226,27 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单，商户也会
             content = String.format(SmsConstants.RETURN, passengerInfo.substring(1), order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo());
             smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
+        }
+    }
+
+    private void sendChangeSms(NationalOrder order, List<SearchOrderDetailResultVO.Passenger> passengers) {
+        String content = "";
+        String targetFlightInfo = "";
+        StringBuilder passengerInfo = new StringBuilder();
+        for (SearchOrderDetailResultVO.Passenger passenger : passengers) {
+            passengerInfo.append("，");
+            passengerInfo.append(passenger.getName());
+            passengerInfo.append(":");
+            passengerInfo.append(passenger.getTicketNo());
+
+            String passengerContent = passenger.getName() + ":" + passenger.getTicketNo();
+            NationalChangeOrder changeOrder = nationalChangeOrderDao.queryByParentOrderNo(order.getOrderNo());
+            if (changeOrder != null) {
+                targetFlightInfo = String.format("新订单【%s】%s %s从%s到%s", changeOrder.getOrderNo(), changeOrder.getDeptDate(), changeOrder.getDeptTime(), changeOrder.getDeptCity(), changeOrder.getArriCity());
+                content = String.format(SmsConstants.QUNAR_CHANGE, passengerContent, order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo(), targetFlightInfo);
+                smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.CHANGE);
+            }
+
         }
     }
 }

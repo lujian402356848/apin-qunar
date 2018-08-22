@@ -32,6 +32,5 @@ public class NtsSearchRefundChangeSignServiceImpl extends NtsApiService<NtsSearc
             return ApiResult.fail();
         }
         return apiResult;
-//        return new ApiResult<>(apiResult, BeanUtil.copyProperties(apiResult.getResult(), NtsSearchRefundChangeSignResultVO.class));
     }
 }

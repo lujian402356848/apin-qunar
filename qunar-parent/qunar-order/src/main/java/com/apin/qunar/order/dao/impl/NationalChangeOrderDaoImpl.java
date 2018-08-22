@@ -29,6 +29,13 @@ public class NationalChangeOrderDaoImpl {
         List<NationalChangeOrder> nationalChangeOrders = nationalChangeOrderMapper.selectByExample(example);
         return CollectionUtils.isEmpty(nationalChangeOrders) ? null : nationalChangeOrders.get(0);
     }
+    public NationalChangeOrder queryByParentOrderNo(String parentOrderNo) {
+        NationalChangeOrderExample example = new NationalChangeOrderExample();
+        NationalChangeOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andParentOrderNoEqualTo(parentOrderNo);
+        List<NationalChangeOrder> nationalChangeOrders = nationalChangeOrderMapper.selectByExample(example);
+        return CollectionUtils.isEmpty(nationalChangeOrders) ? null : nationalChangeOrders.get(0);
+    }
 
     public List<NationalChangeOrder> queryPageListBy(String merchantNo, String account,Integer status, String orderNo, Integer offset, Integer limit) {
         NationalChangeOrderExample example = new NationalChangeOrderExample();

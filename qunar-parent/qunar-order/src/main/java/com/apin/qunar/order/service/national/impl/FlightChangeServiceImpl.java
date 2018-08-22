@@ -11,6 +11,7 @@ import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalPassengerDaoImpl;
 import com.apin.qunar.order.dao.model.NationalFlightChange;
 import com.apin.qunar.order.dao.model.NationalOrder;
+import com.apin.qunar.order.dao.model.NationalPassenger;
 import com.apin.qunar.order.domain.national.flightChange.SearchFlightChangeVO;
 import com.apin.qunar.order.service.national.FlightChangeService;
 import lombok.extern.slf4j.Slf4j;
@@ -118,8 +119,8 @@ public class FlightChangeServiceImpl implements FlightChangeService {
         if (nationalOrder == null) {
             return result;
         }
-        List<String> mobileNos = nationalPassengerDao.queryMobileNoByOrderNo(flightChange.getOrderNo());
-        if (CollectionUtils.isEmpty(mobileNos)) {
+        List<NationalPassenger> passengers = nationalPassengerDao.queryByOrderNo(flightChange.getOrderNo());
+        if (CollectionUtils.isEmpty(passengers)) {
             return result;
         }
         String content = "";
@@ -128,26 +129,34 @@ public class FlightChangeServiceImpl implements FlightChangeService {
         String dptArrTime = "";
         switch (flightChange.getChangeStatus()) {
             case "航班取消":
-                content = String.format(SmsConstants.FLIGHT_CANCEL, nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
-                result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CANCEL);
+                for (NationalPassenger passenger : passengers) {
+                    content = String.format(SmsConstants.FLIGHT_CANCEL, passenger.getName(), nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
+                    result = smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.FLIGHT_CANCEL);
+                }
                 break;
             case "航班取消有保护":
-                sourceFlight = String.format("%s %s从%s到%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
-                targetFlight = String.format("%s %s的%s航班", flightChange.getFolDptDate(), flightChange.getFolDptTime(), flightChange.getFolFlightNo());
-                dptArrTime = String.format("%s %s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
-                content = String.format(SmsConstants.FLIGHT_CANCEL_PROTECT, sourceFlight, targetFlight, dptArrTime);
-                result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CANCEL_PROTECT);
+                for (NationalPassenger passenger : passengers) {
+                    sourceFlight = String.format("您【%s】预定的%s %s从%s到%s的%s航班", passenger.getName(), nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
+                    targetFlight = String.format("%s %s的%s航班", flightChange.getFolDptDate(), flightChange.getFolDptTime(), flightChange.getFolFlightNo());
+                    dptArrTime = String.format("%s %s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
+                    content = String.format(SmsConstants.FLIGHT_CANCEL_PROTECT, sourceFlight, targetFlight, dptArrTime);
+                    result = smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.FLIGHT_CANCEL_PROTECT);
+                }
                 break;
             case "取消后恢复":
-                content = String.format(SmsConstants.FLIGHT_RECOVERY, nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
-                result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_RECOVERY);
+                for (NationalPassenger passenger : passengers) {
+                    content = String.format(SmsConstants.FLIGHT_RECOVERY, passenger.getName(), nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
+                    result = smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.FLIGHT_RECOVERY);
+                }
                 break;
             case "航班变更":
-                sourceFlight = String.format("%s %s从%s到%s的%s航班", nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
-                targetFlight = String.format("%s %s的%s航班", flightChange.getFolDptDate(), flightChange.getFolDptTime(), flightChange.getFolFlightNo());
-                dptArrTime = String.format("%s-%s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
-                content = String.format(SmsConstants.FLIGHT_CHANGE, sourceFlight, targetFlight, dptArrTime);
-                result = smsService.sendSms(StringUtils.join(mobileNos, ","), content, SmsSendTypeEnum.FLIGHT_CHANGE);
+                for (NationalPassenger passenger : passengers) {
+                    sourceFlight = String.format("您【%s】预定的%s %s从%s到%s的%s航班", passenger.getName(), nationalOrder.getDeptDate(), nationalOrder.getDeptTime(), nationalOrder.getDeptCity(), nationalOrder.getArriCity(), nationalOrder.getFlightNum());
+                    targetFlight = String.format("%s %s的%s航班", flightChange.getFolDptDate(), flightChange.getFolDptTime(), flightChange.getFolFlightNo());
+                    dptArrTime = String.format("%s-%s", flightChange.getFolDptTime(), flightChange.getFolArrTime());
+                    content = String.format(SmsConstants.FLIGHT_CHANGE, sourceFlight, targetFlight, dptArrTime);
+                    result = smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.FLIGHT_CHANGE);
+                }
                 break;
         }
         return result;

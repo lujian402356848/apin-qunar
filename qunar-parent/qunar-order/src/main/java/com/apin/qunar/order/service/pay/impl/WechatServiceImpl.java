@@ -286,7 +286,8 @@ public class WechatServiceImpl implements WechatService {
             }
         }
         if (!result.isSuccess()) {
-            smsService.sendSms(smsConfig.getMobileNos(), result.getDesc(), SmsSendTypeEnum.QUNAER_PAY_FAIL_NOTIFY);
+            String content = StringUtils.isBlank(result.getDesc()) ? String.format("微信支付成功，但去哪儿支付失败，订单号:%s，订单金额:%s", wechatPay.getOrderNo(), wechatPay.getPayAmount()) : result.getDesc();
+            smsService.sendSms(smsConfig.getMobileNos(), content, SmsSendTypeEnum.QUNAER_PAY_FAIL_NOTIFY);
             if (wechatPay.getHasInlandOrder() == OrderCountryEnum.internal.getStatus()) {
                 payFailOrderService.createOrder(wechatPay.getOrderNo(), PayChannelEnum.WECHAT);
             } else {

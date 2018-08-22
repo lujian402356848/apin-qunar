@@ -257,7 +257,8 @@ public class AlipayServiceImpl implements AlipayService {
             }
         }
         if (!result.isSuccess()) {
-            smsService.sendSms(smsConfig.getMobileNos(), result.getDesc(), SmsSendTypeEnum.QUNAER_PAY_FAIL_NOTIFY);
+            String content = StringUtils.isBlank(result.getDesc()) ? String.format("支付宝支付成功，但去哪儿支付失败，订单号:%s，订单金额:%s", aliPay.getOrderNo(), aliPay.getPayAmount()) : result.getDesc();
+            smsService.sendSms(smsConfig.getMobileNos(), content, SmsSendTypeEnum.QUNAER_PAY_FAIL_NOTIFY);
             if (aliPay.getHasInlandOrder() == OrderCountryEnum.internal.getStatus()) {
                 payFailOrderService.createOrder(aliPay.getOrderNo(), PayChannelEnum.ALIPAY);
             } else {
