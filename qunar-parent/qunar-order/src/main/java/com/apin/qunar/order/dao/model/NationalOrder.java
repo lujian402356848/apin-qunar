@@ -187,6 +187,11 @@ public class NationalOrder implements Serializable {
     private String payOrderId;
 
     /**
+     * 支付类型(0:内部支付,1:支付宝,2:微信)
+     */
+    private Integer payType;
+
+    /**
      * 支付金额
      */
     private Integer payAmount;
@@ -743,6 +748,20 @@ public class NationalOrder implements Serializable {
      */
     public void setPayOrderId(String payOrderId) {
         this.payOrderId = payOrderId == null ? null : payOrderId.trim();
+    }
+
+    /**
+     * @return 支付类型(0:内部支付,1:支付宝,2:微信)
+     */
+    public Integer getPayType() {
+        return payType;
+    }
+
+    /**
+     * @param payType 支付类型(0:内部支付,1:支付宝,2:微信)
+     */
+    public void setPayType(Integer payType) {
+        this.payType = payType;
     }
 
     /**
