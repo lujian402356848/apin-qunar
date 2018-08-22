@@ -35,7 +35,7 @@ public class NationalFlightChangeDaoImpl {
         NationalFlightChangeExample example = new NationalFlightChangeExample();
         NationalFlightChangeExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(orderNo)) {
-            criteria.andMerchantNoEqualTo(orderNo);
+            criteria.andOrderNoEqualTo(orderNo);
         }
         List<NationalFlightChange> flightChanges = nationalFlightChangeMapper.selectByExample(example);
         return CollectionUtils.isEmpty(flightChanges) ? null : flightChanges.get(0);
