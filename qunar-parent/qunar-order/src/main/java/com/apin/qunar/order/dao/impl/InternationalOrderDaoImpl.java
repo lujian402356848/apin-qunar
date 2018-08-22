@@ -55,7 +55,7 @@ public class InternationalOrderDaoImpl {
         criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
         example.setMysqlOffset(offset);
         example.setMysqlLength(limit);
-        example.setOrderByClause("insert_time desc");
+        example.setOrderByClause("update_time desc");
         return internationalOrderMapper.selectByExample(example);
     }
 
