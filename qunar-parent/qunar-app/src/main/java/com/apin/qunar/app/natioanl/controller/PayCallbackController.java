@@ -43,7 +43,6 @@ public class PayCallbackController {
             PayStatusCallbackData callbackData = getCallbackData(payStatusCallbackRequest.getData());
             if (!validateSign(payStatusCallbackRequest)) {
                 log.error("国内订单状态回调签名验证不通过,request:{}",JSON.toJSON(callbackData));
-                return;
             }
             if (callbackData != null) {
                 log.info("国内订单状态回调,解析后:{}", JSON.toJSON(callbackData));
@@ -80,7 +79,7 @@ public class PayCallbackController {
         List<String> requestParams  = getSortedList(payStatusCallbackRequest);
         Collections.sort(requestParams);
         String newSign = Md5Util.encrypt(getSignData(requestParams));
-        if (newSign != null && !newSign.equalsIgnoreCase(payStatusCallbackRequest.getSign())) {
+        if (StringUtils.isBlank(newSign) || !newSign.equalsIgnoreCase(payStatusCallbackRequest.getSign())) {
             return result;
         }
         result = true;

@@ -44,8 +44,7 @@ public class NtsPayCallbackController {
         try {
             PayStatusCallbackData callbackData = getCallbackData(request.getData());
             if(!validateSign(request)) {
-                log.info("国际订单状态回调验证签名不通过:{}", JSON.toJSON(request));
-                return;
+                log.error("国际订单状态回调验证签名不通过:{}", JSON.toJSON(request));
             }
             if (callbackData != null) {
                 log.info("国际订单状态回调,解析后:{}", JSON.toJSON(callbackData));
@@ -82,7 +81,7 @@ public class NtsPayCallbackController {
         List<String> list = getSortedList(request);
         Collections.sort(list);
         String newSign = Md5Util.encrypt(getSignData(list));
-        if (newSign != null && !newSign.equalsIgnoreCase(request.getSign())) {
+        if (StringUtils.isBlank(newSign) || !newSign.equalsIgnoreCase(request.getSign())) {
             return result;
         }
         result = true;
