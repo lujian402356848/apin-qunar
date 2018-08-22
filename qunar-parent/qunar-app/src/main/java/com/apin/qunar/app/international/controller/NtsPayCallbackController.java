@@ -2,10 +2,14 @@ package com.apin.qunar.app.international.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.apin.qunar.app.natioanl.request.PayStatusCallbackRequest;
+import com.apin.qunar.common.utils.Md5Util;
 import com.apin.qunar.order.service.international.NtsUpdateOrderService;
+import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @outhor lujian
@@ -24,6 +30,8 @@ import java.util.Base64;
 @RestController
 @RequestMapping("/qunar")
 public class NtsPayCallbackController {
+    @Value("${qunar.international.key}")
+    private String key;
     @Autowired
     private NtsUpdateOrderService ntsUpdateOrderService;
 
@@ -35,6 +43,9 @@ public class NtsPayCallbackController {
         }
         try {
             PayStatusCallbackData callbackData = getCallbackData(request.getData());
+            if(!validateSign(request)) {
+                log.error("国际订单状态回调验证签名不通过:{}", JSON.toJSON(request));
+            }
             if (callbackData != null) {
                 log.info("国际订单状态回调,解析后:{}", JSON.toJSON(callbackData));
                 ntsUpdateOrderService.updateStatus(callbackData.getOrderNo(), Integer.parseInt(callbackData.getToStatus()));
@@ -60,5 +71,43 @@ public class NtsPayCallbackController {
         private String orderNo;
         private String fromStatus;
         private String toStatus;
+    }
+
+    private boolean validateSign(PayStatusCallbackRequest request){
+        boolean result = false;
+        if(StringUtils.isBlank(request.getSign())){
+            return result;
+        }
+        List<String> list = getSortedList(request);
+        Collections.sort(list);
+        String newSign = Md5Util.encrypt(getSignData(list));
+        if (StringUtils.isBlank(newSign) || !newSign.equalsIgnoreCase(request.getSign())) {
+            return result;
+        }
+        result = true;
+        return result;
+    }
+
+    private List<String> getSortedList(PayStatusCallbackRequest request){
+        List<String> list = null;
+        try{
+            list = Lists.newArrayList("data="+request.getData(),
+                    "tag="+request.getTag(),
+                    "createTime="+request.getCreateTime(),
+                    "key="+key);
+        }catch (Exception e) {
+            list.clear();
+            log.error("设置SortedList异常,request:{}", request, e);
+        }
+        return list;
+    }
+
+    private String getSignData(List<String> lists){
+        StringBuffer stringBuffer = new StringBuffer();
+        for (String list:
+             lists) {
+            stringBuffer.append(list);
+        }
+        return stringBuffer.toString();
     }
 }
