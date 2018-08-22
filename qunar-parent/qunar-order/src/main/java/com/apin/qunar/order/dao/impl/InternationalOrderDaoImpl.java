@@ -5,6 +5,7 @@ import com.apin.qunar.order.dao.mapper.InternationalOrderExtMapper;
 import com.apin.qunar.order.dao.mapper.InternationalOrderMapper;
 import com.apin.qunar.order.dao.model.InternationalOrder;
 import com.apin.qunar.order.dao.model.InternationalOrderExample;
+import com.apin.qunar.order.dao.model.NationalOrder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,22 @@ public class InternationalOrderDaoImpl {
     public int queryTotalAmountBy(String account, List<Integer> payStatusList, Date startTime, Date endTime) {
         String payStatusStr = StringUtils.join(payStatusList, ",");
         return internationalOrderExtMapper.queryTotalAmountBy(account, payStatusStr, startTime, endTime);
+    }
+
+    public List<InternationalOrder> queryPageListBy(String account, Integer status, Integer offset, Integer limit) {
+        InternationalOrderExample example = new InternationalOrderExample();
+        InternationalOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
+        }
+        criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
+        example.setMysqlOffset(offset);
+        example.setMysqlLength(limit);
+        example.setOrderByClause("insert_time desc");
+        return internationalOrderMapper.selectByExample(example);
     }
 
     public List<InternationalOrder> queryPageListBy(String merchantNo, String account, Integer status, String orderNo, Integer offset, Integer limit) {

@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.apin.qunar.app.common.constant.AppConstants;
 import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
+import com.apin.qunar.app.natioanl.request.CancelRemoveOrderRequest;
 import com.apin.qunar.app.natioanl.request.RemoveOrderRequest;
 import com.apin.qunar.basic.domain.ExecuteResult;
 import com.apin.qunar.common.enums.SysReturnCode;
-import com.apin.qunar.order.service.national.RemoveOrderService;
+import com.apin.qunar.order.service.national.UpdateOrderStatusService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +22,9 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping((AppConstants.ROOT_URL))
-public class RemoveOrderController extends BaseController {
+public class UpdateOrderStatusController extends BaseController {
     @Resource
-    private RemoveOrderService removeOrderService;
+    private UpdateOrderStatusService updateOrderStatusService;
 
     @PostMapping(value = "/order/remove")
     public GeneralResultMap remove(@RequestBody @Valid RemoveOrderRequest request, BindingResult bindingResult) {
@@ -33,7 +34,7 @@ public class RemoveOrderController extends BaseController {
             return generalResultMap;
         }
         try {
-            ExecuteResult executeResult = removeOrderService.remove(request.getOrderNo(), request.getAccount());
+            ExecuteResult executeResult = updateOrderStatusService.remove(request.getOrderNo(), request.getAccount());
             if (executeResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC);
             } else {
@@ -42,6 +43,27 @@ public class RemoveOrderController extends BaseController {
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
             log.error("删除国内订单异常,request:{}", request, e);
+        }
+        return generalResultMap;
+    }
+
+    @PostMapping(value = "/order/cancelRemove")
+    public GeneralResultMap cancelRemove(@RequestBody @Valid CancelRemoveOrderRequest request, BindingResult bindingResult) {
+        GeneralResultMap generalResultMap = validateCommonParam(request);
+        if (!generalResultMap.isSuccess()) {
+            log.warn("/order/cancelRemove接口基础验证不通过，request:{}", JSON.toJSON(request));
+            return generalResultMap;
+        }
+        try {
+            ExecuteResult executeResult = updateOrderStatusService.cancelRemove(request.getOrderNo(), request.getAccount());
+            if (executeResult.isSuccess()) {
+                generalResultMap.setResult(SysReturnCode.SUCC);
+            } else {
+                generalResultMap.setResult(SysReturnCode.FAIL, executeResult.getDesc());
+            }
+        } catch (Exception e) {
+            generalResultMap.setResult(SysReturnCode.FAIL);
+            log.error("恢复国内订单异常,request:{}", request, e);
         }
         return generalResultMap;
     }

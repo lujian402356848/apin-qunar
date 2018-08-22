@@ -64,6 +64,22 @@ public class NationalOrderDaoImpl {
         return nationalOrderMapper.selectByExample(example);
     }
 
+    public List<NationalOrder> queryPageListBy(String account, Integer status, Integer offset, Integer limit) {
+        NationalOrderExample example = new NationalOrderExample();
+        NationalOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
+        }
+        criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
+        example.setMysqlOffset(offset);
+        example.setMysqlLength(limit);
+        example.setOrderByClause("insert_time desc");
+        return nationalOrderMapper.selectByExample(example);
+    }
+
     public List<NationalOrder> queryPageListBy(String merchantNo, Integer status, List<String> orderNos, Integer offset, Integer limit) {
         NationalOrderExample example = new NationalOrderExample();
         NationalOrderExample.Criteria criteria = example.createCriteria();
