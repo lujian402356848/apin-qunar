@@ -78,6 +78,7 @@ public class SearchOrderDetailResultVO {
         private String cardType;
         private String insuranceNo;
         private String ticketNo;
+        private String originalTicketNo;
         private int gender;//ui需要
         private String mobileNo;//ui需要
         private String birthday;//出生年月(yyyy-MM-dd) ui需要
