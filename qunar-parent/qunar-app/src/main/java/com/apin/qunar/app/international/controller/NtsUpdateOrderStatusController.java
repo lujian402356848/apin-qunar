@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.apin.qunar.app.common.constant.AppConstants;
 import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
+import com.apin.qunar.app.international.request.NtsCancelRemoveOrderRequest;
 import com.apin.qunar.app.international.request.NtsRemoveOrderRequest;
 import com.apin.qunar.basic.domain.ExecuteResult;
 import com.apin.qunar.common.enums.SysReturnCode;
-import com.apin.qunar.order.service.international.NtsRemoveOrderService;
+import com.apin.qunar.order.service.international.NtsUpdateOrderStatusService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +22,9 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping((AppConstants.ROOT_URL))
-public class NtsRemoveOrderController extends BaseController {
+public class NtsUpdateOrderStatusController extends BaseController {
     @Resource
-    private NtsRemoveOrderService ntsRemoveOrderService;
+    private NtsUpdateOrderStatusService ntsUpdateOrderStatusService;
 
     @PostMapping(value = "/ntsOrder/remove")
     public GeneralResultMap remove(@RequestBody @Valid NtsRemoveOrderRequest request, BindingResult bindingResult) {
@@ -33,7 +34,7 @@ public class NtsRemoveOrderController extends BaseController {
             return generalResultMap;
         }
         try {
-            ExecuteResult executeResult = ntsRemoveOrderService.remove(request.getOrderNo(), request.getAccount());
+            ExecuteResult executeResult = ntsUpdateOrderStatusService.remove(request.getOrderNo(), request.getAccount());
             if (executeResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC);
             } else {
@@ -46,4 +47,24 @@ public class NtsRemoveOrderController extends BaseController {
         return generalResultMap;
     }
 
+    @PostMapping(value = "/ntsOrder/cancelRemove")
+    public GeneralResultMap cancelRemove(@RequestBody @Valid NtsCancelRemoveOrderRequest request, BindingResult bindingResult) {
+        GeneralResultMap generalResultMap = validateCommonParam(request);
+        if (!generalResultMap.isSuccess()) {
+            log.warn("/ntsOrder/cancelRemove接口基础验证不通过，request:{}", JSON.toJSON(request));
+            return generalResultMap;
+        }
+        try {
+            ExecuteResult executeResult = ntsUpdateOrderStatusService.cancelRemove(request.getOrderNo(), request.getAccount());
+            if (executeResult.isSuccess()) {
+                generalResultMap.setResult(SysReturnCode.SUCC);
+            } else {
+                generalResultMap.setResult(SysReturnCode.FAIL, executeResult.getDesc());
+            }
+        } catch (Exception e) {
+            generalResultMap.setResult(SysReturnCode.FAIL);
+            log.error("恢复国际订单异常,request:{}", request, e);
+        }
+        return generalResultMap;
+    }
 }

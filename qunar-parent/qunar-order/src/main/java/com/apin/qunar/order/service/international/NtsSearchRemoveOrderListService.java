@@ -4,10 +4,6 @@ import com.apin.qunar.order.domain.international.searchOrderList.InternationalOr
 
 import java.util.List;
 
-/**
- * @outhor lujian
- * @create 2018-07-27 6:45
- */
-public interface NtsSearchOrderListService {
+public interface NtsSearchRemoveOrderListService {
     List<InternationalOrderVO> queryPageList(String account, Integer status, Integer offset, Integer limit);
 }
