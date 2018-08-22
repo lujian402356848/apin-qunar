@@ -8,8 +8,8 @@ import com.apin.qunar.order.dao.model.NationalChangeOrder;
 import com.apin.qunar.order.dao.model.NationalChangePassenger;
 import com.apin.qunar.order.dao.model.NationalOrder;
 import com.apin.qunar.order.domain.common.ApiResult;
+import com.apin.qunar.order.domain.national.searchChangeOrderDetail.SearchChangeOrderDetailResultVO;
 import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailParam;
-import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailResultVO;
 import com.apin.qunar.order.service.national.SearchChangeOrderDetailService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class SearchChangeOrderDetailServiceImpl extends ApiService<SearchOrderDetailParam, ApiResult<SearchOrderDetailResultVO>> implements SearchChangeOrderDetailService {
+public class SearchChangeOrderDetailServiceImpl extends ApiService<SearchOrderDetailParam, ApiResult<SearchChangeOrderDetailResultVO>> implements SearchChangeOrderDetailService {
     @Autowired
     private NationalChangeOrderDaoImpl nationalChangeOrderDao;
     @Autowired
@@ -39,14 +39,14 @@ public class SearchChangeOrderDetailServiceImpl extends ApiService<SearchOrderDe
     }
 
     @Override
-    protected TypeReference<ApiResult<SearchOrderDetailResultVO>> getTypeReference() {
-        return new TypeReference<ApiResult<SearchOrderDetailResultVO>>() {
+    protected TypeReference<ApiResult<SearchChangeOrderDetailResultVO>> getTypeReference() {
+        return new TypeReference<ApiResult<SearchChangeOrderDetailResultVO>>() {
         };
     }
 
     @Override
-    public ApiResult<SearchOrderDetailResultVO> searchOrderDetail(final SearchOrderDetailParam searchOrderDetailParam) {
-        ApiResult<SearchOrderDetailResultVO> apiResult = execute(searchOrderDetailParam);
+    public ApiResult<SearchChangeOrderDetailResultVO> searchOrderDetail(final SearchOrderDetailParam searchOrderDetailParam) {
+        ApiResult<SearchChangeOrderDetailResultVO> apiResult = execute(searchOrderDetailParam);
         if (apiResult == null) {
             return ApiResult.fail();
         }
@@ -59,7 +59,7 @@ public class SearchChangeOrderDetailServiceImpl extends ApiService<SearchOrderDe
         return apiResult;
     }
 
-    private void setSearchOrderDetailResult(String orderNo, SearchOrderDetailResultVO searchOrderDetailResult) {
+    private void setSearchOrderDetailResult(String orderNo, SearchChangeOrderDetailResultVO searchOrderDetailResult) {
         if (searchOrderDetailResult == null || CollectionUtils.isEmpty(searchOrderDetailResult.getFlightInfo())) {
             return;
         }
@@ -67,15 +67,15 @@ public class SearchChangeOrderDetailServiceImpl extends ApiService<SearchOrderDe
         String parentOrderNo = nationalChangeOrder.getParentOrderNo();
         NationalOrder nationalOrder = nationalOrderDao.queryByOrderNo(parentOrderNo);
         if (nationalChangeOrder != null) {
-            SearchOrderDetailResultVO.OrderDetail orderDetail = searchOrderDetailResult.getDetail();
+            SearchChangeOrderDetailResultVO.OrderDetail orderDetail = searchOrderDetailResult.getDetail();
             if (orderDetail != null) {
                 orderDetail.setOrderId(nationalChangeOrder.getId());
             }
-            List<SearchOrderDetailResultVO.FlightInfo> flightInfos = searchOrderDetailResult.getFlightInfo();
+            List<SearchChangeOrderDetailResultVO.FlightInfo> flightInfos = searchOrderDetailResult.getFlightInfo();
             if (CollectionUtils.isEmpty(flightInfos)) {
                 return;
             }
-            SearchOrderDetailResultVO.FlightInfo flightInfo = flightInfos.get(0);
+            SearchChangeOrderDetailResultVO.FlightInfo flightInfo = flightInfos.get(0);
             flightInfo.setActFlightNum(nationalChangeOrder.getActFlightNum());
             flightInfo.setFlightTime(nationalChangeOrder.getFlightTime());
             flightInfo.setCarrierCode(nationalChangeOrder.getCarrierCode());
@@ -107,8 +107,8 @@ public class SearchChangeOrderDetailServiceImpl extends ApiService<SearchOrderDe
 
         String[] ticket = ticketNos.split(",");
         List<NationalChangePassenger> nationalChangePassengers = nationalChangePassengerDao.queryByOrderNo(orderNo);
-        List<SearchOrderDetailResultVO.Passenger> passengers = searchOrderDetailResult.getPassengers();
-        for (SearchOrderDetailResultVO.Passenger passenger : passengers) {
+        List<SearchChangeOrderDetailResultVO.Passenger> passengers = searchOrderDetailResult.getPassengers();
+        for (SearchChangeOrderDetailResultVO.Passenger passenger : passengers) {
             List<NationalChangePassenger> searchPassengers = nationalChangePassengers.stream().filter(p -> p.getName().equals(passenger.getName())).collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(searchPassengers)) {
                 passenger.setBirthday(searchPassengers.get(0).getBirthday());
@@ -122,7 +122,7 @@ public class SearchChangeOrderDetailServiceImpl extends ApiService<SearchOrderDe
         }
     }
 
-    private SearchOrderDetailResultVO buildTgqMsg(SearchOrderDetailResultVO searchOrderDetailResultVO) {
+    private SearchChangeOrderDetailResultVO buildTgqMsg(SearchChangeOrderDetailResultVO searchOrderDetailResultVO) {
         if (StringUtils.isNotBlank(searchOrderDetailResultVO.getOther().getTgqMsg())) {
             searchOrderDetailResultVO.getOther().setTgqMsg(searchOrderDetailResultVO.getOther().getTgqMsg().replaceAll("<br />", " "));
         }

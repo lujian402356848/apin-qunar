@@ -8,8 +8,8 @@ import com.apin.qunar.app.common.domain.GeneralResultMap;
 import com.apin.qunar.app.natioanl.request.SearchOrderDetailRequest;
 import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.order.domain.common.ApiResult;
+import com.apin.qunar.order.domain.national.searchChangeOrderDetail.SearchChangeOrderDetailResultVO;
 import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailParam;
-import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailResultVO;
 import com.apin.qunar.order.service.national.SearchChangeOrderDetailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class SearchChangeOrderDetailController extends BaseController {
             return generalResultMap;
         }
         try {
-            ApiResult<SearchOrderDetailResultVO> apiResult = searchChangeOrderDetailService.searchOrderDetail(buildSearchOrderDetailParam(request));
+            ApiResult<SearchChangeOrderDetailResultVO> apiResult = searchChangeOrderDetailService.searchOrderDetail(buildSearchOrderDetailParam(request));
             if (apiResult.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC, apiResult.getResult());
             } else {
