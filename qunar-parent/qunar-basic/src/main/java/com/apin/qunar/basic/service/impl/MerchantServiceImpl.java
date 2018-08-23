@@ -29,7 +29,10 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -273,14 +276,6 @@ public class MerchantServiceImpl implements MerchantService {
      * @return
      */
     private String buildSecretKey() {
-        final int keyLength = 32;
-        final String sourceData = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Random random = new Random();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < keyLength; i++) {
-            int number = random.nextInt(sourceData.length());
-            sb.append(sourceData.charAt(number));
-        }
-        return sb.toString();
+        return "m2oBIMM4m6ui4aBLMF7G2fA8TfrK1y7y";
     }
 }
