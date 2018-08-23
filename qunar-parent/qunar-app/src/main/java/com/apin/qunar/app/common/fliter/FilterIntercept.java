@@ -36,7 +36,7 @@ public class FilterIntercept implements Filter {
     @Resource
     private MerchantService merchantService;
 
-    private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("/qufei/user/register", "/qufei/user/login", "/qufei/alipay/payCallback", "/qufei/wechatPay/payCallback", "/qufei/order/statusCallback", "/qufei/ntsOrder/statusCallback","/api/pay/callback","/api/refund/callback")));
+    private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("/qufei/user/register", "/qufei/user/login", "/qufei/alipay/payCallback", "/qufei/wechatPay/payCallback", "/qufei/order/statusCallback", "/qufei/ntsOrder/statusCallback", "/api/pay/callback", "/api/refund/callback")));
 
     /**
      * description：将用户的请求进行拦截<url></>
@@ -59,31 +59,28 @@ public class FilterIntercept implements Filter {
             return;
         }
         String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
-        boolean allowedPath = ALLOWED_PATHS.contains(path);
-
-
+        if (ALLOWED_PATHS.contains(path)) {
+            filterChain.doFilter(request, servletResponse);
+            return;
+        }
         //测试环境不用加密标识符号
         String defaultHead = request.getHeader("apiTest");
         String defaultValue = "testApi";
         if (StringUtils.isNotEmpty(defaultHead) && defaultHead.equalsIgnoreCase(defaultValue)) {
             filterChain.doFilter(request, servletResponse);
             return;
-        } else if (allowedPath) {
-            filterChain.doFilter(request, servletResponse);
-            return;
         }
-        log.info("客户端的主机名{},客户端的IP地址{}", request.getRemoteHost(), request.getRemoteAddr());
         //商户号校验
         String merchantNo = request.getHeader("MerchantNo");
         if (StringUtils.isBlank(merchantNo)) {
-            log.error("用户的商户号不能为空");
+            log.error("用户的商户号不能为空,主机名:{},ip:{},path:{}", request.getRemoteHost(), request.getRemoteAddr(), path);
             doFilterReturning(servletResponse);
             return;
         }
         //根据商户号去用数据库找到对应的秘钥
         Merchant merchant = merchantService.queryByMerchantNo(merchantNo);
         if (merchant == null || StringUtils.isBlank(merchant.getSecretKey())) {
-            log.error("商户号或秘钥不存在，请核实,merchantNo:{}", merchantNo);
+            log.error("商户号或秘钥不存在，请核实,merchantNo:{},主机名:{},ip:{},path:{}", merchantNo, request.getRemoteHost(), request.getRemoteAddr(), path);
             doFilterReturning(servletResponse);
             return;
         }
@@ -92,7 +89,7 @@ public class FilterIntercept implements Filter {
         try {
             requestWrapper = new BodyReaderHttpServletRequestWrapper(merchant.getSecretKey(), request);
         } catch (Exception e) {
-            log.error("从ServletRequest读取数据异常", e);
+            log.error("从ServletRequest读取数据异常,主机名{},IP:{},path:{}", request.getRemoteHost(), request.getRemoteAddr(), path, e);
             doFilterReturning(servletResponse);
             return;
         }
