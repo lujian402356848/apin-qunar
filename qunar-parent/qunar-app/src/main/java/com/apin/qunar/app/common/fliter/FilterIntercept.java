@@ -16,6 +16,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO: 拦截器将post请求加密之后的参数拦截在解密.
@@ -31,6 +35,8 @@ public class FilterIntercept implements Filter {
 
     @Resource
     private MerchantService merchantService;
+
+    private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("/user/register", "/user/login")));
 
     /**
      * description：将用户的请求进行拦截<url></>
@@ -52,10 +58,17 @@ public class FilterIntercept implements Filter {
             doFilterReturning(servletResponse);
             return;
         }
+        String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
+        boolean allowedPath = ALLOWED_PATHS.contains(path);
+
+
         //测试环境不用加密标识符号
         String defaultHead = request.getHeader("apiTest");
         String defaultValue = "testApi";
         if (StringUtils.isNotEmpty(defaultHead) && defaultHead.equalsIgnoreCase(defaultValue)) {
+            filterChain.doFilter(request, servletResponse);
+            return;
+        } else if (allowedPath) {
             filterChain.doFilter(request, servletResponse);
             return;
         }

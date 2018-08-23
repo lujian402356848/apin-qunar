@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.security.KeyStore;
 
 /**
@@ -32,12 +33,9 @@ public class CertUtil {
      * 加载证书
      */
     public static SSLConnectionSocketFactory initCert() throws Exception {
-        String filePath = System.getProperty("user.dir");//获取当前项目的路径
-        log.info("user.dir=" + filePath);
-        FileInputStream instream = null;
         try {
             KeyStore keyStore = KeyStore.getInstance("pkcs12");
-            instream = new FileInputStream(new File(filePath + weChatPayConfig.getCertPath()));
+            InputStream instream =CertUtil.class.getResourceAsStream("/cert/apiclient_cert.p12");
             keyStore.load(instream, weChatPayConfig.getMerchantId().toCharArray());
             if (null != instream) {
                 instream.close();
