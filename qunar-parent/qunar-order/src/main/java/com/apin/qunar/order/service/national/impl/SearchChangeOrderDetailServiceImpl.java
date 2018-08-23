@@ -64,6 +64,9 @@ public class SearchChangeOrderDetailServiceImpl extends ApiService<SearchOrderDe
             return;
         }
         NationalChangeOrder nationalChangeOrder = nationalChangeOrderDao.queryByOrderNo(orderNo);
+        if(nationalChangeOrder == null) {
+            return;
+        }
         String parentOrderNo = nationalChangeOrder.getParentOrderNo();
         NationalOrder nationalOrder = nationalOrderDao.queryByOrderNo(parentOrderNo);
         if (nationalChangeOrder != null) {
