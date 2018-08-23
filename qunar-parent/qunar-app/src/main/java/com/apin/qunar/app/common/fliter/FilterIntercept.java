@@ -36,7 +36,7 @@ public class FilterIntercept implements Filter {
     @Resource
     private MerchantService merchantService;
 
-    private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("/qufei/user/register", "/qufei/user/login", "/qufei/alipay/payCallback", "/qufei/wechatPay/payCallback", "/qunar/order/statusCallback", "/qunar/ntsOrder/statusCallback", "/api/pay/callback", "/api/refund/callback")));
+    private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("/qufei/user/register", "/qufei/user/login", "/qufei/alipay/payCallback", "/qufei/wechatPay/payCallback", "/qunar/order/statusCallback", "/qunar/ntsOrder/statusCallback", "/api/pay/callback", "/api/refund/callback", "/qufei/flightChange/callback", "/qufei/ntsFlightChange/List")));
 
     /**
      * description：将用户的请求进行拦截<url></>
