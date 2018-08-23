@@ -42,7 +42,8 @@ public class PayCallbackController {
         try {
             PayStatusCallbackData callbackData = getCallbackData(payStatusCallbackRequest.getData());
             if (!validateSign(payStatusCallbackRequest)) {
-                log.error("国内订单状态回调签名验证不通过,request:{}",JSON.toJSON(callbackData));
+                log.error("国内订单状态回调签名验证不通过,request:{}", JSON.toJSON(callbackData));
+                return;
             }
             if (callbackData != null) {
                 log.info("国内订单状态回调,解析后:{}", JSON.toJSON(callbackData));
@@ -71,28 +72,23 @@ public class PayCallbackController {
     }
 
     private boolean validateSign(PayStatusCallbackRequest payStatusCallbackRequest) {
-
         boolean result = false;
         if (StringUtils.isBlank(payStatusCallbackRequest.getSign())) {
             return result;
         }
-        List<String> requestParams  = getSortedList(payStatusCallbackRequest);
+        List<String> requestParams = getSortedList(payStatusCallbackRequest);
         Collections.sort(requestParams);
         String newSign = Md5Util.encrypt(getSignData(requestParams));
         if (StringUtils.isBlank(newSign) || !newSign.equalsIgnoreCase(payStatusCallbackRequest.getSign())) {
             return result;
         }
-        result = true;
-        return result;
+        return true;
     }
 
     private List<String> getSortedList(PayStatusCallbackRequest payStatusCallbackRequest) {
         List<String> signParams = null;
         try {
-            signParams = Lists.newArrayList("data="+payStatusCallbackRequest.getData(),
-                    "tag="+payStatusCallbackRequest.getTag(),
-                    "createTime="+payStatusCallbackRequest.getCreateTime(),
-                    "key="+key);
+            signParams = Lists.newArrayList("data=" + payStatusCallbackRequest.getData(), "tag=" + payStatusCallbackRequest.getTag(), "createTime=" + payStatusCallbackRequest.getCreateTime(), "key=" + key);
         } catch (Exception e) {
             signParams.clear();
             log.error("设置SortedList异常,request:{}", payStatusCallbackRequest, e);
@@ -102,7 +98,7 @@ public class PayCallbackController {
 
     private String getSignData(final List<String> requestParams) {
         StringBuffer stringBuffer = new StringBuffer();
-        for (String request:requestParams) {
+        for (String request : requestParams) {
             stringBuffer.append(request);
         }
         return stringBuffer.toString();

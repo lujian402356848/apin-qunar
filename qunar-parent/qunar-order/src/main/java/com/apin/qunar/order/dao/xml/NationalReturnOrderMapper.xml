@@ -18,12 +18,11 @@
       <result column="dept_date" property="deptDate" jdbcType="VARCHAR" />
       <result column="dept_time" property="deptTime" jdbcType="VARCHAR" />
       <result column="arri_time" property="arriTime" jdbcType="VARCHAR" />
-      <result column="reteun_code" property="reteunCode" jdbcType="INTEGER" />
-      <result column="has_disabled" property="hasDisabled" jdbcType="INTEGER" />
-      <result column="disable_reason" property="disableReason" jdbcType="VARCHAR" />
+      <result column="return_code" property="returnCode" jdbcType="INTEGER" />
       <result column="return_status" property="returnStatus" jdbcType="INTEGER" />
-      <result column="return_time" property="returnTime" jdbcType="VARCHAR" />
       <result column="return_fee" property="returnFee" jdbcType="INTEGER" />
+      <result column="return_pay_type" property="returnPayType" jdbcType="INTEGER" />
+      <result column="return_pay_status" property="returnPayStatus" jdbcType="INTEGER" />
       <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
       <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
       <result column="contact_email" property="contactEmail" jdbcType="VARCHAR" />
@@ -92,8 +91,8 @@
     <sql id="NationalReturnOrderColumns" >
       id, merchant_no, parent_order_no, order_no, ticket_no, flight_num, act_flight_num, 
       carrier_code, carrier_name, dept_city, arri_city, dept_airport_name, arri_airport_name, 
-      dept_date, dept_time, arri_time, reteun_code, has_disabled, disable_reason, return_status, 
-      return_time, return_fee, contact_name, contact_mobile, contact_email, operator, insert_time, 
+      dept_date, dept_time, arri_time, return_code, return_status, return_fee, return_pay_type, 
+      return_pay_status, contact_name, contact_mobile, contact_email, operator, insert_time, 
       update_time
     </sql>
     <select id="selectByExample" resultMap="NationalReturnOrderResult" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrderExample" >
@@ -137,21 +136,21 @@
         act_flight_num, carrier_code, carrier_name, 
         dept_city, arri_city, dept_airport_name, 
         arri_airport_name, dept_date, dept_time, 
-        arri_time, reteun_code, has_disabled, 
-        disable_reason, return_status, return_time, 
-        return_fee, contact_name, contact_mobile, 
-        contact_email, operator, insert_time, 
-        update_time)
+        arri_time, return_code, return_status, 
+        return_fee, return_pay_type, return_pay_status, 
+        contact_name, contact_mobile, contact_email, 
+        operator, insert_time, update_time
+        )
       values (#{id,jdbcType=BIGINT}, #{merchantNo,jdbcType=CHAR}, #{parentOrderNo,jdbcType=VARCHAR}, 
         #{orderNo,jdbcType=VARCHAR}, #{ticketNo,jdbcType=VARCHAR}, #{flightNum,jdbcType=VARCHAR}, 
         #{actFlightNum,jdbcType=VARCHAR}, #{carrierCode,jdbcType=VARCHAR}, #{carrierName,jdbcType=VARCHAR}, 
         #{deptCity,jdbcType=VARCHAR}, #{arriCity,jdbcType=VARCHAR}, #{deptAirportName,jdbcType=VARCHAR}, 
         #{arriAirportName,jdbcType=VARCHAR}, #{deptDate,jdbcType=VARCHAR}, #{deptTime,jdbcType=VARCHAR}, 
-        #{arriTime,jdbcType=VARCHAR}, #{reteunCode,jdbcType=INTEGER}, #{hasDisabled,jdbcType=INTEGER}, 
-        #{disableReason,jdbcType=VARCHAR}, #{returnStatus,jdbcType=INTEGER}, #{returnTime,jdbcType=VARCHAR}, 
-        #{returnFee,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
-        #{contactEmail,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
-        #{updateTime,jdbcType=TIMESTAMP})
+        #{arriTime,jdbcType=VARCHAR}, #{returnCode,jdbcType=INTEGER}, #{returnStatus,jdbcType=INTEGER}, 
+        #{returnFee,jdbcType=INTEGER}, #{returnPayType,jdbcType=INTEGER}, #{returnPayStatus,jdbcType=INTEGER}, 
+        #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, 
+        #{operator,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.NationalReturnOrder" >
       insert into national_return_order
@@ -204,23 +203,20 @@
         <if test="arriTime != null" >
           arri_time,
         </if>
-        <if test="reteunCode != null" >
-          reteun_code,
-        </if>
-        <if test="hasDisabled != null" >
-          has_disabled,
-        </if>
-        <if test="disableReason != null" >
-          disable_reason,
+        <if test="returnCode != null" >
+          return_code,
         </if>
         <if test="returnStatus != null" >
           return_status,
         </if>
-        <if test="returnTime != null" >
-          return_time,
-        </if>
         <if test="returnFee != null" >
           return_fee,
+        </if>
+        <if test="returnPayType != null" >
+          return_pay_type,
+        </if>
+        <if test="returnPayStatus != null" >
+          return_pay_status,
         </if>
         <if test="contactName != null" >
           contact_name,
@@ -290,23 +286,20 @@
         <if test="arriTime != null" >
           #{arriTime,jdbcType=VARCHAR},
         </if>
-        <if test="reteunCode != null" >
-          #{reteunCode,jdbcType=INTEGER},
-        </if>
-        <if test="hasDisabled != null" >
-          #{hasDisabled,jdbcType=INTEGER},
-        </if>
-        <if test="disableReason != null" >
-          #{disableReason,jdbcType=VARCHAR},
+        <if test="returnCode != null" >
+          #{returnCode,jdbcType=INTEGER},
         </if>
         <if test="returnStatus != null" >
           #{returnStatus,jdbcType=INTEGER},
         </if>
-        <if test="returnTime != null" >
-          #{returnTime,jdbcType=VARCHAR},
-        </if>
         <if test="returnFee != null" >
           #{returnFee,jdbcType=INTEGER},
+        </if>
+        <if test="returnPayType != null" >
+          #{returnPayType,jdbcType=INTEGER},
+        </if>
+        <if test="returnPayStatus != null" >
+          #{returnPayStatus,jdbcType=INTEGER},
         </if>
         <if test="contactName != null" >
           #{contactName,jdbcType=VARCHAR},
@@ -385,23 +378,20 @@
         <if test="record.arriTime != null" >
           arri_time = #{record.arriTime,jdbcType=VARCHAR},
         </if>
-        <if test="record.reteunCode != null" >
-          reteun_code = #{record.reteunCode,jdbcType=INTEGER},
-        </if>
-        <if test="record.hasDisabled != null" >
-          has_disabled = #{record.hasDisabled,jdbcType=INTEGER},
-        </if>
-        <if test="record.disableReason != null" >
-          disable_reason = #{record.disableReason,jdbcType=VARCHAR},
+        <if test="record.returnCode != null" >
+          return_code = #{record.returnCode,jdbcType=INTEGER},
         </if>
         <if test="record.returnStatus != null" >
           return_status = #{record.returnStatus,jdbcType=INTEGER},
         </if>
-        <if test="record.returnTime != null" >
-          return_time = #{record.returnTime,jdbcType=VARCHAR},
-        </if>
         <if test="record.returnFee != null" >
           return_fee = #{record.returnFee,jdbcType=INTEGER},
+        </if>
+        <if test="record.returnPayType != null" >
+          return_pay_type = #{record.returnPayType,jdbcType=INTEGER},
+        </if>
+        <if test="record.returnPayStatus != null" >
+          return_pay_status = #{record.returnPayStatus,jdbcType=INTEGER},
         </if>
         <if test="record.contactName != null" >
           contact_name = #{record.contactName,jdbcType=VARCHAR},
@@ -444,12 +434,11 @@
         dept_date = #{record.deptDate,jdbcType=VARCHAR},
         dept_time = #{record.deptTime,jdbcType=VARCHAR},
         arri_time = #{record.arriTime,jdbcType=VARCHAR},
-        reteun_code = #{record.reteunCode,jdbcType=INTEGER},
-        has_disabled = #{record.hasDisabled,jdbcType=INTEGER},
-        disable_reason = #{record.disableReason,jdbcType=VARCHAR},
+        return_code = #{record.returnCode,jdbcType=INTEGER},
         return_status = #{record.returnStatus,jdbcType=INTEGER},
-        return_time = #{record.returnTime,jdbcType=VARCHAR},
         return_fee = #{record.returnFee,jdbcType=INTEGER},
+        return_pay_type = #{record.returnPayType,jdbcType=INTEGER},
+        return_pay_status = #{record.returnPayStatus,jdbcType=INTEGER},
         contact_name = #{record.contactName,jdbcType=VARCHAR},
         contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
         contact_email = #{record.contactEmail,jdbcType=VARCHAR},
@@ -508,23 +497,20 @@
         <if test="arriTime != null" >
           arri_time = #{arriTime,jdbcType=VARCHAR},
         </if>
-        <if test="reteunCode != null" >
-          reteun_code = #{reteunCode,jdbcType=INTEGER},
-        </if>
-        <if test="hasDisabled != null" >
-          has_disabled = #{hasDisabled,jdbcType=INTEGER},
-        </if>
-        <if test="disableReason != null" >
-          disable_reason = #{disableReason,jdbcType=VARCHAR},
+        <if test="returnCode != null" >
+          return_code = #{returnCode,jdbcType=INTEGER},
         </if>
         <if test="returnStatus != null" >
           return_status = #{returnStatus,jdbcType=INTEGER},
         </if>
-        <if test="returnTime != null" >
-          return_time = #{returnTime,jdbcType=VARCHAR},
-        </if>
         <if test="returnFee != null" >
           return_fee = #{returnFee,jdbcType=INTEGER},
+        </if>
+        <if test="returnPayType != null" >
+          return_pay_type = #{returnPayType,jdbcType=INTEGER},
+        </if>
+        <if test="returnPayStatus != null" >
+          return_pay_status = #{returnPayStatus,jdbcType=INTEGER},
         </if>
         <if test="contactName != null" >
           contact_name = #{contactName,jdbcType=VARCHAR},
@@ -564,12 +550,11 @@
         dept_date = #{deptDate,jdbcType=VARCHAR},
         dept_time = #{deptTime,jdbcType=VARCHAR},
         arri_time = #{arriTime,jdbcType=VARCHAR},
-        reteun_code = #{reteunCode,jdbcType=INTEGER},
-        has_disabled = #{hasDisabled,jdbcType=INTEGER},
-        disable_reason = #{disableReason,jdbcType=VARCHAR},
+        return_code = #{returnCode,jdbcType=INTEGER},
         return_status = #{returnStatus,jdbcType=INTEGER},
-        return_time = #{returnTime,jdbcType=VARCHAR},
         return_fee = #{returnFee,jdbcType=INTEGER},
+        return_pay_type = #{returnPayType,jdbcType=INTEGER},
+        return_pay_status = #{returnPayStatus,jdbcType=INTEGER},
         contact_name = #{contactName,jdbcType=VARCHAR},
         contact_mobile = #{contactMobile,jdbcType=VARCHAR},
         contact_email = #{contactEmail,jdbcType=VARCHAR},
