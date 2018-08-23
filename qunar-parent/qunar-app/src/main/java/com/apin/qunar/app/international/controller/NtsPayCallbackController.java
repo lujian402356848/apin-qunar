@@ -43,8 +43,9 @@ public class NtsPayCallbackController {
         }
         try {
             PayStatusCallbackData callbackData = getCallbackData(request.getData());
-            if(!validateSign(request)) {
+            if (!validateSign(request)) {
                 log.error("国际订单状态回调验证签名不通过:{}", JSON.toJSON(request));
+                return;
             }
             if (callbackData != null) {
                 log.info("国际订单状态回调,解析后:{}", JSON.toJSON(callbackData));
@@ -73,9 +74,9 @@ public class NtsPayCallbackController {
         private String toStatus;
     }
 
-    private boolean validateSign(PayStatusCallbackRequest request){
+    private boolean validateSign(PayStatusCallbackRequest request) {
         boolean result = false;
-        if(StringUtils.isBlank(request.getSign())){
+        if (StringUtils.isBlank(request.getSign())) {
             return result;
         }
         List<String> list = getSortedList(request);
@@ -88,24 +89,21 @@ public class NtsPayCallbackController {
         return result;
     }
 
-    private List<String> getSortedList(PayStatusCallbackRequest request){
+    private List<String> getSortedList(PayStatusCallbackRequest request) {
         List<String> list = null;
-        try{
-            list = Lists.newArrayList("data="+request.getData(),
-                    "tag="+request.getTag(),
-                    "createTime="+request.getCreateTime(),
-                    "key="+key);
-        }catch (Exception e) {
+        try {
+            list = Lists.newArrayList("data=" + request.getData(), "tag=" + request.getTag(), "createTime=" + request.getCreateTime(), "key=" + key);
+        } catch (Exception e) {
             list.clear();
             log.error("设置SortedList异常,request:{}", request, e);
         }
         return list;
     }
 
-    private String getSignData(List<String> lists){
+    private String getSignData(List<String> lists) {
         StringBuffer stringBuffer = new StringBuffer();
-        for (String list:
-             lists) {
+        for (String list :
+                lists) {
             stringBuffer.append(list);
         }
         return stringBuffer.toString();

@@ -89,17 +89,7 @@ public class NationalReturnOrder implements Serializable {
     /**
      * 退票原因编号
      */
-    private Integer reteunCode;
-
-    /**
-     * 是否可退（1-不可退，2-可退）
-     */
-    private Integer hasDisabled;
-
-    /**
-     * 不可退原因
-     */
-    private String disableReason;
+    private Integer returnCode;
 
     /**
      * 退票状态
@@ -107,14 +97,19 @@ public class NationalReturnOrder implements Serializable {
     private Integer returnStatus;
 
     /**
-     * 退票时间
-     */
-    private String returnTime;
-
-    /**
      * 退票金额
      */
     private Integer returnFee;
+
+    /**
+     * 退款支付类型(1:支付宝,2:微信)
+     */
+    private Integer returnPayType;
+
+    /**
+     * 退款支付状态(0:未支付,1:支付失败,2:支付成功)
+     */
+    private Integer returnPayStatus;
 
     /**
      * 联系人
@@ -373,43 +368,15 @@ public class NationalReturnOrder implements Serializable {
     /**
      * @return 退票原因编号
      */
-    public Integer getReteunCode() {
-        return reteunCode;
+    public Integer getReturnCode() {
+        return returnCode;
     }
 
     /**
-     * @param reteunCode 退票原因编号
+     * @param returnCode 退票原因编号
      */
-    public void setReteunCode(Integer reteunCode) {
-        this.reteunCode = reteunCode;
-    }
-
-    /**
-     * @return 是否可退（1-不可退，2-可退）
-     */
-    public Integer getHasDisabled() {
-        return hasDisabled;
-    }
-
-    /**
-     * @param hasDisabled 是否可退（1-不可退，2-可退）
-     */
-    public void setHasDisabled(Integer hasDisabled) {
-        this.hasDisabled = hasDisabled;
-    }
-
-    /**
-     * @return 不可退原因
-     */
-    public String getDisableReason() {
-        return disableReason;
-    }
-
-    /**
-     * @param disableReason 不可退原因
-     */
-    public void setDisableReason(String disableReason) {
-        this.disableReason = disableReason == null ? null : disableReason.trim();
+    public void setReturnCode(Integer returnCode) {
+        this.returnCode = returnCode;
     }
 
     /**
@@ -427,20 +394,6 @@ public class NationalReturnOrder implements Serializable {
     }
 
     /**
-     * @return 退票时间
-     */
-    public String getReturnTime() {
-        return returnTime;
-    }
-
-    /**
-     * @param returnTime 退票时间
-     */
-    public void setReturnTime(String returnTime) {
-        this.returnTime = returnTime == null ? null : returnTime.trim();
-    }
-
-    /**
      * @return 退票金额
      */
     public Integer getReturnFee() {
@@ -452,6 +405,34 @@ public class NationalReturnOrder implements Serializable {
      */
     public void setReturnFee(Integer returnFee) {
         this.returnFee = returnFee;
+    }
+
+    /**
+     * @return 退款支付类型(1:支付宝,2:微信)
+     */
+    public Integer getReturnPayType() {
+        return returnPayType;
+    }
+
+    /**
+     * @param returnPayType 退款支付类型(1:支付宝,2:微信)
+     */
+    public void setReturnPayType(Integer returnPayType) {
+        this.returnPayType = returnPayType;
+    }
+
+    /**
+     * @return 退款支付状态(0:未支付,1:支付失败,2:支付成功)
+     */
+    public Integer getReturnPayStatus() {
+        return returnPayStatus;
+    }
+
+    /**
+     * @param returnPayStatus 退款支付状态(0:未支付,1:支付失败,2:支付成功)
+     */
+    public void setReturnPayStatus(Integer returnPayStatus) {
+        this.returnPayStatus = returnPayStatus;
     }
 
     /**

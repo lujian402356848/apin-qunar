@@ -1237,193 +1237,63 @@ public class NationalReturnOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeIsNull() {
-            addCriterion("reteun_code is null");
+        public Criteria andReturnCodeIsNull() {
+            addCriterion("return_code is null");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeIsNotNull() {
-            addCriterion("reteun_code is not null");
+        public Criteria andReturnCodeIsNotNull() {
+            addCriterion("return_code is not null");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeEqualTo(Integer value) {
-            addCriterion("reteun_code =", value, "reteunCode");
+        public Criteria andReturnCodeEqualTo(Integer value) {
+            addCriterion("return_code =", value, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeNotEqualTo(Integer value) {
-            addCriterion("reteun_code <>", value, "reteunCode");
+        public Criteria andReturnCodeNotEqualTo(Integer value) {
+            addCriterion("return_code <>", value, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeGreaterThan(Integer value) {
-            addCriterion("reteun_code >", value, "reteunCode");
+        public Criteria andReturnCodeGreaterThan(Integer value) {
+            addCriterion("return_code >", value, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("reteun_code >=", value, "reteunCode");
+        public Criteria andReturnCodeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("return_code >=", value, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeLessThan(Integer value) {
-            addCriterion("reteun_code <", value, "reteunCode");
+        public Criteria andReturnCodeLessThan(Integer value) {
+            addCriterion("return_code <", value, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeLessThanOrEqualTo(Integer value) {
-            addCriterion("reteun_code <=", value, "reteunCode");
+        public Criteria andReturnCodeLessThanOrEqualTo(Integer value) {
+            addCriterion("return_code <=", value, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeIn(List<Integer> values) {
-            addCriterion("reteun_code in", values, "reteunCode");
+        public Criteria andReturnCodeIn(List<Integer> values) {
+            addCriterion("return_code in", values, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeNotIn(List<Integer> values) {
-            addCriterion("reteun_code not in", values, "reteunCode");
+        public Criteria andReturnCodeNotIn(List<Integer> values) {
+            addCriterion("return_code not in", values, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeBetween(Integer value1, Integer value2) {
-            addCriterion("reteun_code between", value1, value2, "reteunCode");
+        public Criteria andReturnCodeBetween(Integer value1, Integer value2) {
+            addCriterion("return_code between", value1, value2, "returnCode");
             return (Criteria) this;
         }
 
-        public Criteria andReteunCodeNotBetween(Integer value1, Integer value2) {
-            addCriterion("reteun_code not between", value1, value2, "reteunCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledIsNull() {
-            addCriterion("has_disabled is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledIsNotNull() {
-            addCriterion("has_disabled is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledEqualTo(Integer value) {
-            addCriterion("has_disabled =", value, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledNotEqualTo(Integer value) {
-            addCriterion("has_disabled <>", value, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledGreaterThan(Integer value) {
-            addCriterion("has_disabled >", value, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledGreaterThanOrEqualTo(Integer value) {
-            addCriterion("has_disabled >=", value, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledLessThan(Integer value) {
-            addCriterion("has_disabled <", value, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledLessThanOrEqualTo(Integer value) {
-            addCriterion("has_disabled <=", value, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledIn(List<Integer> values) {
-            addCriterion("has_disabled in", values, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledNotIn(List<Integer> values) {
-            addCriterion("has_disabled not in", values, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledBetween(Integer value1, Integer value2) {
-            addCriterion("has_disabled between", value1, value2, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasDisabledNotBetween(Integer value1, Integer value2) {
-            addCriterion("has_disabled not between", value1, value2, "hasDisabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonIsNull() {
-            addCriterion("disable_reason is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonIsNotNull() {
-            addCriterion("disable_reason is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonEqualTo(String value) {
-            addCriterion("disable_reason =", value, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonNotEqualTo(String value) {
-            addCriterion("disable_reason <>", value, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonGreaterThan(String value) {
-            addCriterion("disable_reason >", value, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonGreaterThanOrEqualTo(String value) {
-            addCriterion("disable_reason >=", value, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonLessThan(String value) {
-            addCriterion("disable_reason <", value, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonLessThanOrEqualTo(String value) {
-            addCriterion("disable_reason <=", value, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonLike(String value) {
-            addCriterion("disable_reason like", value, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonNotLike(String value) {
-            addCriterion("disable_reason not like", value, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonIn(List<String> values) {
-            addCriterion("disable_reason in", values, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonNotIn(List<String> values) {
-            addCriterion("disable_reason not in", values, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonBetween(String value1, String value2) {
-            addCriterion("disable_reason between", value1, value2, "disableReason");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisableReasonNotBetween(String value1, String value2) {
-            addCriterion("disable_reason not between", value1, value2, "disableReason");
+        public Criteria andReturnCodeNotBetween(Integer value1, Integer value2) {
+            addCriterion("return_code not between", value1, value2, "returnCode");
             return (Criteria) this;
         }
 
@@ -1487,76 +1357,6 @@ public class NationalReturnOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andReturnTimeIsNull() {
-            addCriterion("return_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeIsNotNull() {
-            addCriterion("return_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeEqualTo(String value) {
-            addCriterion("return_time =", value, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeNotEqualTo(String value) {
-            addCriterion("return_time <>", value, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeGreaterThan(String value) {
-            addCriterion("return_time >", value, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeGreaterThanOrEqualTo(String value) {
-            addCriterion("return_time >=", value, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeLessThan(String value) {
-            addCriterion("return_time <", value, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeLessThanOrEqualTo(String value) {
-            addCriterion("return_time <=", value, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeLike(String value) {
-            addCriterion("return_time like", value, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeNotLike(String value) {
-            addCriterion("return_time not like", value, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeIn(List<String> values) {
-            addCriterion("return_time in", values, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeNotIn(List<String> values) {
-            addCriterion("return_time not in", values, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeBetween(String value1, String value2) {
-            addCriterion("return_time between", value1, value2, "returnTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andReturnTimeNotBetween(String value1, String value2) {
-            addCriterion("return_time not between", value1, value2, "returnTime");
-            return (Criteria) this;
-        }
-
         public Criteria andReturnFeeIsNull() {
             addCriterion("return_fee is null");
             return (Criteria) this;
@@ -1614,6 +1414,126 @@ public class NationalReturnOrderExample {
 
         public Criteria andReturnFeeNotBetween(Integer value1, Integer value2) {
             addCriterion("return_fee not between", value1, value2, "returnFee");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeIsNull() {
+            addCriterion("return_pay_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeIsNotNull() {
+            addCriterion("return_pay_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeEqualTo(Integer value) {
+            addCriterion("return_pay_type =", value, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeNotEqualTo(Integer value) {
+            addCriterion("return_pay_type <>", value, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeGreaterThan(Integer value) {
+            addCriterion("return_pay_type >", value, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("return_pay_type >=", value, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeLessThan(Integer value) {
+            addCriterion("return_pay_type <", value, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("return_pay_type <=", value, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeIn(List<Integer> values) {
+            addCriterion("return_pay_type in", values, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeNotIn(List<Integer> values) {
+            addCriterion("return_pay_type not in", values, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeBetween(Integer value1, Integer value2) {
+            addCriterion("return_pay_type between", value1, value2, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("return_pay_type not between", value1, value2, "returnPayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusIsNull() {
+            addCriterion("return_pay_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusIsNotNull() {
+            addCriterion("return_pay_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusEqualTo(Integer value) {
+            addCriterion("return_pay_status =", value, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusNotEqualTo(Integer value) {
+            addCriterion("return_pay_status <>", value, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusGreaterThan(Integer value) {
+            addCriterion("return_pay_status >", value, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("return_pay_status >=", value, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusLessThan(Integer value) {
+            addCriterion("return_pay_status <", value, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("return_pay_status <=", value, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusIn(List<Integer> values) {
+            addCriterion("return_pay_status in", values, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusNotIn(List<Integer> values) {
+            addCriterion("return_pay_status not in", values, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusBetween(Integer value1, Integer value2) {
+            addCriterion("return_pay_status between", value1, value2, "returnPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnPayStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("return_pay_status not between", value1, value2, "returnPayStatus");
             return (Criteria) this;
         }
 
@@ -2096,16 +2016,6 @@ public class NationalReturnOrderExample {
 
         public Criteria andArriTimeLikeInsensitive(String value) {
             addCriterion("upper(arri_time) like", value.toUpperCase(), "arriTime");
-            return this;
-        }
-
-        public Criteria andDisableReasonLikeInsensitive(String value) {
-            addCriterion("upper(disable_reason) like", value.toUpperCase(), "disableReason");
-            return this;
-        }
-
-        public Criteria andReturnTimeLikeInsensitive(String value) {
-            addCriterion("upper(return_time) like", value.toUpperCase(), "returnTime");
             return this;
         }
 
