@@ -6,11 +6,14 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradePrecreateModel;
+import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.apin.qunar.basic.common.config.SmsConfig;
 import com.apin.qunar.basic.common.constant.SmsConstants;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
@@ -78,6 +81,9 @@ public class AlipayServiceImpl implements AlipayService {
     private ChangePayService changePayService;
     @Autowired
     private NationalChangePassengerDaoImpl nationalChangePassengerDao;
+    @Autowired
+    private NationalReturnOrderDaoImpl nationalReturnOrderDao;
+
     private AlipayClient alipayClient;
 
     @PostConstruct
@@ -275,6 +281,7 @@ public class AlipayServiceImpl implements AlipayService {
             log.info("支付宝付款成功，但是数据库中未找到该笔订单,alipayId:{},ordrNo:{}", aliPay.getId(), aliPay.getOrderNo());
             return result;
         }
+        nationalOrderDao.updatePayType(aliPay.getOrderNo(), PayTypeEnum.WECHATPAY.getCode());
         QunarPayStatusEnum payStatus = QunarPayStatusEnum.NO_PAY;
         PayParam payParam = buildPayParam(nationalOrder.getClientSite(), nationalOrder.getPayOrderId());
         try {
@@ -484,5 +491,47 @@ public class AlipayServiceImpl implements AlipayService {
             params.put(name, valueStr);
         }
         return params;
+    }
+
+    /*
+    * 支付宝退款
+    * */
+    @Override
+    public void payRefund(String orderNo, Integer refundAmount) {
+        String content = "";
+        ReturnStatusEnum returnStatus = ReturnStatusEnum.NO_RETURN;
+        AlipayTradeRefundRequest request = buildAlipayTradeRefundRequest(orderNo, refundAmount);
+        try {
+            AlipayTradeRefundResponse response = alipayClient.execute(request);
+            if (response == null) {
+                log.error("支付宝退款返回内容为空,订单号:{},金额:{}", orderNo, refundAmount);
+                return;
+            }
+            if ("10000".equals(response.getCode())) {
+                returnStatus = ReturnStatusEnum.RETURN_SUCCESS;
+                log.info("支付宝退款成功，orderNo:{},refundAmount:{}", orderNo, refundAmount);
+            } else {
+                returnStatus = ReturnStatusEnum.NO_RETURN;
+                content = String.format("支付宝退款失败，orderNo:%s，,refundAmount:%s,errorMsg：%s", orderNo, refundAmount, response.getMsg() + response.getSubMsg());
+            }
+        } catch (Exception e) {
+            content = String.format("支付宝退款异常，orderNo:%s,refundAmount:%s", orderNo, refundAmount);
+            returnStatus = ReturnStatusEnum.NO_RETURN;
+        }
+        if (returnStatus != ReturnStatusEnum.RETURN_SUCCESS) {
+            smsService.sendSms(smsConfig.getMobileNos(), content, SmsSendTypeEnum.ALIPAY_REFUND_FAIL_NOTIFY);
+            log.error(content);
+        }
+        nationalReturnOrderDao.updateReturnPayTypeAndstatus(orderNo, PayTypeEnum.ALIPAY.getCode(), returnStatus.getStatus());
+    }
+
+    private AlipayTradeRefundRequest buildAlipayTradeRefundRequest(final String orderNo, final Integer refundAmount) {
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+        AlipayTradeRefundModel refundModel = new AlipayTradeRefundModel();
+        refundModel.setOutTradeNo(orderNo);
+        refundModel.setRefundAmount(String.valueOf(refundAmount));
+        refundModel.setRefundReason("飞机票退款");
+        request.setBizModel(refundModel);
+        return request;
     }
 }

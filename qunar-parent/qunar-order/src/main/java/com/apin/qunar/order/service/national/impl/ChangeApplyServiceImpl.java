@@ -87,11 +87,19 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
 
     private void savaToDb(List<ChangeApplyResultVO> changeApplyResultVOS, ChangeApplyBO changeApplyBO, String account, String merchantNo) {
         if (CollectionUtils.isNotEmpty(changeApplyResultVOS)) {
-            String orderNo = changeApplyBO.getOrderNo();
+            String orderNo = changeApplyResultVOS.get(0).getChangeApplyResult().getOrderNo();
+            //判断是否改签过，如果改签过则把原数据删除
+            NationalChangeOrder changeOrder = nationalChangeOrderDao.queryByOrderNo(orderNo);
+            if (changeOrder != null) {
+                nationalChangeOrderDao.delete(orderNo);
+                nationalChangePassengerDao.delete(orderNo);
+            }
+
+            String parentOrderNo = changeApplyBO.getOrderNo();
             DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
             definition.setIsolationLevel(DefaultTransactionDefinition.ISOLATION_SERIALIZABLE);
             TransactionStatus status = transactionManager.getTransaction(definition);//事务开始
-            List<NationalChangePassenger> nationalChangePessengers = bulidNationalChangePessenger(changeApplyResultVOS, orderNo, merchantNo);
+            List<NationalChangePassenger> nationalChangePessengers = bulidNationalChangePessenger(changeApplyResultVOS, parentOrderNo, merchantNo);
             NationalChangeOrder nationalChangeOrder = bulidNationalChangeOrder(changeApplyResultVOS, changeApplyBO, account, merchantNo);
             try {
                 nationalChangeOrderDao.insert(nationalChangeOrder);
@@ -104,13 +112,12 @@ public class ChangeApplyServiceImpl extends ApiService<ChangeApplyParam, ApiResu
                 log.error("保存国内改签订单到数据库异常,changeApplyResultVO:{},changeApplyParam:{}", changeApplyResultVOS, changeApplyBO, e);
             }
         }
-
     }
 
-    private List<NationalChangePassenger> bulidNationalChangePessenger(List<ChangeApplyResultVO> changeApplyResultVOS, String orderNo, String merchantNo) {
+    private List<NationalChangePassenger> bulidNationalChangePessenger(List<ChangeApplyResultVO> changeApplyResultVOS, String parentOrderNo, String merchantNo) {
         List<NationalChangePassenger> nationalChangePessengers = new ArrayList();
         for (ChangeApplyResultVO changeApplyResultVO : changeApplyResultVOS) {
-            NationalPassenger passenger = nationalPassengerDao.queryBy(orderNo, changeApplyResultVO.getName());
+            NationalPassenger passenger = nationalPassengerDao.queryBy(parentOrderNo, changeApplyResultVO.getName());
             NationalChangePassenger nationalChangePassenger = new NationalChangePassenger();
             nationalChangePassenger.setId(Long.toString(changeApplyResultVO.getId()));
             nationalChangePassenger.setName(changeApplyResultVO.getName());

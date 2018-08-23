@@ -7,11 +7,11 @@ import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
 import com.apin.qunar.basic.domain.ExecuteResult;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
-import com.apin.qunar.common.utils.HttpUtil;
 import com.apin.qunar.common.utils.UUIDUtil;
 import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.common.config.WeChatPayConfig;
 import com.apin.qunar.order.common.enums.*;
+import com.apin.qunar.order.common.utils.HttpUtil;
 import com.apin.qunar.order.common.utils.WechatPayUtil;
 import com.apin.qunar.order.dao.impl.*;
 import com.apin.qunar.order.dao.model.*;
@@ -31,6 +31,8 @@ import com.apin.qunar.order.service.national.PayService;
 import com.apin.qunar.order.service.pay.WechatService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -73,6 +75,8 @@ public class WechatServiceImpl implements WechatService {
     private ChangePayService changePayService;
     @Autowired
     private NationalChangePassengerDaoImpl nationalChangePassengerDao;
+    @Autowired
+    private NationalReturnOrderDaoImpl nationalReturnOrderDao;
 
     @Override
     public String generateQrCode(WechatBO wechatBO) {
@@ -304,6 +308,7 @@ public class WechatServiceImpl implements WechatService {
             log.info("微信付款成功，但是数据库中未找到该笔订单,alipayId:{},ordrNo:{}", wechatPay.getId(), wechatPay.getOrderNo());
             return result;
         }
+        nationalOrderDao.updatePayType(wechatPay.getOrderNo(), PayTypeEnum.WECHATPAY.getCode());
         QunarPayStatusEnum payStatus = QunarPayStatusEnum.NO_PAY;
         PayParam payParam = buildPayParam(nationalOrder.getClientSite(), nationalOrder.getPayOrderId());
         try {
@@ -463,4 +468,54 @@ public class WechatServiceImpl implements WechatService {
         }
         return passengerIds.substring(0, passengerIds.length() - 1);
     }
+
+    @Override
+    public void payRefund(String orderNo, String outRefundNo, Integer totalAmount, Integer refundAmount) {
+        String content = "";
+        SortedMap<Object, Object> packageParams = buildSortedMap(orderNo, outRefundNo, totalAmount, refundAmount);
+        String requestXML = WechatPayUtil.getRequestXml(packageParams);
+        ReturnStatusEnum returnStatus = ReturnStatusEnum.NO_RETURN;
+        try {
+            CloseableHttpResponse response = HttpUtil.Post(weChatPayConfig.getRefundUrl(), requestXML, true);
+            if (response == null) {
+                log.error("微信退款返回内容为空,订单号:{},金额:{}", orderNo, refundAmount);
+                return;
+            }
+            String refundXml = EntityUtils.toString(response.getEntity(), "utf-8");
+            Map map = WechatPayUtil.xmlToMap(refundXml);
+            if ("SUCCESS".equals(map.get("result_code"))) {
+                returnStatus = ReturnStatusEnum.RETURN_SUCCESS;
+                log.info("微信退款成功，orderNo:{},refundAmount:{}", orderNo, refundAmount);
+            } else {
+                returnStatus = ReturnStatusEnum.NO_RETURN;
+                content = String.format("微信退款失败，orderNo:%s,refundAmount:%s,errorMsg：%s", orderNo, refundAmount, refundXml);
+            }
+        } catch (Exception e) {
+            content = String.format("微信退款异常，orderNo:%s,refundAmount:%s", orderNo, refundAmount);
+            returnStatus = ReturnStatusEnum.NO_RETURN;
+        }
+        if (returnStatus != ReturnStatusEnum.RETURN_SUCCESS) {
+            smsService.sendSms(smsConfig.getMobileNos(), content, SmsSendTypeEnum.WECHAT_REFUND_FAIL_NOTIFY);
+            log.error(content);
+        }
+        nationalReturnOrderDao.updateReturnPayTypeAndstatus(orderNo, PayTypeEnum.WECHATPAY.getCode(), returnStatus.getStatus());
+    }
+
+    private SortedMap<Object, Object> buildSortedMap(String orderNo, String outRefundNo, Integer totalFee, Integer refundFee) {
+        String currTime = WechatPayUtil.getCurrTime();
+        String strTime = currTime.substring(8, currTime.length());
+        String nonce_str = strTime + String.valueOf(WechatPayUtil.buildRandom(4));
+        SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
+        packageParams.put("appid", weChatPayConfig.getAppId());
+        packageParams.put("mch_id", weChatPayConfig.getMerchantId());
+        packageParams.put("nonce_str", nonce_str);
+        packageParams.put("out_trade_no", orderNo);
+        packageParams.put("out_refund_no", outRefundNo);
+        packageParams.put("total_fee", String.valueOf(totalFee * 100));
+        packageParams.put("refund_fee", String.valueOf(refundFee * 100));
+        String sign = WechatPayUtil.createSign(packageParams, weChatPayConfig.getKey());
+        packageParams.put("sign", sign);
+        return packageParams;
+    }
+
 }

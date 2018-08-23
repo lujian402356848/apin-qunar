@@ -1,5 +1,6 @@
 package com.apin.qunar.order.service.pay;
 
+import com.apin.qunar.basic.domain.ExecuteResult;
 import com.apin.qunar.order.common.enums.WechatPayStatusEnum;
 import com.apin.qunar.order.domain.pay.wechat.WechatBO;
 
@@ -29,4 +30,9 @@ public interface WechatService {
      * @create 2018-07-30 10:57
      */
     WechatPayStatusEnum queryOrderPayStatus(String orderNo);
+    /*
+    * 微信退款
+    * @param orderNo:父订单订单号，outRefundNo:订单号，totalFee:交易总价，refundFee:退款金额
+    * */
+    void payRefund(String orderNo, String outRefundNo, Integer totalFee, Integer refundFee);
 }

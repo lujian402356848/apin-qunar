@@ -54,7 +54,7 @@ public class SearchRefundOrderListServiceImpl implements SearchRefundOrderListSe
         for (NationalReturnOrder order : orders) {
             nationRefundOrderVO = BeanUtil.copyProperties(order, NationRefundOrderVO.class);
             List<NationalReturnPassenger> filterPassenger = passengers.stream().filter(p -> p.getOrderNo().equals(order.getOrderNo())).collect(Collectors.toList());
-            int returnFee = order.getReturnFee() * filterPassenger.size();
+            int returnFee = order.getReturnFee();
             nationRefundOrderVO.setReturnPrices(returnFee);
             nationRefundOrderVO.setPassengers(buildPassengers(filterPassenger));
             nationRefundOrderVOS.add(nationRefundOrderVO);

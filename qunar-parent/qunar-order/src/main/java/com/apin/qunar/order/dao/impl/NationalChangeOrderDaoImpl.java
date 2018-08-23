@@ -29,6 +29,7 @@ public class NationalChangeOrderDaoImpl {
         List<NationalChangeOrder> nationalChangeOrders = nationalChangeOrderMapper.selectByExample(example);
         return CollectionUtils.isEmpty(nationalChangeOrders) ? null : nationalChangeOrders.get(0);
     }
+
     public NationalChangeOrder queryByParentOrderNo(String parentOrderNo) {
         NationalChangeOrderExample example = new NationalChangeOrderExample();
         NationalChangeOrderExample.Criteria criteria = example.createCriteria();
@@ -37,7 +38,7 @@ public class NationalChangeOrderDaoImpl {
         return CollectionUtils.isEmpty(nationalChangeOrders) ? null : nationalChangeOrders.get(0);
     }
 
-    public List<NationalChangeOrder> queryPageListBy(String merchantNo, String account,Integer status, String orderNo, Integer offset, Integer limit) {
+    public List<NationalChangeOrder> queryPageListBy(String merchantNo, String account, Integer status, String orderNo, Integer offset, Integer limit) {
         NationalChangeOrderExample example = new NationalChangeOrderExample();
         NationalChangeOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
@@ -58,7 +59,7 @@ public class NationalChangeOrderDaoImpl {
         return nationalChangeOrderMapper.selectByExample(example);
     }
 
-    public List<NationalChangeOrder> queryPageListBy(String merchantNo,Integer status, List<String> orderNos, Integer offset, Integer limit) {
+    public List<NationalChangeOrder> queryPageListBy(String merchantNo, Integer status, List<String> orderNos, Integer offset, Integer limit) {
         NationalChangeOrderExample example = new NationalChangeOrderExample();
         NationalChangeOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
@@ -90,5 +91,13 @@ public class NationalChangeOrderDaoImpl {
         return nationalChangeOrderMapper.insert(nationalChangeOrder) > 0;
     }
 
+    public boolean delete(String orderNo) {
+        NationalChangeOrderExample example = new NationalChangeOrderExample();
+        NationalChangeOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(orderNo)) {
+            criteria.andOrderNoEqualTo(orderNo);
+        }
+        return nationalChangeOrderMapper.deleteByExample(example) > 0;
+    }
 
 }

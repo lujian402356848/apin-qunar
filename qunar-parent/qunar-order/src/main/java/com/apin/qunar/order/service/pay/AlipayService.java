@@ -1,6 +1,7 @@
 package com.apin.qunar.order.service.pay;
 
 
+import com.apin.qunar.basic.domain.ExecuteResult;
 import com.apin.qunar.order.common.enums.AlipayStatusEnum;
 import com.apin.qunar.order.dao.model.AliPay;
 import com.apin.qunar.order.domain.pay.alipay.AlipayBO;
@@ -39,4 +40,9 @@ public interface AlipayService {
      * @param aliPay
      */
     boolean qunarOrderPay(AliPay aliPay);
+    /**
+     *
+     * 支付宝退款
+     * */
+    void payRefund(String orderNo, Integer refundAmount);
 }

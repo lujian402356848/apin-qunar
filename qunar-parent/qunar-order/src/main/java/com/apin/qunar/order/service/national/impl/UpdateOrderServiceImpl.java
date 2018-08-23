@@ -8,13 +8,17 @@ import com.apin.qunar.basic.dao.model.User;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
+import com.apin.qunar.order.common.enums.PayTypeEnum;
 import com.apin.qunar.order.dao.impl.*;
 import com.apin.qunar.order.dao.model.NationalChangeOrder;
 import com.apin.qunar.order.dao.model.NationalOrder;
+import com.apin.qunar.order.dao.model.NationalReturnOrder;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailParam;
 import com.apin.qunar.order.domain.national.searchOrderDetail.SearchOrderDetailResultVO;
 import com.apin.qunar.order.service.national.UpdateOrderService;
+import com.apin.qunar.order.service.pay.AlipayService;
+import com.apin.qunar.order.service.pay.WechatService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +37,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class UpdateOrderServiceImpl implements UpdateOrderService {
-    private static final List<OrderStatusEnum> sendSmsOrderStatus = Arrays.asList(OrderStatusEnum.TICKET_OK, OrderStatusEnum.REFUND_OK);
+    private static final List<OrderStatusEnum> sendSmsOrderStatus = Arrays.asList(OrderStatusEnum.TICKET_OK, OrderStatusEnum.REFUND_OK, OrderStatusEnum.CHANGE_OK);
 
     @Autowired
     private NationalOrderDaoImpl nationalOrderDao;
@@ -51,6 +55,10 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
     private NationalChangeOrderDaoImpl nationalChangeOrderDao;
     @Autowired
     private UserDaoImpl userDao;
+    @Autowired
+    private AlipayService alipayService;
+    @Autowired
+    private WechatService wechatService;
 
     @Override
     public boolean updatePayInfo(final String orderNo, final String payId, final int orderStatus, final String payTime) {
@@ -86,9 +94,9 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                         sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
                     }
                     break;
-                case APPLY_REFUNDMENT://退款状态
+                case REFUND_OK://退款状态
+                case APPLY_REFUNDMENT:
                 case WAIT_REFUNDMENT:
-                case REFUND_OK:
                     result = nationalReturnOrderDao.updateStatus(orderNo, payStatus);
                     if (!result) {
                         SearchOrderDetailParam searchOrderDetailParam = new SearchOrderDetailParam();
@@ -102,7 +110,10 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                         nationalReturnPassengerDao.updateByOrderNo(parentOrderNo, orderNo);
                     }
                     passengers = getPassengers(orderNo);
-                    sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
+                    if (orderStatusEnum == OrderStatusEnum.REFUND_OK) {
+                        payRefund(orderNo);
+                        sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
+                    }
                     break;
                 case APPLY_CHANGE://改签中状态
                     nationalOrderDao.updateStatus(orderNo, payStatus);
@@ -247,6 +258,24 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                 smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.CHANGE);
             }
 
+        }
+    }
+
+    private void payRefund(String orderNo) {
+        NationalReturnOrder nationalReturnOrder = nationalReturnOrderDao.queryByOrderNo(orderNo);
+        String parentOrderNo = nationalReturnOrder.getParentOrderNo();
+        Integer returnFee = nationalReturnOrder.getReturnFee();
+        NationalOrder nationalOrder = nationalOrderDao.queryByOrderNo(parentOrderNo);
+        Integer totalFee = nationalOrder.getPayAmount();
+        Integer payType = nationalOrder.getPayType();
+        PayTypeEnum payTypeEnum = PayTypeEnum.valueOf(payType);
+        switch (payTypeEnum) {
+            case ALIPAY:
+                alipayService.payRefund(orderNo, returnFee);
+                break;
+            case WECHATPAY:
+                wechatService.payRefund(parentOrderNo, orderNo, totalFee, returnFee);
+                break;
         }
     }
 }

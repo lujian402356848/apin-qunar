@@ -66,4 +66,13 @@ public class NationalChangePassengerDaoImpl {
         return nationalChangePassengerMapper.selectByExample(example);
     }
 
+    public boolean delete(String orderNo){
+        NationalChangePassengerExample example = new NationalChangePassengerExample();
+        NationalChangePassengerExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(orderNo)) {
+            criteria.andOrderNoEqualTo(orderNo);
+        }
+        return  nationalChangePassengerMapper.deleteByExample(example)>0;
+    }
+
 }

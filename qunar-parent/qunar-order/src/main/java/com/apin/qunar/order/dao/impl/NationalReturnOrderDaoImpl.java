@@ -80,4 +80,8 @@ public class NationalReturnOrderDaoImpl {
     public boolean insert(NationalReturnOrder nationalReturnOrder) {
         return nationalReturnOrderMapper.insert(nationalReturnOrder) > 0;
     }
+
+    public boolean updateReturnPayTypeAndstatus(String orderNo, Integer returnType, Integer returnStauts) {
+        return nationalRefundOrderExtMapper.updateReturnPayTypeAndstatus(orderNo, returnType, returnStauts) > 0;
+    }
 }

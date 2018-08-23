@@ -121,7 +121,7 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
         List<SearchOrderDetailResultVO.PassengerType> passengerTypes = searchOrderDetailResult.getPassengerTypes();
         if (CollectionUtils.isNotEmpty(passengerTypes)) {
             SearchOrderDetailResultVO.PassengerType PassengerType = passengerTypes.get(0);
-            PassengerType.setRefundPrices(returnFee * passengers.size());
+            PassengerType.setRefundPrices(returnFee);
         }
     }
 

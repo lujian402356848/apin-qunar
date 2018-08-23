@@ -142,8 +142,8 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
         definition.setIsolationLevel(DefaultTransactionDefinition.ISOLATION_SERIALIZABLE);
         TransactionStatus status = transactionManager.getTransaction(definition);//事务开始
         NationalOrder nationalOrder = natioanlOrderDao.queryByOrderNo(refundParam.getOrderNo());
-        NationalReturnOrder nationalReturnOrder = bulidNationalReturnOrder(RefundSearchResultVOS, refundParam, nationalOrder, retundFee);
         List<NationalReturnPassenger> nationalReturnPassengers = buildNationalPassenger(nationalOrder.getMerchantNo(), RefundResultVOS, refundParam);
+        NationalReturnOrder nationalReturnOrder = bulidNationalReturnOrder(RefundSearchResultVOS, refundParam, nationalOrder, retundFee, nationalReturnPassengers);
         try {
             nationalReturnOrderDao.insert(nationalReturnOrder);
             for (NationalReturnPassenger nationalReturnPassenger : nationalReturnPassengers) {
@@ -156,7 +156,7 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
         }
     }
 
-    private NationalReturnOrder bulidNationalReturnOrder(List<RefundSearchResultVO> RefundSearchResultVOS, RefundParam refundParam, NationalOrder nationalOrder, int retundFee) {
+    private NationalReturnOrder bulidNationalReturnOrder(List<RefundSearchResultVO> RefundSearchResultVOS, RefundParam refundParam, NationalOrder nationalOrder, int retundFee, List<NationalReturnPassenger> nationalReturnPassengers) {
         String ticketNo = bulidTicketNo(RefundSearchResultVOS, refundParam);
         NationalReturnOrder nationalReturnOrder = new NationalReturnOrder();
         nationalReturnOrder.setId(IDGenerator.getUniqueId());
@@ -180,7 +180,7 @@ public class RefundServiceImpl extends ApiService<RefundParam, ApiResult<List<Re
         nationalReturnOrder.setDeptAirportName(nationalOrder.getDeptAirportName());
         nationalReturnOrder.setArriAirportName(nationalOrder.getArriAirportName());
         nationalReturnOrder.setReturnStatus(30);
-        nationalReturnOrder.setReturnFee(retundFee);
+        nationalReturnOrder.setReturnFee(retundFee * nationalReturnPassengers.size());
         nationalReturnOrder.setCarrierName(nationalOrder.getCarrierName());
         return nationalReturnOrder;
     }

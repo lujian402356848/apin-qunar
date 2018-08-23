@@ -132,4 +132,8 @@ public class NationalOrderDaoImpl {
     public boolean insert(NationalOrder nationalOrder) {
         return nationalOrderMapper.insert(nationalOrder) > 0;
     }
+
+    public boolean updatePayType(String orderNo,Integer payType){
+        return nationalOrderExtMapper.updatePayType(orderNo,payType)>0;
+    }
 }
