@@ -22,6 +22,4 @@ public class WeChatPayConfig {
     private String notifyUrl;
     @Value("${weChatPay.rufund.url}")
     private String refundUrl;
-    @Value("${weChatPay.cert.path}")
-    private String certPath;
 }
