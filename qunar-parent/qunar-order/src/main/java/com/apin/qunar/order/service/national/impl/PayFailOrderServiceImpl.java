@@ -103,7 +103,7 @@ public class PayFailOrderServiceImpl implements PayFailOrderService {
             log.error("没有找到该国内订单【{}】", orderNo);
             return null;
         }
-        Merchant merchant = merchantService.queryByAccount(order.getMerchantNo());
+        Merchant merchant = merchantService.queryByMerchantNo(order.getMerchantNo());
         if (merchant == null) {
             log.error("找不到该商户号:{}", order.getMerchantNo());
             return null;
