@@ -263,9 +263,17 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
 
     private void payRefund(String orderNo) {
         NationalReturnOrder nationalReturnOrder = nationalReturnOrderDao.queryByOrderNo(orderNo);
+        if (nationalReturnOrder == null) {
+            log.info("退票退款去哪儿回调成功，但在数据库未找到该订单，ordrNo:{}", orderNo);
+            return;
+        }
         String parentOrderNo = nationalReturnOrder.getParentOrderNo();
         Integer returnFee = nationalReturnOrder.getReturnFee();
         NationalOrder nationalOrder = nationalOrderDao.queryByOrderNo(parentOrderNo);
+        if (nationalOrder == null) {
+            log.info("退票退款在退票订单表中找到退票订单，但在国内订单表未找到该父订单，ordrNo:{}，parentOrderNo：{}", orderNo, parentOrderNo);
+            return;
+        }
         Integer totalFee = nationalOrder.getPayAmount();
         Integer payType = nationalOrder.getPayType();
         PayTypeEnum payTypeEnum = PayTypeEnum.valueOf(payType);
