@@ -5,6 +5,7 @@ import com.apin.qunar.app.common.constant.AppConstants;
 import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
 import com.apin.qunar.app.pay.request.wechat.QueryWebchatPayRequest;
+import com.apin.qunar.app.pay.request.wechat.WechatPayRefundRequest;
 import com.apin.qunar.app.pay.request.wechat.WechatPayRequest;
 import com.apin.qunar.basic.domain.ExecuteResult;
 import com.apin.qunar.common.enums.SysReturnCode;
@@ -172,6 +173,23 @@ public class WechatController extends BaseController {
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
             log.error("微信支付查询订单状态异常,request:{}", request, e);
+        }
+        return generalResultMap;
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/wechatPay/refund")
+    public GeneralResultMap payRefund(@RequestBody WechatPayRefundRequest request) {
+        GeneralResultMap generalResultMap = validateCommonParam(request);
+        if (!generalResultMap.isSuccess()) {
+            log.warn("/alipay/queryPayStatus接口基础验证不通过，request:{}", JSON.toJSON(request));
+            return generalResultMap;
+        }
+        try {
+           wechatService.payRefund(request.getParentNo(), request.getOrderNo(), request.getTotalAmount(), request.getRefundAmount());
+        } catch (Exception e) {
+            generalResultMap.setResult(SysReturnCode.FAIL);
+            log.error("支付宝支付退款订单状态异常,request:{}", request, e);
         }
         return generalResultMap;
     }

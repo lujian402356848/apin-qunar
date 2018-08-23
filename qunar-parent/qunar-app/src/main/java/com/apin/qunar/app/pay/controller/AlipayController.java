@@ -6,6 +6,7 @@ import com.apin.qunar.app.common.constant.AppConstants;
 import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
 import com.apin.qunar.app.pay.request.alipay.AlipayRequest;
+import com.apin.qunar.app.pay.request.alipay.PayRefundRequest;
 import com.apin.qunar.app.pay.request.alipay.QueryAlipayRequest;
 import com.apin.qunar.basic.domain.ExecuteResult;
 import com.apin.qunar.common.enums.SysReturnCode;
@@ -164,6 +165,23 @@ public class AlipayController extends BaseController {
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
             log.error("支付宝支付查询订单状态异常,request:{}", request, e);
+        }
+        return generalResultMap;
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/alipay/refund")
+    public GeneralResultMap payRefund(@RequestBody PayRefundRequest request) {
+        GeneralResultMap generalResultMap = validateCommonParam(request);
+        if (!generalResultMap.isSuccess()) {
+            log.warn("/alipay/queryPayStatus接口基础验证不通过，request:{}", JSON.toJSON(request));
+            return generalResultMap;
+        }
+        try {
+            alipayService.payRefund(request.getOrderNo(), request.getTotalAmount());
+        } catch (Exception e) {
+            generalResultMap.setResult(SysReturnCode.FAIL);
+            log.error("支付宝支付退款订单状态异常,request:{}", request, e);
         }
         return generalResultMap;
     }
