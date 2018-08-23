@@ -105,6 +105,7 @@ public class MerchantController extends BaseController {
         merchant.setCompanyName(request.getCompanyName());
         merchant.setCompanyAddress(request.getCompanyAddress());
         merchant.setManagerName(request.getManagerName());
+        merchant.setAuditStatus(AuditStatusEnum.AWAITAUDIT.getCode());
         return merchant;
     }
 
