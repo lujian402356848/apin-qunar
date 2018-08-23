@@ -1,5 +1,6 @@
 package com.apin.qunar.basic.dao.impl;
 
+import com.apin.qunar.basic.dao.mapper.MerchantExtMapper;
 import com.apin.qunar.basic.dao.mapper.MerchantMapper;
 import com.apin.qunar.basic.dao.model.Merchant;
 import com.apin.qunar.basic.dao.model.MerchantExample;
@@ -19,6 +20,8 @@ import java.util.List;
 public class MerchantDaoImpl {
     @Autowired
     private MerchantMapper merchantMapper;
+    @Autowired
+    private MerchantExtMapper merchantExtMapper;
 
     public Merchant queryByMerchantNo(String merchantNo) {
         if (StringUtils.isBlank(merchantNo)) {
@@ -52,6 +55,9 @@ public class MerchantDaoImpl {
         return merchantMapper.countByExample(example) > 0;
     }
 
+    public String querySecretKeyBy(String merchantNo) {
+        return merchantExtMapper.queryUserSecretKey(merchantNo);
+    }
 
     public List<Merchant> queryBy(Integer auditStatus, Date auditTime) {
         MerchantExample example = new MerchantExample();
