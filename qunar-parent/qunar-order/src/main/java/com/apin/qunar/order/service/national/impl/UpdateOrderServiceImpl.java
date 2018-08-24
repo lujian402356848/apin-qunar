@@ -279,7 +279,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         PayTypeEnum payTypeEnum = PayTypeEnum.valueOf(payType);
         switch (payTypeEnum) {
             case ALIPAY:
-                alipayService.payRefund(orderNo, returnFee);
+                alipayService.payRefund(parentOrderNo,orderNo, returnFee);
                 break;
             case WECHATPAY:
                 wechatService.payRefund(parentOrderNo, orderNo, totalFee, returnFee);

@@ -281,7 +281,7 @@ public class AlipayServiceImpl implements AlipayService {
             log.info("支付宝付款成功，但是数据库中未找到该笔订单,alipayId:{},ordrNo:{}", aliPay.getId(), aliPay.getOrderNo());
             return result;
         }
-        nationalOrderDao.updatePayType(aliPay.getOrderNo(), PayTypeEnum.WECHATPAY.getCode());
+        nationalOrderDao.updatePayType(aliPay.getOrderNo(), PayTypeEnum.ALIPAY.getCode());
         QunarPayStatusEnum payStatus = QunarPayStatusEnum.NO_PAY;
         PayParam payParam = buildPayParam(nationalOrder.getClientSite(), nationalOrder.getPayOrderId());
         try {
@@ -497,10 +497,10 @@ public class AlipayServiceImpl implements AlipayService {
     * 支付宝退款
     * */
     @Override
-    public void payRefund(String orderNo, Integer refundAmount) {
+    public void payRefund(String parentOrderNo, String orderNo, Integer refundAmount) {
         String content = "";
         ReturnStatusEnum returnStatus = ReturnStatusEnum.NO_RETURN;
-        AlipayTradeRefundRequest request = buildAlipayTradeRefundRequest(orderNo, refundAmount);
+        AlipayTradeRefundRequest request = buildAlipayTradeRefundRequest(parentOrderNo, orderNo, refundAmount);
         try {
             AlipayTradeRefundResponse response = alipayClient.execute(request);
             if (response == null) {
@@ -525,11 +525,12 @@ public class AlipayServiceImpl implements AlipayService {
         nationalReturnOrderDao.updateReturnPayTypeAndstatus(orderNo, PayTypeEnum.ALIPAY.getCode(), returnStatus.getStatus());
     }
 
-    private AlipayTradeRefundRequest buildAlipayTradeRefundRequest(final String orderNo, final Integer refundAmount) {
+    private AlipayTradeRefundRequest buildAlipayTradeRefundRequest(final String parentOrderNo, final String orderNo, final Integer refundAmount) {
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         AlipayTradeRefundModel refundModel = new AlipayTradeRefundModel();
-        refundModel.setOutTradeNo(orderNo);
+        refundModel.setOutTradeNo(parentOrderNo);
         refundModel.setRefundAmount(String.valueOf(refundAmount));
+        refundModel.setOutRequestNo(orderNo);
         refundModel.setRefundReason("飞机票退款");
         request.setBizModel(refundModel);
         return request;

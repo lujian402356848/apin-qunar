@@ -178,7 +178,7 @@ public class AlipayController extends BaseController {
             return generalResultMap;
         }
         try {
-            alipayService.payRefund(request.getOrderNo(), request.getTotalAmount());
+            alipayService.payRefund(request.getParentNo(), request.getOrderNo(), request.getTotalAmount());
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
             log.error("支付宝支付退款订单状态异常,request:{}", request, e);

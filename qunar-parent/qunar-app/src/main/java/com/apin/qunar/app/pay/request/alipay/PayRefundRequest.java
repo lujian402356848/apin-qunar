@@ -8,5 +8,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PayRefundRequest extends BaseRequest {
     private String orderNo;
+    private String parentNo;
     private Integer totalAmount;
 }
