@@ -5,7 +5,6 @@ import com.apin.qunar.order.dao.mapper.InternationalOrderExtMapper;
 import com.apin.qunar.order.dao.mapper.InternationalOrderMapper;
 import com.apin.qunar.order.dao.model.InternationalOrder;
 import com.apin.qunar.order.dao.model.InternationalOrderExample;
-import com.apin.qunar.order.dao.model.NationalOrder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,4 +118,49 @@ public class InternationalOrderDaoImpl {
     public boolean insert(InternationalOrder internationalOrder) {
         return internationalOrderMapper.insert(internationalOrder) > 0;
     }
+
+    public Integer queryListCount(Integer status, List<String> orderNos) {
+        InternationalOrderExample example = new InternationalOrderExample();
+        InternationalOrderExample.Criteria criteria = example.createCriteria();
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
+        }
+        if (CollectionUtils.isNotEmpty(orderNos)) {
+            criteria.andOrderNoIn(orderNos);
+        }
+        criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
+        example.setOrderByClause("insert_time desc");
+        return internationalOrderMapper.countByExample(example);
+    }
+
+    public Integer queryCount(final String account, final Integer status, final String ordeNo) {
+        InternationalOrderExample example = new InternationalOrderExample();
+        InternationalOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
+        }
+        if (StringUtils.isNotBlank(ordeNo)) {
+            criteria.andOrderNoEqualTo(ordeNo);
+        }
+        criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
+        return internationalOrderMapper.countByExample(example);
+    }
+
+
+    public Integer queryCount(final String account, final Integer status) {
+        InternationalOrderExample example = new InternationalOrderExample();
+        InternationalOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
+        }
+        criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
+        return internationalOrderMapper.countByExample(example);
+    }
+
 }

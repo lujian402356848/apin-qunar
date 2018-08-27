@@ -48,6 +48,8 @@ public class NtsSearchRemoveOrderListController extends BaseController {
         }
         try {
             List<InternationalOrderVO> nationalOrderList = ntsSearchRemoveOrderListService.queryPageList(request.getAccount(), request.getStatus(), request.getOffset(), request.getLimit());
+            Integer count = ntsSearchRemoveOrderListService.queryCount(request.getAccount(), request.getStatus());
+            data.put("count", count);
             data.put("orderList", nationalOrderList);
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {
@@ -56,4 +58,5 @@ public class NtsSearchRemoveOrderListController extends BaseController {
         }
         return generalResultMap;
     }
+
 }

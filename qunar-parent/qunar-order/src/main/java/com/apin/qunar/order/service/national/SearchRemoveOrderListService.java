@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface SearchRemoveOrderListService {
     List<NationalOrderVO> queryPageList(String account, Integer status, Integer offset, Integer limit);
+
+    Integer queryCount(String merchantNo, String account, Integer status);
 }

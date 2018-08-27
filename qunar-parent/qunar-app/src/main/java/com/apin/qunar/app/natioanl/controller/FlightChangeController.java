@@ -59,6 +59,8 @@ public class FlightChangeController extends BaseController {
         }
         try {
             List<SearchFlightChangeVO> flightChangeVOS = flightChangeService.queryPageList(request.getMerchantNo(), request.getOffset(), request.getLimit());
+            Integer count = flightChangeService.queryCount(request.getMerchantNo());
+            data.put("count", count);
             data.put("flightChangeList", flightChangeVOS);
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {

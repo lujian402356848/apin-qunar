@@ -68,4 +68,19 @@ public class SearchChangeOrderListServiceImpl implements SearchChangeOrderListSe
         }
         return passengerBuilder.length() < 1 ? "" : passengerBuilder.substring(1).toString();
     }
+
+    @Override
+    public Integer queryCount(final String merchantNo, final String account, final Integer status, final String orderNo, final String pessengerName) {
+        List<NationalChangePassenger> passengers = null;
+        if (StringUtils.isNotBlank(pessengerName)) {
+            passengers = nationalChangePassengerDao.queryBy("", orderNo, pessengerName);
+            if (CollectionUtils.isNotEmpty(passengers)) {
+                List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
+                return nationalChangeOrderDao.queryListCount(status, orderNos);
+            }
+        } else {
+            return nationalChangeOrderDao.queryCount(account, status, orderNo);
+        }
+        return 0;
+    }
 }

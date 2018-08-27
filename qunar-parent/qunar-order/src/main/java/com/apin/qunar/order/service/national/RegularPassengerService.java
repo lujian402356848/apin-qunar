@@ -16,4 +16,5 @@ public interface RegularPassengerService {
 
     boolean delete(Long id);
 
+    Integer queryCount(String account, String name);
 }

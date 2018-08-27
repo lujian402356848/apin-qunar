@@ -46,6 +46,11 @@ public class FlightChangeServiceImpl implements FlightChangeService {
         return buildSearchFlightChangeVOs(flightChanges);
     }
 
+    @Override
+    public Integer queryCount(final String merchantNo) {
+        return nationalFlightChangeDao.queryCount(merchantNo);
+    }
+
     private List<SearchFlightChangeVO> buildSearchFlightChangeVOs(List<NationalFlightChange> flightChanges) {
         if (CollectionUtils.isEmpty(flightChanges)) {
             return new ArrayList<>();

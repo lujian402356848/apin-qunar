@@ -50,7 +50,7 @@ public class RegularPassengerController extends BaseController {
             if (result.isSuccess()) {
                 generalResultMap.setResult(SysReturnCode.SUCC);
             } else {
-                generalResultMap.setResult(SysReturnCode.FAIL,result.getDesc());
+                generalResultMap.setResult(SysReturnCode.FAIL, result.getDesc());
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
@@ -145,6 +145,8 @@ public class RegularPassengerController extends BaseController {
         }
         try {
             List<RegularPassengerVO> regularPassengerVO = regularPassengerService.queryPageListBy(request.getAccount(), request.getName(), request.getOffset(), request.getLimit());
+            Integer count = regularPassengerService.queryCount(request.getAccount(), request.getName());
+            map.put("count", count);
             map.put("passengerList", regularPassengerVO);
             generalResultMap.setResult(SysReturnCode.SUCC, map);
         } catch (Exception e) {

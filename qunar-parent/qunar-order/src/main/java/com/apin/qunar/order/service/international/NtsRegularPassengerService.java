@@ -14,4 +14,6 @@ public interface NtsRegularPassengerService {
     boolean change(NtsRegularPassengerBO ntsRegularPassengerBO);
 
     boolean remove(Long id);
+
+    Integer queryCount(String account, String name);
 }

@@ -36,4 +36,16 @@ public class ReimburseVoucherDaoImpl {
         example.setMysqlLength(limit);
         return nationalReimburseVoucherMapper.selectByExample(example);
     }
+
+    public Integer queryPage(String merchantNo, String orderNo) {
+        NationalReimburseVoucherExample example = new NationalReimburseVoucherExample();
+        NationalReimburseVoucherExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(merchantNo)) {
+            criteria.andMerchantNoEqualTo(merchantNo);
+        }
+        if (StringUtils.isNotBlank(orderNo)) {
+            criteria.andOrderNoEqualTo(orderNo);
+        }
+        return nationalReimburseVoucherMapper.countByExample(example);
+    }
 }

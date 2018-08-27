@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface FlightChangeService {
     List<SearchFlightChangeVO> queryPageList(String merchantNo, Integer offset, Integer limit);
+    
+    Integer queryCount(String merchantNo);
 
     void saveFlightChange(NationalFlightChange flightChange);
 

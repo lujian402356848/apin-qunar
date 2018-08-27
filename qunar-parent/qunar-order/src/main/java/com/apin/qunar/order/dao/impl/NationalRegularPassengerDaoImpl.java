@@ -53,4 +53,17 @@ public class NationalRegularPassengerDaoImpl {
         example.setOrderByClause("insert_time desc");
         return regularPassengerMapper.selectByExample(example);
     }
+
+    public Integer queryCount(String account, String name) {
+        NationalRegularPassengerExample example = new NationalRegularPassengerExample();
+        NationalRegularPassengerExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (StringUtils.isNotBlank(name)) {
+            criteria.andNameEqualTo(name);
+        }
+        example.setOrderByClause("insert_time desc");
+        return regularPassengerMapper.countByExample(example);
+    }
 }

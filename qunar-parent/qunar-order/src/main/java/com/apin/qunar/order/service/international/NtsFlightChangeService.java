@@ -12,6 +12,8 @@ import java.util.List;
 public interface NtsFlightChangeService {
     List<NtsSearchFlightChangeVO> queryPageList(String merchantNo, Integer offset, Integer limit);
 
+    Integer queryCount(String merchantNo);
+
     void saveFlightChange(InternationalFlightChange flightChange);
 
     boolean smsNotify(String merchantNo, String orderNo);

@@ -100,4 +100,33 @@ public class NationalChangeOrderDaoImpl {
         return nationalChangeOrderMapper.deleteByExample(example) > 0;
     }
 
+    public Integer queryCount(String account, Integer status, String orderNo) {
+        NationalChangeOrderExample example = new NationalChangeOrderExample();
+        NationalChangeOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andChangeStatusEqualTo(status);
+        }
+        if (StringUtils.isNotBlank(orderNo)) {
+            criteria.andOrderNoEqualTo(orderNo);
+        }
+        example.setOrderByClause("insert_time desc");
+        return nationalChangeOrderMapper.countByExample(example);
+    }
+
+    public Integer queryListCount(Integer status, List<String> orderNos) {
+        NationalChangeOrderExample example = new NationalChangeOrderExample();
+        NationalChangeOrderExample.Criteria criteria = example.createCriteria();
+        if (status >= 0) {
+            criteria.andChangeStatusEqualTo(status);
+        }
+        if (CollectionUtils.isNotEmpty(orderNos)) {
+            criteria.andOrderNoIn(orderNos);
+        }
+        example.setOrderByClause("insert_time desc");
+        return nationalChangeOrderMapper.countByExample(example);
+    }
+
 }

@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface SearchReimburseVoucherListService {
     List<NationalReimburseVoucher> queryPageList(String merchantNo, String orderNo, Integer offset, Integer limit);
+
+    Integer queryPage(String merchantNo, String orderNo);
 }

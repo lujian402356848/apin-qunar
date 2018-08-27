@@ -93,4 +93,9 @@ public class NtsRegularPassengerServiceImpl implements NtsRegularPassengerServic
         }
         return ntsRegularPassengerVOS;
     }
+
+    @Override
+    public Integer queryCount(String account, String name) {
+        return internationalRegularPassengerDao.queryCount(account, name);
+    }
 }

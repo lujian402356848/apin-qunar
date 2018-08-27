@@ -57,4 +57,9 @@ public class SearchRemoveOrderListServiceImpl implements SearchRemoveOrderListSe
         }
         return passengerBuilder.length() < 1 ? "" : passengerBuilder.substring(1).toString();
     }
+
+    @Override
+    public Integer queryCount(final String merchantNo, final String account, final Integer status) {
+        return nationalOrderDao.queryRemoveCount(account, status);
+    }
 }

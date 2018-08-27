@@ -84,4 +84,26 @@ public class NationalReturnOrderDaoImpl {
     public boolean updateReturnPayTypeAndstatus(String orderNo, Integer returnType, Integer returnStauts) {
         return nationalRefundOrderExtMapper.updateReturnPayTypeAndstatus(orderNo, returnType, returnStauts) > 0;
     }
+
+    public Integer queryCount(final String account, final String orderNo) {
+        NationalReturnOrderExample example = new NationalReturnOrderExample();
+        NationalReturnOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (StringUtils.isNotBlank(orderNo)) {
+            criteria.andOrderNoEqualTo(orderNo);
+        }
+        return nationalReturnOrderMapper.countByExample(example);
+    }
+
+    public Integer queryListCount(List<String> orderNos) {
+        NationalReturnOrderExample example = new NationalReturnOrderExample();
+        NationalReturnOrderExample.Criteria criteria = example.createCriteria();
+        if (CollectionUtils.isNotEmpty(orderNos)) {
+            criteria.andOrderNoIn(orderNos);
+        }
+        example.setOrderByClause("insert_time desc");
+        return nationalReturnOrderMapper.countByExample(example);
+    }
 }

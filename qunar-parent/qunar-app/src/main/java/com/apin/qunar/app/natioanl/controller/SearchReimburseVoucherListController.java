@@ -48,7 +48,9 @@ public class SearchReimburseVoucherListController extends BaseController {
         }
         try {
             List<NationalReimburseVoucher> nationalReimburseVoucherList = searchReimburseVoucherListService.queryPageList(request.getMerchantNo(), request.getOrderNo(), request.getOffset(), request.getLimit());
+            Integer count = searchReimburseVoucherListService.queryPage(request.getMerchantNo(), request.getOrderNo());
             data.put("nationalReimburseVoucherList", nationalReimburseVoucherList);
+            data.put("count", count);
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

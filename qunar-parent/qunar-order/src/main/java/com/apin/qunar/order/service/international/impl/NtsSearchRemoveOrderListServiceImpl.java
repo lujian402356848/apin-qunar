@@ -6,7 +6,6 @@ import com.apin.qunar.order.dao.impl.InternationalPassengerDaoImpl;
 import com.apin.qunar.order.dao.model.InternationalOrder;
 import com.apin.qunar.order.dao.model.InternationalPassenger;
 import com.apin.qunar.order.domain.international.searchOrderList.InternationalOrderVO;
-import com.apin.qunar.order.service.international.NtsSearchOrderListService;
 import com.apin.qunar.order.service.international.NtsSearchRemoveOrderListService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -60,5 +59,10 @@ public class NtsSearchRemoveOrderListServiceImpl implements NtsSearchRemoveOrder
             passengerBuilder.append(internationalPassenger.getName());
         }
         return passengerBuilder.length() < 1 ? "" : passengerBuilder.substring(1).toString();
+    }
+
+    @Override
+    public Integer queryCount(final String account, final Integer status) {
+        return internationalOrderDao.queryCount(account, status);
     }
 }

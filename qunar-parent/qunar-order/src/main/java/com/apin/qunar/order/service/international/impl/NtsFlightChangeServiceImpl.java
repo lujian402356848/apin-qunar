@@ -46,6 +46,11 @@ public class NtsFlightChangeServiceImpl implements NtsFlightChangeService {
         return buildNtsSearchFlightChangeVOs(flightChanges);
     }
 
+    @Override
+    public Integer queryCount(String merchantNo) {
+        return internationalFlightChangeDao.queryCount(merchantNo);
+    }
+
     private List<NtsSearchFlightChangeVO> buildNtsSearchFlightChangeVOs(List<InternationalFlightChange> flightChanges) {
         if (CollectionUtils.isEmpty(flightChanges)) {
             return new ArrayList<>();

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SearchChangeOrderListService {
     List<NationalChangeOrderVO> queryPageList(String merchantNo, String account, Integer status, String orderNo, String pessengerName, Integer offset, Integer limit);
+
+    Integer queryCount(String merchantNo, String account, Integer status, String orderNo, String pessengerName);
 }

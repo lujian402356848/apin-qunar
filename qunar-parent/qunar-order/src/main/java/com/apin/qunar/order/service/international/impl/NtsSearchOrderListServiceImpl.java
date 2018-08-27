@@ -70,4 +70,19 @@ public class NtsSearchOrderListServiceImpl implements NtsSearchOrderListService 
         }
         return passengerBuilder.length() < 1 ? "" : passengerBuilder.substring(1).toString();
     }
+
+    @Override
+    public Integer queryCount(final String merchantNo, final String account, final Integer status, final String orderNo, final String pessengerName) {
+        List<InternationalPassenger> passengers = null;
+        if (StringUtils.isNotBlank(pessengerName)) {
+            passengers = internationalPassengerDao.queryBy("", orderNo, pessengerName);
+            if (CollectionUtils.isNotEmpty(passengers)) {
+                List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
+                return internationalOrderDao.queryListCount(status, orderNos);
+            }
+        } else {
+            return internationalOrderDao.queryCount(account, status, orderNo);
+        }
+        return 0;
+    }
 }

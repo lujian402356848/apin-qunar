@@ -70,4 +70,19 @@ public class SearchRefundOrderListServiceImpl implements SearchRefundOrderListSe
         }
         return passengerBuilder.length() < 1 ? "" : passengerBuilder.substring(1).toString();
     }
+
+    @Override
+    public Integer queryCount(final String merchantNo, final String account, final String orderNo, final String pessengerName) {
+        List<NationalReturnPassenger> passengers = null;
+        if (StringUtils.isNotBlank(pessengerName)) {
+            passengers = nationalReturnPassengerDao.queryBy(merchantNo, orderNo, pessengerName);
+            if (CollectionUtils.isNotEmpty(passengers)) {
+                List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
+                return nationalReturnOrderDao.queryListCount(orderNos);
+            }
+        } else {
+            return nationalReturnOrderDao.queryCount(account, orderNo);
+        }
+        return 0;
+    }
 }

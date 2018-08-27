@@ -48,7 +48,9 @@ public class SearchRemoveOrderListController extends BaseController {
         }
         try {
             List<NationalOrderVO> nationalOrderList = searchRemoveOrderListService.queryPageList(request.getAccount(), request.getStatus(), request.getOffset(), request.getLimit());
+            Integer count = searchRemoveOrderListService.queryCount(request.getMerchantNo(), request.getAccount(), request.getStatus());
             data.put("orderList", nationalOrderList);
+            data.put("count", count);
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

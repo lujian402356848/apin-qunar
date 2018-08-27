@@ -92,4 +92,9 @@ public class RegularPassengerServiceImpl implements RegularPassengerService {
         }
         return regularPassengerVOS;
     }
+
+    @Override
+    public Integer queryCount(final String account, final String name) {
+        return regularPassengerDao.queryCount(account, name);
+    }
 }

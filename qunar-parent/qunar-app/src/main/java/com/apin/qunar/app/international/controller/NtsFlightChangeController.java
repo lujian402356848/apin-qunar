@@ -53,6 +53,8 @@ public class NtsFlightChangeController extends BaseController {
         }
         try {
             List<NtsSearchFlightChangeVO> flightChangeVOS = ntsFlightChangeService.queryPageList(request.getMerchantNo(), request.getOffset(), request.getLimit());
+            Integer count = ntsFlightChangeService.queryCount(request.getMerchantNo());
+            data.put("count", count);
             data.put("flightChangeList", flightChangeVOS);
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {

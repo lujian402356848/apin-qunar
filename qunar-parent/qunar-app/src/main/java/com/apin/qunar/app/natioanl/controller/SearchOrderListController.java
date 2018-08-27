@@ -48,7 +48,9 @@ public class SearchOrderListController extends BaseController {
         }
         try {
             List<NationalOrderVO> nationalOrderList = searchOrderListService.queryPageList(request.getMerchantNo(), request.getAccount(), request.getStatus(), request.getOrderNo(), request.getPessengerName(), request.getOffset(), request.getLimit());
+            Integer count = searchOrderListService.queryCount(request.getMerchantNo(), request.getAccount(), request.getStatus(), request.getOrderNo(), request.getPessengerName());
             data.put("orderList", nationalOrderList);
+            data.put("count", count);
             generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);

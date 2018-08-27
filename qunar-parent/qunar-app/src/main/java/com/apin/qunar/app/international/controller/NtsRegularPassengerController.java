@@ -151,6 +151,8 @@ public class NtsRegularPassengerController extends BaseController {
         }
         try {
             List<NtsRegularPassengerVO> ntsRegularPassengerVO = ntsRregularPassengerService.queryPageListBy(request.getAccount(), request.getName(), request.getOffset(), request.getLimit());
+            Integer count = ntsRregularPassengerService.queryCount(request.getAccount(), request.getName());
+            map.put("count", count);
             map.put("ntsPassengerList", ntsRegularPassengerVO);
             generalResultMap.setResult(SysReturnCode.SUCC, map);
         } catch (Exception e) {

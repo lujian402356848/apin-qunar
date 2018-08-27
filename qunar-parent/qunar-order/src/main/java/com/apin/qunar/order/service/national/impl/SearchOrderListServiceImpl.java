@@ -68,4 +68,19 @@ public class SearchOrderListServiceImpl implements SearchOrderListService {
         }
         return passengerBuilder.length() < 1 ? "" : passengerBuilder.substring(1).toString();
     }
+
+    @Override
+    public Integer queryCount(final String merchantNo, final String account, final Integer status, final String orderNo, final String pessengerName) {
+        List<NationalPassenger> passengers = null;
+        if (StringUtils.isNotBlank(pessengerName)) {
+            passengers = nationalPassengerDao.queryBy("", orderNo, pessengerName);
+            if (CollectionUtils.isNotEmpty(passengers)) {
+                List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
+                return nationalOrderDao.queryListCount(status, orderNos);
+            }
+        } else {
+            return nationalOrderDao.queryCount(account, status, orderNo);
+        }
+        return 0;
+    }
 }

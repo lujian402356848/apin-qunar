@@ -52,4 +52,16 @@ public class InternationalRegularPassengerDaoImpl {
         example.setOrderByClause("insert_time desc");
         return regularPassengerMapper.selectByExample(example);
     }
+
+    public Integer queryCount(String account, String name) {
+        InternationalRegularPassengerExample example = new InternationalRegularPassengerExample();
+        InternationalRegularPassengerExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (StringUtils.isNotBlank(name)) {
+            criteria.andNameEqualTo(name);
+        }
+        return regularPassengerMapper.countByExample(example);
+    }
 }

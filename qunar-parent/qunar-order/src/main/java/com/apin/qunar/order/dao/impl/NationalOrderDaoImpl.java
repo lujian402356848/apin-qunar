@@ -133,7 +133,50 @@ public class NationalOrderDaoImpl {
         return nationalOrderMapper.insert(nationalOrder) > 0;
     }
 
-    public boolean updatePayType(String orderNo,Integer payType){
-        return nationalOrderExtMapper.updatePayType(orderNo,payType)>0;
+    public boolean updatePayType(String orderNo, Integer payType) {
+        return nationalOrderExtMapper.updatePayType(orderNo, payType) > 0;
+    }
+
+    public Integer queryCount(final String account, final Integer status, final String orderNo) {
+        NationalOrderExample example = new NationalOrderExample();
+        NationalOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
+        }
+        if (StringUtils.isNotBlank(orderNo)) {
+            criteria.andOrderNoEqualTo(orderNo);
+        }
+        criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
+        return nationalOrderMapper.countByExample(example);
+    }
+
+    public Integer queryListCount(Integer status, List<String> orderNos) {
+        NationalOrderExample example = new NationalOrderExample();
+        NationalOrderExample.Criteria criteria = example.createCriteria();
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
+        }
+        if (CollectionUtils.isNotEmpty(orderNos)) {
+            criteria.andOrderNoIn(orderNos);
+        }
+        criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
+        example.setOrderByClause("insert_time desc");
+        return nationalOrderMapper.countByExample(example);
+    }
+
+    public Integer queryRemoveCount(final String account, final Integer status) {
+        NationalOrderExample example = new NationalOrderExample();
+        NationalOrderExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
+        }
+        if (status >= 0) {
+            criteria.andPayStatusEqualTo(status);
+        }
+        criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
+        return nationalOrderMapper.countByExample(example);
     }
 }

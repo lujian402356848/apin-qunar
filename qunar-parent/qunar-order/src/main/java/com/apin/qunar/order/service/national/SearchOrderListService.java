@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface SearchOrderListService {
     List<NationalOrderVO> queryPageList(String merchantNo, String account, Integer status, String orderNo, String pessengerName, Integer offset, Integer limit);
+
+    Integer queryCount(String merchantNo, String account, Integer status, String orderNo, String pessengerName);
 }

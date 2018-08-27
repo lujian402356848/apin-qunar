@@ -48,4 +48,14 @@ public class NationalFlightChangeDaoImpl {
     public boolean insert(NationalFlightChange nationalFlightChange) {
         return nationalFlightChangeMapper.insert(nationalFlightChange) > 0;
     }
+
+    public Integer queryCount(String merchantNo) {
+        NationalFlightChangeExample example = new NationalFlightChangeExample();
+        NationalFlightChangeExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(merchantNo)) {
+            criteria.andMerchantNoEqualTo(merchantNo);
+        }
+        example.setOrderByClause("insert_time desc");
+        return nationalFlightChangeMapper.countByExample(example);
+    }
 }

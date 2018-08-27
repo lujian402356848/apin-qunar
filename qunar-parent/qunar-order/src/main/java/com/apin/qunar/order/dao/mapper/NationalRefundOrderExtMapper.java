@@ -20,6 +20,6 @@ public interface NationalRefundOrderExtMapper {
     @Update("update national_return_order set return_status=#{payStatus} where order_no=#{orderNo}")
     int updateStatus(@Param("orderNo") String orderNo, @Param("payStatus") int payStatus);
 
-    @Update("update national_return_order set return_pay_status=#{returnType} and return_pay_type=#{returnStauts} where order_no=#{orderNo}")
+    @Update("update national_return_order set return_pay_status=#{returnType} , return_pay_type=#{returnStauts} where order_no=#{orderNo}")
     int updateReturnPayTypeAndstatus(@Param("orderNo") String orderNo, @Param("returnType") Integer returnType, @Param("returnStauts") Integer returnStauts);
 }

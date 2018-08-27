@@ -50,4 +50,14 @@ public class InternationalFlightChangeDaoImpl {
     public boolean insert(InternationalFlightChange flightChange) {
         return internationalFlightChangeMapper.insert(flightChange) > 0;
     }
+
+    public Integer queryCount(String merchantNo){
+        InternationalFlightChangeExample example = new InternationalFlightChangeExample();
+        InternationalFlightChangeExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(merchantNo)) {
+            criteria.andMerchantNoEqualTo(merchantNo);
+        }
+        example.setOrderByClause("insert_time desc");
+        return internationalFlightChangeMapper.countByExample(example);
+    }
 }

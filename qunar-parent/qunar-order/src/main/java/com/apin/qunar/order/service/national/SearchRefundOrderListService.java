@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface SearchRefundOrderListService {
     List<NationRefundOrderVO> queryPageList(String merchantNo, String account, String orderNo, String pessengerName, Integer offset, Integer limit);
+
+    Integer queryCount(String merchantNo, String account, String orderNo, String pessengerName);
 }
