@@ -1,7 +1,7 @@
-package com.apin.qunar.order.dao.mapper;
+package com.apin.qunar.basic.dao.mapper;
 
-import com.apin.qunar.order.dao.model.Coupon;
-import com.apin.qunar.order.dao.model.CouponExample;
+import com.apin.qunar.basic.dao.model.Coupon;
+import com.apin.qunar.basic.dao.model.CouponExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

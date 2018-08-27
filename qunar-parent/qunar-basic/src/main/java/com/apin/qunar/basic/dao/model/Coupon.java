@@ -1,4 +1,4 @@
-package com.apin.qunar.order.dao.model;
+package com.apin.qunar.basic.dao.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -50,6 +50,11 @@ public class Coupon implements Serializable {
      * 可使用的结束时间
      */
     private Date useEndDate;
+
+    /**
+     * 插入时间
+     */
+    private Date insertTime;
 
     /**
      * @return 优惠券id
@@ -175,5 +180,19 @@ public class Coupon implements Serializable {
      */
     public void setUseEndDate(Date useEndDate) {
         this.useEndDate = useEndDate;
+    }
+
+    /**
+     * @return 插入时间
+     */
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    /**
+     * @param insertTime 插入时间
+     */
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 }

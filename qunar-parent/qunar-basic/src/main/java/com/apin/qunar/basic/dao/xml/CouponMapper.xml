@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-  <mapper namespace="com.apin.qunar.order.dao.mapper.CouponMapper" >
-    <resultMap id="CouponResult" type="com.apin.qunar.order.dao.model.Coupon" >
+  <mapper namespace="com.apin.qunar.basic.dao.mapper.CouponMapper" >
+    <resultMap id="CouponResult" type="com.apin.qunar.basic.dao.model.Coupon" >
       <id column="id" property="id" jdbcType="BIGINT" />
       <result column="account" property="account" jdbcType="VARCHAR" />
       <result column="coupon_money" property="couponMoney" jdbcType="INTEGER" />
@@ -11,6 +11,7 @@
       <result column="max_amount" property="maxAmount" jdbcType="INTEGER" />
       <result column="use_start_date" property="useStartDate" jdbcType="TIMESTAMP" />
       <result column="use_end_date" property="useEndDate" jdbcType="TIMESTAMP" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Example_Where_Clause" >
       <where >
@@ -72,9 +73,9 @@
     </sql>
     <sql id="CouponColumns" >
       id, account, coupon_money, coupon_type, coupon_status, min_amount, max_amount, use_start_date, 
-      use_end_date
+      use_end_date, insert_time
     </sql>
-    <select id="selectByExample" resultMap="CouponResult" parameterType="com.apin.qunar.order.dao.model.CouponExample" >
+    <select id="selectByExample" resultMap="CouponResult" parameterType="com.apin.qunar.basic.dao.model.CouponExample" >
       select
       <if test="distinct" >
         distinct
@@ -103,23 +104,23 @@
       delete from coupon
       where id = #{id,jdbcType=BIGINT}
     </delete>
-    <delete id="deleteByExample" parameterType="com.apin.qunar.order.dao.model.CouponExample" >
+    <delete id="deleteByExample" parameterType="com.apin.qunar.basic.dao.model.CouponExample" >
       delete from coupon
       <if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
       </if>
     </delete>
-    <insert id="insert" parameterType="com.apin.qunar.order.dao.model.Coupon" >
+    <insert id="insert" parameterType="com.apin.qunar.basic.dao.model.Coupon" >
       insert into coupon (id, account, coupon_money, 
         coupon_type, coupon_status, min_amount, 
-        max_amount, use_start_date, use_end_date
-        )
+        max_amount, use_start_date, use_end_date, 
+        insert_time)
       values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{couponMoney,jdbcType=INTEGER}, 
         #{couponType,jdbcType=INTEGER}, #{couponStatus,jdbcType=INTEGER}, #{minAmount,jdbcType=INTEGER}, 
-        #{maxAmount,jdbcType=INTEGER}, #{useStartDate,jdbcType=TIMESTAMP}, #{useEndDate,jdbcType=TIMESTAMP}
-        )
+        #{maxAmount,jdbcType=INTEGER}, #{useStartDate,jdbcType=TIMESTAMP}, #{useEndDate,jdbcType=TIMESTAMP}, 
+        #{insertTime,jdbcType=TIMESTAMP})
     </insert>
-    <insert id="insertSelective" parameterType="com.apin.qunar.order.dao.model.Coupon" >
+    <insert id="insertSelective" parameterType="com.apin.qunar.basic.dao.model.Coupon" >
       insert into coupon
       <trim prefix="(" suffix=")" suffixOverrides="," >
         <if test="id != null" >
@@ -148,6 +149,9 @@
         </if>
         <if test="useEndDate != null" >
           use_end_date,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
         </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -178,9 +182,12 @@
         <if test="useEndDate != null" >
           #{useEndDate,jdbcType=TIMESTAMP},
         </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
       </trim>
     </insert>
-    <select id="countByExample" parameterType="com.apin.qunar.order.dao.model.CouponExample" resultType="java.lang.Integer" >
+    <select id="countByExample" parameterType="com.apin.qunar.basic.dao.model.CouponExample" resultType="java.lang.Integer" >
       select count(*) from coupon
       <if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
@@ -216,6 +223,9 @@
         <if test="record.useEndDate != null" >
           use_end_date = #{record.useEndDate,jdbcType=TIMESTAMP},
         </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
       </set>
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
@@ -231,12 +241,13 @@
         min_amount = #{record.minAmount,jdbcType=INTEGER},
         max_amount = #{record.maxAmount,jdbcType=INTEGER},
         use_start_date = #{record.useStartDate,jdbcType=TIMESTAMP},
-        use_end_date = #{record.useEndDate,jdbcType=TIMESTAMP}
+        use_end_date = #{record.useEndDate,jdbcType=TIMESTAMP},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
       </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.order.dao.model.Coupon" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.basic.dao.model.Coupon" >
       update coupon
       <set >
         <if test="account != null" >
@@ -263,10 +274,13 @@
         <if test="useEndDate != null" >
           use_end_date = #{useEndDate,jdbcType=TIMESTAMP},
         </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
       </set>
       where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.order.dao.model.Coupon" >
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.basic.dao.model.Coupon" >
       update coupon
       set account = #{account,jdbcType=VARCHAR},
         coupon_money = #{couponMoney,jdbcType=INTEGER},
@@ -275,7 +289,8 @@
         min_amount = #{minAmount,jdbcType=INTEGER},
         max_amount = #{maxAmount,jdbcType=INTEGER},
         use_start_date = #{useStartDate,jdbcType=TIMESTAMP},
-        use_end_date = #{useEndDate,jdbcType=TIMESTAMP}
+        use_end_date = #{useEndDate,jdbcType=TIMESTAMP},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
       where id = #{id,jdbcType=BIGINT}
     </update>
   </mapper>
