@@ -1,5 +1,6 @@
 package com.apin.qunar.basic.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.apin.qunar.basic.dao.impl.AirportDaoImpl;
 import com.apin.qunar.basic.dao.impl.AirportSearchDaoImpl;
 import com.apin.qunar.basic.dao.model.Airport;
@@ -10,13 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @outhor lujian
@@ -32,6 +31,7 @@ public class AirportServiceImpl implements AirportService {
     private AirportSearchDaoImpl airportSearchDao;
     private Map<String, String> baoYouCityCode = new HashMap<>(20);
     private Map<String, String> chinaCityCode = new HashMap<>(40);
+    private Date maxInsertTime = null;
 
     @PostConstruct
     public void init() {
@@ -83,7 +83,26 @@ public class AirportServiceImpl implements AirportService {
                 chinaCityCode.put(airport.getAirportCode(), airport.getCityName());
             }
         }
+        setMaxInsertTime(airports);
         log.info("初始化机场信息完毕");
+    }
+
+    @Scheduled(initialDelay = 60 * 1000, fixedDelay = 60 * 1000)
+    private void syncData() {
+        List<Airport> airports = airportDao.queryBy(maxInsertTime);
+        for (Airport airport : airports) {
+            airportCache.put(airport.getAirportCode(), airport);
+            log.info("同步机场信息:{}", JSON.toJSON(airport));
+        }
+        setMaxInsertTime(airports);
+    }
+
+    private void setMaxInsertTime(List<Airport> airports) {
+        if (CollectionUtils.isEmpty(airports)) {
+            return;
+        }
+        maxInsertTime = airports.stream().filter(p -> p.getInsertTime() != null).max(Comparator.comparing(Airport::getInsertTime)).get().getInsertTime();
+        log.info("当前机场最大新增时间:{}", maxInsertTime);
     }
 
     @Override

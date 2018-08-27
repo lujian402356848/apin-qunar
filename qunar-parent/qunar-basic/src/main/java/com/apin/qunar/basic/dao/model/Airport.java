@@ -1,6 +1,7 @@
 package com.apin.qunar.basic.dao.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Airport implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,6 +42,11 @@ public class Airport implements Serializable {
      * 国家名称
      */
     private String countryName;
+
+    /**
+     * 插入时间
+     */
+    private Date insertTime;
 
     public Integer getId() {
         return id;
@@ -146,5 +152,19 @@ public class Airport implements Serializable {
      */
     public void setCountryName(String countryName) {
         this.countryName = countryName == null ? null : countryName.trim();
+    }
+
+    /**
+     * @return 插入时间
+     */
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    /**
+     * @param insertTime 插入时间
+     */
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 }

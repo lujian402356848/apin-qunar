@@ -4,10 +4,10 @@ import com.apin.qunar.basic.dao.mapper.AirportExtMapper;
 import com.apin.qunar.basic.dao.mapper.AirportMapper;
 import com.apin.qunar.basic.dao.model.Airport;
 import com.apin.qunar.basic.dao.model.AirportExample;
-import com.apin.qunar.basic.dao.model.MerchantExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,5 +27,14 @@ public class AirportDaoImpl {
 
     public List<Airport> queryAll() {
         return airportMapper.selectByExample(null);
+    }
+
+    public List<Airport> queryBy(Date insertTime) {
+        AirportExample example = new AirportExample();
+        AirportExample.Criteria criteria = example.createCriteria();
+        if (insertTime != null) {
+            criteria.andInsertTimeGreaterThan(insertTime);
+        }
+        return airportMapper.selectByExample(example);
     }
 }
