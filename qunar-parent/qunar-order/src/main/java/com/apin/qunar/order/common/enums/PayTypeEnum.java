@@ -1,6 +1,7 @@
 package com.apin.qunar.order.common.enums;
 
 public enum PayTypeEnum {
+    INNERPAY(0, "内部支付"),
     ALIPAY(1, "支付宝"),
     WECHATPAY(2, "微信");
 
@@ -13,8 +14,11 @@ public enum PayTypeEnum {
     }
 
     public static PayTypeEnum valueOf(Integer type) {
-        PayTypeEnum payTypeEnum = PayTypeEnum.ALIPAY;
+        PayTypeEnum payTypeEnum = PayTypeEnum.INNERPAY;
         switch (type) {
+            case 0:
+                payTypeEnum = PayTypeEnum.INNERPAY;
+                break;
             case 1:
                 payTypeEnum = PayTypeEnum.ALIPAY;
                 break;
