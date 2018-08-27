@@ -12,6 +12,7 @@ import com.apin.qunar.basic.service.MerchantService;
 import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.common.ids.IDGenerator;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,6 +81,10 @@ public class MerchantController extends BaseController {
                 generalResultMap.setResult(SysReturnCode.FAIL, "手机号已注册");
                 return generalResultMap;
             }
+            if (StringUtils.isNotBlank(request.getParentInviteCode()) && merchantService.isExistParentInviteCode(request.getParentInviteCode())) {
+                generalResultMap.setResult(SysReturnCode.FAIL, "邀请码不存在");
+                return generalResultMap;
+            }
             boolean result = merchantService.register(buildMerchant(request));
             if (result) {
                 generalResultMap.setResult(SysReturnCode.SUCC);
@@ -119,6 +124,7 @@ public class MerchantController extends BaseController {
         merchant.setCompanyAddress(request.getCompanyAddress());
         merchant.setManagerName(request.getManagerName());
         merchant.setAuditStatus(AuditStatusEnum.AWAITAUDIT.getCode());
+        merchant.setParentInviteCode(request.getParentInviteCode());
         return merchant;
     }
 

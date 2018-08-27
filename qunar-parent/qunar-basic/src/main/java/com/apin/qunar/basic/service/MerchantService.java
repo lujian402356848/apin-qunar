@@ -22,6 +22,8 @@ public interface MerchantService {
 
     boolean isExistContactMobile(String contactMobile);
 
+    boolean isExistParentInviteCode(String invitationCode);
+
     boolean audit(String contactMobile, String auditUser, AuditStatusEnum auditStatusEnum);
 
     boolean change(Merchant merchant);

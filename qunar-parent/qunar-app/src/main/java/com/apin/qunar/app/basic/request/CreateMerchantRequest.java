@@ -7,11 +7,12 @@ import lombok.Data;
  * @create 2018-07-23 15:04
  */
 @Data
-public class CreateMerchantRequest{
+public class CreateMerchantRequest {
     private String contactName;
     private String contactMobile;
     private String companyName;
     private String companyAddress;
     private String managerName;
     private String verifyCode;
+    private String parentInviteCode;
 }

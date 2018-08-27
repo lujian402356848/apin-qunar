@@ -121,6 +121,11 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
+    public boolean isExistParentInviteCode(String parentInviteCode) {
+        return merchantDao.isExistParentInviteCode(parentInviteCode);
+    }
+
+    @Override
     public boolean audit(String contactMobile, String auditUser, AuditStatusEnum auditStatusEnum) {
         boolean result = false;
         if (StringUtils.isBlank(contactMobile) || StringUtils.isBlank(auditUser)) {
@@ -179,6 +184,7 @@ public class MerchantServiceImpl implements MerchantService {
         }
         merchant.setMerchantNo(buildMerchantNo());
         merchant.setSecretKey(buildSecretKey());
+        merchant.setInviteCode(buildInviteCode());
         User user = buildUser(merchant);
         DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
         definition.setIsolationLevel(DefaultTransactionDefinition.ISOLATION_SERIALIZABLE);
@@ -283,5 +289,22 @@ public class MerchantServiceImpl implements MerchantService {
      */
     private String buildSecretKey() {
         return "m2oBIMM4m6ui4aBLMF7G2fA8TfrK1y7y";
+    }
+
+    /**
+     * 生成6位随机邀请码字符串
+     *
+     * @return
+     */
+    private String buildInviteCode() {
+        final int keyLength = 6;
+        final String sourceData = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < keyLength; i++) {
+            int number = random.nextInt(sourceData.length());
+            sb.append(sourceData.charAt(number));
+        }
+        return sb.toString();
     }
 }

@@ -63,6 +63,16 @@ public class MerchantDaoImpl {
         return merchantMapper.countByExample(example) > 0;
     }
 
+    public boolean isExistParentInviteCode(String parentInviteCode) {
+        if (StringUtils.isBlank(parentInviteCode)) {
+            return false;
+        }
+        MerchantExample example = new MerchantExample();
+        MerchantExample.Criteria criteria = example.createCriteria();
+        criteria.andInviteCodeEqualTo(parentInviteCode);
+        return merchantMapper.countByExample(example) == 0;
+    }
+
     public String querySecretKeyBy(String merchantNo) {
         return merchantExtMapper.queryUserSecretKey(merchantNo);
     }
