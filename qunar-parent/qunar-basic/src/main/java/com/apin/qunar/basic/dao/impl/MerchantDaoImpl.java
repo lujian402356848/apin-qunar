@@ -45,6 +45,14 @@ public class MerchantDaoImpl {
         return CollectionUtils.isEmpty(merchants) ? null : merchants.get(0);
     }
 
+    public List<Merchant> querySubordinateMerchant(String contactMobile) {
+        if (StringUtils.isBlank(contactMobile)) {
+            return null;
+        }
+        List<Merchant> merchants = merchantExtMapper.querySubordinateMerchant(contactMobile);
+        return merchants;
+    }
+
     public boolean isExistContactMobile(String contactMobile) {
         if (StringUtils.isBlank(contactMobile)) {
             return false;

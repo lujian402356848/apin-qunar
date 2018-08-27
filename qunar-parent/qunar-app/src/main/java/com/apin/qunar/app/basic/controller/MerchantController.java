@@ -59,6 +59,19 @@ public class MerchantController extends BaseController {
         return generalResultMap;
     }
 
+    @PostMapping(value = "/merchant/subordinateMerchant")
+    public GeneralResultMap subordinateMerchant(@RequestBody MerchantRequest request) {
+        GeneralResultMap generalResultMap = new GeneralResultMap();
+        try {
+            List<MerchantVO> merchantVOS = merchantService.querySubordinateMerchant(request.getContactMobile());
+            generalResultMap.setResult(SysReturnCode.SUCC, merchantVOS);
+        } catch (Exception e) {
+            generalResultMap.setResult(SysReturnCode.FAIL);
+            log.error("查询下级商户异常,request:{}", request, e);
+        }
+        return generalResultMap;
+    }
+
     @PostMapping(value = "/merchant/register")
     public GeneralResultMap register(@RequestBody CreateMerchantRequest request) {
         GeneralResultMap generalResultMap = new GeneralResultMap();

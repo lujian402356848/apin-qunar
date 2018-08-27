@@ -105,6 +105,12 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
+    public List<MerchantVO> querySubordinateMerchant(String contactMobile) {
+        List<Merchant> merchants = merchantDao.querySubordinateMerchant(contactMobile);
+        return BeanUtil.copyProperties(merchants, MerchantVO.class);
+    }
+
+    @Override
     public Merchant queryByContactMobile(String contactMobile) {
         return merchantCache.getIfPresent(contactMobile);
     }

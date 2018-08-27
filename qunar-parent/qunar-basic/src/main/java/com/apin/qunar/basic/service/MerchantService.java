@@ -16,6 +16,8 @@ public interface MerchantService {
 
     Merchant queryByMerchantNo(String merchantNo);
 
+    List<MerchantVO> querySubordinateMerchant(String contactMobile);
+
     Merchant queryByContactMobile(String contactMobile);
 
     boolean isExistContactMobile(String contactMobile);
