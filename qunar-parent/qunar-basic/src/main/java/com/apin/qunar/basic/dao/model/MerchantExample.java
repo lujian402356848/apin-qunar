@@ -677,6 +677,146 @@ public class MerchantExample {
             return (Criteria) this;
         }
 
+        public Criteria andParentInviteCodeIsNull() {
+            addCriterion("parent_invite_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeIsNotNull() {
+            addCriterion("parent_invite_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeEqualTo(String value) {
+            addCriterion("parent_invite_code =", value, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeNotEqualTo(String value) {
+            addCriterion("parent_invite_code <>", value, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeGreaterThan(String value) {
+            addCriterion("parent_invite_code >", value, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("parent_invite_code >=", value, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeLessThan(String value) {
+            addCriterion("parent_invite_code <", value, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeLessThanOrEqualTo(String value) {
+            addCriterion("parent_invite_code <=", value, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeLike(String value) {
+            addCriterion("parent_invite_code like", value, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeNotLike(String value) {
+            addCriterion("parent_invite_code not like", value, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeIn(List<String> values) {
+            addCriterion("parent_invite_code in", values, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeNotIn(List<String> values) {
+            addCriterion("parent_invite_code not in", values, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeBetween(String value1, String value2) {
+            addCriterion("parent_invite_code between", value1, value2, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentInviteCodeNotBetween(String value1, String value2) {
+            addCriterion("parent_invite_code not between", value1, value2, "parentInviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeIsNull() {
+            addCriterion("invite_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeIsNotNull() {
+            addCriterion("invite_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeEqualTo(String value) {
+            addCriterion("invite_code =", value, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeNotEqualTo(String value) {
+            addCriterion("invite_code <>", value, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeGreaterThan(String value) {
+            addCriterion("invite_code >", value, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("invite_code >=", value, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeLessThan(String value) {
+            addCriterion("invite_code <", value, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeLessThanOrEqualTo(String value) {
+            addCriterion("invite_code <=", value, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeLike(String value) {
+            addCriterion("invite_code like", value, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeNotLike(String value) {
+            addCriterion("invite_code not like", value, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeIn(List<String> values) {
+            addCriterion("invite_code in", values, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeNotIn(List<String> values) {
+            addCriterion("invite_code not in", values, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeBetween(String value1, String value2) {
+            addCriterion("invite_code between", value1, value2, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCodeNotBetween(String value1, String value2) {
+            addCriterion("invite_code not between", value1, value2, "inviteCode");
+            return (Criteria) this;
+        }
+
         public Criteria andAuditUserIsNull() {
             addCriterion("audit_user is null");
             return (Criteria) this;
@@ -1026,6 +1166,16 @@ public class MerchantExample {
 
         public Criteria andManagerNameLikeInsensitive(String value) {
             addCriterion("upper(manager_name) like", value.toUpperCase(), "managerName");
+            return this;
+        }
+
+        public Criteria andParentInviteCodeLikeInsensitive(String value) {
+            addCriterion("upper(parent_invite_code) like", value.toUpperCase(), "parentInviteCode");
+            return this;
+        }
+
+        public Criteria andInviteCodeLikeInsensitive(String value) {
+            addCriterion("upper(invite_code) like", value.toUpperCase(), "inviteCode");
             return this;
         }
 

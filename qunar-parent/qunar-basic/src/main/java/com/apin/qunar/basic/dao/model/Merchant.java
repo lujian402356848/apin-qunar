@@ -27,7 +27,7 @@ public class Merchant implements Serializable {
     private String contactName;
 
     /**
-     * 手机号
+     * 联系人手机号
      */
     private String contactMobile;
 
@@ -45,6 +45,16 @@ public class Merchant implements Serializable {
      * 管理者姓名
      */
     private String managerName;
+
+    /**
+     * 父邀请码
+     */
+    private String parentInviteCode;
+
+    /**
+     * 邀请码
+     */
+    private String inviteCode;
 
     /**
      * 审核人
@@ -128,14 +138,14 @@ public class Merchant implements Serializable {
     }
 
     /**
-     * @return 手机号
+     * @return 联系人手机号
      */
     public String getContactMobile() {
         return contactMobile;
     }
 
     /**
-     * @param contactMobile 手机号
+     * @param contactMobile 联系人手机号
      */
     public void setContactMobile(String contactMobile) {
         this.contactMobile = contactMobile == null ? null : contactMobile.trim();
@@ -181,6 +191,34 @@ public class Merchant implements Serializable {
      */
     public void setManagerName(String managerName) {
         this.managerName = managerName == null ? null : managerName.trim();
+    }
+
+    /**
+     * @return 父邀请码
+     */
+    public String getParentInviteCode() {
+        return parentInviteCode;
+    }
+
+    /**
+     * @param parentInviteCode 父邀请码
+     */
+    public void setParentInviteCode(String parentInviteCode) {
+        this.parentInviteCode = parentInviteCode == null ? null : parentInviteCode.trim();
+    }
+
+    /**
+     * @return 邀请码
+     */
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    /**
+     * @param inviteCode 邀请码
+     */
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode == null ? null : inviteCode.trim();
     }
 
     /**
