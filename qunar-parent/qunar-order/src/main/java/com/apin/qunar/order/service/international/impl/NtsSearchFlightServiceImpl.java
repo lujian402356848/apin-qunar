@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.basic.service.impl.AirlineServiceImpl;
 import com.apin.qunar.order.common.config.OrderConfig;
+import com.apin.qunar.order.common.redis.NtsFlightRedis;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightParam;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightResultVO;
@@ -40,6 +41,8 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     private SearchFlightRecordService searchFlightRecordService;
     @Autowired
     private AirportService airportService;
+    @Resource
+    private NtsFlightRedis ntsFlightRedis;
 
     @Override
     protected String getTag() {
@@ -56,6 +59,10 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     @Override
     public ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo, final String account) {
         searchFlightRecordService.create(account, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
+        List<NtsSearchFlightResultVO> flightResults = ntsFlightRedis.getFlightInfo(ntsSearchFlightParam);
+        if (!CollectionUtils.isEmpty(flightResults)) {
+            return new ApiResult<>(0, "", System.currentTimeMillis(), flightResults);
+        }
         ApiResult<List<NtsSearchFlightResultVO>> apiResult = execute(ntsSearchFlightParam);
         if (apiResult == null) {
             return ApiResult.fail();
@@ -68,6 +75,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
             return ApiResult.fail();
         }
         formatResult(apiResult, ntsSearchFlightParam, merchantNo);
+        ntsFlightRedis.setFlightInfo(ntsSearchFlightParam, apiResult.getResult());//将查询结果缓存
         return apiResult;
     }
 
@@ -184,7 +192,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
             setCarrierCodeName(backFlightTrip);
             List<NtsSearchFlightResultVO.NtsFlightSegment> backFlightSegments = backFlightTrip.getFlightSegments();
             if (backFlightSegments != null) {
-                for (NtsSearchFlightResultVO.NtsFlightSegment ntsFlightSegment: backFlightSegments) {
+                for (NtsSearchFlightResultVO.NtsFlightSegment ntsFlightSegment : backFlightSegments) {
                     ntsFlightSegment.setDuration(formatDate(ntsFlightSegment.getDuration()));
                 }
             }
@@ -195,7 +203,7 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
             setCarrierCodeName(goFlightTrip);
             List<NtsSearchFlightResultVO.NtsFlightSegment> goFlightSegments = goFlightTrip.getFlightSegments();
             if (goFlightSegments != null) {
-                for (NtsSearchFlightResultVO.NtsFlightSegment ntsFlightSegment: goFlightSegments) {
+                for (NtsSearchFlightResultVO.NtsFlightSegment ntsFlightSegment : goFlightSegments) {
                     ntsFlightSegment.setDuration(formatDate(ntsFlightSegment.getDuration()));
                 }
             }

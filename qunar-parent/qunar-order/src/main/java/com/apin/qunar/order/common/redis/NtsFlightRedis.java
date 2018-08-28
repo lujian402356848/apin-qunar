@@ -22,7 +22,7 @@ public class NtsFlightRedis {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> operations;
-    private long FLIGHT_INFO_EXPIRES_TIME = 15;//分钟为单位
+    private long FLIGHT_INFO_EXPIRES_TIME = 30;//秒为单位
 
     @PostConstruct
     public void init() {
@@ -61,7 +61,7 @@ public class NtsFlightRedis {
         try {
             byte[] values = ProtobufUtil.serialize(flightCacheEntry);
             operations.set(key, values);
-            redisTemplate.expire(key, FLIGHT_INFO_EXPIRES_TIME, TimeUnit.MINUTES);
+            redisTemplate.expire(key, FLIGHT_INFO_EXPIRES_TIME, TimeUnit.SECONDS);
         } catch (RedisConnectionFailureException e) {
             log.error("redis连接失败", e);
         } catch (Exception e) {
@@ -80,7 +80,7 @@ public class NtsFlightRedis {
         } catch (RedisConnectionFailureException e) {
             log.error("redis连接失败", e);
         } catch (Exception e) {
-            operations.set(key, "", 1, TimeUnit.MILLISECONDS);//如果解析失败，则删除该缓存
+            operations.set(key, "", 1, TimeUnit.SECONDS);//如果解析失败，则删除该缓存
             log.error("获取国际航班缓存信息异常", e);
         }
         return flightCacheEntry == null ? null : flightCacheEntry.getFligths();
