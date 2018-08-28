@@ -80,7 +80,7 @@ public class NationalOrderDaoImpl {
         return nationalOrderMapper.selectByExample(example);
     }
 
-    public List<NationalOrder> queryPageListBy(String merchantNo, Integer status, List<String> orderNos, Integer offset, Integer limit) {
+    public List<NationalOrder> queryPageListBy(String merchantNo, Integer status, List<String> orderNos, Integer offset, Integer limit, String account) {
         NationalOrderExample example = new NationalOrderExample();
         NationalOrderExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(merchantNo)) {
@@ -91,6 +91,9 @@ public class NationalOrderDaoImpl {
         }
         if (CollectionUtils.isNotEmpty(orderNos)) {
             criteria.andOrderNoIn(orderNos);
+        }
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
         }
         criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
         example.setMysqlOffset(offset);
@@ -178,5 +181,13 @@ public class NationalOrderDaoImpl {
         }
         criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
         return nationalOrderMapper.countByExample(example);
+    }
+
+    public void updateOldOrder(String orderNo) {
+        nationalOrderExtMapper.updateOldOrder(orderNo);
+    }
+
+    public void updataNewOrder(String orderNo, Integer newPayAmount, String operator) {
+        nationalOrderExtMapper.updataNewOrder(orderNo, newPayAmount, operator);
     }
 }

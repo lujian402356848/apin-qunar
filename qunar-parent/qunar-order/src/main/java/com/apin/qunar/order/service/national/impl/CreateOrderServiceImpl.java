@@ -124,8 +124,8 @@ public class CreateOrderServiceImpl extends ApiService<CreateOrderParam, ApiResu
             natioanlOrder.setCarrierCode(bookingFlightInfo.getCarrier());
             natioanlOrder.setCarrierName(bookingFlightInfo.getCarrierName());
             natioanlOrder.setStopCnt(bookingFlightInfo.getStops());
-            natioanlOrder.setDeptAirportCode(bookingFlightInfo.getDpt());
-            natioanlOrder.setArriAirportCode(bookingFlightInfo.getArr());
+            natioanlOrder.setDeptAirportCode(createOrderRequest.getSearchFrom());
+            natioanlOrder.setArriAirportCode(createOrderRequest.getSearchTo());
             natioanlOrder.setDeptAirportName(bookingFlightInfo.getDptAirport());
             natioanlOrder.setArriAirportName(bookingFlightInfo.getArrAirport());
             natioanlOrder.setDeptTerminal(bookingFlightInfo.getDptTerminal());

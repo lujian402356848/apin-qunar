@@ -108,6 +108,8 @@ public class SearchOrderDetailResultVO {
         private String changeText;//ui需要
         private String actFlightNum;//ui需要
         private String tag;
+        private String searchDptAirportCode;//ui需要
+        private String searchArrAirportCode;//ui需要
     }
 
     @Data

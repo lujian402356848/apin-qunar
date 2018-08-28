@@ -102,6 +102,8 @@ public class SearchOrderDetailServiceImpl extends ApiService<SearchOrderDetailPa
             flightInfo.setChangeFee(nationalOrder.getChangeFee() == null ? 0 : nationalOrder.getChangeFee());
             flightInfo.setChangeText(nationalOrder.getChangeText());
             flightInfo.setTag(nationalOrder.getTag());
+            flightInfo.setSearchDptAirportCode(nationalOrder.getDeptAirportCode());
+            flightInfo.setSearchArrAirportCode(nationalOrder.getArriAirportCode());
             if (searchOrderDetailResult.getContacterInfo() != null) {
                 searchOrderDetailResult.getContacterInfo().setMobile(nationalOrder.getContactMobile());
             }

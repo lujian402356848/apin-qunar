@@ -20,6 +20,8 @@ public class CreateOrderRequestBO {
     private String flightNum;//航班号
     private String from;//起飞机场三字码
     private String to;//到达机场三字码;
+    private String searchFrom;//搜索起飞机场三字码
+    private String searchTo;//搜索到达机场三字码;
     private String startTime;//起飞日期yyyyMMdd
     private String dptTime;//起飞时间
     private String contact;//联系人姓名
@@ -36,6 +38,7 @@ public class CreateOrderRequestBO {
     private String sjrPhone;//收件人电话
     private String address;//收件人地址
     private boolean needXcd = false;//是否需要行程单
+
     /**
      * 乘客信息
      */
