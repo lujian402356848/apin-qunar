@@ -182,12 +182,4 @@ public class NationalOrderDaoImpl {
         criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
         return nationalOrderMapper.countByExample(example);
     }
-
-    public void updateOldOrder(String orderNo) {
-        nationalOrderExtMapper.updateOldOrder(orderNo);
-    }
-
-    public void updataNewOrder(String orderNo, Integer newPayAmount, String operator) {
-        nationalOrderExtMapper.updataNewOrder(orderNo, newPayAmount, operator);
-    }
 }
