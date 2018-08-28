@@ -182,11 +182,23 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
         if (backFlightTrip != null) {
             backFlightTrip.setDuration(formatDate(backFlightTrip.getDuration()));
             setCarrierCodeName(backFlightTrip);
+            List<NtsSearchFlightResultVO.NtsFlightSegment> backFlightSegments = backFlightTrip.getFlightSegments();
+            if (backFlightSegments != null) {
+                for (NtsSearchFlightResultVO.NtsFlightSegment ntsFlightSegment: backFlightSegments) {
+                    ntsFlightSegment.setDuration(formatDate(ntsFlightSegment.getDuration()));
+                }
+            }
         }
         NtsSearchFlightResultVO.NtsFlightTrip goFlightTrip = ntsSearchFlightResult.getGoTrip();
         if (goFlightTrip != null) {
             goFlightTrip.setDuration(formatDate(goFlightTrip.getDuration()));
             setCarrierCodeName(goFlightTrip);
+            List<NtsSearchFlightResultVO.NtsFlightSegment> goFlightSegments = goFlightTrip.getFlightSegments();
+            if (goFlightSegments != null) {
+                for (NtsSearchFlightResultVO.NtsFlightSegment ntsFlightSegment: goFlightSegments) {
+                    ntsFlightSegment.setDuration(formatDate(ntsFlightSegment.getDuration()));
+                }
+            }
         }
     }
 

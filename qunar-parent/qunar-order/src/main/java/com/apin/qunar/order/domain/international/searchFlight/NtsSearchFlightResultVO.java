@@ -25,6 +25,7 @@ public class NtsSearchFlightResultVO {
         private List<NtsTransitCity> transitCities; //转飞
         private List<NtsFlightSegment> flightSegments;
         private String duration;
+        private int crossDays;
     }
 
     @Data
@@ -46,8 +47,14 @@ public class NtsSearchFlightResultVO {
         private String flightNum;
         private String depAirportCode;
         private String depTerminal;
+        private String depAirportName;
         private String arrAirportCode;
         private String arrTerminal;
+        private String arrAirportName;
+        private String depCityName;
+        private String arrCityName;
+        private String depCityCode;
+        private String arrCityCode;
         private String depDate;
         private String depTime;
         private String arrDate;
@@ -55,6 +62,10 @@ public class NtsSearchFlightResultVO {
         private String codeShareStatus;
         private String mainCode;
         private String mainCarrierCode;
+        private String mainCarrierShortName;
+        private String mainCarrierFullName;
+        private String duration;
+        private String crossDays;
         private String planeTypeCode;
         private String planeTypeName;
         private int stops;
@@ -73,6 +84,7 @@ public class NtsSearchFlightResultVO {
         private String depDate;
         private String depTime;
         private String stopTime;
-        private String crossDays;
+        private int crossDays;
+        private String countryName;
     }
 }
