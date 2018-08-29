@@ -68,7 +68,7 @@ public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiRe
         Collections.sort(flightInfos, new Comparator<FlightInfo>() {
             @Override
             public int compare(FlightInfo flightInfoOne, FlightInfo flightInfoTwo) {
-                return Double.parseDouble(flightInfoOne.getBarePrice()) > Double.parseDouble(flightInfoTwo.getBarePrice()) ? 1 : -1;// 升序
+                return Double.parseDouble(flightInfoOne.getBarePrice()) >= Double.parseDouble(flightInfoTwo.getBarePrice()) ? 1 : -1;// 升序
             }
         });
     }
