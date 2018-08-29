@@ -48,6 +48,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
@@ -86,6 +87,8 @@ public class AlipayServiceImpl implements AlipayService {
 
     private AlipayClient alipayClient;
 
+    private AlipayClient newAlipayClient;
+
     @PostConstruct
     public void init() {
         alipayClient = new DefaultAlipayClient(alipayConfig.getGatewayUrl(), alipayConfig.getAppId(),
@@ -93,6 +96,13 @@ public class AlipayServiceImpl implements AlipayService {
                 alipayConfig.getCharset(),
                 alipayConfig.getAlipayPublicKey(),
                 alipayConfig.getSignType());
+
+        newAlipayClient = new DefaultAlipayClient(alipayConfig.getGatewayUrl(), alipayConfig.getNewAppId(),
+                alipayConfig.getNewMerchantPrivateKey(), "json",
+                alipayConfig.getCharset(),
+                alipayConfig.getNewAlipayPublicKey(),
+                alipayConfig.getSignType());
+
     }
 
     @Override
@@ -179,7 +189,7 @@ public class AlipayServiceImpl implements AlipayService {
         request.setBizModel(model);
         request.setNotifyUrl(notifyUrl);
         try {
-            response = alipayClient.execute(request);
+            response = newAlipayClient.execute(request);
         } catch (AlipayApiException e) {
             log.error("调用支付宝接口异常,params:{}", JSON.toJSON(model), e);
         }
@@ -450,7 +460,7 @@ public class AlipayServiceImpl implements AlipayService {
         AlipayTradeQueryRequest alipayTradeQueryRequest = new AlipayTradeQueryRequest();
         alipayTradeQueryRequest.setBizContent("{" + "\"out_trade_no\":\"" + orderNo + "\"" + "}");
         try {
-            AlipayTradeQueryResponse alipayTradeQueryResponse = alipayClient.execute(alipayTradeQueryRequest);
+            AlipayTradeQueryResponse alipayTradeQueryResponse = newAlipayClient.execute(alipayTradeQueryRequest);
             if (alipayTradeQueryResponse.isSuccess()) {
                 switch (alipayTradeQueryResponse.getTradeStatus()) // 判断交易结果
                 {
@@ -502,7 +512,14 @@ public class AlipayServiceImpl implements AlipayService {
         ReturnStatusEnum returnStatus = ReturnStatusEnum.NO_RETURN;
         AlipayTradeRefundRequest request = buildAlipayTradeRefundRequest(parentOrderNo, orderNo, refundAmount);
         try {
-            AlipayTradeRefundResponse response = alipayClient.execute(request);
+            Date insertTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2018-08-29 00:00:00");
+            boolean hasBefore = nationalOrderDao.queryBy(parentOrderNo, insertTime);
+            AlipayTradeRefundResponse response;
+            if (hasBefore) {
+                response = alipayClient.execute(request);
+            } else {
+                response = newAlipayClient.execute(request);
+            }
             if (response == null) {
                 log.error("支付宝退款返回内容为空,订单号:{},金额:{}", orderNo, refundAmount);
                 return;
@@ -524,6 +541,7 @@ public class AlipayServiceImpl implements AlipayService {
         }
         nationalReturnOrderDao.updateReturnPayTypeAndstatus(orderNo, PayTypeEnum.ALIPAY.getCode(), returnStatus.getStatus());
     }
+
 
     private AlipayTradeRefundRequest buildAlipayTradeRefundRequest(final String parentOrderNo, final String orderNo, final Integer refundAmount) {
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
