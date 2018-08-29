@@ -9,7 +9,7 @@ import java.util.List;
  * @create 2018-08-20 13:47
  */
 public interface SearchReimburseVoucherListService {
-    List<NationalReimburseVoucher> queryPageList(String merchantNo, String orderNo, Integer offset, Integer limit);
+    List<NationalReimburseVoucher> queryPageList(String account, String orderNo, Integer offset, Integer limit);
 
-    Integer queryPage(String merchantNo, String orderNo);
+    Integer queryPage(String account, String orderNo);
 }

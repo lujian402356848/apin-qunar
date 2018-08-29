@@ -44,6 +44,7 @@ public class CreateReimburseVoucherServiceImpl implements CreateReimburseVoucher
         nationalReimburseVoucher.setReceiverName(createReimburseVoucherBO.getReceiverName());//收件人姓名
         nationalReimburseVoucher.setReceiverMobileNo(createReimburseVoucherBO.getReceiverMobileNo());//收件电话
         nationalReimburseVoucher.setReceiveAddress(createReimburseVoucherBO.getReceiveAddress());//收件地址
+        nationalReimburseVoucher.setOperator(createReimburseVoucherBO.getAccount());
         return nationalReimburseVoucher;
     }
 

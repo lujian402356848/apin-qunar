@@ -18,13 +18,13 @@ public class SearchReimburseVoucherListServiceImpl implements SearchReimburseVou
     private ReimburseVoucherDaoImpl reimburseVoucherDao;
 
     @Override
-    public List<NationalReimburseVoucher> queryPageList(final String merchantNo, final String orderNo, final Integer offset, final Integer limit) {
-        List<NationalReimburseVoucher> nationalReimburseVouchers = reimburseVoucherDao.queryPageList(merchantNo, orderNo, offset, limit);
+    public List<NationalReimburseVoucher> queryPageList(final String account, final String orderNo, final Integer offset, final Integer limit) {
+        List<NationalReimburseVoucher> nationalReimburseVouchers = reimburseVoucherDao.queryPageList(account, orderNo, offset, limit);
         return nationalReimburseVouchers;
     }
 
     @Override
-    public Integer queryPage(final String merchantNo, final String orderNo) {
-        return reimburseVoucherDao.queryPage(merchantNo, orderNo);
+    public Integer queryPage(final String account, final String orderNo) {
+        return reimburseVoucherDao.queryPage(account, orderNo);
     }
 }

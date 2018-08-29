@@ -23,11 +23,11 @@ public class ReimburseVoucherDaoImpl {
     }
 
 
-    public List<NationalReimburseVoucher> queryPageList(String merchantNo, String orderNo, Integer offset, Integer limit) {
+    public List<NationalReimburseVoucher> queryPageList(String account, String orderNo, Integer offset, Integer limit) {
         NationalReimburseVoucherExample example = new NationalReimburseVoucherExample();
         NationalReimburseVoucherExample.Criteria criteria = example.createCriteria();
-        if (StringUtils.isNotBlank(merchantNo)) {
-            criteria.andMerchantNoEqualTo(merchantNo);
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
         }
         if (StringUtils.isNotBlank(orderNo)) {
             criteria.andOrderNoEqualTo(orderNo);
@@ -37,11 +37,11 @@ public class ReimburseVoucherDaoImpl {
         return nationalReimburseVoucherMapper.selectByExample(example);
     }
 
-    public Integer queryPage(String merchantNo, String orderNo) {
+    public Integer queryPage(String account, String orderNo) {
         NationalReimburseVoucherExample example = new NationalReimburseVoucherExample();
         NationalReimburseVoucherExample.Criteria criteria = example.createCriteria();
-        if (StringUtils.isNotBlank(merchantNo)) {
-            criteria.andMerchantNoEqualTo(merchantNo);
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
         }
         if (StringUtils.isNotBlank(orderNo)) {
             criteria.andOrderNoEqualTo(orderNo);

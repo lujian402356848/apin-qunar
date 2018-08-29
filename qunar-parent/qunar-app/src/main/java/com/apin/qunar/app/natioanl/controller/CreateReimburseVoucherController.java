@@ -68,6 +68,7 @@ public class CreateReimburseVoucherController extends BaseController {
         createReimburseVoucherBO.setReceiverName(request.getReceiverName());//收件人姓名
         createReimburseVoucherBO.setReceiverMobileNo(request.getReceiverMobileNo());//收件电话
         createReimburseVoucherBO.setReceiveAddress(request.getReceiveAddress());//收件地址
+        createReimburseVoucherBO.setAccount(request.getAccount());
         return createReimburseVoucherBO;
     }
 

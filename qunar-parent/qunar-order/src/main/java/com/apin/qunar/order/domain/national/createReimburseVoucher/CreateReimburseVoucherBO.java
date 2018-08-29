@@ -21,4 +21,5 @@ public class CreateReimburseVoucherBO {
     private String receiverName;//收件人姓名
     private String receiverMobileNo;//收件人手机号
     private String receiveAddress;//收件人地址
+    private String account;
 }
