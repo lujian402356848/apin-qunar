@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @date 2018/8/14 22:28
  */
 @Slf4j
-class Aes {
+ public class Aes {
 
     /**
      * 加密
@@ -24,7 +24,7 @@ class Aes {
      * @return 明文加密后的密文
      * @throws Exception 异常
      */
-    private static String encrypt(String encryptedData, String secretKey) throws Exception {
+    public static String encrypt(String encryptedData, String secretKey) throws Exception {
 
         int numLength = 32;
         if (secretKey == null) {

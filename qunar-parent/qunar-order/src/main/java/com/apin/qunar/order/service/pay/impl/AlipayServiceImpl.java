@@ -48,7 +48,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
@@ -512,7 +511,7 @@ public class AlipayServiceImpl implements AlipayService {
         ReturnStatusEnum returnStatus = ReturnStatusEnum.NO_RETURN;
         AlipayTradeRefundRequest request = buildAlipayTradeRefundRequest(parentOrderNo, orderNo, refundAmount);
         try {
-            Date insertTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2018-08-29 00:00:00");
+            Date insertTime = DateUtil.getDate("2018-08-29", "19:00:00");
             boolean hasBefore = nationalOrderDao.queryBy(parentOrderNo, insertTime);
             AlipayTradeRefundResponse response;
             if (hasBefore) {

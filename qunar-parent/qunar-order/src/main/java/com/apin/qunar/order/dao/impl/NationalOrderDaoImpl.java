@@ -192,7 +192,6 @@ public class NationalOrderDaoImpl {
         if (insertTime != null) {
             criteria.andInsertTimeLessThan(insertTime);
         }
-        criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
         return nationalOrderMapper.countByExample(example) > 0;
     }
 }
