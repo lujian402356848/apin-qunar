@@ -203,7 +203,7 @@ public class AlipayServiceImpl implements AlipayService {
         Map<String, String> params = buildMap(request);
         log.info("alipay callback params:{}", JSON.toJSON(params));
         try {
-            boolean signVerified = AlipaySignature.rsaCheckV1(params, alipayConfig.getAlipayPublicKey(), "UTF-8", alipayConfig.getSignType());
+            boolean signVerified = AlipaySignature.rsaCheckV1(params, alipayConfig.getNewAlipayPublicKey(), "UTF-8", alipayConfig.getSignType());
             if (!signVerified) {
                 log.info("支付宝回调验证签名失败");
                 return result;
