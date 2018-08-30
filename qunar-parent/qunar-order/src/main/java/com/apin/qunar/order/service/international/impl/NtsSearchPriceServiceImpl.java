@@ -1,6 +1,7 @@
 package com.apin.qunar.order.service.international.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.apin.qunar.basic.service.impl.ResponseResult;
 import com.apin.qunar.order.common.redis.NtsFlightPriceRedis;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.searchPrice.NtsSearchPriceParam;
@@ -37,7 +38,8 @@ public class NtsSearchPriceServiceImpl extends NtsApiService<NtsSearchPriceParam
 
     @Override
     public ApiResult<NtsSearchPriceResultVO> searchPrice(final NtsSearchPriceParam ntsPriceSearchParam, final String merchantNo) {
-        ApiResult<NtsSearchPriceResultVO> apiResult = execute(ntsPriceSearchParam);
+        ResponseResult responseResult = null;
+        ApiResult<NtsSearchPriceResultVO> apiResult = execute(ntsPriceSearchParam, responseResult);
         if (apiResult == null) {
             return ApiResult.fail();
         }
@@ -51,34 +53,33 @@ public class NtsSearchPriceServiceImpl extends NtsApiService<NtsSearchPriceParam
         changePackName(ntsSearchPriceResult);
         return apiResult;
     }
+
     private void changePackName(NtsSearchPriceResultVO ntsSearchPriceResultVO) {
         List<NtsSearchPriceResultVO.PriceInfo> priceInfos = ntsSearchPriceResultVO.getPriceInfo();
-        for(NtsSearchPriceResultVO.PriceInfo priceInfo : priceInfos)
-        {
-            switch (priceInfo.getPackName())
-            {
-                case "去哪儿自营" :
+        for (NtsSearchPriceResultVO.PriceInfo priceInfo : priceInfos) {
+            switch (priceInfo.getPackName()) {
+                case "去哪儿自营":
                     priceInfo.setPackName("爱拼自营");
                     break;
-                case "商旅套餐" :
+                case "商旅套餐":
                     priceInfo.setPackName("爱拼惠盈");
                     break;
-                case "商务舱" :
+                case "商务舱":
                     priceInfo.setPackName("爱拼商务舱");
                     break;
-                case "低价特惠" :
+                case "低价特惠":
                     priceInfo.setPackName("爱拼国际特优");
                     break;
-                case "低价专享" :
+                case "低价专享":
                     priceInfo.setPackName("爱拼国际包优");
                     break;
-                case "头等舱" :
+                case "头等舱":
                     priceInfo.setPackName("爱拼头等舱");
                     break;
-                case "旗舰店" :
+                case "旗舰店":
                     priceInfo.setPackName("爱拼旗舰店");
                     break;
-                case "去哪儿旗舰店" :
+                case "去哪儿旗舰店":
                     priceInfo.setPackName("爱拼旗舰店");
                     break;
                 default:

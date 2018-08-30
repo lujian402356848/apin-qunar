@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.apin.qunar.basic.dao.model.Airport;
 import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.basic.service.MerchantPriceConfigService;
+import com.apin.qunar.basic.service.impl.ResponseResult;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.booking.NtsBookingParam;
 import com.apin.qunar.order.domain.international.booking.NtsBookingResultVO;
@@ -46,7 +47,8 @@ public class NtsBookingServiceImpl extends NtsApiService<NtsBookingParam, ApiRes
 
     @Override
     public ApiResult<NtsBookingResultVO> booking(final NtsBookingParam ntsBookingParam, final String merchantNo) {
-        ApiResult<NtsBookingResultVO> apiResult = execute(ntsBookingParam);
+        ResponseResult responseResult = null;
+        ApiResult<NtsBookingResultVO> apiResult = execute(ntsBookingParam, responseResult);
         if (apiResult == null) {
             return ApiResult.fail();
         }

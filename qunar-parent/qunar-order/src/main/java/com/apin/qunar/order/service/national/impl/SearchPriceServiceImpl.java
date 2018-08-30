@@ -3,6 +3,7 @@ package com.apin.qunar.order.service.national.impl;
 import com.alibaba.fastjson.JSON;
 import com.apin.qunar.basic.dao.model.AirlinePriceRate;
 import com.apin.qunar.basic.service.AirlinePriceRateService;
+import com.apin.qunar.basic.service.impl.ResponseResult;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.booking.Vendor;
 import com.apin.qunar.order.domain.national.searchPrice.SearchPriceParam;
@@ -41,12 +42,13 @@ public class SearchPriceServiceImpl extends ApiService<SearchPriceParam, ApiResu
 
     @Override
     public ApiResult<SearchPriceResultVO> searchPrice(final SearchPriceParam searchPriceParam, final String merchantNo) {
-        ApiResult<SearchPriceResultVO> apiResult = execute(searchPriceParam);
+        ResponseResult responseResult = null;
+        ApiResult<SearchPriceResultVO> apiResult = execute(searchPriceParam, responseResult);
         if (apiResult == null) {
             return ApiResult.fail();
         }
         if (!apiResult.isSuccess()) {
-            log.warn("查询国内航班报价异常,param:{},原因:{}", JSON.toJSON(searchPriceParam), apiResult.getMessage());
+            log.warn("查询国内航班报价异常,param:{},url:{}原因:{}", JSON.toJSON(searchPriceParam), responseResult.getUrl(), apiResult.getMessage());
             return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
         sortByPrice(apiResult.getResult());
