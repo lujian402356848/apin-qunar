@@ -26,7 +26,7 @@ import javax.crypto.spec.SecretKeySpec;
      */
     public static String encrypt(String encryptedData, String secretKey) throws Exception {
 
-        int numLength = 32;
+        int numLength = 16;
         if (secretKey == null) {
             log.error("商户申请的secretKey不能为空，请核实");
             return null;
@@ -34,7 +34,7 @@ import javax.crypto.spec.SecretKeySpec;
 
         // 判断Key是否为32位
         if (secretKey.length() != numLength) {
-            log.error("商户申请的secretKey长度不是32位，请核实");
+            log.error("商户申请的secretKey长度不是16位，请核实");
             return null;
         }
 
