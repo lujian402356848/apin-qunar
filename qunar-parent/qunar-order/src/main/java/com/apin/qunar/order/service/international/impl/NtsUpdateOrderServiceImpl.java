@@ -1,7 +1,10 @@
 package com.apin.qunar.order.service.international.impl;
 
 import com.apin.qunar.basic.common.constant.SmsConstants;
+import com.apin.qunar.basic.common.enums.AccountTypeEnum;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
+import com.apin.qunar.basic.dao.impl.UserDaoImpl;
+import com.apin.qunar.basic.dao.model.User;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.config.OrderConfig;
@@ -42,6 +45,8 @@ public class NtsUpdateOrderServiceImpl implements NtsUpdateOrderService {
     @Autowired
     private NtsSearchOrderDetailService ntsSearchOrderDetailService;
     @Autowired
+    private UserDaoImpl userDao;
+    @Autowired
     private SmsService smsService;
 
     @Override
@@ -69,6 +74,9 @@ public class NtsUpdateOrderServiceImpl implements NtsUpdateOrderService {
                     result = internationalOrderDao.updateStatusAndTicketNo(orderNo, ticketNo, payStatus);
                     sendSms(orderNo, passengers);
                 }
+            } else if (payStatus == NtsOrderStatusEnum.PAY_OK.getCode()) {
+                sendPaySuccessSms(orderNo);
+                result = internationalOrderDao.updateStatus(orderNo, payStatus);
             } else {
                 result = internationalOrderDao.updateStatus(orderNo, payStatus);
             }
@@ -167,5 +175,20 @@ public class NtsUpdateOrderServiceImpl implements NtsUpdateOrderService {
         Date deptDate = DateUtil.getDate(deptDateStr, deptTimeStr);
         Date arrDate = DateUtil.getDate(deptDateStr, arriTimeStr);
         return deptDate.getTime() < arrDate.getTime() ? DateUtil.formatDate(arrDate.getTime()) + arriTimeStr : DateUtil.formatDate(arrDate.getTime() + 1000 * 60 * 60 * 24) + arriTimeStr;
+    }
+
+    private void sendPaySuccessSms(String orderNo) {
+        if (StringUtils.isBlank(orderNo)) {
+            return;
+        }
+        InternationalOrder order = internationalOrderDao.queryByOrderNo(orderNo);
+        if (order == null) {
+            return;
+        }
+        User user = userDao.queryByAccount(order.getOperator());
+        if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单
+            String content = String.format(SmsConstants.QUNAR_PAY_SUCCESS, order.getGoDeptDate(), order.getGoDeptTime(), order.getGoDeptCity(), order.getGoArriCity(), order.getOrderNo());
+            smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.PAY_SUCCESS);
+        }
     }
 }

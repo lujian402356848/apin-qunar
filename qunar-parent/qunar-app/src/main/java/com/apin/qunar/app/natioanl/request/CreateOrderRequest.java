@@ -28,7 +28,7 @@ public class CreateOrderRequest extends BaseRequest {
     @NotEmpty(message = "to不能为空")
     private String to;//到达机场三字码;
     private String searchFrom;//搜索起飞机场三字码
-    private String searchTo;//搜索到达机场三字码;
+    private String searchTo;//搜索到达机场三字码
     @NotEmpty(message = "startTime不能为空")
     private String startTime;//起飞日期yyyyMMdd
     @NotEmpty(message = "dptTime不能为空")
