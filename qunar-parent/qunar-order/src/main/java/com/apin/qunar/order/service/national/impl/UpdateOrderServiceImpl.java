@@ -9,7 +9,10 @@ import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
 import com.apin.qunar.order.common.enums.PayTypeEnum;
-import com.apin.qunar.order.dao.impl.*;
+import com.apin.qunar.order.dao.impl.NationalChangeOrderDaoImpl;
+import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
+import com.apin.qunar.order.dao.impl.NationalReturnOrderDaoImpl;
+import com.apin.qunar.order.dao.impl.NationalReturnPassengerDaoImpl;
 import com.apin.qunar.order.dao.model.NationalChangeOrder;
 import com.apin.qunar.order.dao.model.NationalOrder;
 import com.apin.qunar.order.dao.model.NationalReturnOrder;
@@ -128,7 +131,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                         result = nationalChangeOrderDao.updateStatusAndTicketNo(orderNo, payStatus, ticketNo);
                     }
                     nationalOrderDao.updateStatus(orderNo, payStatus);
-                    sendSms(orderNo, passengers,orderStatusEnum);
+                    sendSms(orderNo, passengers, orderStatusEnum);
                     break;
                 default://默认修改订单状态
                     nationalOrderDao.updateStatus(orderNo, payStatus);
@@ -207,7 +210,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         String deptTime = DateUtil.formatDate(deptDate.getTime()) + order.getDeptTime();
         String arrTime = deptDate.getTime() < arrDate.getTime() ? DateUtil.formatDate(arrDate.getTime()) + order.getArriTime() : DateUtil.formatDate(arrDate.getTime() + 1000 * 60 * 60 * 24) + order.getArriTime();
         StringBuilder passengerInfo = new StringBuilder(passengers.size() * 10);
-        String orderInfo = String.format("%s%s%s-%s%s %s-%s", order.getFlightNum(), order.getDeptAirportName(), order.getDeptTerminal(), order.getArriAirportName(), order.getArriTerminal(), deptTime, arrTime);
+        String orderInfo = String.format("%s%s%s-%s%s %s-%s", order.getFlightNum(), order.getDeptAirportName(), StringUtils.isBlank(order.getDeptTerminal()) ? "" : order.getDeptTerminal(), order.getArriAirportName(), StringUtils.isBlank(order.getArriTerminal()) ? "" : order.getArriTerminal(), deptTime, arrTime);
         for (SearchOrderDetailResultVO.Passenger passenger : passengers) {
             passengerInfo.append("，");
             passengerInfo.append(passenger.getName());
@@ -219,7 +222,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.TICKET);
         }
         User user = userDao.queryByAccount(order.getOperator());
-        if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单，商户也会
+        if (user != null) {
             String content = String.format(SmsConstants.TICKET_NO, orderInfo, passengerInfo.substring(1));
             smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
         }
@@ -233,15 +236,14 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             passengerInfo.append(passenger.getName());
             passengerInfo.append(":");
             passengerInfo.append(passenger.getTicketNo());
-
-            String passengerContent = passenger.getName() + ":" + passenger.getTicketNo();
-            content = String.format(SmsConstants.RETURN, passengerContent, order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo());
-            smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.RETURN);
         }
         User user = userDao.queryByAccount(order.getOperator());
-        if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单，商户也会
-            content = String.format(SmsConstants.RETURN, passengerInfo.substring(1), order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo());
-            smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
+        if (user != null) {
+            NationalReturnOrder returnOrder = nationalReturnOrderDao.queryByOrderNo(order.getOrderNo());
+            if (returnOrder != null) {
+                content = String.format(SmsConstants.RETURN, passengerInfo.substring(1), order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo(), returnOrder.getReturnFee());
+                smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
+            }
         }
     }
 
@@ -268,7 +270,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
     private void payRefund(String orderNo) {
         NationalReturnOrder nationalReturnOrder = nationalReturnOrderDao.queryByOrderNo(orderNo);
         if (nationalReturnOrder == null) {
-            log.info("退票退款去哪儿回调成功，但在数据库未找到该订单，ordrNo:{}", orderNo);
+            log.info("退票退款去哪儿回调成功，但在数据库未找到该订单，orderNo:{}", orderNo);
             return;
         }
         String parentOrderNo = nationalReturnOrder.getParentOrderNo();
@@ -296,7 +298,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             return;
         }
         User user = userDao.queryByAccount(order.getOperator());
-        if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单
+        if (user != null) {
             String content = String.format(SmsConstants.QUNAR_PAY_SUCCESS, order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo());
             smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.PAY_SUCCESS);
         }
