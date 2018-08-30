@@ -182,16 +182,4 @@ public class NationalOrderDaoImpl {
         criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
         return nationalOrderMapper.countByExample(example);
     }
-
-    public boolean queryBy(String orderNo, Date insertTime) {
-        NationalOrderExample example = new NationalOrderExample();
-        NationalOrderExample.Criteria criteria = example.createCriteria();
-        if (StringUtils.isNotBlank(orderNo)) {
-            criteria.andOrderNoEqualTo(orderNo);
-        }
-        if (insertTime != null) {
-            criteria.andInsertTimeLessThan(insertTime);
-        }
-        return nationalOrderMapper.countByExample(example) > 0;
-    }
 }

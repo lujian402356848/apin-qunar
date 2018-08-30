@@ -13,14 +13,6 @@ public class AlipayConfig {
     private String merchantPrivateKey;
     @Value("${alipay.public.key}")
     private String alipayPublicKey;
-
-    @Value("${alipay.new.appid}")
-    private String newAppId;
-    @Value("${alipay.new.merchant.private.key}")
-    private String newMerchantPrivateKey;
-    @Value("${alipay.new.public.key}")
-    private String newAlipayPublicKey;
-
     @Value("${alipay.notify.url}")
     private String notifyUrl;
     @Value("${alipay.sign.type}")
