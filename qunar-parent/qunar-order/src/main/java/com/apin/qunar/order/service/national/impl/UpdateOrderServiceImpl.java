@@ -42,8 +42,6 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
     @Autowired
     private NationalOrderDaoImpl nationalOrderDao;
     @Autowired
-    private NationalPassengerDaoImpl nationalPassengerDao;
-    @Autowired
     private SearchOrderDetailServiceImpl searchOrderDetailService;
     @Autowired
     private NationalReturnPassengerDaoImpl nationalReturnPassengerDao;
@@ -91,8 +89,12 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                     ticketNo = getTicketNo(passengers);
                     if (StringUtils.isNotBlank(ticketNo)) {
                         result = nationalOrderDao.updateStatusAndTicketNo(orderNo, ticketNo, payStatus);
-                        sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
+                        sendSms(orderNo, passengers, orderStatusEnum);
                     }
+                    break;
+                case PAY_OK:
+                    nationalOrderDao.updateStatus(orderNo, payStatus);
+                    sendSms(orderNo, passengers, orderStatusEnum);
                     break;
                 case REFUND_OK://退款状态
                 case APPLY_REFUNDMENT:
@@ -112,7 +114,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                     passengers = getPassengers(orderNo);
                     if (orderStatusEnum == OrderStatusEnum.REFUND_OK) {
                         payRefund(orderNo);
-                        sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
+                        sendSms(orderNo, passengers, orderStatusEnum);
                     }
                     break;
                 case APPLY_CHANGE://改签中状态
@@ -126,7 +128,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                         result = nationalChangeOrderDao.updateStatusAndTicketNo(orderNo, payStatus, ticketNo);
                     }
                     nationalOrderDao.updateStatus(orderNo, payStatus);
-                    sendSms(orderNo, passengers, OrderStatusEnum.valueOf(payStatus));
+                    sendSms(orderNo, passengers,orderStatusEnum);
                     break;
                 default://默认修改订单状态
                     nationalOrderDao.updateStatus(orderNo, payStatus);
@@ -189,6 +191,9 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                 break;
             case CHANGE_OK://改签成功
                 sendChangeSms(order, passengers);
+                break;
+            case PAY_OK://支付成功
+                paySuccess(order);
                 break;
         }
     }
@@ -257,7 +262,6 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                 content = String.format(SmsConstants.QUNAR_CHANGE, passengerContent, order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo(), targetFlightInfo);
                 smsService.sendSms(passenger.getMobileNo(), content, SmsSendTypeEnum.CHANGE);
             }
-
         }
     }
 
@@ -279,11 +283,22 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         PayTypeEnum payTypeEnum = PayTypeEnum.valueOf(payType);
         switch (payTypeEnum) {
             case ALIPAY:
-                alipayService.payRefund(parentOrderNo,orderNo, returnFee);
+                alipayService.payRefund(parentOrderNo, orderNo, returnFee);
                 break;
             case WECHATPAY:
                 wechatService.payRefund(parentOrderNo, orderNo, totalFee, returnFee);
                 break;
+        }
+    }
+
+    private void paySuccess(NationalOrder order) {
+        if (order == null) {
+            return;
+        }
+        User user = userDao.queryByAccount(order.getOperator());
+        if (user != null && user.getAccountType() == AccountTypeEnum.MERCHANT.getCode()) {//如果是商户下的订单
+            String content = String.format(SmsConstants.QUNAR_PAY_SUCCESS, order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo());
+            smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.PAY_SUCCESS);
         }
     }
 }

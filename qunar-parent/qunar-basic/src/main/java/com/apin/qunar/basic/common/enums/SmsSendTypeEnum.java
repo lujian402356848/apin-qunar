@@ -14,6 +14,7 @@ public enum SmsSendTypeEnum {
     FLIGHT_RECOVERY(7, "航班取消后恢复"),
     FLIGHT_CANCEL_PROTECT(8, "航班取消有保护"),
     CHANGE(9, "改签成功"),
+    PAY_SUCCESS(10, "支付成功"),
     MERCHANT_REGISTER(11, "商户注册"),
     MERCHANT_VERIFY_CODE(12, "商户注册验证码"),
     MERCHANT_AUDIT_PASS(13, "商户审核通过"),
