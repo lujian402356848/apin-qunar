@@ -37,7 +37,7 @@ public class BookingServiceImpl extends ApiService<BookingParam, ApiResult<Booki
             return ApiResult.fail();
         }
         if (!apiResult.isSuccess()) {
-            log.warn("查询国内booking异常,param:{},url:{},原因:{}", JSON.toJSON(bookingParam), responseResult.getUrl(), apiResult.getMessage());
+            log.warn("查询国内booking异常,param:{},url:{},原因:{}", JSON.toJSON(bookingParam), responseResult == null ? "" : responseResult.getUrl(), apiResult.getMessage());
             return ApiResult.fail(apiResult.getCode(), "航班价格发生变更，请重新搜索");
         }
         setTgqPercentText(apiResult.getResult());

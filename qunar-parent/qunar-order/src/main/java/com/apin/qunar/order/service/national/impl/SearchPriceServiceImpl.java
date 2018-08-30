@@ -48,7 +48,7 @@ public class SearchPriceServiceImpl extends ApiService<SearchPriceParam, ApiResu
             return ApiResult.fail();
         }
         if (!apiResult.isSuccess()) {
-            log.warn("查询国内航班报价异常,param:{},url:{}原因:{}", JSON.toJSON(searchPriceParam), responseResult.getUrl(), apiResult.getMessage());
+            log.warn("查询国内航班报价异常,param:{},url:{},原因:{}", JSON.toJSON(searchPriceParam), responseResult == null ? "" : responseResult.getUrl(), apiResult.getMessage());
             return ApiResult.fail(apiResult.getCode(), apiResult.getMessage());
         }
         sortByPrice(apiResult.getResult());
