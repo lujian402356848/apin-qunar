@@ -1,6 +1,7 @@
 package com.apin.qunar.order.service.national.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.apin.qunar.basic.service.impl.ResponseResult;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.booking.BookingParam;
 import com.apin.qunar.order.domain.national.booking.BookingResultVO;
@@ -30,12 +31,13 @@ public class BookingServiceImpl extends ApiService<BookingParam, ApiResult<Booki
 
     @Override
     public ApiResult<BookingResultVO> booking(final BookingParam bookingParam) {
-        ApiResult<BookingResultVO> apiResult = execute(bookingParam);
+        ResponseResult responseResult = null;
+        ApiResult<BookingResultVO> apiResult = execute(bookingParam, responseResult);
         if (apiResult == null) {
             return ApiResult.fail();
         }
         if (!apiResult.isSuccess()) {
-            log.warn("查询国内booking异常,param:{},原因:{}", JSON.toJSON(bookingParam), apiResult.getMessage());
+            log.warn("查询国内booking异常,param:{},url:{},原因:{}", JSON.toJSON(bookingParam), responseResult.getUrl(), apiResult.getMessage());
             return ApiResult.fail(apiResult.getCode(), "航班价格发生变更，请重新搜索");
         }
         setTgqPercentText(apiResult.getResult());

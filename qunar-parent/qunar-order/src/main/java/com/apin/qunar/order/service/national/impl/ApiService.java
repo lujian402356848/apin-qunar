@@ -1,5 +1,6 @@
 package com.apin.qunar.order.service.national.impl;
 
+import com.apin.qunar.basic.service.impl.ResponseResult;
 import com.apin.qunar.common.utils.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
@@ -27,6 +28,19 @@ public abstract class ApiService<Req, Res> {
             String response = requestService.doRequest(getTag(), requestJson);
             Preconditions.checkNotNull(response);
             return JacksonUtil.decode(response, getTypeReference());
+        } catch (Exception e) {
+            LOGGER.error("tag:{} get api response error", getTag(), e);
+        }
+        return null;
+    }
+
+    public Res execute(Req request, ResponseResult responseResult) {
+        try {
+            Preconditions.checkNotNull(request);
+            String requestJson = JacksonUtil.encode(request);
+            responseResult = requestService.doRequestResult(getTag(), requestJson);
+            Preconditions.checkNotNull(responseResult.getResult());
+            return JacksonUtil.decode(responseResult.getResult(), getTypeReference());
         } catch (Exception e) {
             LOGGER.error("tag:{} get api response error", getTag(), e);
         }

@@ -23,7 +23,6 @@ import java.util.Map;
 @Slf4j
 @Service
 public class BaseRequestService {
-
     private Joiner.MapJoiner mapJoiner = Joiner.on("&").withKeyValueSeparator("=");
 
     protected String doRequest(String key, String token, String tag, String params) {
@@ -36,6 +35,19 @@ public class BaseRequestService {
             log.error("request error", e);
         }
         return result;
+    }
+
+    protected ResponseResult doRequestResult(String key, String token, String tag, String params) {
+        ResponseResult responseResult = new ResponseResult();
+        try {
+            Map<String, String> paramsMap = buildParamMap(key, token, tag, params);
+            String url = buildRequestUrl(paramsMap);
+            responseResult.setUrl(url);
+            responseResult.setResult(HttpClientUtil.doPost(url));
+        } catch (Exception e) {
+            log.error("request error", e);
+        }
+        return responseResult;
     }
 
     protected Map<String, String> buildParamMap(final String key, final String token, final String tag, String params) throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -68,5 +80,4 @@ public class BaseRequestService {
         }
         return sb.toString();
     }
-
 }
