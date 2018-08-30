@@ -17,6 +17,8 @@ public class Country implements Serializable {
      */
     private String name;
 
+    private String spell;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +53,13 @@ public class Country implements Serializable {
      */
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getSpell() {
+        return spell;
+    }
+
+    public void setSpell(String spell) {
+        this.spell = spell == null ? null : spell.trim();
     }
 }

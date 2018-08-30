@@ -5,6 +5,7 @@
       <id column="id" property="id" jdbcType="INTEGER" />
       <result column="code" property="code" jdbcType="VARCHAR" />
       <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="spell" property="spell" jdbcType="VARCHAR" />
     </resultMap>
     <sql id="Example_Where_Clause" >
       <where >
@@ -65,7 +66,7 @@
       </where>
     </sql>
     <sql id="CountryColumns" >
-      id, code, name
+      id, code, name, spell
     </sql>
     <select id="selectByExample" resultMap="CountryResult" parameterType="com.apin.qunar.basic.dao.model.CountryExample" >
       select
@@ -103,10 +104,10 @@
       </if>
     </delete>
     <insert id="insert" parameterType="com.apin.qunar.basic.dao.model.Country" >
-      insert into country (id, code, name
-        )
-      values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
-        )
+      insert into country (id, code, name, 
+        spell)
+      values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+        #{spell,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.apin.qunar.basic.dao.model.Country" >
       insert into country
@@ -120,6 +121,9 @@
         <if test="name != null" >
           name,
         </if>
+        <if test="spell != null" >
+          spell,
+        </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides="," >
         <if test="id != null" >
@@ -130,6 +134,9 @@
         </if>
         <if test="name != null" >
           #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="spell != null" >
+          #{spell,jdbcType=VARCHAR},
         </if>
       </trim>
     </insert>
@@ -151,6 +158,9 @@
         <if test="record.name != null" >
           name = #{record.name,jdbcType=VARCHAR},
         </if>
+        <if test="record.spell != null" >
+          spell = #{record.spell,jdbcType=VARCHAR},
+        </if>
       </set>
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
@@ -160,7 +170,8 @@
       update country
       set id = #{record.id,jdbcType=INTEGER},
         code = #{record.code,jdbcType=VARCHAR},
-        name = #{record.name,jdbcType=VARCHAR}
+        name = #{record.name,jdbcType=VARCHAR},
+        spell = #{record.spell,jdbcType=VARCHAR}
       <if test="_parameter != null" >
         <include refid="Update_By_Example_Where_Clause" />
       </if>
@@ -174,13 +185,17 @@
         <if test="name != null" >
           name = #{name,jdbcType=VARCHAR},
         </if>
+        <if test="spell != null" >
+          spell = #{spell,jdbcType=VARCHAR},
+        </if>
       </set>
       where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.apin.qunar.basic.dao.model.Country" >
       update country
       set code = #{code,jdbcType=VARCHAR},
-        name = #{name,jdbcType=VARCHAR}
+        name = #{name,jdbcType=VARCHAR},
+        spell = #{spell,jdbcType=VARCHAR}
       where id = #{id,jdbcType=INTEGER}
     </update>
   </mapper>

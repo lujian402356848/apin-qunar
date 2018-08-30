@@ -3,8 +3,10 @@ package com.apin.qunar.basic.service;
 
 import com.apin.qunar.basic.dao.model.Country;
 
-public interface CountryService {
-    Country queryByName(String countryName);
+import java.util.List;
 
+public interface CountryService {
     Country queryLikeByName(String countryName);
+
+    List<String> queryNameByKeyword(String code);
 }

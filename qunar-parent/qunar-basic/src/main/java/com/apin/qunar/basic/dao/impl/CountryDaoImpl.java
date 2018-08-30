@@ -34,4 +34,8 @@ public class CountryDaoImpl {
         List<Country> countries = countryMapper.selectByExample(example);
         return CollectionUtils.isEmpty(countries) ? null : countries.get(0);
     }
+
+    public List<String> queryNameByKeyword(String keyword){
+        return countryExtMapper.queryNameByKeyword(keyword);
+    }
 }
