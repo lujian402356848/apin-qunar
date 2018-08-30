@@ -6,6 +6,7 @@ import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
 import com.apin.qunar.app.natioanl.request.PayValidateRequest;
 import com.apin.qunar.common.enums.SysReturnCode;
+import com.apin.qunar.order.common.config.OrderConfig;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.payValidate.PayValidateParam;
 import com.apin.qunar.order.service.national.PayValidateService;
@@ -30,7 +31,8 @@ import javax.validation.Valid;
 public class PayValidateController extends BaseController {
     @Autowired
     private PayValidateService payValidateService;
-
+    @Autowired
+    private OrderConfig orderConfig;
     @PostMapping(value = "/order/payValidate")
     public GeneralResultMap payValidate(@RequestBody@Valid PayValidateRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
@@ -52,8 +54,8 @@ public class PayValidateController extends BaseController {
     private PayValidateParam buildPayValidateParam(PayValidateRequest payValidateRequest) {
         PayValidateParam payValidateParam = new PayValidateParam();
         payValidateParam.setOrderId(payValidateRequest.getOrderId());
-        payValidateParam.setBankCode(payValidateParam.getBankCode());
-        payValidateParam.setPmCode(payValidateParam.getPmCode());
+        payValidateParam.setBankCode(orderConfig.getBankCode());
+        payValidateParam.setPmCode(orderConfig.getPayType());
         payValidateParam.setClientSite(payValidateParam.getClientSite());
         return payValidateParam;
     }

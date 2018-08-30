@@ -16,8 +16,4 @@ public class PayValidateRequest extends BaseRequest {
     private String clientSite;
     @NotEmpty(message = "orderId不能为空")
     private String orderId;
-    @NotEmpty(message = "pmCode不能为空")
-    private String pmCode;
-    @NotEmpty(message = "bankCode不能为空")
-    private String bankCode;
 }
