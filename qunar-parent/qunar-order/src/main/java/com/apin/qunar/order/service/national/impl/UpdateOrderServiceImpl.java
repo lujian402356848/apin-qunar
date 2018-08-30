@@ -1,7 +1,6 @@
 package com.apin.qunar.order.service.national.impl;
 
 import com.apin.qunar.basic.common.constant.SmsConstants;
-import com.apin.qunar.basic.common.enums.AccountTypeEnum;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
 import com.apin.qunar.basic.dao.impl.UserDaoImpl;
 import com.apin.qunar.basic.dao.model.User;
@@ -40,7 +39,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class UpdateOrderServiceImpl implements UpdateOrderService {
-    private static final List<OrderStatusEnum> sendSmsOrderStatus = Arrays.asList(OrderStatusEnum.TICKET_OK, OrderStatusEnum.REFUND_OK, OrderStatusEnum.CHANGE_OK);
+    private static final List<OrderStatusEnum> sendSmsOrderStatus = Arrays.asList(OrderStatusEnum.TICKET_OK, OrderStatusEnum.REFUND_OK, OrderStatusEnum.CHANGE_OK, OrderStatusEnum.PAY_OK);
 
     @Autowired
     private NationalOrderDaoImpl nationalOrderDao;
