@@ -41,8 +41,6 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     private SearchFlightRecordService searchFlightRecordService;
     @Autowired
     private AirportService airportService;
-    @Resource
-    private NtsFlightRedis ntsFlightRedis;
 
     @Override
     protected String getTag() {
@@ -59,10 +57,6 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
     @Override
     public ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo, final String account) {
         searchFlightRecordService.create(account, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
-        List<NtsSearchFlightResultVO> flightResults = ntsFlightRedis.getFlightInfo(ntsSearchFlightParam);
-        if (!CollectionUtils.isEmpty(flightResults)) {
-            return new ApiResult<>(0, "", System.currentTimeMillis(), flightResults);
-        }
         ApiResult<List<NtsSearchFlightResultVO>> apiResult = execute(ntsSearchFlightParam);
         if (apiResult == null) {
             return ApiResult.fail();
@@ -75,7 +69,6 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
             return ApiResult.fail();
         }
         formatResult(apiResult, ntsSearchFlightParam, merchantNo);
-        ntsFlightRedis.setFlightInfo(ntsSearchFlightParam, apiResult.getResult());//将查询结果缓存
         return apiResult;
     }
 
