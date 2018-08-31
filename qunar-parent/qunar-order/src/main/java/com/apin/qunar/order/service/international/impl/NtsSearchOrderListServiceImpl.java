@@ -78,7 +78,7 @@ public class NtsSearchOrderListServiceImpl implements NtsSearchOrderListService 
             passengers = internationalPassengerDao.queryBy("", orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                return internationalOrderDao.queryListCount(status, orderNos);
+                return internationalOrderDao.queryListCount(status, orderNos, account);
             }
         } else {
             return internationalOrderDao.queryCount(account, status, orderNo);

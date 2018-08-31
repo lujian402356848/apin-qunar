@@ -156,7 +156,7 @@ public class NationalOrderDaoImpl {
         return nationalOrderMapper.countByExample(example);
     }
 
-    public Integer queryListCount(Integer status, List<String> orderNos) {
+    public Integer queryListCount(Integer status, List<String> orderNos, String account) {
         NationalOrderExample example = new NationalOrderExample();
         NationalOrderExample.Criteria criteria = example.createCriteria();
         if (status >= 0) {
@@ -164,6 +164,9 @@ public class NationalOrderDaoImpl {
         }
         if (CollectionUtils.isNotEmpty(orderNos)) {
             criteria.andOrderNoIn(orderNos);
+        }
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
         }
         criteria.andHasShowEqualTo(OrderShowEnum.SHOW.getStatus());
         example.setOrderByClause("insert_time desc");
@@ -181,5 +184,13 @@ public class NationalOrderDaoImpl {
         }
         criteria.andHasShowEqualTo(OrderShowEnum.NOSHOW.getStatus());
         return nationalOrderMapper.countByExample(example);
+    }
+
+    public void updateOldOrder(String oldOrderNo) {
+        nationalOrderExtMapper.updateOldOrder(oldOrderNo);
+    }
+
+    public void updataNewOrder(String newOrderNo, Integer oldPayAmount, String operator) {
+        nationalOrderExtMapper.updataNewOrder(newOrderNo, oldPayAmount, operator);
     }
 }

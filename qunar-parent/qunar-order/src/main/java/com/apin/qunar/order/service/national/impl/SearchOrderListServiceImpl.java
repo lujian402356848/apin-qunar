@@ -76,7 +76,7 @@ public class SearchOrderListServiceImpl implements SearchOrderListService {
             passengers = nationalPassengerDao.queryBy("", orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                return nationalOrderDao.queryListCount(status, orderNos);
+                return nationalOrderDao.queryListCount(status, orderNos, account);
             }
         } else {
             return nationalOrderDao.queryCount(account, status, orderNo);
