@@ -288,7 +288,7 @@ public class MerchantServiceImpl implements MerchantService {
      * @return
      */
     private String buildSecretKey() {
-        return "m2oBIMM4m6ui4aBLMF7G2fA8TfrK1y7y";
+        return "m2oBIMM4m6ui4aBL";
     }
 
     /**
