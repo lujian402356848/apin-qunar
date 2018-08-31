@@ -74,6 +74,8 @@ public class UserServiceImpl implements UserService {
         user.setRealName(users.getRealName());
         user.setPassword(users.getPassword());
         user.setDepartment(users.getDepartment());
+        user.setInsertTime(users.getInsertTime());
+        user.setUpdateTime(users.getUpdateTime());
         user.setHasAdmin(0);
         user.setHasEnable(1);
         if (merchant != null) {
