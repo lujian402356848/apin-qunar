@@ -11,4 +11,5 @@ public class NtsCreateOrderResultVO {
     private String orderNo;
     private String payDeadline;
     private String totalPrice;
+    private boolean priceChange;
 }
