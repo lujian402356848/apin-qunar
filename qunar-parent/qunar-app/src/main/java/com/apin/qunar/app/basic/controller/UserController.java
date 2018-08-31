@@ -7,8 +7,8 @@ import com.apin.qunar.app.basic.request.UserRegisterRequest;
 import com.apin.qunar.app.common.constant.AppConstants;
 import com.apin.qunar.app.common.controller.BaseController;
 import com.apin.qunar.app.common.domain.GeneralResultMap;
-import com.apin.qunar.basic.dao.model.User;
 import com.apin.qunar.basic.domain.ExecuteResult;
+import com.apin.qunar.basic.domain.user.UserVO;
 import com.apin.qunar.basic.service.UserService;
 import com.apin.qunar.common.enums.SysReturnCode;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +54,7 @@ public class UserController extends BaseController {
     public GeneralResultMap login(@RequestBody UserLoginRequest request) {
         GeneralResultMap generalResultMap = new GeneralResultMap();
         try {
-            User user = userService.login(request.getLoginName(), request.getPassword(), request.getIp());
+            UserVO user = userService.login(request.getLoginName(), request.getPassword(), request.getIp());
             if (user == null) {
                 generalResultMap.setResult(SysReturnCode.FAIL, "账户名或密码不正确");
             } else {

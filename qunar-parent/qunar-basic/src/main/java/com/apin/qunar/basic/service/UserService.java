@@ -3,6 +3,7 @@ package com.apin.qunar.basic.service;
 
 import com.apin.qunar.basic.dao.model.User;
 import com.apin.qunar.basic.domain.ExecuteResult;
+import com.apin.qunar.basic.domain.user.UserVO;
 
 /**
  * @outhor ligang
@@ -11,7 +12,7 @@ import com.apin.qunar.basic.domain.ExecuteResult;
 public interface UserService {
     ExecuteResult register(String name, String account, String password, String department);
 
-    User login(String account, String password, String ip);
+    UserVO login(String account, String password, String ip);
 
     boolean changePassword(String account, String password);
 }

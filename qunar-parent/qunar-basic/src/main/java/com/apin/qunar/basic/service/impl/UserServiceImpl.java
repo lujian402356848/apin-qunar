@@ -5,10 +5,13 @@ import com.apin.qunar.basic.common.constant.SmsConstants;
 import com.apin.qunar.basic.common.enums.AccountTypeEnum;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
 import com.apin.qunar.basic.dao.impl.LoginLogDaoImpl;
+import com.apin.qunar.basic.dao.impl.MerchantDaoImpl;
 import com.apin.qunar.basic.dao.impl.UserDaoImpl;
 import com.apin.qunar.basic.dao.model.LoginLog;
+import com.apin.qunar.basic.dao.model.Merchant;
 import com.apin.qunar.basic.dao.model.User;
 import com.apin.qunar.basic.domain.ExecuteResult;
+import com.apin.qunar.basic.domain.user.UserVO;
 import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.basic.service.UserService;
 import com.apin.qunar.common.ids.IDGenerator;
@@ -32,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private LoginLogDaoImpl loginLogDao;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private MerchantDaoImpl merchantDao;
 
     @Override
     public ExecuteResult register(String name, String account, String password, String department) {
@@ -60,14 +65,32 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    private UserVO buildUserVO(User users, Merchant merchant) {
+        UserVO user = new UserVO();
+        user.setId(IDGenerator.getUniqueId());
+        user.setAccount(users.getAccount());
+        user.setAccountType(AccountTypeEnum.EMPLOYEE.getCode());
+        user.setRealName(users.getRealName());
+        user.setPassword(users.getPassword());
+        user.setDepartment(users.getDepartment());
+        user.setHasAdmin(0);
+        user.setHasEnable(1);
+        if (merchant != null) {
+            user.setSecretKey(merchant.getSecretKey());
+        }
+        return user;
+    }
+
     @Override
-    public User login(String loginName, String password, String ip) {
+    public UserVO login(String loginName, String password, String ip) {
         if (StringUtils.isBlank(loginName) || StringUtils.isBlank(password)) {
             return null;
         }
         User user = userDao.queryByAccountAndPwd(loginName, password);
         addLoginLog(user, ip);
-        return user;
+        Merchant merchant = merchantDao.queryByMerchantNo(user.getMerchantNo());
+        UserVO userVO = buildUserVO(user, merchant);
+        return userVO;
     }
 
     private void addLoginLog(User user, String ip) {
