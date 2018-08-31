@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService {
         UserVO user = new UserVO();
         user.setId(IDGenerator.getUniqueId());
         user.setAccount(users.getAccount());
+        user.setMerchantNo(users.getMerchantNo());
         user.setAccountType(AccountTypeEnum.EMPLOYEE.getCode());
         user.setRealName(users.getRealName());
         user.setPassword(users.getPassword());
