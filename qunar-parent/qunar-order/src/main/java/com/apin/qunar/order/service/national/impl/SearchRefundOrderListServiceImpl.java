@@ -78,7 +78,7 @@ public class SearchRefundOrderListServiceImpl implements SearchRefundOrderListSe
             passengers = nationalReturnPassengerDao.queryBy(merchantNo, orderNo, pessengerName);
             if (CollectionUtils.isNotEmpty(passengers)) {
                 List<String> orderNos = passengers.stream().map(p -> p.getOrderNo()).collect(Collectors.toList());
-                return nationalReturnOrderDao.queryListCount(orderNos);
+                return nationalReturnOrderDao.queryListCount(orderNos, account);
             }
         } else {
             return nationalReturnOrderDao.queryCount(account, orderNo);

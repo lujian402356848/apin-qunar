@@ -97,11 +97,14 @@ public class NationalReturnOrderDaoImpl {
         return nationalReturnOrderMapper.countByExample(example);
     }
 
-    public Integer queryListCount(List<String> orderNos) {
+    public Integer queryListCount(List<String> orderNos, String account) {
         NationalReturnOrderExample example = new NationalReturnOrderExample();
         NationalReturnOrderExample.Criteria criteria = example.createCriteria();
         if (CollectionUtils.isNotEmpty(orderNos)) {
             criteria.andOrderNoIn(orderNos);
+        }
+        if (StringUtils.isNotBlank(account)) {
+            criteria.andOperatorEqualTo(account);
         }
         example.setOrderByClause("insert_time desc");
         return nationalReturnOrderMapper.countByExample(example);

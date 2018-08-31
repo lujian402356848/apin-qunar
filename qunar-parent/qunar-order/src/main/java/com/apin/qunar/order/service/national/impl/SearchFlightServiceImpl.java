@@ -48,7 +48,7 @@ public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiRe
      * @return 页面需要对象信息
      */
     @Override
-    public ApiResult<SearchFlightResultVO> searchFlight(final SearchFlightParam searchFlightParam, final String merchantNo,final String account) {
+    public ApiResult<SearchFlightResultVO> searchFlight(final SearchFlightParam searchFlightParam, final String merchantNo, final String account) {
         searchFlightRecordService.create(account, true, searchFlightParam.getDpt(), searchFlightParam.getArr());
         ApiResult<SearchFlightResultVO> apiResult = execute(searchFlightParam);
         if (apiResult == null) {
@@ -68,7 +68,11 @@ public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiRe
         Collections.sort(flightInfos, new Comparator<FlightInfo>() {
             @Override
             public int compare(FlightInfo flightInfoOne, FlightInfo flightInfoTwo) {
-                return Double.parseDouble(flightInfoOne.getBarePrice()) >= Double.parseDouble(flightInfoTwo.getBarePrice()) ? 1 : -1;// 升序
+                if (Double.parseDouble(flightInfoOne.getBarePrice()) == Double.parseDouble(flightInfoTwo.getBarePrice())) {
+                    return 0;
+                } else {
+                    return Double.parseDouble(flightInfoOne.getBarePrice()) > Double.parseDouble(flightInfoTwo.getBarePrice()) ? 1 : -1;// 升序
+                }
             }
         });
     }
