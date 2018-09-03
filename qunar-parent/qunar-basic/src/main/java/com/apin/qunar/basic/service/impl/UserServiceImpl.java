@@ -90,6 +90,9 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         User user = userDao.queryByAccountAndPwd(loginName, password);
+        if (user == null) {
+            return null;
+        }
         addLoginLog(user, ip);
         Merchant merchant = merchantDao.queryByMerchantNo(user.getMerchantNo());
         UserVO userVO = buildUserVO(user, merchant);
