@@ -17,6 +17,11 @@ public class Merchant implements Serializable {
     private String merchantNo;
 
     /**
+     * 商户级别(1,2,3)
+     */
+    private Integer merchantGrade;
+
+    /**
      * 密钥
      */
     private String secretKey;
@@ -42,9 +47,14 @@ public class Merchant implements Serializable {
     private String companyAddress;
 
     /**
-     * 管理者姓名
+     * BD
      */
     private String managerName;
+
+    /**
+     * 父商户号
+     */
+    private String parentMerchantNo;
 
     /**
      * 父邀请码
@@ -55,6 +65,16 @@ public class Merchant implements Serializable {
      * 邀请码
      */
     private String inviteCode;
+
+    /**
+     * 授信评分
+     */
+    private Integer creditScore;
+
+    /**
+     * 授信金额
+     */
+    private Integer creditMoney;
 
     /**
      * 审核人
@@ -107,6 +127,20 @@ public class Merchant implements Serializable {
      */
     public void setMerchantNo(String merchantNo) {
         this.merchantNo = merchantNo == null ? null : merchantNo.trim();
+    }
+
+    /**
+     * @return 商户级别(1,2,3)
+     */
+    public Integer getMerchantGrade() {
+        return merchantGrade;
+    }
+
+    /**
+     * @param merchantGrade 商户级别(1,2,3)
+     */
+    public void setMerchantGrade(Integer merchantGrade) {
+        this.merchantGrade = merchantGrade;
     }
 
     /**
@@ -180,17 +214,31 @@ public class Merchant implements Serializable {
     }
 
     /**
-     * @return 管理者姓名
+     * @return BD
      */
     public String getManagerName() {
         return managerName;
     }
 
     /**
-     * @param managerName 管理者姓名
+     * @param managerName BD
      */
     public void setManagerName(String managerName) {
         this.managerName = managerName == null ? null : managerName.trim();
+    }
+
+    /**
+     * @return 父商户号
+     */
+    public String getParentMerchantNo() {
+        return parentMerchantNo;
+    }
+
+    /**
+     * @param parentMerchantNo 父商户号
+     */
+    public void setParentMerchantNo(String parentMerchantNo) {
+        this.parentMerchantNo = parentMerchantNo == null ? null : parentMerchantNo.trim();
     }
 
     /**
@@ -219,6 +267,34 @@ public class Merchant implements Serializable {
      */
     public void setInviteCode(String inviteCode) {
         this.inviteCode = inviteCode == null ? null : inviteCode.trim();
+    }
+
+    /**
+     * @return 授信评分
+     */
+    public Integer getCreditScore() {
+        return creditScore;
+    }
+
+    /**
+     * @param creditScore 授信评分
+     */
+    public void setCreditScore(Integer creditScore) {
+        this.creditScore = creditScore;
+    }
+
+    /**
+     * @return 授信金额
+     */
+    public Integer getCreditMoney() {
+        return creditMoney;
+    }
+
+    /**
+     * @param creditMoney 授信金额
+     */
+    public void setCreditMoney(Integer creditMoney) {
+        this.creditMoney = creditMoney;
     }
 
     /**

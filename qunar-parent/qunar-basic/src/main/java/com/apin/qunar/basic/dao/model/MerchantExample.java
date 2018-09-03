@@ -257,6 +257,66 @@ public class MerchantExample {
             return (Criteria) this;
         }
 
+        public Criteria andMerchantGradeIsNull() {
+            addCriterion("merchant_grade is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeIsNotNull() {
+            addCriterion("merchant_grade is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeEqualTo(Integer value) {
+            addCriterion("merchant_grade =", value, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeNotEqualTo(Integer value) {
+            addCriterion("merchant_grade <>", value, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeGreaterThan(Integer value) {
+            addCriterion("merchant_grade >", value, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("merchant_grade >=", value, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeLessThan(Integer value) {
+            addCriterion("merchant_grade <", value, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeLessThanOrEqualTo(Integer value) {
+            addCriterion("merchant_grade <=", value, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeIn(List<Integer> values) {
+            addCriterion("merchant_grade in", values, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeNotIn(List<Integer> values) {
+            addCriterion("merchant_grade not in", values, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeBetween(Integer value1, Integer value2) {
+            addCriterion("merchant_grade between", value1, value2, "merchantGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andMerchantGradeNotBetween(Integer value1, Integer value2) {
+            addCriterion("merchant_grade not between", value1, value2, "merchantGrade");
+            return (Criteria) this;
+        }
+
         public Criteria andSecretKeyIsNull() {
             addCriterion("secret_key is null");
             return (Criteria) this;
@@ -677,6 +737,76 @@ public class MerchantExample {
             return (Criteria) this;
         }
 
+        public Criteria andParentMerchantNoIsNull() {
+            addCriterion("parent_merchant_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoIsNotNull() {
+            addCriterion("parent_merchant_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoEqualTo(String value) {
+            addCriterion("parent_merchant_no =", value, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoNotEqualTo(String value) {
+            addCriterion("parent_merchant_no <>", value, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoGreaterThan(String value) {
+            addCriterion("parent_merchant_no >", value, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoGreaterThanOrEqualTo(String value) {
+            addCriterion("parent_merchant_no >=", value, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoLessThan(String value) {
+            addCriterion("parent_merchant_no <", value, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoLessThanOrEqualTo(String value) {
+            addCriterion("parent_merchant_no <=", value, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoLike(String value) {
+            addCriterion("parent_merchant_no like", value, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoNotLike(String value) {
+            addCriterion("parent_merchant_no not like", value, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoIn(List<String> values) {
+            addCriterion("parent_merchant_no in", values, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoNotIn(List<String> values) {
+            addCriterion("parent_merchant_no not in", values, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoBetween(String value1, String value2) {
+            addCriterion("parent_merchant_no between", value1, value2, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMerchantNoNotBetween(String value1, String value2) {
+            addCriterion("parent_merchant_no not between", value1, value2, "parentMerchantNo");
+            return (Criteria) this;
+        }
+
         public Criteria andParentInviteCodeIsNull() {
             addCriterion("parent_invite_code is null");
             return (Criteria) this;
@@ -814,6 +944,126 @@ public class MerchantExample {
 
         public Criteria andInviteCodeNotBetween(String value1, String value2) {
             addCriterion("invite_code not between", value1, value2, "inviteCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreIsNull() {
+            addCriterion("credit_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreIsNotNull() {
+            addCriterion("credit_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreEqualTo(Integer value) {
+            addCriterion("credit_score =", value, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreNotEqualTo(Integer value) {
+            addCriterion("credit_score <>", value, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreGreaterThan(Integer value) {
+            addCriterion("credit_score >", value, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreGreaterThanOrEqualTo(Integer value) {
+            addCriterion("credit_score >=", value, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreLessThan(Integer value) {
+            addCriterion("credit_score <", value, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreLessThanOrEqualTo(Integer value) {
+            addCriterion("credit_score <=", value, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreIn(List<Integer> values) {
+            addCriterion("credit_score in", values, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreNotIn(List<Integer> values) {
+            addCriterion("credit_score not in", values, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreBetween(Integer value1, Integer value2) {
+            addCriterion("credit_score between", value1, value2, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditScoreNotBetween(Integer value1, Integer value2) {
+            addCriterion("credit_score not between", value1, value2, "creditScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyIsNull() {
+            addCriterion("credit_money is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyIsNotNull() {
+            addCriterion("credit_money is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyEqualTo(Integer value) {
+            addCriterion("credit_money =", value, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyNotEqualTo(Integer value) {
+            addCriterion("credit_money <>", value, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyGreaterThan(Integer value) {
+            addCriterion("credit_money >", value, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyGreaterThanOrEqualTo(Integer value) {
+            addCriterion("credit_money >=", value, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyLessThan(Integer value) {
+            addCriterion("credit_money <", value, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyLessThanOrEqualTo(Integer value) {
+            addCriterion("credit_money <=", value, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyIn(List<Integer> values) {
+            addCriterion("credit_money in", values, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyNotIn(List<Integer> values) {
+            addCriterion("credit_money not in", values, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyBetween(Integer value1, Integer value2) {
+            addCriterion("credit_money between", value1, value2, "creditMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreditMoneyNotBetween(Integer value1, Integer value2) {
+            addCriterion("credit_money not between", value1, value2, "creditMoney");
             return (Criteria) this;
         }
 
@@ -1166,6 +1416,11 @@ public class MerchantExample {
 
         public Criteria andManagerNameLikeInsensitive(String value) {
             addCriterion("upper(manager_name) like", value.toUpperCase(), "managerName");
+            return this;
+        }
+
+        public Criteria andParentMerchantNoLikeInsensitive(String value) {
+            addCriterion("upper(parent_merchant_no) like", value.toUpperCase(), "parentMerchantNo");
             return this;
         }
 
