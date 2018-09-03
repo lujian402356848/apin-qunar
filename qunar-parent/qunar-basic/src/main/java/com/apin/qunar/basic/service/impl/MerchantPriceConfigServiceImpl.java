@@ -68,12 +68,12 @@ public class MerchantPriceConfigServiceImpl implements MerchantPriceConfigServic
     }
 
     @Override
-    public double queryPriceRatio(String merchantNo, boolean hasNational) {
-        double priceRatio = 1;
+    public Integer queryAddPrice(String merchantNo, boolean hasNational) {
+        Integer addPrice = 0;
         MerchantPriceConfig merchantPriceConfig = priceConfigCache.getIfPresent(merchantNo);
         if (merchantPriceConfig == null) {
-            return priceRatio;
+            return addPrice;
         }
-        return hasNational ? merchantPriceConfig.getNationalPriceRatio() : merchantPriceConfig.getInternationalPriceRatio();
+        return hasNational ? merchantPriceConfig.getNationalAddPrice(): merchantPriceConfig.getInternationalAddPrice();
     }
 }

@@ -257,123 +257,123 @@ public class MerchantPriceConfigExample {
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioIsNull() {
-            addCriterion("national_price_ratio is null");
+        public Criteria andNationalAddPriceIsNull() {
+            addCriterion("national_add_price is null");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioIsNotNull() {
-            addCriterion("national_price_ratio is not null");
+        public Criteria andNationalAddPriceIsNotNull() {
+            addCriterion("national_add_price is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioEqualTo(Double value) {
-            addCriterion("national_price_ratio =", value, "nationalPriceRatio");
+        public Criteria andNationalAddPriceEqualTo(Integer value) {
+            addCriterion("national_add_price =", value, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioNotEqualTo(Double value) {
-            addCriterion("national_price_ratio <>", value, "nationalPriceRatio");
+        public Criteria andNationalAddPriceNotEqualTo(Integer value) {
+            addCriterion("national_add_price <>", value, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioGreaterThan(Double value) {
-            addCriterion("national_price_ratio >", value, "nationalPriceRatio");
+        public Criteria andNationalAddPriceGreaterThan(Integer value) {
+            addCriterion("national_add_price >", value, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioGreaterThanOrEqualTo(Double value) {
-            addCriterion("national_price_ratio >=", value, "nationalPriceRatio");
+        public Criteria andNationalAddPriceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("national_add_price >=", value, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioLessThan(Double value) {
-            addCriterion("national_price_ratio <", value, "nationalPriceRatio");
+        public Criteria andNationalAddPriceLessThan(Integer value) {
+            addCriterion("national_add_price <", value, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioLessThanOrEqualTo(Double value) {
-            addCriterion("national_price_ratio <=", value, "nationalPriceRatio");
+        public Criteria andNationalAddPriceLessThanOrEqualTo(Integer value) {
+            addCriterion("national_add_price <=", value, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioIn(List<Double> values) {
-            addCriterion("national_price_ratio in", values, "nationalPriceRatio");
+        public Criteria andNationalAddPriceIn(List<Integer> values) {
+            addCriterion("national_add_price in", values, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioNotIn(List<Double> values) {
-            addCriterion("national_price_ratio not in", values, "nationalPriceRatio");
+        public Criteria andNationalAddPriceNotIn(List<Integer> values) {
+            addCriterion("national_add_price not in", values, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioBetween(Double value1, Double value2) {
-            addCriterion("national_price_ratio between", value1, value2, "nationalPriceRatio");
+        public Criteria andNationalAddPriceBetween(Integer value1, Integer value2) {
+            addCriterion("national_add_price between", value1, value2, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andNationalPriceRatioNotBetween(Double value1, Double value2) {
-            addCriterion("national_price_ratio not between", value1, value2, "nationalPriceRatio");
+        public Criteria andNationalAddPriceNotBetween(Integer value1, Integer value2) {
+            addCriterion("national_add_price not between", value1, value2, "nationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioIsNull() {
-            addCriterion("international_price_ratio is null");
+        public Criteria andInternationalAddPriceIsNull() {
+            addCriterion("international_add_price is null");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioIsNotNull() {
-            addCriterion("international_price_ratio is not null");
+        public Criteria andInternationalAddPriceIsNotNull() {
+            addCriterion("international_add_price is not null");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioEqualTo(Double value) {
-            addCriterion("international_price_ratio =", value, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceEqualTo(Integer value) {
+            addCriterion("international_add_price =", value, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioNotEqualTo(Double value) {
-            addCriterion("international_price_ratio <>", value, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceNotEqualTo(Integer value) {
+            addCriterion("international_add_price <>", value, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioGreaterThan(Double value) {
-            addCriterion("international_price_ratio >", value, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceGreaterThan(Integer value) {
+            addCriterion("international_add_price >", value, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioGreaterThanOrEqualTo(Double value) {
-            addCriterion("international_price_ratio >=", value, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("international_add_price >=", value, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioLessThan(Double value) {
-            addCriterion("international_price_ratio <", value, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceLessThan(Integer value) {
+            addCriterion("international_add_price <", value, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioLessThanOrEqualTo(Double value) {
-            addCriterion("international_price_ratio <=", value, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceLessThanOrEqualTo(Integer value) {
+            addCriterion("international_add_price <=", value, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioIn(List<Double> values) {
-            addCriterion("international_price_ratio in", values, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceIn(List<Integer> values) {
+            addCriterion("international_add_price in", values, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioNotIn(List<Double> values) {
-            addCriterion("international_price_ratio not in", values, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceNotIn(List<Integer> values) {
+            addCriterion("international_add_price not in", values, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioBetween(Double value1, Double value2) {
-            addCriterion("international_price_ratio between", value1, value2, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceBetween(Integer value1, Integer value2) {
+            addCriterion("international_add_price between", value1, value2, "internationalAddPrice");
             return (Criteria) this;
         }
 
-        public Criteria andInternationalPriceRatioNotBetween(Double value1, Double value2) {
-            addCriterion("international_price_ratio not between", value1, value2, "internationalPriceRatio");
+        public Criteria andInternationalAddPriceNotBetween(Integer value1, Integer value2) {
+            addCriterion("international_add_price not between", value1, value2, "internationalAddPrice");
             return (Criteria) this;
         }
 

@@ -17,14 +17,14 @@ public class MerchantPriceConfig implements Serializable {
     private String merchantNo;
 
     /**
-     * 国内加价比例
+     * 国内加价价格
      */
-    private Double nationalPriceRatio;
+    private Integer nationalAddPrice;
 
     /**
-     * 国际加价比例
+     * 国际加价价格
      */
-    private Double internationalPriceRatio;
+    private Integer internationalAddPrice;
 
     /**
      * 插入时间
@@ -65,31 +65,31 @@ public class MerchantPriceConfig implements Serializable {
     }
 
     /**
-     * @return 国内加价比例
+     * @return 国内加价价格
      */
-    public Double getNationalPriceRatio() {
-        return nationalPriceRatio;
+    public Integer getNationalAddPrice() {
+        return nationalAddPrice;
     }
 
     /**
-     * @param nationalPriceRatio 国内加价比例
+     * @param nationalAddPrice 国内加价价格
      */
-    public void setNationalPriceRatio(Double nationalPriceRatio) {
-        this.nationalPriceRatio = nationalPriceRatio;
+    public void setNationalAddPrice(Integer nationalAddPrice) {
+        this.nationalAddPrice = nationalAddPrice;
     }
 
     /**
-     * @return 国际加价比例
+     * @return 国际加价价格
      */
-    public Double getInternationalPriceRatio() {
-        return internationalPriceRatio;
+    public Integer getInternationalAddPrice() {
+        return internationalAddPrice;
     }
 
     /**
-     * @param internationalPriceRatio 国际加价比例
+     * @param internationalAddPrice 国际加价价格
      */
-    public void setInternationalPriceRatio(Double internationalPriceRatio) {
-        this.internationalPriceRatio = internationalPriceRatio;
+    public void setInternationalAddPrice(Integer internationalAddPrice) {
+        this.internationalAddPrice = internationalAddPrice;
     }
 
     /**
