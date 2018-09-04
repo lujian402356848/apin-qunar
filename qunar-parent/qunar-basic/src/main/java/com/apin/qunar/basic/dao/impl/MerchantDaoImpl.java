@@ -73,10 +73,6 @@ public class MerchantDaoImpl {
         return merchantMapper.countByExample(example) == 0;
     }
 
-    public String querySecretKeyBy(String merchantNo) {
-        return merchantExtMapper.queryUserSecretKey(merchantNo);
-    }
-
     public List<Merchant> queryBy(Integer auditStatus, Date auditTime) {
         MerchantExample example = new MerchantExample();
         MerchantExample.Criteria criteria = example.createCriteria();

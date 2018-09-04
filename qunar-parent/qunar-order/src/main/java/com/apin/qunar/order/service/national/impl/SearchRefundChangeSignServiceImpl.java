@@ -37,18 +37,17 @@ public class SearchRefundChangeSignServiceImpl extends ApiService<SearchRefundCh
         if (apiResult == null) {
             return ApiResult.fail();
         }
-
-        setPrice(apiResult.getResult(), merchantNo);
+//        setPrice(apiResult.getResult(), merchantNo);
         return apiResult;
 //        return new ApiResult<>(apiResult, BeanUtil.copyProperties(apiResult.getResult(), SearchRefundChangeSignResultVO.class));
     }
 
-    private void setPrice(SearchRefundChangeSignResultVO searchRefundChangeSignResultVO, String merchantNo) {
-        double ratio = merchantPriceConfigService.queryPriceRatio(merchantNo, true);
-        List<SearchRefundChangeSignResultVO.TgqPointCharge> TgqPointCharges = searchRefundChangeSignResultVO.getTgqPointCharges();
-        for (SearchRefundChangeSignResultVO.TgqPointCharge tgqPointCharge : TgqPointCharges) {
-            int returnFee = (int) (tgqPointCharge.getReturnFee() * ratio);
-            tgqPointCharge.setReturnFee(returnFee);
-        }
-    }
+//    private void setPrice(SearchRefundChangeSignResultVO searchRefundChangeSignResultVO, String merchantNo) {
+//        double ratio = merchantPriceConfigService.queryPriceRatio(merchantNo, true);
+//        List<SearchRefundChangeSignResultVO.TgqPointCharge> TgqPointCharges = searchRefundChangeSignResultVO.getTgqPointCharges();
+//        for (SearchRefundChangeSignResultVO.TgqPointCharge tgqPointCharge : TgqPointCharges) {
+//            int returnFee = (int) (tgqPointCharge.getReturnFee() * ratio);
+//            tgqPointCharge.setReturnFee(returnFee);
+//        }
+//    }
 }

@@ -45,8 +45,7 @@ public class RefundSearchServiceImpl extends ApiService<RefundSearchParam, ApiRe
     }
 
     private void setPrice(List<RefundSearchResultVO> refundSearchResultVOS, String merchantNo) {
-        double ratio = merchantPriceConfigService.queryPriceRatio(merchantNo, true);
-
+        double ratio = merchantPriceConfigService.queryAddPrice(merchantNo, true);
         for (RefundSearchResultVO refundSearchResultVO : refundSearchResultVOS) {
             List<RefundSearchResultVO.TgqReason> tgqReasons = refundSearchResultVO.getRefundSearchResult().getTgqReasons();
             for (RefundSearchResultVO.TgqReason tgqReason : tgqReasons) {
