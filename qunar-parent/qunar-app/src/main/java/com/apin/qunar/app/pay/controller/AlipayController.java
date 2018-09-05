@@ -94,8 +94,8 @@ public class AlipayController extends BaseController {
         return generalResultMap;
     }
 
-    @PostMapping(value = "/alipay/computerPayment")
-    public GeneralResultMap computerPayment(@RequestBody AlipayRequest request) {
+    @PostMapping(value = "/alipay/computerPay")
+    public GeneralResultMap computerPay(@RequestBody AlipayRequest request) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/alipay/generateQrCode接口基础验证不通过，request:{}", JSON.toJSON(request));
