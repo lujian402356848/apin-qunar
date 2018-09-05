@@ -110,7 +110,7 @@ public class AlipayController extends BaseController {
         try {
             ExecuteResult executeResult = null;
             String payOrderNo = "";
-            /*if (request.getOrderType() == OrderTypeEnum.CHANGE.getCode()) {//改签订单不需要支付验证
+            if (request.getOrderType() == OrderTypeEnum.CHANGE.getCode()) {//改签订单不需要支付验证
                 payOrderNo = orderNo + "*";
                 executeResult = new ExecuteResult(true);
             } else {
@@ -122,8 +122,7 @@ public class AlipayController extends BaseController {
             } else {
                 generalResultMap.setResult(SysReturnCode.FAIL, executeResult.getDesc());
                 return generalResultMap;
-            }*/
-            result = alipayService.computerPayment(buildAlipayBO(request,request.getOrderNo()));
+            }
             if (StringUtils.isBlank(result)) {
                 generalResultMap.setResult(SysReturnCode.FAIL);
             } else {
