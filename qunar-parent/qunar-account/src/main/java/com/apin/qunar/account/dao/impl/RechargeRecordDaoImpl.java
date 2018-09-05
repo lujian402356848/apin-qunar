@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public class RechargeRecordDaoImpl {
-    @Autowired
+//    @Autowired
     private RechargeRecordMapper rechargeRecordMapper;
 
     public List<RechargeRecord> queryRechargeRecordListBy(String merchantNo, String accountId, Integer offset, Integer limit) {

@@ -81,10 +81,10 @@ public class MerchantController extends BaseController {
                 generalResultMap.setResult(SysReturnCode.FAIL, "手机号已注册");
                 return generalResultMap;
             }
-            if (StringUtils.isNotBlank(request.getParentInviteCode()) && merchantService.isExistParentInviteCode(request.getParentInviteCode())) {
-                generalResultMap.setResult(SysReturnCode.FAIL, "邀请码不存在");
-                return generalResultMap;
-            }
+//            if (StringUtils.isNotBlank(request.getParentInviteCode()) && merchantService.isExistParentInviteCode(request.getParentInviteCode())) {
+//                generalResultMap.setResult(SysReturnCode.FAIL, "邀请码不存在");
+//                return generalResultMap;
+//            }
             boolean result = merchantService.register(buildMerchant(request));
             if (result) {
                 generalResultMap.setResult(SysReturnCode.SUCC);
