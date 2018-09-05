@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.apin.qunar.account.dao.mapper.WithdrawRecordMapper" >
+    <resultMap id="WithdrawRecordResult" type="com.apin.qunar.account.dao.model.WithdrawRecord" >
+      <id column="id" property="id" jdbcType="CHAR" />
+      <result column="merchant_no" property="merchantNo" jdbcType="CHAR" />
+      <result column="account_id" property="accountId" jdbcType="CHAR" />
+      <result column="withdraw_money" property="withdrawMoney" jdbcType="INTEGER" />
+      <result column="withdraw_status" property="withdrawStatus" jdbcType="INTEGER" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="WithdrawRecordColumns" >
+      id, merchant_no, account_id, withdraw_money, withdraw_status, remark, insert_time
+    </sql>
+    <select id="selectByExample" resultMap="WithdrawRecordResult" parameterType="com.apin.qunar.account.dao.model.WithdrawRecordExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      <include refid="WithdrawRecordColumns" />
+      from withdraw_record
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+      <if test="mysqlOffset != null" >
+        <if test="mysqlLength != null" >
+           limit #{mysqlOffset} , #{mysqlLength} 
+        </if>
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="WithdrawRecordResult" parameterType="java.lang.String" >
+      select 
+      <include refid="WithdrawRecordColumns" />
+      from withdraw_record
+      where id = #{id,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+      delete from withdraw_record
+      where id = #{id,jdbcType=CHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.apin.qunar.account.dao.model.WithdrawRecordExample" >
+      delete from withdraw_record
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.apin.qunar.account.dao.model.WithdrawRecord" >
+      insert into withdraw_record (id, merchant_no, account_id, 
+        withdraw_money, withdraw_status, remark, 
+        insert_time)
+      values (#{id,jdbcType=CHAR}, #{merchantNo,jdbcType=CHAR}, #{accountId,jdbcType=CHAR}, 
+        #{withdrawMoney,jdbcType=INTEGER}, #{withdrawStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+        #{insertTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.apin.qunar.account.dao.model.WithdrawRecord" >
+      insert into withdraw_record
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          id,
+        </if>
+        <if test="merchantNo != null" >
+          merchant_no,
+        </if>
+        <if test="accountId != null" >
+          account_id,
+        </if>
+        <if test="withdrawMoney != null" >
+          withdraw_money,
+        </if>
+        <if test="withdrawStatus != null" >
+          withdraw_status,
+        </if>
+        <if test="remark != null" >
+          remark,
+        </if>
+        <if test="insertTime != null" >
+          insert_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=CHAR},
+        </if>
+        <if test="merchantNo != null" >
+          #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="accountId != null" >
+          #{accountId,jdbcType=CHAR},
+        </if>
+        <if test="withdrawMoney != null" >
+          #{withdrawMoney,jdbcType=INTEGER},
+        </if>
+        <if test="withdrawStatus != null" >
+          #{withdrawStatus,jdbcType=INTEGER},
+        </if>
+        <if test="remark != null" >
+          #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.apin.qunar.account.dao.model.WithdrawRecordExample" resultType="java.lang.Integer" >
+      select count(*) from withdraw_record
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update withdraw_record
+      <set >
+        <if test="record.id != null" >
+          id = #{record.id,jdbcType=CHAR},
+        </if>
+        <if test="record.merchantNo != null" >
+          merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="record.accountId != null" >
+          account_id = #{record.accountId,jdbcType=CHAR},
+        </if>
+        <if test="record.withdrawMoney != null" >
+          withdraw_money = #{record.withdrawMoney,jdbcType=INTEGER},
+        </if>
+        <if test="record.withdrawStatus != null" >
+          withdraw_status = #{record.withdrawStatus,jdbcType=INTEGER},
+        </if>
+        <if test="record.remark != null" >
+          remark = #{record.remark,jdbcType=VARCHAR},
+        </if>
+        <if test="record.insertTime != null" >
+          insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update withdraw_record
+      set id = #{record.id,jdbcType=CHAR},
+        merchant_no = #{record.merchantNo,jdbcType=CHAR},
+        account_id = #{record.accountId,jdbcType=CHAR},
+        withdraw_money = #{record.withdrawMoney,jdbcType=INTEGER},
+        withdraw_status = #{record.withdrawStatus,jdbcType=INTEGER},
+        remark = #{record.remark,jdbcType=VARCHAR},
+        insert_time = #{record.insertTime,jdbcType=TIMESTAMP}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.apin.qunar.account.dao.model.WithdrawRecord" >
+      update withdraw_record
+      <set >
+        <if test="merchantNo != null" >
+          merchant_no = #{merchantNo,jdbcType=CHAR},
+        </if>
+        <if test="accountId != null" >
+          account_id = #{accountId,jdbcType=CHAR},
+        </if>
+        <if test="withdrawMoney != null" >
+          withdraw_money = #{withdrawMoney,jdbcType=INTEGER},
+        </if>
+        <if test="withdrawStatus != null" >
+          withdraw_status = #{withdrawStatus,jdbcType=INTEGER},
+        </if>
+        <if test="remark != null" >
+          remark = #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="insertTime != null" >
+          insert_time = #{insertTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{id,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.apin.qunar.account.dao.model.WithdrawRecord" >
+      update withdraw_record
+      set merchant_no = #{merchantNo,jdbcType=CHAR},
+        account_id = #{accountId,jdbcType=CHAR},
+        withdraw_money = #{withdrawMoney,jdbcType=INTEGER},
+        withdraw_status = #{withdrawStatus,jdbcType=INTEGER},
+        remark = #{remark,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
+      where id = #{id,jdbcType=CHAR}
+    </update>
+  </mapper>
