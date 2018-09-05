@@ -24,4 +24,5 @@ public class NtsCreateOrderRequest extends BaseRequest {
     private Xcd xcd;
     @NotEmpty(message = "account不能为空")
     private String account;
+    private String packName;
 }
