@@ -159,6 +159,11 @@ public class AlipayServiceImpl implements AlipayService {
         try {
             alipayRequest.setNotifyUrl(alipayConfig.getNotifyUrl());
             result = alipayClient.pageExecute(alipayRequest, "GET").getBody();
+            if(StringUtils.isNotBlank(result)){
+                if(!createAliPayRecord(alipayBO)){
+                    result = "";
+                }
+            }
         } catch (Exception e) {
             log.error("支付宝电脑支付请求异常,params:{}", JSON.toJSON(alipayBO), e);
         }
