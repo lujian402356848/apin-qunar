@@ -50,30 +50,30 @@ public class NtsSearchFlightController extends BaseController {
         Map<String, Object> data = new HashMap<>();
         try {
             ApiResult<List<NtsSearchFlightResultVO>> apiResult = ntsSearchFlightService.searchFlight(buildNtsSearchFlightParam(request), request.getMerchantNo(), request.getAccount());
-            if (apiResult.isSuccess()) {
-                data.put("ntsFlightSearchResult", apiResult.getResult());
-                data.put("depCity", request.getDepCity());
-                data.put("arrCity", request.getArrCity());
-                data.put("depDate", request.getDepDate());
-                data.put("retDate", request.getRetDate());
-                data.put("source", orderConfig.getInternationalSource());
-                if (request.getAdultNum() != null) {
-                    data.put("adultNum", request.getAdultNum());
-                }
-                if (request.getChildNum() != null) {
-                    data.put("childNum", request.getChildNum());
-                }
-                if (request.getCabinLevel() != null) {
-                    data.put("cabinLevel", request.getCabinLevel());
-                }
-                generalResultMap.setResult(SysReturnCode.SUCC, data);
+            if (!apiResult.isSuccess()) {
+                generalResultMap.setResult(SysReturnCode.FAIL, apiResult.getMessage());
+                return generalResultMap;
             }
+            data.put("ntsFlightSearchResult", apiResult.getResult());
+            data.put("depCity", request.getDepCity());
+            data.put("arrCity", request.getArrCity());
+            data.put("depDate", request.getDepDate());
+            data.put("retDate", request.getRetDate());
+            data.put("source", orderConfig.getInternationalSource());
+            if (request.getAdultNum() != null) {
+                data.put("adultNum", request.getAdultNum());
+            }
+            if (request.getChildNum() != null) {
+                data.put("childNum", request.getChildNum());
+            }
+            if (request.getCabinLevel() != null) {
+                data.put("cabinLevel", request.getCabinLevel());
+            }
+            generalResultMap.setResult(SysReturnCode.SUCC, data);
         } catch (Exception e) {
-            generalResultMap.setResult(SysReturnCode.FAIL);
+            generalResultMap.setResult(SysReturnCode.FAIL, "没有该航班信息");
             log.error("国际查询航班异常,request:{}", request, e);
         }
-
-
         return generalResultMap;
     }
 
