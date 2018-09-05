@@ -49,7 +49,7 @@ public class CreateOrderController extends BaseController {
     private CreateOrderService createOrderService;
 
     @PostMapping(value = "/order/create")
-    public GeneralResultMap createOrder(@RequestBody@Valid CreateOrderRequest request, BindingResult bindingResult) {
+    public GeneralResultMap createOrder(@RequestBody @Valid CreateOrderRequest request, BindingResult bindingResult) {
         GeneralResultMap generalResultMap = validateCommonParam(request);
         if (!generalResultMap.isSuccess()) {
             log.warn("/order/create接口基础验证不通过，request:{}", JSON.toJSON(request));
@@ -60,7 +60,7 @@ public class CreateOrderController extends BaseController {
             Vendor vendor = JacksonUtil.decode(request.getVendorStr(), Vendor.class);
             ApiResult<BookingResultVO> bookingResult = bookingService.booking(buildBookingParam(request, vendor));
             if (bookingResult.isSuccess()) {//如果预定成功，则校验乘客人数是否足够
-                String validateResult = validatePassengerCount(request, bookingResult.getResult());
+                String validateResult = validatePassenger(request, bookingResult.getResult());
                 if (StringUtils.isBlank(validateResult)) {
                     CreateOrderParam createOrderParam = buildCreateOrderParam(bookingResult.getResult(), request);
                     ApiResult<CreateOrderResultVO> createOrderResult = createOrderService.createOrder(buildCreateOrderRequestBO(request), createOrderParam, bookingResult.getResult());
@@ -84,7 +84,7 @@ public class CreateOrderController extends BaseController {
         return generalResultMap;
     }
 
-    private String validatePassengerCount(CreateOrderRequest createOrderRequest, BookingResultVO bookingResult) {
+    private String validatePassenger(CreateOrderRequest createOrderRequest, BookingResultVO bookingResult) {
         String adultCountStr = bookingResult.getPriceInfo().getInventory().getAdult();
         if (StringUtils.isNotBlank(adultCountStr) && "a".equalsIgnoreCase(adultCountStr)) {
             return "";
@@ -93,6 +93,10 @@ public class CreateOrderController extends BaseController {
         long bookingAdultCount = Long.parseLong(adultCountStr);
         if (bookingAdultCount < adultCount) {
             return String.format("票数不足，最多可预订%s人", bookingAdultCount);
+        }
+        boolean isExistChild = createOrderRequest.getPassengers().stream().anyMatch(p -> p.getAgeType() == AgeTypeEnum.CHILD.code);
+        if (isExistChild && bookingResult.getPriceInfo().getPriceTag().get("CHI") == null) {//说明该航班不支持儿童，但是UI传入儿童票
+            return "该航班不支持儿童票，请重新选择";
         }
         return "";
     }
@@ -171,7 +175,6 @@ public class CreateOrderController extends BaseController {
             createOrderParam.setReceiverType(createOrderRequest.getReceiverType());
             createOrderParam.setReceiverTitle(createOrderRequest.getReceiverTitle());
         }
-        //乘机人信息，写一个人测试使用
         createOrderParam.setPassengerCount(createOrderRequest.getPassengers().size()); //这里填实际的乘机人数
         createOrderParam.setPassengers(buildPassenger(createOrderRequest, priceInfo));
 
