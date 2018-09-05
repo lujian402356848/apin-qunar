@@ -3,8 +3,8 @@ package com.apin.qunar.order.service.international.impl;
 import com.alibaba.fastjson.JSON;
 import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.basic.service.impl.AirlineServiceImpl;
+import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.order.common.config.OrderConfig;
-import com.apin.qunar.order.common.redis.NtsFlightRedis;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightParam;
 import com.apin.qunar.order.domain.international.searchFlight.NtsSearchFlightResultVO;
@@ -56,6 +56,10 @@ public class NtsSearchFlightServiceImpl extends NtsApiService<NtsSearchFlightPar
 
     @Override
     public ApiResult<List<NtsSearchFlightResultVO>> searchFlight(final NtsSearchFlightParam ntsSearchFlightParam, final String merchantNo, final String account) {
+        boolean isChinaCity = airportService.isChinaCity(ntsSearchFlightParam.getDepCity()) && airportService.isChinaCity(ntsSearchFlightParam.getArrCity());
+        if (isChinaCity) {
+            return ApiResult.fail(SysReturnCode.FAIL.getCode(), "国际航班查询不能都为国内城市");
+        }
         searchFlightRecordService.create(account, false, ntsSearchFlightParam.getDepCity(), ntsSearchFlightParam.getArrCity());
         ApiResult<List<NtsSearchFlightResultVO>> apiResult = execute(ntsSearchFlightParam);
         if (apiResult == null) {

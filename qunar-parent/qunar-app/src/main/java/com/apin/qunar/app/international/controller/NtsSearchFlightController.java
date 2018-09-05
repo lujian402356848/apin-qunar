@@ -42,7 +42,7 @@ public class NtsSearchFlightController extends BaseController {
 
     @PostMapping(value = "/ntsSearch/flight")
     public GeneralResultMap searchFlight(@RequestBody @Valid NtsSearchFlightRequest request, BindingResult bindingResult) {
-        GeneralResultMap generalResultMap = validateCommonParam(request);
+        GeneralResultMap generalResultMap = new GeneralResultMap();
         if (!generalResultMap.isSuccess()) {
             log.warn("/ntsSearch/flight接口基础验证不通过，request:{}", JSON.toJSON(request));
             return generalResultMap;
