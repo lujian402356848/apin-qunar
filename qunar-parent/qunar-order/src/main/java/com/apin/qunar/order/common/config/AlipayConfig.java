@@ -27,4 +27,8 @@ public class AlipayConfig {
     private String version;
     @Value("${alipay.qc_code.timeout.expiress}")
     private String qrCodeTimeoutExpress;
+    @Value("${alipay.return.url}")
+    private String returnUrl;
+    @Value("${alipay.enable.pay.channels}")
+    private String enablePayChannels;
 }

@@ -94,6 +94,49 @@ public class AlipayController extends BaseController {
         return generalResultMap;
     }
 
+    @PostMapping(value = "/alipay/computerPayment")
+    public GeneralResultMap computerPayment(@RequestBody AlipayRequest request) {
+        GeneralResultMap generalResultMap = validateCommonParam(request);
+        if (!generalResultMap.isSuccess()) {
+            log.warn("/alipay/generateQrCode接口基础验证不通过，request:{}", JSON.toJSON(request));
+            return generalResultMap;
+        }
+        if (StringUtils.isBlank(request.getOrderNo())) {
+            generalResultMap.setResult(SysReturnCode.FAIL, "订单号不能为空");
+            return generalResultMap;
+        }
+        String result = "";
+        String orderNo = request.getOrderNo();
+        try {
+            ExecuteResult executeResult = null;
+            String payOrderNo = "";
+            /*if (request.getOrderType() == OrderTypeEnum.CHANGE.getCode()) {//改签订单不需要支付验证
+                payOrderNo = orderNo + "*";
+                executeResult = new ExecuteResult(true);
+            } else {
+                executeResult = request.isHasInlandOrder() ? validatePay(orderNo) : validateNtsPay(orderNo);
+                payOrderNo = orderNo;
+            }
+            if (executeResult.isSuccess()) {
+                result = alipayService.computerPayment(buildAlipayBO(request,payOrderNo));
+            } else {
+                generalResultMap.setResult(SysReturnCode.FAIL, executeResult.getDesc());
+                return generalResultMap;
+            }*/
+            result = alipayService.computerPayment(buildAlipayBO(request,request.getOrderNo()));
+            if (StringUtils.isBlank(result)) {
+                generalResultMap.setResult(SysReturnCode.FAIL);
+            } else {
+                generalResultMap.setData(result);
+                generalResultMap.setResult(SysReturnCode.SUCC);
+            }
+        } catch (Exception e) {
+            generalResultMap.setResult(SysReturnCode.FAIL);
+            log.error("支付宝获取支付页面异常,request:{}", request, e);
+        }
+        return generalResultMap;
+    }
+
     private ExecuteResult validatePay(String orderNo) {
         NationalOrder order = nationalOrderDao.queryByOrderNo(orderNo);
         if (order == null) {

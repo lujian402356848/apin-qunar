@@ -8,6 +8,7 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradePrecreateModel;
 import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
@@ -121,6 +122,47 @@ public class AlipayServiceImpl implements AlipayService {
             log.error("支付宝获取二维码失败,params:{}", JSON.toJSON(alipayBO), e);
         }
         return qrCode;
+    }
+
+    @Override
+    public String computerPayment(AlipayBO alipayBO) {
+        //设置请求参数
+        AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
+        //设置支付宝同步通知地址
+        alipayRequest.setReturnUrl(alipayConfig.getReturnUrl());
+        //设置支付宝异步通知地址
+        alipayRequest.setNotifyUrl(alipayConfig.getNotifyUrl());
+        //以下为用户请求参数，此处为接收来自前台的表单提交的参数
+        //商户订单号，商户网站订单系统中唯一订单号，必填
+        String out_trade_no = alipayBO.getOrderNo();
+        //付款金额，必填
+        String total_amount = String.valueOf(alipayBO.getTotalAmount());
+        //交易标题，必填
+        String subject = "爱拼机-代订飞机票";
+        String body = alipayBO.getOrderNo();
+        String enable_pay_channels = alipayConfig.getEnablePayChannels();
+        try {
+            subject = new String(subject.getBytes(), "utf-8");
+        } catch (Exception e) {
+            log.error("支付宝电脑支付交易标题转码异常,params:{}", alipayBO.getOrderNo());
+        }
+        //业务请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递
+        alipayRequest.setBizContent("{\"out_trade_no\":\"" + out_trade_no + "\","
+                + "\"total_amount\":\"" + total_amount + "\","
+                + "\"subject\":\"" + subject + "\","
+                + "\"body\":\"" + body + "\","
+                + "\"enable_pay_channels\":\"" + enable_pay_channels + "\","
+                + "\"timeout_express\":\"8m\","
+                + "\"passback_params\":\"merchantBizType%3d3C%26merchantBizNo%3d2016010101111\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");//销售产品码，与支付宝签约的产品码名称。 注：目前仅支持FAST_INSTANT_TRADE_PAY
+        String result = null;
+        try {
+            alipayRequest.setNotifyUrl(alipayConfig.getNotifyUrl());
+            result = alipayClient.pageExecute(alipayRequest, "GET").getBody();
+        } catch (Exception e) {
+            log.error("支付宝电脑支付请求异常,params:{}", JSON.toJSON(alipayBO), e);
+        }
+        return result;
     }
 
     private boolean createAliPayRecord(AlipayBO aliPayBO) {
@@ -494,8 +536,8 @@ public class AlipayServiceImpl implements AlipayService {
     }
 
     /*
-    * 支付宝退款
-    * */
+     * 支付宝退款
+     * */
     @Override
     public void payRefund(String parentOrderNo, String orderNo, Integer refundAmount) {
         String content = "";

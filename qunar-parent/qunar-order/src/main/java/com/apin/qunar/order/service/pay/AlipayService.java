@@ -44,4 +44,9 @@ public interface AlipayService {
      * 支付宝退款
      */
     void payRefund(String parentOrderNo, String orderNo, Integer refundAmount);
+
+    /**
+     * 支付宝电脑支付
+     */
+    String computerPayment(AlipayBO alipayBO);
 }
