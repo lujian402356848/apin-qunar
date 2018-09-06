@@ -1,7 +1,6 @@
 package com.apin.qunar.basic.service;
 
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
-import com.apin.qunar.basic.dao.model.Sms;
 
 /**
  * @outhor lujian

@@ -69,6 +69,10 @@ public class NationalReturnOrderDaoImpl {
         return nationalRefundOrderExtMapper.updateStatus(orderNo, payStatus) > 0;
     }
 
+    public boolean isExist(String orderNo, int returnStatus) {
+        return nationalRefundOrderExtMapper.isExist(orderNo, returnStatus) > 0;
+    }
+
     public boolean updateStatusAndTicketNo(String parentOrderNo, String orderNo, int payStatus, String ticketNo) {
         return nationalRefundOrderExtMapper.updateStatusAndTicketNo(parentOrderNo, orderNo, payStatus, ticketNo) > 0;
     }

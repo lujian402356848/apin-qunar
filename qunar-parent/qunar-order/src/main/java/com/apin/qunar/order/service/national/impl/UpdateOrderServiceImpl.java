@@ -1,5 +1,6 @@
 package com.apin.qunar.order.service.national.impl;
 
+import com.apin.qunar.basic.common.config.SmsConfig;
 import com.apin.qunar.basic.common.constant.SmsConstants;
 import com.apin.qunar.basic.common.enums.SmsSendTypeEnum;
 import com.apin.qunar.basic.dao.impl.UserDaoImpl;
@@ -8,6 +9,7 @@ import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
 import com.apin.qunar.order.common.enums.PayTypeEnum;
+import com.apin.qunar.order.common.enums.ReturnStatusEnum;
 import com.apin.qunar.order.dao.impl.NationalChangeOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalReturnOrderDaoImpl;
@@ -52,6 +54,8 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
     @Autowired
     private SmsService smsService;
     @Autowired
+    private SmsConfig smsConfig;
+    @Autowired
     private NationalChangeOrderDaoImpl nationalChangeOrderDao;
     @Autowired
     private UserDaoImpl userDao;
@@ -87,11 +91,16 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         try {
             switch (orderStatusEnum) {
                 case TICKET_OK://出票成功状态
-                    passengers = getPassengers(orderNo);
-                    ticketNo = getTicketNo(passengers);
-                    if (StringUtils.isNotBlank(ticketNo)) {
-                        result = nationalOrderDao.updateStatusAndTicketNo(orderNo, ticketNo, payStatus);
-                        sendSms(orderNo, passengers, orderStatusEnum);
+                    //如果有退票申请中的订单，那么出票成功的状态就是退票被驳回
+                    if (nationalReturnOrderDao.isExist(orderNo, ReturnStatusEnum.RETURNING.getStatus())) {
+                        processReturnRejectOrder(orderNo);
+                    } else {
+                        passengers = getPassengers(orderNo);
+                        ticketNo = getTicketNo(passengers);
+                        if (StringUtils.isNotBlank(ticketNo)) {
+                            result = nationalOrderDao.updateStatusAndTicketNo(orderNo, ticketNo, payStatus);
+                            sendSms(orderNo, passengers, orderStatusEnum);
+                        }
                     }
                     break;
                 case PAY_OK:
@@ -140,6 +149,17 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             log.error("更新订单状态失败,orderNo:{},payStatus:{}", orderNo, payStatus, e);
         }
         return result;
+    }
+
+    private void processReturnRejectOrder(String orderNo) {
+        NationalReturnOrder returnOrder = nationalReturnOrderDao.queryByOrderNo(orderNo);
+        if (returnOrder == null) {
+            return;
+        }
+        if (returnOrder.getReturnStatus() == ReturnStatusEnum.RETURNING.getStatus()) {
+            nationalReturnOrderDao.updateStatus(orderNo, ReturnStatusEnum.RETURN_REJECT.getStatus());
+            sendReturnRejectSms(returnOrder);
+        }
     }
 
     private List<SearchOrderDetailResultVO.Passenger> getPassengers(final String orderNo) {
@@ -244,6 +264,12 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                 smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.TICKET);
             }
         }
+    }
+
+    private void sendReturnRejectSms(NationalReturnOrder order) {
+        String content = String.format(SmsConstants.RETURN_REJECT, order.getDeptDate(), order.getDeptTime(), order.getDeptCity(), order.getArriCity(), order.getOrderNo());
+        smsService.sendSms(order.getOperator(), content, SmsSendTypeEnum.RETURN);
+        smsService.sendSms(smsConfig.getMobileNos(), content, SmsSendTypeEnum.RETURN);
     }
 
     private void sendChangeSms(NationalOrder order, List<SearchOrderDetailResultVO.Passenger> passengers) {
