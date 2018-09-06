@@ -9,6 +9,7 @@ import com.apin.qunar.order.domain.international.searchPrice.NtsSearchPriceResul
 import com.apin.qunar.order.service.international.NtsSearchPriceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -48,8 +49,13 @@ public class NtsSearchPriceServiceImpl extends NtsApiService<NtsSearchPriceParam
             log.warn("查询国际航班报价异常,param:{},原因:{}", JSON.toJSON(ntsPriceSearchParam), apiResult.getMessage());
             return ApiResult.fail(apiResult.getCode(), "航班信息发生变动，请重新搜索");
         }
-        ntsSearchPriceResult.setPriceInfo(ntsSearchPriceResult.getPriceInfo().stream().sorted(Comparator.comparing(NtsSearchPriceResultVO.PriceInfo::getPrice)).collect(Collectors.toList()));
-//        ntsFlightPriceRedis.setFlightPriceInfo(ntsPriceSearchParam, ntsSearchPriceResult);
+
+        if (ntsSearchPriceResult == null) {
+            return ApiResult.fail();
+        }
+        if(CollectionUtils.isNotEmpty(ntsSearchPriceResult.getPriceInfo())){
+            ntsSearchPriceResult.setPriceInfo(ntsSearchPriceResult.getPriceInfo().stream().sorted(Comparator.comparing(NtsSearchPriceResultVO.PriceInfo::getPrice)).collect(Collectors.toList()));
+        }
         changePackName(ntsSearchPriceResult);
         return apiResult;
     }
