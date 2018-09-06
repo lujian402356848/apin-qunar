@@ -18,6 +18,7 @@ public class SmsConstants {
 
     public static final String RETURN = "【爱拼机】您【%s】预定的%s %s从%s到%s的订单【%s】已原路退款，退款金额:%s元，预计1-7个工作日到账。";
     public static final String RETURN_REJECT = "【爱拼机】您预定的%s %s从%s到%s的订单【%s】退款申请已被驳回，具体详情请咨询客户：0571—58122998。";
+    public static final String RETURN_APPLY = "【爱拼机】您预定的%s %s从%s到%s的订单【%s】退款申请已被受理，具体详情请咨询客户：0571—58122998。";
     public static final String QUNAR_PAY_SUCCESS = "【爱拼机】您预定的%s %s从%s到%s的订单【%s】已支付成功，正等待出票。如有问题请拨打爱拼机官方客服电话0571—58122998。";
     public static final String QUNAR_PAY_FAIL_ALI = "【爱拼机】订单【%s】支付宝支付成功，但去哪儿支付失败,原因:%s";
     public static final String QUNAR_CHANGE = "【爱拼机】您【%s】预定的%s %s从%s到%s的订单【%s】已改签成功，%s，如有问题请拨打爱拼机官方客服电话0571—58122998。";
