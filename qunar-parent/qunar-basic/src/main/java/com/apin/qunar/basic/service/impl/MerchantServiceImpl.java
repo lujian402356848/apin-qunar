@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class MerchantServiceImpl implements MerchantService {
-    private Cache<String, Merchant> merchantCache = CacheBuilder.newBuilder().maximumSize(5000).build();
+    private Cache<String, Merchant> merchantCache = CacheBuilder.newBuilder().maximumSize(10000).build();
     private Cache<String, String> verifyCodeCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(1, TimeUnit.MINUTES).build();
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
     private Date maxAuditTime = null;
