@@ -14,6 +14,7 @@ public enum OrderStatusEnum {
     WAIT_CONFIRM(20, "等待座位确认"),
     APPLY_REFUNDMENT(30, "退款待确认"),
     WAIT_REFUNDMENT(31, "待退款"),
+    RETURN_REJECT(32, "退款申请驳回"),//自定义退款状态
     REFUND_OK(39, "退款完成"),
     APPLY_CHANGE(40, "改签申请中"),
     CHANGE_OK(42, "改签完成"),

@@ -3,8 +3,8 @@ package com.apin.qunar.order.common.enums;
 public enum ReturnStatusEnum {
     NO_RETURN(0, "未退款"),
     RETURNING(1, "退款中"),
-    RETURN_SUCCESS(2, "退款成功"),
-    RETURN_REJECT(3, "退款申请驳回");
+    RETURN_SUCCESS(2, "退款成功");
+
 
     private int status;
     private String desc;

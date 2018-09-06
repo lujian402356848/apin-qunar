@@ -92,7 +92,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             switch (orderStatusEnum) {
                 case TICKET_OK://出票成功状态
                     //如果有退票申请中的订单，那么出票成功的状态就是退票被驳回
-                    if (nationalReturnOrderDao.isExist(orderNo, ReturnStatusEnum.RETURNING.getStatus())) {
+                    if (nationalReturnOrderDao.isExist(orderNo, OrderStatusEnum.APPLY_REFUNDMENT.getCode())) {
                         processReturnRejectOrder(orderNo);
                     } else {
                         passengers = getPassengers(orderNo);
@@ -127,6 +127,9 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                         payRefund(orderNo);
                         sendSms(orderNo, passengers, orderStatusEnum);
                     }
+                    if(orderStatusEnum == OrderStatusEnum.APPLY_REFUNDMENT){
+                        sendReturnApplySms(orderNo,orderStatusEnum);
+                    }
                     break;
                 case APPLY_CHANGE://改签中状态
                     nationalOrderDao.updateStatus(orderNo, payStatus);
@@ -157,7 +160,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             return;
         }
         if (returnOrder.getReturnStatus() == ReturnStatusEnum.RETURNING.getStatus()) {
-            nationalReturnOrderDao.updateStatus(orderNo, ReturnStatusEnum.RETURN_REJECT.getStatus());
+            nationalReturnOrderDao.updateStatus(orderNo, OrderStatusEnum.RETURN_REJECT.getCode());
             sendReturnRejectSms(returnOrder);
         }
     }
@@ -217,6 +220,18 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             case PAY_OK://支付成功
                 paySuccess(order);
                 break;
+        }
+    }
+
+    private void sendReturnApplySms(String orderNo,OrderStatusEnum orderStatusEnum){
+        NationalReturnOrder returnOrder = nationalReturnOrderDao.queryByOrderNo(orderNo);
+        if (returnOrder == null) {
+            return;
+        }
+        if (returnOrder.getReturnStatus() == orderStatusEnum.getCode()) {
+            String content = String.format(SmsConstants.RETURN_APPLY, returnOrder.getDeptDate(), returnOrder.getDeptTime(), returnOrder.getDeptCity(), returnOrder.getArriCity(), returnOrder.getOrderNo());
+            smsService.sendSms(returnOrder.getOperator(), content, SmsSendTypeEnum.RETURN);
+            smsService.sendSms(smsConfig.getMobileNos(), content, SmsSendTypeEnum.RETURN);
         }
     }
 
