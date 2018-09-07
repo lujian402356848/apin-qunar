@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 只需配置好 log.dir 和 projectname 属性-->
 <configuration debug="false">
-    <property name="log.dir" value="/data/logs/qunar-app" />
-	<property name="projectname" value="qunar-app" />
+    <property name="log.dir" value="/data/logs/airline-job" />
+	<property name="projectname" value="airline-job" />
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<target>System.out</target>
 		<encoder charset="UTF-8">
