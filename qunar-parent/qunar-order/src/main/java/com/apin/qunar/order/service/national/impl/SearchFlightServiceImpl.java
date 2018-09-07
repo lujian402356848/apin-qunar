@@ -1,7 +1,9 @@
 package com.apin.qunar.order.service.national.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.apin.qunar.basic.service.AirportService;
 import com.apin.qunar.basic.service.impl.AirlineServiceImpl;
+import com.apin.qunar.common.enums.SysReturnCode;
 import com.apin.qunar.order.domain.common.ApiResult;
 import com.apin.qunar.order.domain.national.searchFlight.FlightInfo;
 import com.apin.qunar.order.domain.national.searchFlight.SearchFlightParam;
@@ -28,7 +30,8 @@ public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiRe
     private AirlineServiceImpl airlineService;
     @Autowired
     private SearchFlightRecordService searchFlightRecordService;
-
+    @Autowired
+    private AirportService airportService;
     @Override
     protected String getTag() {
         return "flight.national.supply.sl.searchflight";
@@ -50,6 +53,10 @@ public class SearchFlightServiceImpl extends ApiService<SearchFlightParam, ApiRe
     @Override
     public ApiResult<SearchFlightResultVO> searchFlight(final SearchFlightParam searchFlightParam, final String merchantNo, final String account) {
         searchFlightRecordService.create(account, true, searchFlightParam.getDpt(), searchFlightParam.getArr());
+        boolean isChinaCity = !airportService.isChinaCity(searchFlightParam.getDpt()) || !airportService.isChinaCity(searchFlightParam.getArr());
+        if (isChinaCity) {
+            return ApiResult.fail(SysReturnCode.FAIL.getCode(), "国内航班查询中不能有国际城市");
+        }
         ApiResult<SearchFlightResultVO> apiResult = execute(searchFlightParam);
         if (apiResult == null) {
             return ApiResult.fail();

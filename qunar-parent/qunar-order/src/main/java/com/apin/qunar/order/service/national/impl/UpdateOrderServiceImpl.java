@@ -9,7 +9,6 @@ import com.apin.qunar.basic.service.SmsService;
 import com.apin.qunar.common.utils.DateUtil;
 import com.apin.qunar.order.common.enums.OrderStatusEnum;
 import com.apin.qunar.order.common.enums.PayTypeEnum;
-import com.apin.qunar.order.common.enums.ReturnStatusEnum;
 import com.apin.qunar.order.dao.impl.NationalChangeOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalOrderDaoImpl;
 import com.apin.qunar.order.dao.impl.NationalReturnOrderDaoImpl;
@@ -127,8 +126,8 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
                         payRefund(orderNo);
                         sendSms(orderNo, passengers, orderStatusEnum);
                     }
-                    if(orderStatusEnum == OrderStatusEnum.APPLY_REFUNDMENT){
-                        sendReturnApplySms(orderNo,orderStatusEnum);
+                    if (orderStatusEnum == OrderStatusEnum.APPLY_REFUNDMENT) {
+                        sendReturnApplySms(orderNo, orderStatusEnum);
                     }
                     break;
                 case APPLY_CHANGE://改签中状态
@@ -159,7 +158,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         if (returnOrder == null) {
             return;
         }
-        if (returnOrder.getReturnStatus() == ReturnStatusEnum.RETURNING.getStatus()) {
+        if (returnOrder.getReturnStatus() == OrderStatusEnum.APPLY_REFUNDMENT.getCode()) {
             nationalReturnOrderDao.updateStatus(orderNo, OrderStatusEnum.RETURN_REJECT.getCode());
             sendReturnRejectSms(returnOrder);
         }
@@ -223,7 +222,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         }
     }
 
-    private void sendReturnApplySms(String orderNo,OrderStatusEnum orderStatusEnum){
+    private void sendReturnApplySms(String orderNo, OrderStatusEnum orderStatusEnum) {
         NationalReturnOrder returnOrder = nationalReturnOrderDao.queryByOrderNo(orderNo);
         if (returnOrder == null) {
             return;
