@@ -65,7 +65,7 @@ public class NtsSearchFlightResultVO {
         private String mainCarrierShortName;
         private String mainCarrierFullName;
         private String duration;
-        private String crossDays;
+        private int crossDays;
         private String planeTypeCode;
         private String planeTypeName;
         private int stops;

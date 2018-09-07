@@ -47,7 +47,6 @@ public class SearchFlightController extends BaseController {
         try {
             ApiResult<SearchFlightResultVO> apiResult = searchFlightService.searchFlight(buildSearchFlightParam(request), request.getMerchantNo(), request.getAccount());
             if (apiResult.isSuccess()) {
-
                 SearchFlightResultVO searchFlightResult = apiResult.getResult();
                 //航班具体信息
                 data.put("flightInfos", searchFlightResult.getFlightInfos());
@@ -56,7 +55,7 @@ public class SearchFlightController extends BaseController {
                 data.put("ex_track", request.getExTrack());
                 generalResultMap.setResult(SysReturnCode.SUCC, data);
             } else {
-                generalResultMap.setResult(apiResult.getCode(), "航班信息发生变动，请重新搜索");
+                generalResultMap.setResult(apiResult.getCode(), apiResult.getMessage());
             }
         } catch (Exception e) {
             generalResultMap.setResult(SysReturnCode.FAIL);
