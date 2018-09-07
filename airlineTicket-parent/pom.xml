@@ -4,17 +4,17 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.apin.qunar</groupId>
-    <artifactId>qunar-parent</artifactId>
+    <artifactId>airline-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>qunar-account</module>
-        <module>qunar-app</module>
-        <module>qunar-basic</module>
-        <module>qunar-common</module>
-        <module>qunar-order</module>
-        <module>qunar-job</module>
-        <module>qunar-statistics</module>
+        <module>airline-account</module>
+        <module>airline-app</module>
+        <module>airline-basic</module>
+        <module>airline-common</module>
+        <module>airline-qunar</module>
+        <module>airline-job</module>
+        <module>airline-statistics</module>
     </modules>
 
     <properties>
@@ -35,37 +35,37 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>qunar-account</artifactId>
+                <artifactId>airline-account</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>qunar-app</artifactId>
+                <artifactId>airline-app</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>qunar-basic</artifactId>
+                <artifactId>airline-basic</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>qunar-common</artifactId>
+                <artifactId>airline-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>qunar-job</artifactId>
+                <artifactId>airline-job</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>qunar-order</artifactId>
+                <artifactId>airline-qunar</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>qunar-statistics</artifactId>
+                <artifactId>airline-statistics</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
