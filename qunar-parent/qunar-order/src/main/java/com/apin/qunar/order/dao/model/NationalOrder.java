@@ -207,6 +207,21 @@ public class NationalOrder implements Serializable {
     private String payTime;
 
     /**
+     * 优惠券id
+     */
+    private Long couponId;
+
+    /**
+     * 优惠券金额
+     */
+    private Integer couponMoney;
+
+    /**
+     * 加价金额
+     */
+    private Integer addMoney;
+
+    /**
      * 联系人
      */
     private String contactName;
@@ -804,6 +819,48 @@ public class NationalOrder implements Serializable {
      */
     public void setPayTime(String payTime) {
         this.payTime = payTime == null ? null : payTime.trim();
+    }
+
+    /**
+     * @return 优惠券id
+     */
+    public Long getCouponId() {
+        return couponId;
+    }
+
+    /**
+     * @param couponId 优惠券id
+     */
+    public void setCouponId(Long couponId) {
+        this.couponId = couponId;
+    }
+
+    /**
+     * @return 优惠券金额
+     */
+    public Integer getCouponMoney() {
+        return couponMoney;
+    }
+
+    /**
+     * @param couponMoney 优惠券金额
+     */
+    public void setCouponMoney(Integer couponMoney) {
+        this.couponMoney = couponMoney;
+    }
+
+    /**
+     * @return 加价金额
+     */
+    public Integer getAddMoney() {
+        return addMoney;
+    }
+
+    /**
+     * @param addMoney 加价金额
+     */
+    public void setAddMoney(Integer addMoney) {
+        this.addMoney = addMoney;
     }
 
     /**

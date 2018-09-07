@@ -42,6 +42,9 @@
       <result column="pay_amount" property="payAmount" jdbcType="INTEGER" />
       <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
       <result column="pay_time" property="payTime" jdbcType="VARCHAR" />
+      <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+      <result column="coupon_money" property="couponMoney" jdbcType="INTEGER" />
+      <result column="add_money" property="addMoney" jdbcType="INTEGER" />
       <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
       <result column="contact_num" property="contactNum" jdbcType="VARCHAR" />
       <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
@@ -115,8 +118,9 @@
       arri_city, dept_airport_code, arri_airport_code, dept_airport_name, arri_airport_name, 
       dept_terminal, arri_terminal, dept_date, dept_time, arri_time, fuel_tax, construction_fee, 
       return_fee, return_text, change_fee, change_text, print_price, code_share, publish_price, 
-      pay_id, pay_order_id, pay_type, pay_amount, pay_status, pay_time, contact_name, contact_num, 
-      contact_mobile, contact_email, operator, has_show, insert_time, update_time
+      pay_id, pay_order_id, pay_type, pay_amount, pay_status, pay_time, coupon_id, coupon_money, 
+      add_money, contact_name, contact_num, contact_mobile, contact_email, operator, has_show, 
+      insert_time, update_time
     </sql>
     <select id="selectByExample" resultMap="NationalOrderResult" parameterType="com.apin.qunar.order.dao.model.NationalOrderExample" >
       select
@@ -167,7 +171,8 @@
         change_text, print_price, code_share, 
         publish_price, pay_id, pay_order_id, 
         pay_type, pay_amount, pay_status, 
-        pay_time, contact_name, contact_num, 
+        pay_time, coupon_id, coupon_money, 
+        add_money, contact_name, contact_num, 
         contact_mobile, contact_email, operator, 
         has_show, insert_time, update_time
         )
@@ -184,7 +189,8 @@
         #{changeText,jdbcType=VARCHAR}, #{printPrice,jdbcType=INTEGER}, #{codeShare,jdbcType=INTEGER}, 
         #{publishPrice,jdbcType=INTEGER}, #{payId,jdbcType=VARCHAR}, #{payOrderId,jdbcType=VARCHAR}, 
         #{payType,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{payStatus,jdbcType=INTEGER}, 
-        #{payTime,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR}, 
+        #{payTime,jdbcType=VARCHAR}, #{couponId,jdbcType=BIGINT}, #{couponMoney,jdbcType=INTEGER}, 
+        #{addMoney,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR}, 
         #{contactMobile,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
         #{hasShow,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
         )
@@ -311,6 +317,15 @@
         </if>
         <if test="payTime != null" >
           pay_time,
+        </if>
+        <if test="couponId != null" >
+          coupon_id,
+        </if>
+        <if test="couponMoney != null" >
+          coupon_money,
+        </if>
+        <if test="addMoney != null" >
+          add_money,
         </if>
         <if test="contactName != null" >
           contact_name,
@@ -457,6 +472,15 @@
         </if>
         <if test="payTime != null" >
           #{payTime,jdbcType=VARCHAR},
+        </if>
+        <if test="couponId != null" >
+          #{couponId,jdbcType=BIGINT},
+        </if>
+        <if test="couponMoney != null" >
+          #{couponMoney,jdbcType=INTEGER},
+        </if>
+        <if test="addMoney != null" >
+          #{addMoney,jdbcType=INTEGER},
         </if>
         <if test="contactName != null" >
           #{contactName,jdbcType=VARCHAR},
@@ -613,6 +637,15 @@
         <if test="record.payTime != null" >
           pay_time = #{record.payTime,jdbcType=VARCHAR},
         </if>
+        <if test="record.couponId != null" >
+          coupon_id = #{record.couponId,jdbcType=BIGINT},
+        </if>
+        <if test="record.couponMoney != null" >
+          coupon_money = #{record.couponMoney,jdbcType=INTEGER},
+        </if>
+        <if test="record.addMoney != null" >
+          add_money = #{record.addMoney,jdbcType=INTEGER},
+        </if>
         <if test="record.contactName != null" >
           contact_name = #{record.contactName,jdbcType=VARCHAR},
         </if>
@@ -684,6 +717,9 @@
         pay_amount = #{record.payAmount,jdbcType=INTEGER},
         pay_status = #{record.payStatus,jdbcType=INTEGER},
         pay_time = #{record.payTime,jdbcType=VARCHAR},
+        coupon_id = #{record.couponId,jdbcType=BIGINT},
+        coupon_money = #{record.couponMoney,jdbcType=INTEGER},
+        add_money = #{record.addMoney,jdbcType=INTEGER},
         contact_name = #{record.contactName,jdbcType=VARCHAR},
         contact_num = #{record.contactNum,jdbcType=VARCHAR},
         contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
@@ -816,6 +852,15 @@
         <if test="payTime != null" >
           pay_time = #{payTime,jdbcType=VARCHAR},
         </if>
+        <if test="couponId != null" >
+          coupon_id = #{couponId,jdbcType=BIGINT},
+        </if>
+        <if test="couponMoney != null" >
+          coupon_money = #{couponMoney,jdbcType=INTEGER},
+        </if>
+        <if test="addMoney != null" >
+          add_money = #{addMoney,jdbcType=INTEGER},
+        </if>
         <if test="contactName != null" >
           contact_name = #{contactName,jdbcType=VARCHAR},
         </if>
@@ -884,6 +929,9 @@
         pay_amount = #{payAmount,jdbcType=INTEGER},
         pay_status = #{payStatus,jdbcType=INTEGER},
         pay_time = #{payTime,jdbcType=VARCHAR},
+        coupon_id = #{couponId,jdbcType=BIGINT},
+        coupon_money = #{couponMoney,jdbcType=INTEGER},
+        add_money = #{addMoney,jdbcType=INTEGER},
         contact_name = #{contactName,jdbcType=VARCHAR},
         contact_num = #{contactNum,jdbcType=VARCHAR},
         contact_mobile = #{contactMobile,jdbcType=VARCHAR},

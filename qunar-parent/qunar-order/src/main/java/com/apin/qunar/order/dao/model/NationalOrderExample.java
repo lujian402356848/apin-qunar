@@ -2807,6 +2807,186 @@ public class NationalOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andCouponIdIsNull() {
+            addCriterion("coupon_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdIsNotNull() {
+            addCriterion("coupon_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdEqualTo(Long value) {
+            addCriterion("coupon_id =", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdNotEqualTo(Long value) {
+            addCriterion("coupon_id <>", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdGreaterThan(Long value) {
+            addCriterion("coupon_id >", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("coupon_id >=", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdLessThan(Long value) {
+            addCriterion("coupon_id <", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdLessThanOrEqualTo(Long value) {
+            addCriterion("coupon_id <=", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdIn(List<Long> values) {
+            addCriterion("coupon_id in", values, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdNotIn(List<Long> values) {
+            addCriterion("coupon_id not in", values, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdBetween(Long value1, Long value2) {
+            addCriterion("coupon_id between", value1, value2, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdNotBetween(Long value1, Long value2) {
+            addCriterion("coupon_id not between", value1, value2, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyIsNull() {
+            addCriterion("coupon_money is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyIsNotNull() {
+            addCriterion("coupon_money is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyEqualTo(Integer value) {
+            addCriterion("coupon_money =", value, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyNotEqualTo(Integer value) {
+            addCriterion("coupon_money <>", value, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyGreaterThan(Integer value) {
+            addCriterion("coupon_money >", value, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyGreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_money >=", value, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyLessThan(Integer value) {
+            addCriterion("coupon_money <", value, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyLessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_money <=", value, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyIn(List<Integer> values) {
+            addCriterion("coupon_money in", values, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyNotIn(List<Integer> values) {
+            addCriterion("coupon_money not in", values, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_money between", value1, value2, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponMoneyNotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_money not between", value1, value2, "couponMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyIsNull() {
+            addCriterion("add_money is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyIsNotNull() {
+            addCriterion("add_money is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyEqualTo(Integer value) {
+            addCriterion("add_money =", value, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyNotEqualTo(Integer value) {
+            addCriterion("add_money <>", value, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyGreaterThan(Integer value) {
+            addCriterion("add_money >", value, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyGreaterThanOrEqualTo(Integer value) {
+            addCriterion("add_money >=", value, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyLessThan(Integer value) {
+            addCriterion("add_money <", value, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyLessThanOrEqualTo(Integer value) {
+            addCriterion("add_money <=", value, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyIn(List<Integer> values) {
+            addCriterion("add_money in", values, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyNotIn(List<Integer> values) {
+            addCriterion("add_money not in", values, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyBetween(Integer value1, Integer value2) {
+            addCriterion("add_money between", value1, value2, "addMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddMoneyNotBetween(Integer value1, Integer value2) {
+            addCriterion("add_money not between", value1, value2, "addMoney");
+            return (Criteria) this;
+        }
+
         public Criteria andContactNameIsNull() {
             addCriterion("contact_name is null");
             return (Criteria) this;
